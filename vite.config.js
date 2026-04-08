@@ -5,6 +5,9 @@ export default defineConfig({
   plugins: [react()],
   root: '.',
   publicDir: 'public',
+  server: {
+    host: true,
+  },
   resolve: {
     alias: {
       '@': '/src/dashboard',

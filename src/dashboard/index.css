@@ -98,6 +98,29 @@ html, body {
   flex: 1;
 }
 
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 8px 12px;
+  }
+
+  .app-header-right {
+    align-self: flex-end;
+  }
+
+  .app-subtitle {
+    display: none;
+  }
+}
+
 /* ===== PANEL ===== */
 .panel {
   background: var(--bg-card);

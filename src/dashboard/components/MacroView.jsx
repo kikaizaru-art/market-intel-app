@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Legend,
+  ResponsiveContainer, ReferenceDot,
 } from 'recharts'
 import trendsData from '../../../data/mock/trends.json'
+import { movingAverage, calcGenreTrends } from '../../analyzers/trend.js'
+import { detectAllAnomalies } from '../../analyzers/anomaly.js'
 
 const GENRE_COLORS = {
   'パズル':     '#388bfd',
@@ -14,6 +16,10 @@ const GENRE_COLORS = {
 }
 
 const GENRES = Object.keys(GENRE_COLORS)
+
+const TREND_LABELS = { rising: '上昇', falling: '下降', stable: '横ばい' }
+const TREND_ICONS = { rising: '▲', falling: '▼', stable: '→' }
+const TREND_COLORS = { rising: '#56d364', falling: '#f85149', stable: '#e3b341' }
 
 // X軸ラベル: 月頭のみ表示
 function formatDate(dateStr) {
@@ -30,8 +36,8 @@ const CustomTooltip = ({ active, payload, label }) => {
     }}>
       <p style={{ color: '#8b949e', marginBottom: 4 }}>{label}</p>
       {payload.map(p => (
-        <p key={p.name} style={{ color: p.color }}>
-          {p.name}: <strong>{p.value}</strong>
+        <p key={p.dataKey || p.name} style={{ color: p.color }}>
+          {p.name}: <strong>{typeof p.value === 'number' ? p.value.toFixed?.(1) ?? p.value : p.value}</strong>
         </p>
       ))}
     </div>
@@ -40,6 +46,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function MacroView() {
   const [activeGenres, setActiveGenres] = useState(new Set(GENRES))
+  const [showMA, setShowMA] = useState(false)
 
   function toggleGenre(genre) {
     setActiveGenres(prev => {
@@ -50,6 +57,28 @@ export default function MacroView() {
   }
 
   const data = trendsData.weekly
+
+  // 移動平均データを付与
+  const chartData = useMemo(() => {
+    const maData = {}
+    for (const genre of GENRES) {
+      const values = data.map(w => w[genre] ?? 0)
+      maData[genre] = movingAverage(values, 4)
+    }
+    return data.map((row, i) => {
+      const extended = { ...row }
+      for (const genre of GENRES) {
+        extended[`${genre}_MA`] = maData[genre][i]
+      }
+      return extended
+    })
+  }, [data])
+
+  // 異常値検出
+  const anomalies = useMemo(() => detectAllAnomalies(data, GENRES), [data])
+
+  // トレンドスコア算出
+  const genreTrends = useMemo(() => calcGenreTrends(data, GENRES), [data])
 
   // 最新週の値でトレンドサマリー
   const latest = data[data.length - 1]
@@ -64,7 +93,20 @@ export default function MacroView() {
           <span className="panel-title macro-title">マクロ</span>
           <span className="panel-tag">ジャンル検索トレンド</span>
         </div>
-        <span className="panel-tag">Google Trends (JP)</span>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <button
+            onClick={() => setShowMA(v => !v)}
+            className="macro-toggle-btn"
+            style={{
+              borderColor: showMA ? 'rgba(56,139,253,0.5)' : '#30363d',
+              background: showMA ? 'rgba(56,139,253,0.15)' : 'transparent',
+              color: showMA ? '#388bfd' : '#6e7681',
+            }}
+          >
+            MA4
+          </button>
+          <span className="panel-tag">Google Trends (JP)</span>
+        </div>
       </div>
 
       <div className="panel-body">
@@ -91,7 +133,7 @@ export default function MacroView() {
 
         {/* ラインチャート */}
         <ResponsiveContainer width="100%" height={200}>
-          <LineChart data={data} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
+          <LineChart data={chartData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
             <XAxis
               dataKey="date"
@@ -118,11 +160,63 @@ export default function MacroView() {
                 activeDot={{ r: 3 }}
               />
             ))}
+            {/* 移動平均線 */}
+            {showMA && GENRES.map(genre => activeGenres.has(genre) && (
+              <Line
+                key={`${genre}_MA`}
+                type="monotone"
+                dataKey={`${genre}_MA`}
+                name={`${genre} MA4`}
+                stroke={GENRE_COLORS[genre]}
+                strokeWidth={1}
+                strokeDasharray="4 3"
+                dot={false}
+                connectNulls
+              />
+            ))}
+            {/* 異常値マーカー */}
+            {anomalies.filter(a => activeGenres.has(a.genre)).map((a, i) => (
+              <ReferenceDot
+                key={`anomaly-${i}`}
+                x={a.date}
+                y={a.value}
+                r={a.severity === 'high' ? 5 : 4}
+                fill={a.type === 'spike' ? '#56d364' : '#f85149'}
+                stroke={a.type === 'spike' ? '#56d364' : '#f85149'}
+                fillOpacity={0.6}
+                strokeWidth={1.5}
+              />
+            ))}
           </LineChart>
         </ResponsiveContainer>
 
+        {/* トレンドステータスバッジ */}
+        <div className="trend-badges">
+          {GENRES.map(genre => {
+            const t = genreTrends[genre]
+            return (
+              <span
+                key={genre}
+                className="trend-badge"
+                style={{
+                  borderColor: `${GENRE_COLORS[genre]}44`,
+                  background: `${GENRE_COLORS[genre]}11`,
+                }}
+              >
+                <span style={{ color: GENRE_COLORS[genre], fontWeight: 600 }}>{genre}</span>
+                <span style={{ color: TREND_COLORS[t.trend], fontSize: 10 }}>
+                  {TREND_ICONS[t.trend]} {TREND_LABELS[t.trend]}
+                </span>
+                <span style={{ color: '#6e7681', fontSize: 10 }}>
+                  ({t.pop4w > 0 ? '+' : ''}{t.pop4w}%)
+                </span>
+              </span>
+            )
+          })}
+        </div>
+
         {/* サマリーカード */}
-        <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+        <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
           <div style={{
             flex: 1, background: '#0d1117', borderRadius: 6,
             padding: '6px 10px', border: '1px solid #21262d',
@@ -149,9 +243,13 @@ export default function MacroView() {
             flex: 1, background: '#0d1117', borderRadius: 6,
             padding: '6px 10px', border: '1px solid #21262d',
           }}>
-            <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 2 }}>観測期間</div>
-            <div style={{ fontSize: 11, color: '#8b949e' }}>
-              {data[0].date}<br />→ {data[data.length - 1].date}
+            <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 2 }}>異常検知</div>
+            <div style={{ fontSize: 12, fontWeight: 600 }}>
+              {anomalies.length > 0 ? (
+                <span style={{ color: '#f85149' }}>{anomalies.length}件検出</span>
+              ) : (
+                <span style={{ color: '#56d364' }}>正常</span>
+              )}
             </div>
           </div>
         </div>

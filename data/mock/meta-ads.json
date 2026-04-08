@@ -1,0 +1,110 @@
+{
+  "source": "Meta Ad Library (mock)",
+  "fetched_at": "2026-04-08",
+  "ads": [
+    {
+      "id": "ad_001",
+      "advertiser": "株式会社A",
+      "title": "パズルゲームX",
+      "genre": "パズル",
+      "format": "動画",
+      "platforms": ["Facebook", "Instagram"],
+      "started": "2026-03-01",
+      "status": "active",
+      "reach_estimate": "高",
+      "creative_hook": "「このレベル、誰でも解けます」系",
+      "thumbnail_url": null
+    },
+    {
+      "id": "ad_002",
+      "advertiser": "株式会社A",
+      "title": "パズルゲームX",
+      "genre": "パズル",
+      "format": "画像",
+      "platforms": ["Facebook"],
+      "started": "2026-03-15",
+      "status": "active",
+      "reach_estimate": "中",
+      "creative_hook": "ビフォーアフター系",
+      "thumbnail_url": null
+    },
+    {
+      "id": "ad_003",
+      "advertiser": "株式会社B",
+      "title": "RPGサーガ改",
+      "genre": "RPG",
+      "format": "動画",
+      "platforms": ["Facebook", "Instagram", "Audience Network"],
+      "started": "2026-02-10",
+      "status": "active",
+      "reach_estimate": "高",
+      "creative_hook": "キャラクター紹介系",
+      "thumbnail_url": null
+    },
+    {
+      "id": "ad_004",
+      "advertiser": "株式会社B",
+      "title": "RPGサーガ改",
+      "genre": "RPG",
+      "format": "動画",
+      "platforms": ["Instagram"],
+      "started": "2026-03-20",
+      "status": "active",
+      "reach_estimate": "中",
+      "creative_hook": "コラボ告知系",
+      "thumbnail_url": null
+    },
+    {
+      "id": "ad_005",
+      "advertiser": "株式会社C",
+      "title": "カジュアルラン",
+      "genre": "カジュアル",
+      "format": "動画",
+      "platforms": ["Facebook", "Instagram"],
+      "started": "2026-01-20",
+      "status": "inactive",
+      "reach_estimate": "低",
+      "creative_hook": "失敗系リアクション",
+      "thumbnail_url": null
+    },
+    {
+      "id": "ad_006",
+      "advertiser": "海外スタジオD",
+      "title": "ストラテジーZ",
+      "genre": "ストラテジー",
+      "format": "動画",
+      "platforms": ["Facebook", "Instagram", "Messenger"],
+      "started": "2026-03-28",
+      "status": "active",
+      "reach_estimate": "高",
+      "creative_hook": "「無課金でも最強」系",
+      "thumbnail_url": null
+    },
+    {
+      "id": "ad_007",
+      "advertiser": "海外スタジオD",
+      "title": "ストラテジーZ",
+      "genre": "ストラテジー",
+      "format": "画像",
+      "platforms": ["Facebook"],
+      "started": "2026-04-01",
+      "status": "active",
+      "reach_estimate": "中",
+      "creative_hook": "ランキング訴求系",
+      "thumbnail_url": null
+    },
+    {
+      "id": "ad_008",
+      "advertiser": "株式会社A",
+      "title": "パズルゲームX",
+      "genre": "パズル",
+      "format": "動画",
+      "platforms": ["Instagram"],
+      "started": "2026-04-05",
+      "status": "active",
+      "reach_estimate": "中",
+      "creative_hook": "UGC風ナチュラル系",
+      "thumbnail_url": null
+    }
+  ]
+}

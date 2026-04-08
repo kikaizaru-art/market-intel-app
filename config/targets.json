@@ -1,0 +1,13 @@
+{
+  "titles": [
+    { "id": "puzzle-x", "name": "パズルゲームX", "genre": "パズル", "store_id_ios": "123456789", "store_id_android": "com.example.puzzlex" },
+    { "id": "rpg-saga", "name": "RPGサーガ", "genre": "RPG", "store_id_ios": "987654321", "store_id_android": "com.example.rpgsaga" },
+    { "id": "casual-run", "name": "カジュアルラン", "genre": "カジュアル", "store_id_ios": "111222333", "store_id_android": "com.example.casualrun" }
+  ],
+  "genres": ["パズル", "RPG", "カジュアル", "ストラテジー", "スポーツ"],
+  "competitors": ["株式会社A", "株式会社B", "株式会社C", "海外スタジオD"],
+  "google_trends": {
+    "keywords": ["パズルゲーム", "RPGスマホ", "放置ゲーム", "ガチャゲー"],
+    "geo": "JP"
+  }
+}

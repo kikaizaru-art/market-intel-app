@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   root: '.',
   publicDir: 'public',
-  base: '/market-intel-app/',
+  base: './',
   server: {
     host: true,
   },

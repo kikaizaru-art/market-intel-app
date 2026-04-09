@@ -4,7 +4,7 @@
 
 - GitHub Pages URL: https://kikaizaru-art.github.io/market-intel-app/
 - **デプロイ方式**: GitHub Actions (`actions/deploy-pages`) — master push で自動デプロイ
-- **Vite base path**: `/market-intel-app/`
+- **Vite base path**: `./` (相対パス — GitHub Pages / Vercel 両対応)
 
 ## 開発
 

@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { useTarget } from './context/TargetContext.jsx'
+import SearchView from './components/SearchView.jsx'
 import MacroView from './components/MacroView.jsx'
 import CompetitorView from './components/CompetitorView.jsx'
 import UserView from './components/UserView.jsx'
@@ -15,7 +17,8 @@ const TABS = [
   { key: 'industry',    label: '業界・イベント', accent: '#a5d6ff' },
 ]
 
-export default function App() {
+function Dashboard() {
+  const { target, data, reset } = useTarget()
   const [activeTab, setActiveTab] = useState(0)
   const touchStartX = useRef(null)
   const touchStartY = useRef(null)
@@ -30,7 +33,6 @@ export default function App() {
     setActiveTab(Math.max(0, Math.min(TABS.length - 1, idx)))
   }, [])
 
-  /* swipe handling */
   const onTouchStart = useCallback((e) => {
     touchStartX.current = e.touches[0].clientX
     touchStartY.current = e.touches[0].clientY
@@ -40,7 +42,6 @@ export default function App() {
     if (touchStartX.current === null) return
     const dx = e.changedTouches[0].clientX - touchStartX.current
     const dy = e.changedTouches[0].clientY - touchStartY.current
-    /* only swipe if horizontal movement is dominant */
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
       if (dx < 0) goTo(activeTab + 1)
       else goTo(activeTab - 1)
@@ -49,7 +50,6 @@ export default function App() {
     touchStartY.current = null
   }, [activeTab, goTo])
 
-  /* keyboard navigation */
   useEffect(() => {
     const handler = (e) => {
       if (e.key === 'ArrowLeft') goTo(activeTab - 1)
@@ -63,24 +63,25 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <div className="app-header-left">
+          <button className="back-btn" onClick={reset} title="検索に戻る">
+            &larr;
+          </button>
           <span className="app-title">Market Intel</span>
-          <span className="app-subtitle">ゲームアプリ広告市場 環境分析ダッシュボード</span>
-          <span className="header-badge">Phase 1 MVP</span>
+          <span className="app-subtitle">{target.appName} の競合環境分析</span>
+          <span className="header-badge">{target.genre}</span>
         </div>
         <div className="app-header-right">
+          <span className="header-target-name">{target.companyName}</span>
           <span className="header-timestamp">更新: {now}</span>
         </div>
       </header>
 
-      {/* === Tab Bar === */}
       <nav className="tab-bar">
         {TABS.map((tab, i) => (
           <button
             key={tab.key}
             className={`tab-btn ${i === activeTab ? 'active' : ''}`}
-            style={{
-              '--tab-accent': tab.accent,
-            }}
+            style={{ '--tab-accent': tab.accent }}
             onClick={() => goTo(i)}
           >
             {tab.label}
@@ -96,7 +97,6 @@ export default function App() {
         />
       </nav>
 
-      {/* === Slide Container === */}
       <div
         className="slide-viewport"
         onTouchStart={onTouchStart}
@@ -107,39 +107,45 @@ export default function App() {
           ref={sliderRef}
           style={{ transform: `translateX(-${activeTab * 100}%)` }}
         >
-          {/* Tab 0: マクロ環境 */}
           <section className="slide-pane">
             <div className="dashboard">
-              <MacroView />
-              <MarketFundamentalsView />
+              <MacroView data={data.trends} />
+              <MarketFundamentalsView data={data.fundamentals} />
             </div>
           </section>
 
-          {/* Tab 1: 競合・企業 */}
           <section className="slide-pane">
             <div className="dashboard">
-              <CompetitorView />
-              <CorporateView />
+              <CompetitorView data={data.ads} />
+              <CorporateView data={data.corporate} />
             </div>
           </section>
 
-          {/* Tab 2: ユーザー */}
           <section className="slide-pane">
             <div className="dashboard">
-              <UserView />
-              <CausationView />
+              <UserView data={data.reviews} />
+              <CausationView data={data.causation} />
             </div>
           </section>
 
-          {/* Tab 3: 業界・イベント */}
           <section className="slide-pane">
             <div className="dashboard">
-              <IndustryView />
-              <EventCalendarView />
+              <IndustryView data={data.industry} />
+              <EventCalendarView data={data.events} />
             </div>
           </section>
         </div>
       </div>
     </div>
   )
+}
+
+export default function App() {
+  const { target, setTarget } = useTarget()
+
+  if (!target) {
+    return <SearchView onSubmit={setTarget} />
+  }
+
+  return <Dashboard />
 }

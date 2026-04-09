@@ -1,4 +1,8 @@
 import { useState, useMemo } from 'react'
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip,
+  ResponsiveContainer, Cell,
+} from 'recharts'
 import initialNotes from '../../../data/mock/causation-notes.json'
 
 const LAYER_OPTIONS = ['マクロ', '競合', 'ユーザー']
@@ -74,6 +78,29 @@ export default function CausationView() {
     }
     return Object.entries(groups).sort((a, b) => b[0].localeCompare(a[0]))
   }, [filtered])
+
+  // 月別イベント数 + インパクト内訳チャート用データ
+  const monthlyChart = useMemo(() => {
+    const map = {}
+    for (const note of notes) {
+      const ym = note.date.slice(0, 7)
+      if (!map[ym]) map[ym] = { month: parseInt(ym.slice(5)) + '月', positive: 0, negative: 0, neutral: 0 }
+      map[ym][note.impact]++
+    }
+    return Object.values(map).sort((a, b) => a.month.localeCompare(b.month))
+  }, [notes])
+
+  const CausationTooltip = ({ active, payload, label }) => {
+    if (!active || !payload?.length) return null
+    return (
+      <div style={{ background: '#161b22', border: '1px solid #30363d', borderRadius: 6, padding: '8px 12px', fontSize: 11 }}>
+        <p style={{ color: '#8b949e', marginBottom: 4 }}>{label}</p>
+        {payload.map(p => (
+          <p key={p.dataKey} style={{ color: p.fill }}>{IMPACT_LABELS[p.dataKey]}: <strong>{p.value}</strong></p>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className="panel">
@@ -176,6 +203,19 @@ export default function CausationView() {
             </div>
           ))}
         </div>
+
+        {/* 月別インパクト分布チャート */}
+        <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>月別イベント分布</div>
+        <ResponsiveContainer width="100%" height={80}>
+          <BarChart data={monthlyChart} margin={{ top: 0, right: 4, bottom: 0, left: -20 }}>
+            <XAxis dataKey="month" tick={{ fontSize: 9, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 9, fill: '#6e7681' }} axisLine={false} tickLine={false} allowDecimals={false} />
+            <Tooltip content={<CausationTooltip />} />
+            <Bar dataKey="positive" stackId="a" fill="#56d364" />
+            <Bar dataKey="negative" stackId="a" fill="#f85149" />
+            <Bar dataKey="neutral" stackId="a" fill="#e3b341" radius={[2, 2, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
 
         {/* フィルター */}
         <div className="causation-filters">

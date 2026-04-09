@@ -216,8 +216,8 @@ export default function CompetitorView() {
         ) : (
           <>
             {/* 広告主別バーチャート */}
-            <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 6 }}>広告主別 出稿数</div>
-            <ResponsiveContainer width="100%" height={100}>
+            <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 6 }}>広告主別 出稿数 (稼働中/停止)</div>
+            <ResponsiveContainer width="100%" height={120}>
               <BarChart data={barData} layout="vertical" margin={{ top: 0, right: 8, bottom: 0, left: 60 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#21262d" horizontal={false} />
                 <XAxis type="number" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
@@ -228,8 +228,41 @@ export default function CompetitorView() {
               </BarChart>
             </ResponsiveContainer>
 
+            {/* リーチ・フォーマット分析 */}
+            <div style={{ display: 'flex', gap: 8, marginTop: 8, marginBottom: 8 }}>
+              <div className="stat-card">
+                <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>リーチ分布</div>
+                {['高', '中', '低'].map(r => {
+                  const cnt = adsData.ads.filter(a => a.reach_estimate === r).length
+                  const pct = Math.round(cnt / adsData.ads.length * 100)
+                  return (
+                    <div key={r} style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 2 }}>
+                      <span className={`reach-${r}`} style={{ fontSize: 10, minWidth: 14 }}>{r}</span>
+                      <div style={{ flex: 1, height: 4, background: '#21262d', borderRadius: 2 }}>
+                        <div style={{ width: `${pct}%`, height: '100%', borderRadius: 2, background: r === '高' ? '#f85149' : r === '中' ? '#e3b341' : '#484f58' }} />
+                      </div>
+                      <span style={{ fontSize: 9, color: '#6e7681', minWidth: 20 }}>{cnt}件</span>
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="stat-card">
+                <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>プラットフォーム</div>
+                {(() => {
+                  const platforms = {}
+                  adsData.ads.forEach(a => a.platforms.forEach(p => { platforms[p] = (platforms[p] || 0) + 1 }))
+                  return Object.entries(platforms).sort((a, b) => b[1] - a[1]).map(([p, cnt]) => (
+                    <div key={p} style={{ fontSize: 10, color: '#8b949e', display: 'flex', justifyContent: 'space-between' }}>
+                      <span>{p}</span>
+                      <span style={{ color: '#e6edf3', fontWeight: 600 }}>{cnt}</span>
+                    </div>
+                  ))
+                })()}
+              </div>
+            </div>
+
             {/* ジャンル×広告主 ヒートマップ */}
-            <div style={{ fontSize: 10, color: '#6e7681', marginTop: 12, marginBottom: 6 }}>ジャンル × 広告主 マトリクス</div>
+            <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 6 }}>ジャンル × 広告主 マトリクス</div>
             <div className="heatmap-grid">
               <div className="heatmap-row heatmap-header-row">
                 <div className="heatmap-cell heatmap-label" />

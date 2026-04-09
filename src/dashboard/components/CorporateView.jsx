@@ -112,7 +112,7 @@ export default function CorporateView() {
             <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>
               {company.name} — {company.segment} 四半期推移 (億円)
             </div>
-            <ResponsiveContainer width="100%" height={140}>
+            <ResponsiveContainer width="100%" height={160}>
               <ComposedChart data={quarterlyData} margin={{ top: 4, right: 8, bottom: 0, left: -10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
                 <XAxis dataKey="quarter" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />

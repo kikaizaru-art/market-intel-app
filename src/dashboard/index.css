@@ -119,6 +119,40 @@ html, body {
   .app-subtitle {
     display: none;
   }
+
+  .genre-legend,
+  .app-selector,
+  .fundamental-tabs {
+    flex-wrap: wrap;
+  }
+
+  .causation-filters {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .heatmap-label {
+    min-width: 0;
+    font-size: 9px;
+  }
+
+  .heatmap-cell {
+    font-size: 9px;
+    padding: 3px 1px;
+  }
+
+  .structure-bar-label {
+    min-width: 50px;
+    font-size: 9px;
+  }
+
+  .compare-cards {
+    gap: 4px;
+  }
+
+  .stat-card {
+    padding: 4px 8px;
+  }
 }
 
 /* ===== PANEL ===== */

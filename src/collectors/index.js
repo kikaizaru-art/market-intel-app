@@ -9,9 +9,11 @@ import { fetchStoreReviews } from './store.js'
 import { fetchNews } from './news.js'
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 
-const DATA_DIR = new URL('../../data/', import.meta.url).pathname
-const CONFIG_PATH = new URL('../../config/targets.json', import.meta.url)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const DATA_DIR = path.resolve(__dirname, '../../data')
+const CONFIG_PATH = path.resolve(__dirname, '../../config/targets.json')
 
 async function run() {
   console.log('=== Market Intel Collector ===')

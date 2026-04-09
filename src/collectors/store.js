@@ -6,9 +6,12 @@
  */
 
 import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import gplay from 'google-play-scraper'
 
-const CONFIG_PATH = new URL('../../config/targets.json', import.meta.url)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const CONFIG_PATH = path.resolve(__dirname, '../../config/targets.json')
 
 export async function fetchStoreReviews() {
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH))
@@ -64,7 +67,7 @@ export async function fetchStoreReviews() {
 
   if (results.length === 0) {
     console.warn('[store] no real data fetched — returning mock data')
-    return JSON.parse(fs.readFileSync(new URL('../../data/mock/store-reviews.json', import.meta.url)))
+    return JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../data/mock/store-reviews.json')))
   }
 
   return { source: 'Google Play', fetched_at: new Date().toISOString(), apps: results }

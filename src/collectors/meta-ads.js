@@ -22,14 +22,17 @@
  */
 
 import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const META_API_BASE = 'https://graph.facebook.com/v19.0/ads_archive'
 const ACCESS_TOKEN = process.env.META_ACCESS_TOKEN ?? null
 
 export async function fetchMetaAds({ searchTerms = [], country = 'JP' } = {}) {
   if (!ACCESS_TOKEN) {
     console.warn('[meta-ads] META_ACCESS_TOKEN not set — returning mock data')
-    const mockPath = new URL('../../data/mock/meta-ads.json', import.meta.url)
+    const mockPath = path.resolve(__dirname, '../../data/mock/meta-ads.json')
     return JSON.parse(fs.readFileSync(mockPath))
   }
 
@@ -65,7 +68,7 @@ export async function fetchMetaAds({ searchTerms = [], country = 'JP' } = {}) {
 
 // CLI実行時
 if (process.argv[1].includes('meta-ads.js')) {
-  const config = JSON.parse(fs.readFileSync(new URL('../../config/targets.json', import.meta.url)))
+  const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../config/targets.json')))
   const titles = config.titles.map(t => t.name)
   fetchMetaAds({ searchTerms: titles }).then(data => {
     console.log('[meta-ads] fetched', data?.ads?.length ?? 0, 'ads')

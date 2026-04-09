@@ -9,10 +9,12 @@
 
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 import googleTrends from 'google-trends-api'
 
-const CONFIG_PATH = new URL('../../config/targets.json', import.meta.url)
-const DATA_DIR = new URL('../../data/', import.meta.url)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const CONFIG_PATH = path.resolve(__dirname, '../../config/targets.json')
+const DATA_DIR = path.resolve(__dirname, '../../data')
 
 export async function fetchTrends() {
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH))
@@ -36,7 +38,7 @@ export async function fetchTrends() {
   } catch (e) {
     console.warn('[trends] API fetch failed:', e.message)
     console.warn('[trends] falling back to mock data')
-    const mockPath = new URL('../../data/mock/trends.json', import.meta.url)
+    const mockPath = path.resolve(__dirname, '../../data/mock/trends.json')
     return JSON.parse(fs.readFileSync(mockPath))
   }
 }
@@ -44,7 +46,7 @@ export async function fetchTrends() {
 // CLI実行時
 if (process.argv[1].includes('trends.js')) {
   fetchTrends().then(data => {
-    const outPath = path.join(DATA_DIR.pathname, `trends_${new Date().toISOString().slice(0, 10)}.json`)
+    const outPath = path.join(DATA_DIR, `trends_${new Date().toISOString().slice(0, 10)}.json`)
     fs.writeFileSync(outPath, JSON.stringify(data, null, 2))
     console.log('[trends] saved to', outPath)
   }).catch(console.error)

@@ -7,6 +7,10 @@ Usage: python fetch_trends.py '["kw1","kw2"]' JP
 
 import json
 import sys
+import os
+
+os.environ["PYTHONIOENCODING"] = "utf-8"
+sys.stdout.reconfigure(encoding="utf-8")
 
 from pytrends.request import TrendReq
 

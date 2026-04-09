@@ -13,6 +13,7 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DATA_DIR = path.resolve(__dirname, '../../data')
+const PUBLIC_DATA_DIR = path.resolve(__dirname, '../../public/data')
 const CONFIG_PATH = path.resolve(__dirname, '../../config/targets.json')
 
 async function run() {
@@ -47,6 +48,12 @@ async function run() {
   const news = await fetchNews()
   fs.writeFileSync(path.join(DATA_DIR, `news_${today}.json`), JSON.stringify(news, null, 2))
   console.log('  ✓ saved')
+
+  // ダッシュボード用に統合ファイルを出力
+  if (!fs.existsSync(PUBLIC_DATA_DIR)) fs.mkdirSync(PUBLIC_DATA_DIR, { recursive: true })
+  const collected = { collected_at: new Date().toISOString(), trends, ads, reviews, news }
+  fs.writeFileSync(path.join(PUBLIC_DATA_DIR, 'collected.json'), JSON.stringify(collected, null, 2))
+  console.log('\n  ✓ public/data/collected.json saved')
 
   console.log('\n=== Done ===')
 }

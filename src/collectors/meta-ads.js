@@ -33,25 +33,34 @@ export async function fetchMetaAds({ searchTerms = [], country = 'JP' } = {}) {
     return JSON.parse(fs.readFileSync(mockPath))
   }
 
-  // --- 実装予定 ---
-  // const results = []
-  // for (const term of searchTerms) {
-  //   const url = new URL(META_API_BASE)
-  //   url.searchParams.set('access_token', ACCESS_TOKEN)
-  //   url.searchParams.set('ad_type', 'ALL')
-  //   url.searchParams.set('ad_reached_countries', country)
-  //   url.searchParams.set('search_terms', term)
-  //   url.searchParams.set('fields', [
-  //     'id', 'ad_creation_time', 'ad_creative_bodies',
-  //     'ad_delivery_start_time', 'ad_delivery_stop_time',
-  //     'advertiser_name', 'page_name',
-  //   ].join(','))
-  //   const res = await fetch(url.toString())
-  //   const json = await res.json()
-  //   results.push(...(json.data ?? []))
-  // }
-  // return { source: 'Meta Ad Library', fetched_at: new Date().toISOString(), ads: results }
-  // --- /実装予定 ---
+  const results = []
+  for (const term of searchTerms) {
+    try {
+      console.log(`[meta-ads] searching: "${term}"...`)
+      const url = new URL(META_API_BASE)
+      url.searchParams.set('access_token', ACCESS_TOKEN)
+      url.searchParams.set('ad_type', 'ALL')
+      url.searchParams.set('ad_reached_countries', country)
+      url.searchParams.set('search_terms', term)
+      url.searchParams.set('fields', [
+        'id', 'ad_creation_time', 'ad_creative_bodies',
+        'ad_delivery_start_time', 'ad_delivery_stop_time',
+        'advertiser_name', 'page_name',
+      ].join(','))
+      url.searchParams.set('limit', '25')
+      const res = await fetch(url.toString())
+      const json = await res.json()
+      if (json.error) {
+        console.warn(`[meta-ads] API error for "${term}":`, json.error.message)
+      } else {
+        console.log(`[meta-ads]   "${term}": ${json.data?.length ?? 0} ads`)
+        results.push(...(json.data ?? []))
+      }
+    } catch (e) {
+      console.warn(`[meta-ads] fetch failed for "${term}":`, e.message)
+    }
+  }
+  return { source: 'Meta Ad Library', fetched_at: new Date().toISOString(), ads: results }
 }
 
 // CLI実行時

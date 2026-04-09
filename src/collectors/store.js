@@ -1,52 +1,71 @@
 /**
- * App Store / Google Play コレクター
+ * Google Play コレクター
  *
- * 取得方法:
- *   - app-store-scraper (npm) — App Storeのレビュー、評価、ランキング
- *   - google-play-scraper (npm) — Google Playのレビュー、評価
- *
- * 公開データのみ使用（スクレイピング利用規約の範囲内）
+ * google-play-scraper (npm) — Google Playのレビュー、評価、アプリ情報
+ * 公開データのみ使用
  */
 
 import fs from 'fs'
+import gplay from 'google-play-scraper'
 
-// TODO: npm i app-store-scraper google-play-scraper
-// import gplay from 'google-play-scraper'
-// import store from 'app-store-scraper'
+const CONFIG_PATH = new URL('../../config/targets.json', import.meta.url)
 
-export async function fetchStoreReviews({ appId, platform = 'ios', country = 'jp' } = {}) {
-  if (!appId) {
-    console.warn('[store] no appId provided — returning mock data')
+export async function fetchStoreReviews() {
+  const config = JSON.parse(fs.readFileSync(CONFIG_PATH))
+  const apps = config.titles.filter(t => t.store_id_android)
+
+  const results = []
+  for (const app of apps) {
+    try {
+      console.log(`[store] fetching ${app.name} (${app.store_id_android})...`)
+
+      // アプリ基本情報
+      const appInfo = await gplay.app({ appId: app.store_id_android, lang: 'ja', country: 'jp' })
+
+      // 最新レビュー取得
+      const reviewData = await gplay.reviews({
+        appId: app.store_id_android,
+        lang: 'ja',
+        country: 'jp',
+        sort: gplay.sort.NEWEST,
+        num: 20,
+      })
+
+      const reviews = reviewData.data.map(r => ({
+        id: r.id,
+        userName: r.userName,
+        score: r.score,
+        text: r.text?.slice(0, 300) ?? '',
+        date: r.date,
+        thumbsUp: r.thumbsUp,
+      }))
+
+      results.push({
+        id: app.id,
+        name: app.name,
+        genre: app.genre,
+        store_id: app.store_id_android,
+        appInfo: {
+          title: appInfo.title,
+          score: appInfo.score,
+          ratings: appInfo.ratings,
+          reviews: appInfo.reviews,
+          installs: appInfo.installs,
+          developer: appInfo.developer,
+          updated: appInfo.updated,
+        },
+        recentReviews: reviews,
+      })
+      console.log(`[store]   ${app.name}: score=${appInfo.score}, ${reviews.length} reviews`)
+    } catch (e) {
+      console.warn(`[store] failed to fetch ${app.name}:`, e.message)
+    }
+  }
+
+  if (results.length === 0) {
+    console.warn('[store] no real data fetched — returning mock data')
     return JSON.parse(fs.readFileSync(new URL('../../data/mock/store-reviews.json', import.meta.url)))
   }
 
-  // --- iOS 実装予定 ---
-  // if (platform === 'ios') {
-  //   const reviews = await store.reviews({ id: appId, country, page: 1 })
-  //   const ratings = await store.app({ id: appId, country })
-  //   return { score: ratings.score, reviews: reviews.slice(0, 50) }
-  // }
-  // --- /iOS 実装予定 ---
-
-  // --- Android 実装予定 ---
-  // if (platform === 'android') {
-  //   const reviews = await gplay.reviews({ appId, lang: 'ja', country, sort: gplay.sort.NEWEST })
-  //   const app = await gplay.app({ appId })
-  //   return { score: app.score, reviews: reviews.data.slice(0, 50) }
-  // }
-  // --- /Android 実装予定 ---
-}
-
-export async function fetchStoreRankings({ genre = 'GAME', country = 'jp' } = {}) {
-  // TODO: App Store / Google Playのランキングを取得
-  // gplay.list({ category: gplay.category.GAME_PUZZLE, collection: gplay.collection.TOP_FREE, country })
-  console.log('[store] fetchStoreRankings — not yet implemented')
-  return []
-}
-
-// CLI実行時
-if (process.argv[1].includes('store.js')) {
-  fetchStoreReviews({ appId: '123456789', platform: 'ios' }).then(data => {
-    console.log('[store] fetched reviews:', data?.apps?.length ?? 0, 'apps')
-  }).catch(console.error)
+  return { source: 'Google Play', fetched_at: new Date().toISOString(), apps: results }
 }

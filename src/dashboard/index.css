@@ -88,14 +88,87 @@ html, body {
   color: var(--text-muted);
 }
 
+/* ===== TAB BAR ===== */
+.tab-bar {
+  display: flex;
+  position: relative;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tab-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  white-space: nowrap;
+  font-family: inherit;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-btn:hover {
+  color: var(--text-secondary);
+}
+
+.tab-btn.active {
+  color: var(--tab-accent, var(--text-primary));
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.3s;
+  pointer-events: none;
+}
+
+/* ===== SLIDE CONTAINER ===== */
+.slide-viewport {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-track {
+  display: flex;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  min-height: 0;
+}
+
+.slide-pane {
+  min-width: 100%;
+  width: 100%;
+  flex-shrink: 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 95px); /* header + tab bar */
+}
+
 /* ===== DASHBOARD GRID ===== */
 .dashboard {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto auto auto;
   gap: 12px;
   padding: 16px;
-  flex: 1;
 }
 
 @media (max-width: 768px) {
@@ -118,6 +191,15 @@ html, body {
 
   .app-subtitle {
     display: none;
+  }
+
+  .tab-btn {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+
+  .slide-pane {
+    max-height: calc(100vh - 85px);
   }
 
   .genre-legend,

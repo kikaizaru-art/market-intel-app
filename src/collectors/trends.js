@@ -17,6 +17,7 @@ import { execSync } from 'child_process'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const CONFIG_PATH = path.resolve(__dirname, '../../config/targets.json')
 const DATA_DIR = path.resolve(__dirname, '../../data')
+const PY_SCRIPT = path.resolve(__dirname, 'fetch_trends.py')
 
 export async function fetchTrends() {
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH))
@@ -24,29 +25,9 @@ export async function fetchTrends() {
 
   console.log('[trends] fetching keywords:', keywords, '| geo:', geo)
 
-  const pyScript = `
-import json, sys
-from pytrends.request import TrendReq
-
-keywords = json.loads(sys.argv[1])
-geo = sys.argv[2]
-
-pytrends = TrendReq(hl='ja-JP', tz=-540)
-pytrends.build_payload(keywords, cat=0, timeframe='today 3-m', geo=geo)
-df = pytrends.interest_over_time()
-
-if df.empty:
-    print(json.dumps([]))
-else:
-    df = df.drop(columns=['isPartial'], errors='ignore')
-    df.index = df.index.strftime('%Y-%m-%d')
-    rows = [{"date": date, **{k: int(v) for k, v in row.items()}} for date, row in df.to_dict('index').items()]
-    print(json.dumps(rows, ensure_ascii=False))
-`
-
   try {
     const result = execSync(
-      `python -c ${JSON.stringify(pyScript)} ${JSON.stringify(JSON.stringify(keywords))} ${geo}`,
+      `python "${PY_SCRIPT}" ${JSON.stringify(JSON.stringify(keywords))} ${geo}`,
       { encoding: 'utf-8', timeout: 30000 }
     )
     const weekly = JSON.parse(result.trim())

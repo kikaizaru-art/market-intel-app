@@ -12,8 +12,8 @@ import RSSParser from 'rss-parser'
 const RSS_FEEDS = [
   { name: '4Gamer',    url: 'https://www.4gamer.net/rss/index.xml' },
   { name: 'AUTOMATON', url: 'https://automaton-media.com/feed/' },
-  { name: 'ファミ通',   url: 'https://www.famitsu.com/rss/news.rss' },
-  { name: 'GameSpark', url: 'https://www.gamespark.jp/rss/index.rss' },
+  { name: 'Inside',    url: 'https://www.inside-games.jp/rss/index.rdf' },
+  { name: 'GameSpark', url: 'https://www.gamespark.jp/rss/index.rdf' },
 ]
 
 export async function fetchNews() {

@@ -9,12 +9,20 @@ import { fetchStoreReviews } from './store.js'
 import { fetchNews } from './news.js'
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 
-const DATA_DIR = new URL('../../data/', import.meta.url).pathname
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const DATA_DIR = path.resolve(__dirname, '../../data')
+const PUBLIC_DATA_DIR = path.resolve(__dirname, '../../public/data')
+const CONFIG_PATH = path.resolve(__dirname, '../../config/targets.json')
 
 async function run() {
   console.log('=== Market Intel Collector ===')
   const today = new Date().toISOString().slice(0, 10)
+  const config = JSON.parse(fs.readFileSync(CONFIG_PATH))
+
+  // data ディレクトリ作成
+  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true })
 
   // 1. Google Trends
   console.log('\n[1/4] Google Trends...')
@@ -24,12 +32,13 @@ async function run() {
 
   // 2. Meta Ads
   console.log('\n[2/4] Meta Ad Library...')
-  const ads = await fetchMetaAds()
+  const searchTerms = config.titles.map(t => t.name)
+  const ads = await fetchMetaAds({ searchTerms })
   fs.writeFileSync(path.join(DATA_DIR, `meta-ads_${today}.json`), JSON.stringify(ads, null, 2))
   console.log('  ✓ saved')
 
   // 3. Store Reviews
-  console.log('\n[3/4] Store Reviews...')
+  console.log('\n[3/4] Store Reviews (Google Play)...')
   const reviews = await fetchStoreReviews()
   fs.writeFileSync(path.join(DATA_DIR, `store-reviews_${today}.json`), JSON.stringify(reviews, null, 2))
   console.log('  ✓ saved')
@@ -39,6 +48,12 @@ async function run() {
   const news = await fetchNews()
   fs.writeFileSync(path.join(DATA_DIR, `news_${today}.json`), JSON.stringify(news, null, 2))
   console.log('  ✓ saved')
+
+  // ダッシュボード用に統合ファイルを出力
+  if (!fs.existsSync(PUBLIC_DATA_DIR)) fs.mkdirSync(PUBLIC_DATA_DIR, { recursive: true })
+  const collected = { collected_at: new Date().toISOString(), trends, ads, reviews, news }
+  fs.writeFileSync(path.join(PUBLIC_DATA_DIR, 'collected.json'), JSON.stringify(collected, null, 2))
+  console.log('\n  ✓ public/data/collected.json saved')
 
   console.log('\n=== Done ===')
 }

@@ -5,3 +5,5 @@ dist/
 .env.local
 *.local
 data/cache/
+data/*_*.json
+public/data/

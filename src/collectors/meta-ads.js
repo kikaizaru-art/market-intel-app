@@ -22,41 +22,53 @@
  */
 
 import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const META_API_BASE = 'https://graph.facebook.com/v19.0/ads_archive'
 const ACCESS_TOKEN = process.env.META_ACCESS_TOKEN ?? null
 
 export async function fetchMetaAds({ searchTerms = [], country = 'JP' } = {}) {
   if (!ACCESS_TOKEN) {
     console.warn('[meta-ads] META_ACCESS_TOKEN not set — returning mock data')
-    const mockPath = new URL('../../data/mock/meta-ads.json', import.meta.url)
+    const mockPath = path.resolve(__dirname, '../../data/mock/meta-ads.json')
     return JSON.parse(fs.readFileSync(mockPath))
   }
 
-  // --- 実装予定 ---
-  // const results = []
-  // for (const term of searchTerms) {
-  //   const url = new URL(META_API_BASE)
-  //   url.searchParams.set('access_token', ACCESS_TOKEN)
-  //   url.searchParams.set('ad_type', 'ALL')
-  //   url.searchParams.set('ad_reached_countries', country)
-  //   url.searchParams.set('search_terms', term)
-  //   url.searchParams.set('fields', [
-  //     'id', 'ad_creation_time', 'ad_creative_bodies',
-  //     'ad_delivery_start_time', 'ad_delivery_stop_time',
-  //     'advertiser_name', 'page_name',
-  //   ].join(','))
-  //   const res = await fetch(url.toString())
-  //   const json = await res.json()
-  //   results.push(...(json.data ?? []))
-  // }
-  // return { source: 'Meta Ad Library', fetched_at: new Date().toISOString(), ads: results }
-  // --- /実装予定 ---
+  const results = []
+  for (const term of searchTerms) {
+    try {
+      console.log(`[meta-ads] searching: "${term}"...`)
+      const url = new URL(META_API_BASE)
+      url.searchParams.set('access_token', ACCESS_TOKEN)
+      url.searchParams.set('ad_type', 'ALL')
+      url.searchParams.set('ad_reached_countries', country)
+      url.searchParams.set('search_terms', term)
+      url.searchParams.set('fields', [
+        'id', 'ad_creation_time', 'ad_creative_bodies',
+        'ad_delivery_start_time', 'ad_delivery_stop_time',
+        'advertiser_name', 'page_name',
+      ].join(','))
+      url.searchParams.set('limit', '25')
+      const res = await fetch(url.toString())
+      const json = await res.json()
+      if (json.error) {
+        console.warn(`[meta-ads] API error for "${term}":`, json.error.message)
+      } else {
+        console.log(`[meta-ads]   "${term}": ${json.data?.length ?? 0} ads`)
+        results.push(...(json.data ?? []))
+      }
+    } catch (e) {
+      console.warn(`[meta-ads] fetch failed for "${term}":`, e.message)
+    }
+  }
+  return { source: 'Meta Ad Library', fetched_at: new Date().toISOString(), ads: results }
 }
 
 // CLI実行時
 if (process.argv[1].includes('meta-ads.js')) {
-  const config = JSON.parse(fs.readFileSync(new URL('../../config/targets.json', import.meta.url)))
+  const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../config/targets.json')))
   const titles = config.titles.map(t => t.name)
   fetchMetaAds({ searchTerms: titles }).then(data => {
     console.log('[meta-ads] fetched', data?.ads?.length ?? 0, 'ads')

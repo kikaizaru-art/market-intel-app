@@ -1,0 +1,91 @@
+{
+  "source": "企業IR / 推定データ (mock)",
+  "companies": [
+    {
+      "id": "company-a",
+      "name": "株式会社A",
+      "listed": true,
+      "ticker": "9999",
+      "segment": "ゲーム事業",
+      "headcount": 450,
+      "headcount_trend": "increasing",
+      "hiring_roles": ["Unityエンジニア", "サーバーエンジニア", "3Dアーティスト"],
+      "quarterly_financials": [
+        { "quarter": "2025Q2", "revenue_b": 12.5, "op_profit_b": 2.8, "op_margin": 22.4 },
+        { "quarter": "2025Q3", "revenue_b": 14.2, "op_profit_b": 3.5, "op_margin": 24.6 },
+        { "quarter": "2025Q4", "revenue_b": 18.0, "op_profit_b": 5.2, "op_margin": 28.9 },
+        { "quarter": "2026Q1", "revenue_b": 15.8, "op_profit_b": 4.1, "op_margin": 25.9 }
+      ],
+      "titles": [
+        { "name": "パズルゲームX", "status": "運営中", "release": "2024-03", "genre": "パズル" },
+        { "name": "パズルゲームX2", "status": "開発中", "release": "2026Q3予定", "genre": "パズル" },
+        { "name": "アクションA", "status": "運営中", "release": "2023-08", "genre": "アクション" }
+      ]
+    },
+    {
+      "id": "company-b",
+      "name": "株式会社B",
+      "listed": true,
+      "ticker": "8888",
+      "segment": "モバイルゲーム",
+      "headcount": 820,
+      "headcount_trend": "stable",
+      "hiring_roles": ["プランナー", "UIデザイナー"],
+      "quarterly_financials": [
+        { "quarter": "2025Q2", "revenue_b": 22.0, "op_profit_b": 4.5, "op_margin": 20.5 },
+        { "quarter": "2025Q3", "revenue_b": 25.5, "op_profit_b": 5.8, "op_margin": 22.7 },
+        { "quarter": "2025Q4", "revenue_b": 32.0, "op_profit_b": 8.2, "op_margin": 25.6 },
+        { "quarter": "2026Q1", "revenue_b": 28.0, "op_profit_b": 6.5, "op_margin": 23.2 }
+      ],
+      "titles": [
+        { "name": "RPGサーガ改", "status": "運営中", "release": "2023-11", "genre": "RPG" },
+        { "name": "RPGサーガ: 新章", "status": "開発中", "release": "2026Q4予定", "genre": "RPG" },
+        { "name": "MMORPG-B", "status": "運営中", "release": "2022-06", "genre": "RPG" },
+        { "name": "パズルRPG", "status": "運営中", "release": "2024-09", "genre": "パズル" }
+      ]
+    },
+    {
+      "id": "company-c",
+      "name": "株式会社C",
+      "listed": false,
+      "ticker": null,
+      "segment": "ハイパーカジュアル",
+      "headcount": 80,
+      "headcount_trend": "decreasing",
+      "hiring_roles": [],
+      "quarterly_financials": [
+        { "quarter": "2025Q2", "revenue_b": 3.2, "op_profit_b": 0.5, "op_margin": 15.6 },
+        { "quarter": "2025Q3", "revenue_b": 3.8, "op_profit_b": 0.6, "op_margin": 15.8 },
+        { "quarter": "2025Q4", "revenue_b": 4.5, "op_profit_b": 0.8, "op_margin": 17.8 },
+        { "quarter": "2026Q1", "revenue_b": 3.0, "op_profit_b": 0.2, "op_margin": 6.7 }
+      ],
+      "titles": [
+        { "name": "カジュアルラン", "status": "運営中", "release": "2024-01", "genre": "カジュアル" },
+        { "name": "カジュアルラン2", "status": "開発中", "release": "2026Q2予定", "genre": "カジュアル" }
+      ]
+    },
+    {
+      "id": "studio-d",
+      "name": "海外スタジオD",
+      "listed": true,
+      "ticker": "GMSD (NASDAQ)",
+      "segment": "Mobile Games",
+      "headcount": 1200,
+      "headcount_trend": "increasing",
+      "hiring_roles": ["JP Market Manager", "ローカライズ", "CS(日本語)"],
+      "quarterly_financials": [
+        { "quarter": "2025Q2", "revenue_b": 45.0, "op_profit_b": 9.0, "op_margin": 20.0 },
+        { "quarter": "2025Q3", "revenue_b": 52.0, "op_profit_b": 11.5, "op_margin": 22.1 },
+        { "quarter": "2025Q4", "revenue_b": 58.0, "op_profit_b": 13.0, "op_margin": 22.4 },
+        { "quarter": "2026Q1", "revenue_b": 55.0, "op_profit_b": 12.0, "op_margin": 21.8 }
+      ],
+      "titles": [
+        { "name": "ストラテジーZ", "status": "運営中", "release": "2026-03", "genre": "ストラテジー" },
+        { "name": "ストラテジーZ: JP Edition", "status": "開発中", "release": "2026Q3予定", "genre": "ストラテジー" },
+        { "name": "Battle Arena", "status": "運営中", "release": "2024-05", "genre": "アクション" },
+        { "name": "Empire Builder", "status": "運営中", "release": "2023-01", "genre": "ストラテジー" },
+        { "name": "新規IP (未発表)", "status": "開発中", "release": "2027予定", "genre": "RPG" }
+      ]
+    }
+  ]
+}

@@ -132,7 +132,7 @@ export default function MacroView() {
         </div>
 
         {/* ラインチャート */}
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="100%" height={160}>
           <LineChart data={chartData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
             <XAxis

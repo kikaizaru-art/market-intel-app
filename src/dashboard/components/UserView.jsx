@@ -118,7 +118,7 @@ export default function UserView() {
           <>
             {/* 全アプリ比較モード */}
             <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 6 }}>全アプリ スコア比較</div>
-            <ResponsiveContainer width="100%" height={140}>
+            <ResponsiveContainer width="100%" height={160}>
               <LineChart data={compareData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
                 <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
@@ -182,7 +182,7 @@ export default function UserView() {
             </div>
 
             {/* スコア推移チャート（バー＋ライン複合） */}
-            <ResponsiveContainer width="100%" height={140}>
+            <ResponsiveContainer width="100%" height={160}>
               <ComposedChart data={chartData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
                 <XAxis
@@ -225,27 +225,15 @@ export default function UserView() {
               </ComposedChart>
             </ResponsiveContainer>
 
-            {/* センチメント進捗バー */}
-            <div style={{ marginTop: 8, marginBottom: 4 }}>
-              <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>好意的レビュー率</div>
-              <SentimentBar ratio={latestSentiment} color={accentColor} />
-            </div>
-
-            {/* スタッツ */}
+            {/* スタッツ + センチメント 2段 */}
             <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-              <div style={{
-                flex: 1, background: '#0d1117', borderRadius: 6,
-                padding: '6px 10px', border: '1px solid #21262d',
-              }}>
+              <div className="stat-card">
                 <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 2 }}>現在スコア</div>
                 <div style={{ fontSize: 16, fontWeight: 700, color: accentColor }}>
                   ★ {latestScore}
                 </div>
               </div>
-              <div style={{
-                flex: 1, background: '#0d1117', borderRadius: 6,
-                padding: '6px 10px', border: '1px solid #21262d',
-              }}>
+              <div className="stat-card">
                 <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 2 }}>前月比</div>
                 <div style={{
                   fontSize: 14, fontWeight: 700,
@@ -254,18 +242,19 @@ export default function UserView() {
                   {parseFloat(scoreDiff) >= 0 ? '▲' : '▼'} {Math.abs(scoreDiff)}
                 </div>
               </div>
-              <div style={{
-                flex: 1, background: '#0d1117', borderRadius: 6,
-                padding: '6px 10px', border: '1px solid #21262d',
-              }}>
+              <div className="stat-card">
                 <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 2 }}>累計レビュー</div>
                 <div style={{ fontSize: 12, fontWeight: 600, color: '#e6edf3' }}>
                   {appData.monthly.reduce((s, m) => s + m.count, 0).toLocaleString()}件
                 </div>
               </div>
+              <div className="stat-card">
+                <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 2 }}>好意的比率</div>
+                <SentimentBar ratio={latestSentiment} color={accentColor} />
+              </div>
             </div>
 
-            {/* 不満 + 好評 */}
+            {/* 不満 + 好評 横並び */}
             <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>主な不満</div>

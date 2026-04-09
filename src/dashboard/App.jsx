@@ -2,6 +2,10 @@ import MacroView from './components/MacroView.jsx'
 import CompetitorView from './components/CompetitorView.jsx'
 import UserView from './components/UserView.jsx'
 import CausationView from './components/CausationView.jsx'
+import MarketFundamentalsView from './components/MarketFundamentalsView.jsx'
+import CorporateView from './components/CorporateView.jsx'
+import EventCalendarView from './components/EventCalendarView.jsx'
+import IndustryView from './components/IndustryView.jsx'
 
 export default function App() {
   const now = new Date().toLocaleString('ja-JP', {
@@ -27,6 +31,10 @@ export default function App() {
         <CompetitorView />
         <UserView />
         <CausationView />
+        <MarketFundamentalsView />
+        <CorporateView />
+        <EventCalendarView />
+        <IndustryView />
       </main>
     </div>
   )

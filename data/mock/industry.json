@@ -1,0 +1,51 @@
+{
+  "source": "業界ニュース(RSS) + 無料公開レポート (mock)",
+  "news": [
+    { "date": "2026-04-08", "title": "【4Gamer】2026年Q1モバイルゲーム市場レポート: RPGジャンルが前年比+12%", "source": "4Gamer", "url": null, "tags": ["市場動向", "RPG"] },
+    { "date": "2026-04-07", "title": "【GameBiz】海外スタジオの日本参入が加速、ストラテジー市場に変化の兆し", "source": "GameBiz", "url": null, "tags": ["競合", "ストラテジー"] },
+    { "date": "2026-04-05", "title": "【ファミ通】App Store / Google Playの3月売上ランキングまとめ", "source": "ファミ通", "url": null, "tags": ["ランキング"] },
+    { "date": "2026-04-03", "title": "【4Gamer】Apple、開発者向け手数料体系を2026年後半に見直しへ", "source": "4Gamer", "url": null, "tags": ["規制", "Apple"] },
+    { "date": "2026-04-01", "title": "【GameBiz】Unity 2026 Gaming Report: ハイパーカジュアルのCPIが前年比15%上昇", "source": "GameBiz", "url": null, "tags": ["CPI", "カジュアル"] },
+    { "date": "2026-03-28", "title": "【Social Game Info】RPGサーガがセールスランキング1位を記録 — コラボ効果", "source": "Social Game Info", "url": null, "tags": ["ランキング", "RPG"] },
+    { "date": "2026-03-25", "title": "【4Gamer】2025年度 国内モバイルゲーム市場規模は1.8兆円（JOGA発表）", "source": "4Gamer", "url": null, "tags": ["市場動向"] },
+    { "date": "2026-03-20", "title": "【GameBiz】Google Play、リワード広告ポリシーを5月に変更へ", "source": "GameBiz", "url": null, "tags": ["規制", "Google"] },
+    { "date": "2026-03-15", "title": "【ファミ通】パズルゲームX v3.0 事前登録が100万件突破", "source": "ファミ通", "url": null, "tags": ["パズル", "事前登録"] },
+    { "date": "2026-03-10", "title": "【Social Game Info】株式会社B 2026年3月期Q3決算 — ゲーム事業が過去最高売上", "source": "Social Game Info", "url": null, "tags": ["決算", "RPG"] }
+  ],
+  "benchmarks": {
+    "source": "Unity Gaming Report 2026 / ironSource 等 無料公開レポート",
+    "cpi_by_genre": {
+      "period": "2025Q4",
+      "currency": "USD",
+      "data": [
+        { "genre": "パズル", "ios": 2.80, "android": 1.50, "trend": "rising" },
+        { "genre": "RPG", "ios": 5.20, "android": 3.10, "trend": "stable" },
+        { "genre": "カジュアル", "ios": 1.80, "android": 0.90, "trend": "rising" },
+        { "genre": "ストラテジー", "ios": 6.50, "android": 4.20, "trend": "falling" },
+        { "genre": "スポーツ", "ios": 3.50, "android": 2.00, "trend": "stable" }
+      ]
+    },
+    "retention_by_genre": {
+      "period": "2025Q4",
+      "data": [
+        { "genre": "パズル", "d1": 38, "d7": 18, "d30": 8 },
+        { "genre": "RPG", "d1": 32, "d7": 15, "d30": 7 },
+        { "genre": "カジュアル", "d1": 28, "d7": 10, "d30": 3 },
+        { "genre": "ストラテジー", "d1": 30, "d7": 14, "d30": 6 },
+        { "genre": "スポーツ", "d1": 25, "d7": 11, "d30": 4 }
+      ]
+    },
+    "market_size": {
+      "jp_mobile_game_2025": "1.8兆円",
+      "yoy_growth": "+4.2%",
+      "top_genre_share": [
+        { "genre": "RPG", "share": 34 },
+        { "genre": "パズル", "share": 18 },
+        { "genre": "カジュアル", "share": 12 },
+        { "genre": "ストラテジー", "share": 10 },
+        { "genre": "スポーツ", "share": 8 },
+        { "genre": "その他", "share": 18 }
+      ]
+    }
+  }
+}

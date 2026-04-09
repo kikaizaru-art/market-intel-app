@@ -92,7 +92,7 @@ html, body {
 .dashboard {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto auto auto;
   gap: 12px;
   padding: 16px;
   flex: 1;
@@ -505,6 +505,115 @@ html, body {
 
 .form-submit:hover {
   background: rgba(210, 168, 255, 0.25);
+}
+
+/* ===== EVENT CALENDAR VIEW ===== */
+.event-indicator { background: #f778ba; }
+.event-title { color: #f778ba; }
+
+.event-timeline {
+  position: relative;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 8px 6px;
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+
+.timeline-today {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #f85149;
+  z-index: 2;
+}
+
+.timeline-today-label {
+  position: absolute;
+  top: -1px;
+  left: -10px;
+  font-size: 8px;
+  color: #f85149;
+  background: #0d1117;
+  padding: 0 2px;
+}
+
+.timeline-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 12px;
+  margin-bottom: 2px;
+}
+
+.timeline-bar-app {
+  font-size: 8px;
+  min-width: 28px;
+  text-align: right;
+  color: #6e7681;
+}
+
+.timeline-bar-track {
+  flex: 1;
+  position: relative;
+  height: 6px;
+}
+
+.timeline-bar-fill {
+  position: absolute;
+  height: 100%;
+  border-radius: 2px;
+}
+
+.event-item {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-left: 3px solid;
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+.event-type-badge {
+  font-size: 9px;
+  padding: 0px 5px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+
+/* ===== INDUSTRY VIEW ===== */
+.industry-indicator { background: #a5d6ff; }
+.industry-title { color: #a5d6ff; }
+
+.industry-tab.active {
+  background: rgba(165, 214, 255, 0.15);
+  border-color: rgba(165, 214, 255, 0.4);
+  color: #a5d6ff;
+}
+
+.news-item {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.news-source-badge {
+  font-size: 9px;
+  padding: 0px 5px;
+  border-radius: 3px;
+  background: rgba(110, 118, 129, 0.2);
+  color: #8b949e;
+}
+
+.news-tag {
+  display: inline-block;
+  font-size: 9px;
+  padding: 0px 5px;
+  border-radius: 3px;
+  margin-right: 3px;
+  border: 1px solid;
 }
 
 /* ===== FUNDAMENTALS VIEW ===== */

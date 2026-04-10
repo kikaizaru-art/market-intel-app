@@ -1,6 +1,6 @@
 import { useState, useMemo, memo } from 'react'
 import {
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid,
+  LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
 } from 'recharts'
 
@@ -50,7 +50,6 @@ export default memo(function MarketFundamentalsView({ data: mfData, eventsData, 
 
   const TABS = [
     { key: 'ranking', label: 'ランキング' },
-    { key: 'sns', label: 'SNSバズ' },
     { key: 'events', label: 'イベント' },
     { key: 'news', label: 'ニュース' },
   ]
@@ -111,17 +110,6 @@ export default memo(function MarketFundamentalsView({ data: mfData, eventsData, 
       return { name: app.name, id: app.id, latest, diff: prev - latest }
     }), [mfData.apps])
 
-  const snsData = (mfData.sns_buzz?.monthly || []).map(m => ({
-    month: parseInt(m.month.slice(5)) + '月',
-    'X投稿数': m.twitter_mentions,
-    'YouTube動画': m.youtube_videos,
-    '配信者数': m.streamer_count,
-  }))
-
-  const snsMonthly = mfData.sns_buzz?.monthly || []
-  const latestSns = snsMonthly[snsMonthly.length - 1]
-  const prevSns = snsMonthly[snsMonthly.length - 2]
-
   return (
     <div className="panel">
       <div className="panel-header">
@@ -163,26 +151,6 @@ export default memo(function MarketFundamentalsView({ data: mfData, eventsData, 
                   </div>
                 </div>
               ))}
-            </div>
-          </>
-        )}
-
-        {tab === 'sns' && latestSns && prevSns && (
-          <>
-            <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>ゲーム業界全体 SNSバズ指標</div>
-            <ResponsiveContainer width="100%" height={160}>
-              <BarChart data={snsData} margin={{ top: 4, right: 8, bottom: 0, left: -10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
-                <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
-                <YAxis tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-                <Tooltip content={<ChartTooltip />} />
-                <Bar dataKey="X投稿数" fill="#388bfd" opacity={0.7} />
-              </BarChart>
-            </ResponsiveContainer>
-            <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
-              <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>X投稿数</div><div style={{ fontSize: 14, fontWeight: 700, color: '#388bfd' }}>{latestSns.twitter_mentions.toLocaleString()}<span style={{ fontSize: 10, marginLeft: 4, color: latestSns.twitter_mentions > prevSns.twitter_mentions ? '#56d364' : '#f85149' }}>{latestSns.twitter_mentions > prevSns.twitter_mentions ? '▲' : '▼'}</span></div></div>
-              <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>YouTube動画</div><div style={{ fontSize: 14, fontWeight: 700, color: '#f85149' }}>{latestSns.youtube_videos}本</div></div>
-              <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>配信者数</div><div style={{ fontSize: 14, fontWeight: 700, color: '#56d364' }}>{latestSns.streamer_count}人</div></div>
             </div>
           </>
         )}

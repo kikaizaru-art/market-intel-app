@@ -5,8 +5,6 @@ import {
 } from 'recharts'
 
 const PALETTE = ['#388bfd', '#d2a8ff', '#56d364']
-const IMPACT_COLORS = { positive: '#56d364', negative: '#f85149', neutral: '#e3b341' }
-const IMPACT_LABELS = { positive: '好影響', negative: '悪影響', neutral: '中立' }
 
 function formatDate(dateStr) {
   const [, month, day] = dateStr.split('-')
@@ -31,8 +29,6 @@ export default memo(function MarketFundamentalsView({ data: mfData }) {
   const TABS = [
     { key: 'ranking', label: 'ランキング' },
     { key: 'sns', label: 'SNSバズ' },
-    { key: 'fx', label: '為替' },
-    { key: 'regulation', label: '規制動向' },
   ]
 
   const APP_COLORS = Object.fromEntries((mfData.apps || []).map((a, i) => [a.id, PALETTE[i % PALETTE.length]]))
@@ -67,11 +63,6 @@ export default memo(function MarketFundamentalsView({ data: mfData }) {
   const snsMonthly = mfData.sns_buzz?.monthly || []
   const latestSns = snsMonthly[snsMonthly.length - 1]
   const prevSns = snsMonthly[snsMonthly.length - 2]
-
-  const fxData = (mfData.exchange_rate?.weekly || []).map(d => ({ date: d.date, rate: d.rate }))
-  const fxWeekly = mfData.exchange_rate?.weekly || []
-  const latestFx = fxWeekly[fxWeekly.length - 1]
-  const prevFx = fxWeekly[fxWeekly.length - 5]
 
   return (
     <div className="panel">
@@ -138,41 +129,6 @@ export default memo(function MarketFundamentalsView({ data: mfData }) {
           </>
         )}
 
-        {tab === 'fx' && latestFx && prevFx && (
-          <>
-            <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>USD/JPY 為替推移</div>
-            <ResponsiveContainer width="100%" height={160}>
-              <LineChart data={fxData} margin={{ top: 4, right: 8, bottom: 0, left: -10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
-                <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
-                <YAxis domain={['auto', 'auto']} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-                <Tooltip content={<ChartTooltip />} />
-                <Line type="monotone" dataKey="rate" name="USD/JPY" stroke="#e3b341" strokeWidth={2} dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
-            <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
-              <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>現在レート</div><div style={{ fontSize: 16, fontWeight: 700, color: '#e3b341' }}>{latestFx.rate}円</div></div>
-              <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>4週変動</div><div style={{ fontSize: 14, fontWeight: 700, color: latestFx.rate < prevFx.rate ? '#56d364' : '#f85149' }}>{(latestFx.rate - prevFx.rate).toFixed(1)}円<span style={{ fontSize: 10, color: '#6e7681', marginLeft: 4 }}>{latestFx.rate < prevFx.rate ? '円高' : '円安'}</span></div></div>
-              <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>海外タイトル影響</div><div style={{ fontSize: 11, color: '#8b949e' }}>{latestFx.rate < prevFx.rate ? '円建て売上↓' : '円建て売上↑'}</div></div>
-            </div>
-          </>
-        )}
-
-        {tab === 'regulation' && (
-          <div className="regulation-list">
-            {(mfData.regulations || []).map((reg, i) => (
-              <div key={i} className="regulation-item" style={{ borderLeftColor: IMPACT_COLORS[reg.impact] }}>
-                <div className="regulation-header">
-                  <span style={{ fontSize: 10, color: '#6e7681', fontFamily: 'monospace' }}>{reg.date}</span>
-                  <span className="regulation-region">{reg.region}</span>
-                  <span style={{ fontSize: 9, color: IMPACT_COLORS[reg.impact] }}>{IMPACT_LABELS[reg.impact]}</span>
-                </div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: '#e6edf3', marginBottom: 2 }}>{reg.title}</div>
-                <div style={{ fontSize: 10, color: '#8b949e', lineHeight: 1.4 }}>{reg.detail}</div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
       <div className="panel-footer">generated data — 実API接続時: App Annie / Sensor Tower / RSS</div>
     </div>

@@ -122,7 +122,6 @@ export function generateCompetitorData(target) {
   return {
     target,
     trends: generateTrends(genre, genreInfo, rng),
-    ads: generateAds(allApps, allCompanies, genreInfo, rng),
     reviews: generateReviews(allApps, genreInfo, rng),
     corporate: generateCorporate(allApps, allCompanies, genre, rng),
     fundamentals: generateFundamentals(allApps, genre, rng),
@@ -154,40 +153,6 @@ function generateTrends(genre, genreInfo, rng) {
     weekly,
     _genres: genres,
   }
-}
-
-function generateAds(allApps, allCompanies, genreInfo, rng) {
-  const ads = []
-  const genres = Object.keys(GENRE_POOL).slice(0, 4)
-  let id = 1
-
-  for (const company of allCompanies) {
-    const count = randRange(1, 4, rng)
-    for (let i = 0; i < count; i++) {
-      const app = allApps.find(a => a.company === company) || allApps[0]
-      const day = randRange(1, 28, rng)
-      const month = randRange(1, 4, rng)
-      ads.push({
-        id: `ad_${String(id++).padStart(3, '0')}`,
-        advertiser: company,
-        title: app.name,
-        genre: app.genre || pick(genres, rng),
-        format: rng() > 0.4 ? '動画' : '画像',
-        platforms: rng() > 0.5
-          ? ['Facebook', 'Instagram']
-          : rng() > 0.5
-            ? ['Facebook', 'Instagram', 'Audience Network']
-            : ['Facebook'],
-        started: `2026-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
-        status: rng() > 0.25 ? 'active' : 'inactive',
-        reach_estimate: rng() > 0.6 ? '高' : rng() > 0.3 ? '中' : '低',
-        creative_hook: pick(genreInfo.hooks, rng),
-        thumbnail_url: null,
-      })
-    }
-  }
-
-  return { source: 'Meta Ad Library (generated)', fetched_at: '2026-04-08', ads }
 }
 
 function generateReviews(allApps, genreInfo, rng) {
@@ -320,22 +285,7 @@ function generateFundamentals(allApps, genre, rng) {
     })),
   }
 
-  const exchange_rate = {
-    pair: 'USD/JPY',
-    weekly: dates.map((date, i) => ({
-      date,
-      rate: Math.round((148 + Math.sin(i / 8) * 5 + (rng() - 0.5) * 3) * 10) / 10,
-    })),
-  }
-
-  const regulations = [
-    { date: '2026-04-01', title: '景品表示法ガイドライン更新', region: 'JP', impact: 'neutral', detail: 'ゲーム内ガチャの「優良誤認」基準を明確化' },
-    { date: '2026-03-10', title: 'Google Play ポリシー変更', region: 'Global', impact: 'negative', detail: 'リワード広告の表示制限強化。広告収益モデルへの影響' },
-    { date: '2026-02-20', title: 'EU デジタル市場法 (DMA) 施行', region: 'EU', impact: 'neutral', detail: 'サイドローディング義務化によるストア手数料構造への影響を注視' },
-    { date: '2026-01-15', title: '未成年課金上限規制強化', region: 'JP', impact: 'negative', detail: '18歳未満のアプリ内課金上限を月額5,000円に制限する改正案' },
-  ]
-
-  return { source: 'Market Fundamentals (generated)', apps, sns_buzz, exchange_rate, regulations }
+  return { source: 'Market Fundamentals (generated)', apps, sns_buzz }
 }
 
 function generateEvents(allApps, rng) {

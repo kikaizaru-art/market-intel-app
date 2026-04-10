@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { useTarget } from './context/TargetContext.jsx'
 import SearchView from './components/SearchView.jsx'
 import MacroView from './components/MacroView.jsx'
-import CompetitorView from './components/CompetitorView.jsx'
 import UserView from './components/UserView.jsx'
 import CausationView from './components/CausationView.jsx'
 import MarketFundamentalsView from './components/MarketFundamentalsView.jsx'
@@ -12,7 +11,7 @@ import IndustryView from './components/IndustryView.jsx'
 
 const TABS = [
   { key: 'macro',      label: 'マクロ環境',    accent: 'var(--accent-macro)' },
-  { key: 'competitor',  label: '競合・企業',    accent: 'var(--accent-competitor)' },
+  { key: 'corporate',   label: '企業',          accent: 'var(--accent-competitor)' },
   { key: 'user',        label: 'ユーザー',      accent: 'var(--accent-user)' },
   { key: 'industry',    label: '業界・イベント', accent: '#a5d6ff' },
 ]
@@ -116,7 +115,6 @@ function Dashboard() {
 
           <section className="slide-pane">
             <div className="dashboard">
-              <CompetitorView data={data.ads} />
               <CorporateView data={data.corporate} />
             </div>
           </section>

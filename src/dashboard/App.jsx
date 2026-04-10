@@ -1,12 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useTarget } from './context/TargetContext.jsx'
 import SearchView from './components/SearchView.jsx'
-import MacroView from './components/MacroView.jsx'
 import UserView from './components/UserView.jsx'
 import CausationView from './components/CausationView.jsx'
 import MarketFundamentalsView from './components/MarketFundamentalsView.jsx'
 import CorporateView from './components/CorporateView.jsx'
-import EventCalendarView from './components/EventCalendarView.jsx'
 import IndustryView from './components/IndustryView.jsx'
 
 const TABS = [
@@ -113,11 +111,9 @@ function Dashboard() {
 
           <section className="slide-pane">
             <div className="dashboard">
-              <MacroView data={data.trends} />
-              <MarketFundamentalsView data={data.fundamentals} />
+              <MarketFundamentalsView data={data.fundamentals} eventsData={data.events} newsData={data.industry?.news} />
               <CorporateView data={data.corporate} />
-              <IndustryView data={data.industry} />
-              <EventCalendarView data={data.events} />
+              <IndustryView data={data.industry} trendsData={data.trends} />
             </div>
           </section>
         </div>

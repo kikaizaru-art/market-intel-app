@@ -6,6 +6,26 @@ import {
 
 const PALETTE = ['#388bfd', '#d2a8ff', '#56d364']
 
+const TYPE_COLORS = {
+  'ガチャ': '#d2a8ff', 'コラボ': '#f0883e', 'シーズン': '#56d364',
+  'キャンペーン': '#388bfd', 'アップデート': '#8b949e',
+}
+const APP_PALETTE = ['#388bfd', '#d2a8ff', '#56d364', '#e3b341', '#f85149']
+
+const TAG_COLORS = {
+  '市場動向': '#388bfd', 'RPG': '#d2a8ff', '競合': '#f85149',
+  'ストラテジー': '#e3b341', 'ランキング': '#79c0ff', '規制': '#f0883e',
+  'Apple': '#8b949e', 'CPI': '#f85149', 'カジュアル': '#56d364',
+  'Google': '#56d364', 'パズル': '#388bfd', '事前登録': '#d2a8ff', '決算': '#e3b341',
+  '広告': '#f0883e', '海外展開': '#79c0ff', 'ストア': '#8b949e',
+  'アクション': '#f85149', 'シミュレーション': '#f0883e',
+}
+
+function isActive(event, today) {
+  if (!event.end) return event.start <= today
+  return event.start <= today && event.end >= today
+}
+
 function formatDate(dateStr) {
   const [, month, day] = dateStr.split('-')
   return day === '05' || day === '04' || day === '01' ? `${parseInt(month)}月` : ''
@@ -23,15 +43,53 @@ const ChartTooltip = ({ active, payload, label }) => {
   )
 }
 
-export default memo(function MarketFundamentalsView({ data: mfData }) {
+export default memo(function MarketFundamentalsView({ data: mfData, eventsData, newsData }) {
   const [tab, setTab] = useState('ranking')
+  const [appFilter, setAppFilter] = useState('全て')
+  const [typeFilter, setTypeFilter] = useState('全て')
 
   const TABS = [
     { key: 'ranking', label: 'ランキング' },
     { key: 'sns', label: 'SNSバズ' },
+    { key: 'events', label: 'イベント' },
+    { key: 'news', label: 'ニュース' },
   ]
 
   const APP_COLORS = Object.fromEntries((mfData.apps || []).map((a, i) => [a.id, PALETTE[i % PALETTE.length]]))
+
+  /* ---------- Events ---------- */
+  const today = '2026-04-09'
+  const calData = eventsData || { events: [], _apps: [] }
+  const EVENT_APPS = useMemo(() => calData._apps || [...new Set(calData.events.map(e => e.app))], [calData])
+  const EVENT_APP_COLORS = useMemo(() => Object.fromEntries(EVENT_APPS.map((a, i) => [a, APP_PALETTE[i % APP_PALETTE.length]])), [EVENT_APPS])
+  const EVENT_TYPES = useMemo(() => [...new Set(calData.events.map(e => e.type))], [calData])
+
+  const filteredEvents = useMemo(() =>
+    calData.events
+      .filter(e => appFilter === '全て' || e.app === appFilter)
+      .filter(e => typeFilter === '全て' || e.type === typeFilter)
+      .sort((a, b) => b.start.localeCompare(a.start)),
+    [calData, appFilter, typeFilter])
+
+  const activeEvents = useMemo(() => calData.events.filter(e => isActive(e, today)), [calData])
+
+  const appActiveCounts = useMemo(() => {
+    const map = {}
+    for (const e of activeEvents) map[e.app] = (map[e.app] || 0) + 1
+    return map
+  }, [activeEvents])
+
+  const timelineStart = '2026-03-10'
+  const timelineEnd = '2026-04-28'
+  const totalDays = (new Date(timelineEnd) - new Date(timelineStart)) / 86400000
+
+  function barStyle(event) {
+    const start = Math.max(0, (new Date(event.start) - new Date(timelineStart)) / 86400000)
+    const end = event.end ? (new Date(event.end) - new Date(timelineStart)) / 86400000 : start + 1
+    const left = (start / totalDays) * 100
+    const width = Math.max(((end - start) / totalDays) * 100, 2)
+    return { left: `${left}%`, width: `${width}%` }
+  }
 
   const rankData = useMemo(() => {
     if (!mfData.apps?.length) return []
@@ -129,8 +187,82 @@ export default memo(function MarketFundamentalsView({ data: mfData }) {
           </>
         )}
 
+        {tab === 'events' && eventsData && (
+          <>
+            <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>イベントタイムライン (3月〜4月) — 開催中 {activeEvents.length}件</div>
+            <div className="event-timeline">
+              <div className="timeline-today" style={{ left: `${((new Date(today) - new Date(timelineStart)) / 86400000 / totalDays) * 100}%` }}>
+                <span className="timeline-today-label">今日</span>
+              </div>
+              {calData.events.map((event, i) => (
+                <div key={i} className="timeline-bar-row">
+                  <span className="timeline-bar-app" style={{ color: EVENT_APP_COLORS[event.app] }}>{event.app.slice(0, 4)}</span>
+                  <div className="timeline-bar-track">
+                    <div className="timeline-bar-fill" style={{ ...barStyle(event), background: TYPE_COLORS[event.type] || '#8b949e', opacity: isActive(event, today) ? 1 : 0.4 }} title={`${event.name} (${event.start}〜${event.end || ''})`} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', gap: 4, marginTop: 8, marginBottom: 6, flexWrap: 'wrap' }}>
+              {['全て', ...EVENT_APPS].map(opt => (
+                <button key={opt} className="causation-filter-btn" onClick={() => setAppFilter(opt)} style={{ borderColor: appFilter === opt ? (EVENT_APP_COLORS[opt] ?? '#f0883e') + '66' : '#30363d', background: appFilter === opt ? (EVENT_APP_COLORS[opt] ?? '#f0883e') + '22' : 'transparent', color: appFilter === opt ? (EVENT_APP_COLORS[opt] ?? '#f0883e') : '#6e7681' }}>{opt}</button>
+              ))}
+              <span style={{ width: 1, background: '#30363d', margin: '0 2px' }} />
+              {['全て', ...EVENT_TYPES].map(opt => (
+                <button key={opt} className="causation-filter-btn" onClick={() => setTypeFilter(opt)} style={{ borderColor: typeFilter === opt ? (TYPE_COLORS[opt] ?? '#f0883e') + '66' : '#30363d', background: typeFilter === opt ? (TYPE_COLORS[opt] ?? '#f0883e') + '22' : 'transparent', color: typeFilter === opt ? (TYPE_COLORS[opt] ?? '#f0883e') : '#6e7681' }}>{opt}</button>
+              ))}
+            </div>
+
+            <div style={{ maxHeight: 140, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {filteredEvents.map((event, i) => (
+                <div key={i} className="event-item" style={{ borderLeftColor: TYPE_COLORS[event.type] || '#8b949e' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                    <span style={{ fontSize: 10, color: EVENT_APP_COLORS[event.app], fontWeight: 600 }}>{event.app}</span>
+                    <span className="event-type-badge" style={{ background: `${TYPE_COLORS[event.type] || '#8b949e'}22`, color: TYPE_COLORS[event.type] || '#8b949e', borderColor: `${TYPE_COLORS[event.type] || '#8b949e'}44` }}>{event.type}</span>
+                    {isActive(event, today) && (<span style={{ fontSize: 9, padding: '0 4px', borderRadius: 3, background: 'rgba(86,211,100,0.15)', color: '#56d364' }}>開催中</span>)}
+                    <span style={{ fontSize: 9, color: '#484f58', marginLeft: 'auto' }}>{event.source}</span>
+                  </div>
+                  <div style={{ fontSize: 11, color: '#e6edf3', fontWeight: 500 }}>{event.name}</div>
+                  <div style={{ fontSize: 9, color: '#6e7681', fontFamily: 'monospace' }}>{event.start}{event.end ? ` → ${event.end}` : ''}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
+              {EVENT_APPS.map(app => (
+                <div key={app} className="stat-card">
+                  <div style={{ fontSize: 9, color: '#6e7681' }}>{app}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: EVENT_APP_COLORS[app] }}>{appActiveCounts[app] || 0}<span style={{ fontSize: 9, color: '#6e7681' }}>件</span></div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {tab === 'news' && newsData && (
+          <div style={{ maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {newsData.map((item, i) => (
+              <div key={i} className="news-item">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
+                  <span style={{ fontSize: 10, color: '#6e7681', fontFamily: 'monospace' }}>{item.date}</span>
+                  <span className="news-source-badge">{item.source}</span>
+                </div>
+                <div style={{ fontSize: 11, color: '#e6edf3', lineHeight: 1.4, marginBottom: 4 }}>
+                  {item.url ? <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ color: '#e6edf3', textDecoration: 'none' }}>{item.title}</a> : item.title}
+                </div>
+                <div>
+                  {item.tags.map(tag => (
+                    <span key={tag} className="news-tag" style={{ background: `${TAG_COLORS[tag] ?? '#6e7681'}15`, color: TAG_COLORS[tag] ?? '#6e7681', borderColor: `${TAG_COLORS[tag] ?? '#6e7681'}33` }}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
       </div>
-      <div className="panel-footer">generated data — 実API接続時: App Annie / Sensor Tower / RSS</div>
+      <div className="panel-footer">generated data — 実API接続時: App Annie / Sensor Tower / 公式X / RSS</div>
     </div>
   )
 })

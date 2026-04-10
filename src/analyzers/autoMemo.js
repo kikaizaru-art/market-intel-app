@@ -39,9 +39,11 @@ const BASE_CONFIDENCE = {
   seasonal:         0.65,
 }
 
-// ─── 自動承認/却下の閾値 ────────────────────────────────────
-const AUTO_CONFIRM_THRESHOLD = 0.65  // これ以上 → 自動承認
-const AUTO_REJECT_THRESHOLD  = 0.30  // これ以下 → 自動却下
+// ─── 自動承認/却下の閾値 (デフォルト、設定で上書き可能) ─────
+const DEFAULT_AUTO_CONFIRM_THRESHOLD = 0.65
+const DEFAULT_AUTO_REJECT_THRESHOLD  = 0.30
+const DEFAULT_TREND_SHIFT_PCT       = 10
+const DEFAULT_REVIEW_SPIKE_DELTA    = 0.3
 
 // ─── 季節パターン辞書 ──────────────────────────────────────
 const SEASONAL_PATTERNS = [
@@ -105,13 +107,15 @@ function detectAnomalyEventPatterns(anomalies, events, patternWeights) {
   return memos
 }
 
-function detectTrendShiftPatterns(trendsData, patternWeights) {
+function detectTrendShiftPatterns(trendsData, patternWeights, settings) {
   const memos = []
   if (!trendsData?.weekly?.length) return memos
 
   const weekly = trendsData.weekly
   const genres = trendsData._genres || Object.keys(weekly[0] || {}).filter(k => k !== 'date')
   if (weekly.length < 8) return memos
+
+  const thresholdPct = settings?.thresholds?.trendShiftPct ?? DEFAULT_TREND_SHIFT_PCT
 
   for (const genre of genres) {
     const recent4 = weekly.slice(-4).map(w => w[genre] ?? 0)
@@ -120,7 +124,7 @@ function detectTrendShiftPatterns(trendsData, patternWeights) {
     const prevAvg = prev4.reduce((a, b) => a + b, 0) / 4
     const change = prevAvg !== 0 ? ((recentAvg - prevAvg) / prevAvg) * 100 : 0
 
-    if (Math.abs(change) >= 10) {
+    if (Math.abs(change) >= thresholdPct) {
       const rawScore = Math.min(Math.abs(change) / 100, 0.3)
       const confidence = calcConfidence(PATTERN_TYPES.TREND_SHIFT, rawScore, patternWeights)
       const isUp = change > 0
@@ -143,9 +147,11 @@ function detectTrendShiftPatterns(trendsData, patternWeights) {
   return memos
 }
 
-function detectReviewSpikePatterns(reviewsData, patternWeights) {
+function detectReviewSpikePatterns(reviewsData, patternWeights, settings) {
   const memos = []
   if (!reviewsData?.apps?.length) return memos
+
+  const spikeDelta = settings?.thresholds?.reviewSpikeDelta ?? DEFAULT_REVIEW_SPIKE_DELTA
 
   for (const app of reviewsData.apps) {
     const monthly = app.monthly
@@ -156,7 +162,7 @@ function detectReviewSpikePatterns(reviewsData, patternWeights) {
     const scoreDiff = latest.score - prev.score
     const countDiff = prev.count !== 0 ? ((latest.count - prev.count) / prev.count) * 100 : 0
 
-    if (Math.abs(scoreDiff) >= 0.3) {
+    if (Math.abs(scoreDiff) >= spikeDelta) {
       const rawScore = Math.min(Math.abs(scoreDiff) / 2, 0.25)
       const confidence = calcConfidence(PATTERN_TYPES.REVIEW_SPIKE, rawScore, patternWeights)
       const isUp = scoreDiff > 0
@@ -348,19 +354,25 @@ const VALIDATORS = {
 /**
  * 自動メモを実データで検証し、承認/却下を自動判定
  *
+ * @param {object[]} memos
+ * @param {{ trendsData, reviewsData }} data
+ * @param {object} [settings] — ユーザー設定 (thresholds.autoConfirm / autoReject)
  * @returns {{ confirmed: object[], rejected: object[], pending: object[] }}
  */
-export function validateAutoMemos(memos, { trendsData, reviewsData }) {
+export function validateAutoMemos(memos, { trendsData, reviewsData }, settings) {
   const confirmed = []
   const rejected = []
   const pending = []
+
+  const autoConfirm = settings?.thresholds?.autoConfirm ?? DEFAULT_AUTO_CONFIRM_THRESHOLD
+  const autoReject = settings?.thresholds?.autoReject ?? DEFAULT_AUTO_REJECT_THRESHOLD
 
   for (const memo of memos) {
     const validator = VALIDATORS[memo.patternType]
     if (!validator) {
       // バリデータが無いパターンは信頼度ベースで振り分け
-      if (memo.confidence >= AUTO_CONFIRM_THRESHOLD) confirmed.push({ ...memo, validationResult: 'auto_threshold' })
-      else if (memo.confidence < AUTO_REJECT_THRESHOLD) rejected.push({ ...memo, validationResult: 'auto_threshold' })
+      if (memo.confidence >= autoConfirm) confirmed.push({ ...memo, validationResult: 'auto_threshold' })
+      else if (memo.confidence < autoReject) rejected.push({ ...memo, validationResult: 'auto_threshold' })
       else pending.push(memo)
       continue
     }
@@ -373,8 +385,8 @@ export function validateAutoMemos(memos, { trendsData, reviewsData }) {
       rejected.push({ ...memo, validationResult: 'data_contradicted' })
     } else {
       // バリデーション不可 → 信頼度閾値で判定
-      if (memo.confidence >= AUTO_CONFIRM_THRESHOLD) confirmed.push({ ...memo, validationResult: 'confidence_threshold' })
-      else if (memo.confidence < AUTO_REJECT_THRESHOLD) rejected.push({ ...memo, validationResult: 'confidence_threshold' })
+      if (memo.confidence >= autoConfirm) confirmed.push({ ...memo, validationResult: 'confidence_threshold' })
+      else if (memo.confidence < autoReject) rejected.push({ ...memo, validationResult: 'confidence_threshold' })
       else pending.push(memo)
     }
   }
@@ -401,6 +413,9 @@ function deduplicateMemos(memos, existingNotes) {
 
 /**
  * 全パターン検出器を実行し、自動メモ候補を生成
+ *
+ * @param {object} params
+ * @param {object} [params.settings] — ユーザー設定 (enabledPatterns, thresholds)
  */
 export function generateAutoMemos({
   trendsData,
@@ -410,17 +425,19 @@ export function generateAutoMemos({
   existingNotes = [],
   patternWeights = {},
   currentDate,
+  settings,
 }) {
+  const enabled = settings?.enabledPatterns
   const weekly = trendsData?.weekly || []
   const genres = trendsData?._genres || Object.keys(weekly[0] || {}).filter(k => k !== 'date')
   const anomalies = weekly.length ? detectAllAnomalies(weekly, genres) : []
 
   const allMemos = [
-    ...detectAnomalyEventPatterns(anomalies, eventsData, patternWeights),
-    ...detectTrendShiftPatterns(trendsData, patternWeights),
-    ...detectReviewSpikePatterns(reviewsData, patternWeights),
-    ...detectNewsCorrelationPatterns(newsData, trendsData, anomalies, patternWeights),
-    ...detectSeasonalPatterns(currentDate, existingNotes, patternWeights),
+    ...(enabled?.anomaly_event !== false ? detectAnomalyEventPatterns(anomalies, eventsData, patternWeights) : []),
+    ...(enabled?.trend_shift !== false ? detectTrendShiftPatterns(trendsData, patternWeights, settings) : []),
+    ...(enabled?.review_spike !== false ? detectReviewSpikePatterns(reviewsData, patternWeights, settings) : []),
+    ...(enabled?.news_correlation !== false ? detectNewsCorrelationPatterns(newsData, trendsData, anomalies, patternWeights) : []),
+    ...(enabled?.seasonal !== false ? detectSeasonalPatterns(currentDate, existingNotes, patternWeights) : []),
   ]
 
   const deduplicated = deduplicateMemos(allMemos, existingNotes)

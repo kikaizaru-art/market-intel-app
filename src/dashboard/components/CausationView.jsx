@@ -11,8 +11,9 @@ import {
 import { generateAutoMemos, validateAutoMemos } from '../../analyzers/autoMemo.js'
 import {
   getPatternWeights, getLearningStats, recordBatchFeedback,
-  recordFeedback, resetLearning,
+  recordFeedback, resetLearning, getUserSettings,
 } from '../services/patternStore.js'
+import LearningSettings from './LearningSettings.jsx'
 
 const LAYER_OPTIONS = ['マクロ', '競合', 'ユーザー']
 const IMPACT_OPTIONS = ['positive', 'negative', 'neutral']
@@ -33,11 +34,14 @@ export default memo(function CausationView({
   const [impactFilter, setImpactFilter] = useState('全て')
   const [searchQuery, setSearchQuery] = useState('')
   const [showLearning, setShowLearning] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
   const [learningVersion, setLearningVersion] = useState(0)
+  const [settingsVersion, setSettingsVersion] = useState(0)
 
   // ─── 自動メモ生成 + 自動検証 ──────────────────────
   const runAutoMemo = useCallback(() => {
     const weights = getPatternWeights()
+    const settings = getUserSettings()
     const memos = generateAutoMemos({
       trendsData,
       reviewsData,
@@ -46,10 +50,11 @@ export default memo(function CausationView({
       existingNotes: manualNotes,
       patternWeights: weights,
       currentDate: new Date().toISOString().slice(0, 10),
+      settings,
     })
 
     // データ照合で自動承認/却下を判定
-    const { confirmed, rejected } = validateAutoMemos(memos, { trendsData, reviewsData })
+    const { confirmed, rejected } = validateAutoMemos(memos, { trendsData, reviewsData }, settings)
 
     // 学習ストアに一括記録
     recordBatchFeedback(confirmed, rejected)
@@ -72,11 +77,16 @@ export default memo(function CausationView({
     setAutoConfirmed(confirmedNotes)
     setAutoRejectedCount(rejected.length)
     setLearningVersion(v => v + 1)
-  }, [trendsData, reviewsData, eventsData, newsData, manualNotes])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trendsData, reviewsData, eventsData, newsData, manualNotes, settingsVersion])
 
   useEffect(() => {
     runAutoMemo()
   }, [runAutoMemo])
+
+  const handleSettingsChange = useCallback(() => {
+    setSettingsVersion(v => v + 1)
+  }, [])
 
   // ─── ハンドラー ────────────────────────────────────
   function handleAdd(e) {
@@ -186,7 +196,10 @@ export default memo(function CausationView({
             </span>
           )}
           <span className="panel-tag">{allNotes.length}件</span>
-          <button onClick={() => setShowLearning(v => !v)} style={{ fontSize: 10, padding: '3px 8px', borderRadius: 4, border: '1px solid rgba(56,139,253,0.3)', background: showLearning ? 'rgba(56,139,253,0.2)' : 'rgba(56,139,253,0.08)', color: '#388bfd', cursor: 'pointer' }}>
+          <button onClick={() => { setShowSettings(v => !v); if (!showSettings) setShowLearning(false) }} style={{ fontSize: 10, padding: '3px 8px', borderRadius: 4, border: '1px solid rgba(210,168,255,0.3)', background: showSettings ? 'rgba(210,168,255,0.2)' : 'rgba(210,168,255,0.08)', color: '#d2a8ff', cursor: 'pointer' }}>
+            {showSettings ? '✕' : '⚙'} 設定
+          </button>
+          <button onClick={() => { setShowLearning(v => !v); if (!showLearning) setShowSettings(false) }} style={{ fontSize: 10, padding: '3px 8px', borderRadius: 4, border: '1px solid rgba(56,139,253,0.3)', background: showLearning ? 'rgba(56,139,253,0.2)' : 'rgba(56,139,253,0.08)', color: '#388bfd', cursor: 'pointer' }}>
             {showLearning ? '✕' : '📊'} 学習
           </button>
           <button onClick={() => setShowForm(v => !v)} style={{ fontSize: 10, padding: '3px 10px', borderRadius: 4, border: '1px solid rgba(210,168,255,0.3)', background: showForm ? 'rgba(210,168,255,0.2)' : 'rgba(210,168,255,0.08)', color: '#d2a8ff', cursor: 'pointer' }}>
@@ -196,6 +209,11 @@ export default memo(function CausationView({
       </div>
 
       <div className="panel-body">
+        {/* 学習カスタマイズパネル */}
+        {showSettings && (
+          <LearningSettings onSettingsChange={handleSettingsChange} />
+        )}
+
         {/* 学習統計パネル */}
         {showLearning && (
           <div style={{ marginBottom: 12, background: '#0d1117', borderRadius: 8, border: '1px solid #21262d', padding: 10 }}>
@@ -322,7 +340,7 @@ export default memo(function CausationView({
           </div>
         </div>
 
-        <div className="notes-list" style={{ maxHeight: showForm || showLearning ? 140 : 220, overflowY: 'auto' }}>
+        <div className="notes-list" style={{ maxHeight: showForm || showLearning || showSettings ? 140 : 220, overflowY: 'auto' }}>
           {timelineGroups.map(([ym, groupNotes]) => (
             <div key={ym} className="timeline-group">
               <div className="timeline-month-label">

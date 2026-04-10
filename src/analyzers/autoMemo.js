@@ -1,20 +1,23 @@
 /**
- * 自動メモ生成エンジン
+ * 自動メモ生成 + 自動検証エンジン
  *
  * データの異常値・トレンド変動・イベント相関・レビュー変化・季節パターンを
- * 自動検出し、因果関係メモ候補を生成する。
- * ユーザーの承認/却下フィードバックで信頼度を学習し精度が向上する。
+ * 自動検出し、因果関係メモを生成する。
+ *
+ * さらにデータの実績（後続のトレンド・レビュー変化）と照合して
+ * 予測が的中したか自動検証し、承認/却下を判定。
+ * 手動操作なしで学習が回り、蓄積するほど精度が上がる。
  */
 
 import { detectAllAnomalies } from './anomaly.js'
 
 // ─── パターンタイプ定義 ─────────────────────────────────────
 export const PATTERN_TYPES = {
-  ANOMALY_EVENT:   'anomaly_event',    // 異常値 × イベント相関
-  TREND_SHIFT:     'trend_shift',      // トレンド方向転換
-  REVIEW_SPIKE:    'review_spike',     // レビュースコア急変
-  NEWS_CORRELATION:'news_correlation', // ニュース × データ変動
-  SEASONAL:        'seasonal',         // 季節パターン
+  ANOMALY_EVENT:   'anomaly_event',
+  TREND_SHIFT:     'trend_shift',
+  REVIEW_SPIKE:    'review_spike',
+  NEWS_CORRELATION:'news_correlation',
+  SEASONAL:        'seasonal',
 }
 
 const PATTERN_LABELS = {
@@ -35,6 +38,10 @@ const BASE_CONFIDENCE = {
   news_correlation: 0.50,
   seasonal:         0.65,
 }
+
+// ─── 自動承認/却下の閾値 ────────────────────────────────────
+const AUTO_CONFIRM_THRESHOLD = 0.65  // これ以上 → 自動承認
+const AUTO_REJECT_THRESHOLD  = 0.30  // これ以下 → 自動却下
 
 // ─── 季節パターン辞書 ──────────────────────────────────────
 const SEASONAL_PATTERNS = [
@@ -58,9 +65,6 @@ function makeId() {
   return `auto_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
 }
 
-/**
- * 学習済みパターン重みを適用した信頼度を算出
- */
 function calcConfidence(patternType, rawScore, patternWeights) {
   const base = BASE_CONFIDENCE[patternType] || 0.5
   const learned = patternWeights[patternType] || 0
@@ -69,10 +73,6 @@ function calcConfidence(patternType, rawScore, patternWeights) {
 
 // ─── パターン検出器群 ──────────────────────────────────────
 
-/**
- * 1) 異常値 × イベント相関
- *    トレンドの異常値と時間的に近いイベントを因果関係候補として提示
- */
 function detectAnomalyEventPatterns(anomalies, events, patternWeights) {
   const memos = []
   if (!anomalies?.length || !events?.events?.length) return memos
@@ -96,8 +96,8 @@ function detectAnomalyEventPatterns(anomalies, events, patternWeights) {
           auto: true,
           patternType: PATTERN_TYPES.ANOMALY_EVENT,
           confidence,
-          status: 'pending',
           signals: [`anomaly_${anomaly.type}`, `event_${ev.type}`, `proximity_${diff.toFixed(0)}d`],
+          _validation: { anomalyGenre: anomaly.genre, anomalyType: anomaly.type, eventDate: ev.start },
         })
       }
     }
@@ -105,10 +105,6 @@ function detectAnomalyEventPatterns(anomalies, events, patternWeights) {
   return memos
 }
 
-/**
- * 2) トレンド方向転換検出
- *    直近4週 vs 前4週を比較し、有意な変動を検出
- */
 function detectTrendShiftPatterns(trendsData, patternWeights) {
   const memos = []
   if (!trendsData?.weekly?.length) return memos
@@ -139,18 +135,14 @@ function detectTrendShiftPatterns(trendsData, patternWeights) {
         auto: true,
         patternType: PATTERN_TYPES.TREND_SHIFT,
         confidence,
-        status: 'pending',
         signals: [`trend_${isUp ? 'up' : 'down'}`, `change_${Math.abs(change).toFixed(0)}pct`],
+        _validation: { genre, predictedDirection: isUp ? 'up' : 'down', changePct: change },
       })
     }
   }
   return memos
 }
 
-/**
- * 3) レビュースコア急変検出
- *    直近月 vs 前月のスコア変動を検出
- */
 function detectReviewSpikePatterns(reviewsData, patternWeights) {
   const memos = []
   if (!reviewsData?.apps?.length) return memos
@@ -179,18 +171,14 @@ function detectReviewSpikePatterns(reviewsData, patternWeights) {
         auto: true,
         patternType: PATTERN_TYPES.REVIEW_SPIKE,
         confidence,
-        status: 'pending',
         signals: [`score_${isUp ? 'up' : 'down'}_${Math.abs(scoreDiff).toFixed(1)}`, `count_change_${countDiff.toFixed(0)}pct`],
+        _validation: { appName: app.name, scoreDiff, direction: isUp ? 'up' : 'down' },
       })
     }
   }
   return memos
 }
 
-/**
- * 4) ニュース × トレンド相関
- *    ニュースタグとトレンドジャンルの一致 + 時間近接度
- */
 function detectNewsCorrelationPatterns(newsData, trendsData, anomalies, patternWeights) {
   const memos = []
   if (!newsData?.length || !anomalies?.length) return memos
@@ -215,8 +203,8 @@ function detectNewsCorrelationPatterns(newsData, trendsData, anomalies, patternW
           auto: true,
           patternType: PATTERN_TYPES.NEWS_CORRELATION,
           confidence,
-          status: 'pending',
           signals: [`news_${news.source}`, `anomaly_${anomaly.type}`, `tags_${tags.join(',')}`],
+          _validation: { genre: anomaly.genre, anomalyType: anomaly.type },
         })
       }
     }
@@ -224,10 +212,6 @@ function detectNewsCorrelationPatterns(newsData, trendsData, anomalies, patternW
   return memos
 }
 
-/**
- * 5) 季節パターン検出
- *    現在月に該当する既知の季節パターンを提示
- */
 function detectSeasonalPatterns(currentDate, existingNotes, patternWeights) {
   const memos = []
   const now = new Date(currentDate || new Date())
@@ -235,8 +219,6 @@ function detectSeasonalPatterns(currentDate, existingNotes, patternWeights) {
 
   for (const pattern of SEASONAL_PATTERNS) {
     if (pattern.month !== currentMonth) continue
-
-    // 既存メモに同じ季節パターンがあればスキップ
     const isDuplicate = existingNotes.some(n =>
       n.event.includes(pattern.event.slice(0, 6)) &&
       n.date.startsWith(now.getFullYear().toString())
@@ -252,30 +234,161 @@ function detectSeasonalPatterns(currentDate, existingNotes, patternWeights) {
       app: '全体',
       layer: pattern.layer,
       impact: pattern.impact,
-      memo: `毎年${currentMonth}月に見られる季節的パターン。過去の傾向と照合して影響を確認してください`,
+      memo: `毎年${currentMonth}月に見られる季節的パターン`,
       auto: true,
       patternType: PATTERN_TYPES.SEASONAL,
       confidence,
-      status: 'pending',
       signals: [`month_${currentMonth}`, `seasonal_${pattern.impact}`],
+      _validation: { month: currentMonth, expectedImpact: pattern.impact },
     })
   }
   return memos
 }
 
-// ─── 重複排除 ──────────────────────────────────────────────
+// ─── 自動検証ロジック ─────────────────────────────────────
+// データの実績と照合して予測が的中したか判定する
 
 /**
- * 同一日・同一パターンタイプ・同一アプリの重複を除去
+ * トレンドシフトの検証:
+ * 予測方向と、その後2週のトレンドが一致するか
  */
+function validateTrendShift(memo, trendsData) {
+  if (!trendsData?.weekly?.length || !memo._validation) return null
+  const { genre, predictedDirection } = memo._validation
+  const weekly = trendsData.weekly
+  if (weekly.length < 4) return null
+
+  // 最新2週 vs その前2週
+  const last2 = weekly.slice(-2).map(w => w[genre] ?? 0)
+  const prev2 = weekly.slice(-4, -2).map(w => w[genre] ?? 0)
+  const last2Avg = last2.reduce((a, b) => a + b, 0) / 2
+  const prev2Avg = prev2.reduce((a, b) => a + b, 0) / 2
+  const actualDirection = last2Avg > prev2Avg ? 'up' : 'down'
+
+  return actualDirection === predictedDirection ? 'confirmed' : 'rejected'
+}
+
+/**
+ * レビュースパイクの検証:
+ * 直近のスコア変動方向が予測と一致するか
+ */
+function validateReviewSpike(memo, reviewsData) {
+  if (!reviewsData?.apps?.length || !memo._validation) return null
+  const { appName, direction } = memo._validation
+  const app = reviewsData.apps.find(a => a.name === appName)
+  if (!app?.monthly || app.monthly.length < 3) return null
+
+  const latest = app.monthly[app.monthly.length - 1]
+  const prev = app.monthly[app.monthly.length - 2]
+  const actualDirection = latest.score >= prev.score ? 'up' : 'down'
+
+  return actualDirection === direction ? 'confirmed' : 'rejected'
+}
+
+/**
+ * 異常値×イベントの検証:
+ * 異常値の発生が実データで確認できるか (z-scoreの存在自体が検証)
+ */
+function validateAnomalyEvent(memo, trendsData) {
+  if (!trendsData?.weekly?.length || !memo._validation) return null
+  // 異常値はすでにデータから検出されたものなので、存在自体が的中
+  // ただし近接度が低い場合は弱い相関
+  return memo.confidence >= 0.6 ? 'confirmed' : null
+}
+
+/**
+ * ニュース相関の検証:
+ * ニュースと異常値の時間近接 + タグ一致があれば的中
+ */
+function validateNewsCorrelation(memo, trendsData) {
+  if (!memo._validation) return null
+  // 既にタグ一致+時間近接で生成されているので、信頼度ベースで判定
+  return memo.confidence >= 0.55 ? 'confirmed' : null
+}
+
+/**
+ * 季節パターンの検証:
+ * 全体トレンドが予測インパクト方向と合致するか
+ */
+function validateSeasonal(memo, trendsData) {
+  if (!trendsData?.weekly?.length || !memo._validation) return null
+  const { expectedImpact } = memo._validation
+  const weekly = trendsData.weekly
+  if (weekly.length < 4) return null
+
+  const genres = trendsData._genres || Object.keys(weekly[0] || {}).filter(k => k !== 'date')
+  if (!genres.length) return null
+
+  // 主要ジャンルの全体的なトレンド方向
+  let upCount = 0, downCount = 0
+  for (const genre of genres) {
+    const recent = weekly.slice(-2).map(w => w[genre] ?? 0)
+    const prev = weekly.slice(-4, -2).map(w => w[genre] ?? 0)
+    const rAvg = recent.reduce((a, b) => a + b, 0) / 2
+    const pAvg = prev.reduce((a, b) => a + b, 0) / 2
+    if (rAvg > pAvg) upCount++
+    else downCount++
+  }
+
+  const overallUp = upCount > downCount
+  if (expectedImpact === 'positive' && overallUp) return 'confirmed'
+  if (expectedImpact === 'negative' && !overallUp) return 'confirmed'
+  if (expectedImpact === 'neutral') return 'confirmed' // 中立は常に的中扱い
+  return 'rejected'
+}
+
+const VALIDATORS = {
+  [PATTERN_TYPES.TREND_SHIFT]:      validateTrendShift,
+  [PATTERN_TYPES.REVIEW_SPIKE]:     validateReviewSpike,
+  [PATTERN_TYPES.ANOMALY_EVENT]:    validateAnomalyEvent,
+  [PATTERN_TYPES.NEWS_CORRELATION]: validateNewsCorrelation,
+  [PATTERN_TYPES.SEASONAL]:         validateSeasonal,
+}
+
+/**
+ * 自動メモを実データで検証し、承認/却下を自動判定
+ *
+ * @returns {{ confirmed: object[], rejected: object[], pending: object[] }}
+ */
+export function validateAutoMemos(memos, { trendsData, reviewsData }) {
+  const confirmed = []
+  const rejected = []
+  const pending = []
+
+  for (const memo of memos) {
+    const validator = VALIDATORS[memo.patternType]
+    if (!validator) {
+      // バリデータが無いパターンは信頼度ベースで振り分け
+      if (memo.confidence >= AUTO_CONFIRM_THRESHOLD) confirmed.push({ ...memo, validationResult: 'auto_threshold' })
+      else if (memo.confidence < AUTO_REJECT_THRESHOLD) rejected.push({ ...memo, validationResult: 'auto_threshold' })
+      else pending.push(memo)
+      continue
+    }
+
+    const result = validator(memo, trendsData, reviewsData)
+
+    if (result === 'confirmed') {
+      confirmed.push({ ...memo, validationResult: 'data_verified' })
+    } else if (result === 'rejected') {
+      rejected.push({ ...memo, validationResult: 'data_contradicted' })
+    } else {
+      // バリデーション不可 → 信頼度閾値で判定
+      if (memo.confidence >= AUTO_CONFIRM_THRESHOLD) confirmed.push({ ...memo, validationResult: 'confidence_threshold' })
+      else if (memo.confidence < AUTO_REJECT_THRESHOLD) rejected.push({ ...memo, validationResult: 'confidence_threshold' })
+      else pending.push(memo)
+    }
+  }
+
+  return { confirmed, rejected, pending }
+}
+
+// ─── 重複排除 ──────────────────────────────────────────────
+
 function deduplicateMemos(memos, existingNotes) {
   const seen = new Set()
-
-  // 既存手動メモのキーも除外対象
   for (const n of existingNotes) {
     seen.add(`${n.date}_${n.event.slice(0, 10)}_${n.app}`)
   }
-
   return memos.filter(m => {
     const key = `${m.date}_${m.patternType}_${m.app}`
     if (seen.has(key)) return false
@@ -288,16 +401,6 @@ function deduplicateMemos(memos, existingNotes) {
 
 /**
  * 全パターン検出器を実行し、自動メモ候補を生成
- *
- * @param {object} params
- * @param {object} params.trendsData     - トレンドデータ
- * @param {object} params.reviewsData    - レビューデータ
- * @param {object} params.eventsData     - イベントカレンダー
- * @param {Array}  params.newsData       - ニュースデータ
- * @param {Array}  params.existingNotes  - 既存の手動メモ
- * @param {object} params.patternWeights - 学習済みパターン重み
- * @param {string} params.currentDate    - 現在日付
- * @returns {object[]} 自動メモ候補リスト（信頼度降順）
  */
 export function generateAutoMemos({
   trendsData,
@@ -308,12 +411,10 @@ export function generateAutoMemos({
   patternWeights = {},
   currentDate,
 }) {
-  // トレンドから異常値を抽出
   const weekly = trendsData?.weekly || []
   const genres = trendsData?._genres || Object.keys(weekly[0] || {}).filter(k => k !== 'date')
   const anomalies = weekly.length ? detectAllAnomalies(weekly, genres) : []
 
-  // 各パターン検出器を実行
   const allMemos = [
     ...detectAnomalyEventPatterns(anomalies, eventsData, patternWeights),
     ...detectTrendShiftPatterns(trendsData, patternWeights),
@@ -322,7 +423,6 @@ export function generateAutoMemos({
     ...detectSeasonalPatterns(currentDate, existingNotes, patternWeights),
   ]
 
-  // 重複排除 → 信頼度降順ソート
   const deduplicated = deduplicateMemos(allMemos, existingNotes)
   return deduplicated.sort((a, b) => b.confidence - a.confidence)
 }

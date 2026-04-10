@@ -40,6 +40,26 @@ export const GENRE_COLORS = {
   'シミュレーション': '#f0883e', 'その他': '#484f58',
 }
 
+// 自動メモ パターンタイプ
+export const PATTERN_TYPE_LABELS = {
+  anomaly_event:    '異常値×イベント',
+  trend_shift:      'トレンド変動',
+  review_spike:     'レビュー急変',
+  news_correlation: 'ニュース相関',
+  seasonal:         '季節パターン',
+}
+export const PATTERN_TYPE_COLORS = {
+  anomaly_event:    '#f85149',
+  trend_shift:      '#388bfd',
+  review_spike:     '#d2a8ff',
+  news_correlation: '#79c0ff',
+  seasonal:         '#e3b341',
+}
+
+// 自動メモ ステータス
+export const AUTO_STATUS_LABELS = { pending: '未確認', confirmed: '承認済', rejected: '却下' }
+export const AUTO_STATUS_COLORS = { pending: '#e3b341', confirmed: '#56d364', rejected: '#f85149' }
+
 // ニュースタグ
 export const TAG_COLORS = {
   '市場動向': '#388bfd', 'RPG': '#d2a8ff', '競合': '#f85149',

@@ -20,6 +20,17 @@
 - `src/dashboard/components/appinfo/` — AppInfoView のタブ分割コンポーネント
 - `src/collectors/` — データ収集モジュール (trends, store, news, meta-ads)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation)
+- `src/framework/` — マルチドメインフレームワーク (domain, layers, collector-registry, causal-engine)
+
+## マルチドメイン設計
+
+本質: **環境変数を多層的に収集し、因果関係を蓄積・学習する**。対象を差し替えれば同じ構造が動く。
+
+- **4層モデル**: マクロ → 競合 → ユーザー → 因果関係 (全ドメイン共通)
+- **ドメイン設定**: `config/domains/{domain}.json` でドメインを定義
+- **ドメイン切替**: `DOMAIN=stock npm run collect` で切替可能
+- **因果ログ自動蓄積**: 全ドメインの中核価値。パターンDBが時間とともに精度向上
+- 詳細設計: `docs/architecture.md`
 
 ## データフロー
 

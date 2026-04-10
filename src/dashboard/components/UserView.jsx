@@ -1,6 +1,6 @@
 import { useState, useMemo, memo } from 'react'
 import {
-  ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid,
+  ComposedChart, Bar, Line, BarChart, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, LineChart,
 } from 'recharts'
 
@@ -32,7 +32,7 @@ function SentimentBar({ ratio, color }) {
   )
 }
 
-export default memo(function UserView({ data: reviewsData }) {
+export default memo(function UserView({ data: reviewsData, snsBuzzData }) {
   const apps = reviewsData.apps
   const APP_COLORS = Object.fromEntries(apps.map((a, i) => [a.id, PALETTE[i % PALETTE.length]]))
 
@@ -74,6 +74,16 @@ export default memo(function UserView({ data: reviewsData }) {
         totalReviews,
       }
     }), [apps])
+
+  const snsMonthly = snsBuzzData?.monthly || []
+  const snsData = snsMonthly.map(m => ({
+    month: parseInt(m.month.slice(5)) + '月',
+    'X投稿数': m.twitter_mentions,
+    'YouTube動画': m.youtube_videos,
+    '配信者数': m.streamer_count,
+  }))
+  const latestSns = snsMonthly[snsMonthly.length - 1]
+  const prevSns = snsMonthly[snsMonthly.length - 2]
 
   const latestScore = appData?.monthly[appData.monthly.length - 1]?.score ?? 0
   const prevScore = appData?.monthly[appData.monthly.length - 2]?.score ?? 0
@@ -162,6 +172,29 @@ export default memo(function UserView({ data: reviewsData }) {
           </>
         )}
       </div>
+      {latestSns && prevSns && (
+        <div style={{ borderTop: '1px solid #30363d', padding: '12px 14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#388bfd', letterSpacing: '0.04em' }}>SNSバズ</span>
+            <span className="panel-tag">ゲーム業界全体</span>
+          </div>
+          <ResponsiveContainer width="100%" height={120}>
+            <BarChart data={snsData} margin={{ top: 4, right: 8, bottom: 0, left: -10 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+              <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+              <YAxis tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="X投稿数" fill="#388bfd" opacity={0.7} />
+            </BarChart>
+          </ResponsiveContainer>
+          <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
+            <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>X投稿数</div><div style={{ fontSize: 14, fontWeight: 700, color: '#388bfd' }}>{latestSns.twitter_mentions.toLocaleString()}<span style={{ fontSize: 10, marginLeft: 4, color: latestSns.twitter_mentions > prevSns.twitter_mentions ? '#56d364' : '#f85149' }}>{latestSns.twitter_mentions > prevSns.twitter_mentions ? '▲' : '▼'}</span></div></div>
+            <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>YouTube動画</div><div style={{ fontSize: 14, fontWeight: 700, color: '#f85149' }}>{latestSns.youtube_videos}本</div></div>
+            <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>配信者数</div><div style={{ fontSize: 14, fontWeight: 700, color: '#56d364' }}>{latestSns.streamer_count}人</div></div>
+          </div>
+        </div>
+      )}
+
       <div className="panel-footer">generated data — 実API接続時: App Store Connect API / スクレイピング</div>
     </div>
   )

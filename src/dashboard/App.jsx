@@ -6,8 +6,10 @@ import CausationView from './components/CausationView.jsx'
 import MarketFundamentalsView from './components/MarketFundamentalsView.jsx'
 import CorporateView from './components/CorporateView.jsx'
 import IndustryView from './components/IndustryView.jsx'
+import AppInfoView from './components/AppInfoView.jsx'
 
 const TABS = [
+  { key: 'appinfo',     label: 'アプリ情報',    accent: 'var(--accent-orange)' },
   { key: 'user',        label: 'ユーザー',      accent: 'var(--accent-user)' },
   { key: 'industry',    label: '業界・イベント', accent: '#a5d6ff' },
 ]
@@ -104,14 +106,27 @@ function Dashboard() {
         >
           <section className="slide-pane">
             <div className="dashboard">
-              <UserView data={data.reviews} />
-              <CausationView data={data.causation} />
+              <AppInfoView
+                target={target}
+                reviews={data.reviews}
+                fundamentals={data.fundamentals}
+                events={data.events}
+                corporate={data.corporate}
+                causation={data.causation}
+              />
+            </div>
+          </section>
+
+          <section className="slide-pane">
+            <div className="dashboard">
+              <UserView data={data.reviews} snsBuzzData={data.fundamentals?.sns_buzz} />
             </div>
           </section>
 
           <section className="slide-pane">
             <div className="dashboard">
               <MarketFundamentalsView data={data.fundamentals} eventsData={data.events} newsData={data.industry?.news} />
+              <CausationView data={data.causation} />
               <CorporateView data={data.corporate} />
               <IndustryView data={data.industry} trendsData={data.trends} />
             </div>

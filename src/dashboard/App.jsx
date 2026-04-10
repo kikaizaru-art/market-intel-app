@@ -131,7 +131,13 @@ function Dashboard() {
           <section className="slide-pane">
             <div className="dashboard">
               <MarketFundamentalsView data={data.fundamentals} eventsData={data.events} newsData={data.industry?.news} />
-              <CausationView data={data.causation} />
+              <CausationView
+                data={data.causation}
+                trendsData={data.trends}
+                reviewsData={data.reviews}
+                eventsData={data.events}
+                newsData={data.industry?.news}
+              />
               <CorporateView data={data.corporate} />
               <IndustryView data={data.industry} trendsData={data.trends} />
             </div>

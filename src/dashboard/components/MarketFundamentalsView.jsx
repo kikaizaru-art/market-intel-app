@@ -12,6 +12,15 @@ const TYPE_COLORS = {
 }
 const APP_PALETTE = ['#388bfd', '#d2a8ff', '#56d364', '#e3b341', '#f85149']
 
+const TAG_COLORS = {
+  '市場動向': '#388bfd', 'RPG': '#d2a8ff', '競合': '#f85149',
+  'ストラテジー': '#e3b341', 'ランキング': '#79c0ff', '規制': '#f0883e',
+  'Apple': '#8b949e', 'CPI': '#f85149', 'カジュアル': '#56d364',
+  'Google': '#56d364', 'パズル': '#388bfd', '事前登録': '#d2a8ff', '決算': '#e3b341',
+  '広告': '#f0883e', '海外展開': '#79c0ff', 'ストア': '#8b949e',
+  'アクション': '#f85149', 'シミュレーション': '#f0883e',
+}
+
 function isActive(event, today) {
   if (!event.end) return event.start <= today
   return event.start <= today && event.end >= today
@@ -34,7 +43,7 @@ const ChartTooltip = ({ active, payload, label }) => {
   )
 }
 
-export default memo(function MarketFundamentalsView({ data: mfData, eventsData }) {
+export default memo(function MarketFundamentalsView({ data: mfData, eventsData, newsData }) {
   const [tab, setTab] = useState('ranking')
   const [appFilter, setAppFilter] = useState('全て')
   const [typeFilter, setTypeFilter] = useState('全て')
@@ -43,6 +52,7 @@ export default memo(function MarketFundamentalsView({ data: mfData, eventsData }
     { key: 'ranking', label: 'ランキング' },
     { key: 'sns', label: 'SNSバズ' },
     { key: 'events', label: 'イベント' },
+    { key: 'news', label: 'ニュース' },
   ]
 
   const APP_COLORS = Object.fromEntries((mfData.apps || []).map((a, i) => [a.id, PALETTE[i % PALETTE.length]]))
@@ -228,6 +238,27 @@ export default memo(function MarketFundamentalsView({ data: mfData, eventsData }
               ))}
             </div>
           </>
+        )}
+
+        {tab === 'news' && newsData && (
+          <div style={{ maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {newsData.map((item, i) => (
+              <div key={i} className="news-item">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
+                  <span style={{ fontSize: 10, color: '#6e7681', fontFamily: 'monospace' }}>{item.date}</span>
+                  <span className="news-source-badge">{item.source}</span>
+                </div>
+                <div style={{ fontSize: 11, color: '#e6edf3', lineHeight: 1.4, marginBottom: 4 }}>
+                  {item.url ? <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ color: '#e6edf3', textDecoration: 'none' }}>{item.title}</a> : item.title}
+                </div>
+                <div>
+                  {item.tags.map(tag => (
+                    <span key={tag} className="news-tag" style={{ background: `${TAG_COLORS[tag] ?? '#6e7681'}15`, color: TAG_COLORS[tag] ?? '#6e7681', borderColor: `${TAG_COLORS[tag] ?? '#6e7681'}33` }}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         )}
 
       </div>

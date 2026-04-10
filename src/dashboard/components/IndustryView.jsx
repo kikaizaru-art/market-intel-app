@@ -19,15 +19,6 @@ const TREND_ICONS = { rising: '▲', falling: '▼', stable: '→' }
 const TREND_COLORS = { rising: '#56d364', falling: '#f85149', stable: '#e3b341' }
 const CPI_TREND_COLORS = { rising: '#f85149', falling: '#56d364', stable: '#e3b341' }
 
-const TAG_COLORS = {
-  '市場動向': '#388bfd', 'RPG': '#d2a8ff', '競合': '#f85149',
-  'ストラテジー': '#e3b341', 'ランキング': '#79c0ff', '規制': '#f0883e',
-  'Apple': '#8b949e', 'CPI': '#f85149', 'カジュアル': '#56d364',
-  'Google': '#56d364', 'パズル': '#388bfd', '事前登録': '#d2a8ff', '決算': '#e3b341',
-  '広告': '#f0883e', '海外展開': '#79c0ff', 'ストア': '#8b949e',
-  'アクション': '#f85149', 'シミュレーション': '#f0883e',
-}
-
 function formatTrendDate(dateStr) {
   const [, month, day] = dateStr.split('-')
   return day === '05' || day === '04' || day === '01' ? `${parseInt(month)}月` : ''
@@ -52,7 +43,6 @@ export default memo(function IndustryView({ data: indData, trendsData }) {
 
   const TABS = [
     { key: 'trends', label: 'トレンド' },
-    { key: 'news', label: 'ニュース' },
     { key: 'cpi', label: 'CPI相場' },
     { key: 'retention', label: 'リテンション' },
     { key: 'market', label: '市場規模' },
@@ -193,27 +183,6 @@ export default memo(function IndustryView({ data: indData, trendsData }) {
               </div>
             </div>
           </>
-        )}
-
-        {tab === 'news' && (
-          <div style={{ maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {indData.news.map((item, i) => (
-              <div key={i} className="news-item">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
-                  <span style={{ fontSize: 10, color: '#6e7681', fontFamily: 'monospace' }}>{item.date}</span>
-                  <span className="news-source-badge">{item.source}</span>
-                </div>
-                <div style={{ fontSize: 11, color: '#e6edf3', lineHeight: 1.4, marginBottom: 4 }}>
-                  {item.url ? <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ color: '#e6edf3', textDecoration: 'none' }}>{item.title}</a> : item.title}
-                </div>
-                <div>
-                  {item.tags.map(tag => (
-                    <span key={tag} className="news-tag" style={{ background: `${TAG_COLORS[tag] ?? '#6e7681'}15`, color: TAG_COLORS[tag] ?? '#6e7681', borderColor: `${TAG_COLORS[tag] ?? '#6e7681'}33` }}>{tag}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
         )}
 
         {tab === 'cpi' && (

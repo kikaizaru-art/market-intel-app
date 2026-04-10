@@ -3,8 +3,8 @@ import { PATTERN_TYPE_LABELS, PATTERN_TYPE_COLORS } from '../constants.js'
 import {
   getUserSettings, updateUserSettings, applyPreset,
   PRESETS,
-  getSnapshots, saveSnapshot, restoreSnapshot, deleteSnapshot,
-  lockSnapshot, unlockSnapshot, getLockedSnapshotName,
+  getLearningTimeline, rollbackToIndex,
+  lockLearning, unlockLearning, isLearningLocked, getLockedAtIndex,
 } from '../services/patternStore.js'
 
 // ─── スライダー ──────────────────────────────────────────────
@@ -55,14 +55,59 @@ function Toggle({ label, color, checked, onChange, disabled }) {
   )
 }
 
+// ─── タイムラインバー (的中率の推移を可視化) ─────────────────
+function AccuracyTimeline({ timeline, lockedAt, onRollback }) {
+  if (!timeline.length) return null
+  // 最大60件を可視化 (長いログは間引き)
+  const step = Math.max(1, Math.floor(timeline.length / 60))
+  const sampled = timeline.filter((_, i) => i % step === 0 || i === timeline.length - 1)
+
+  return (
+    <div style={{ marginBottom: 8 }}>
+      <div style={{ fontSize: 9, color: '#6e7681', marginBottom: 3 }}>的中率の推移</div>
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 1, height: 32 }}>
+        {sampled.map((entry) => {
+          const h = Math.max(2, (entry.cumulativeAccuracy / 100) * 30)
+          const isLockPoint = lockedAt !== null && entry.index === lockedAt
+          const color = entry.cumulativeAccuracy >= 70 ? '#56d364'
+            : entry.cumulativeAccuracy >= 40 ? '#e3b341' : '#f85149'
+          return (
+            <div
+              key={entry.index}
+              onClick={() => onRollback(entry.index)}
+              title={`#${entry.index + 1}: ${PATTERN_TYPE_LABELS[entry.patternType] || entry.patternType} / ${entry.action === 'confirmed' ? '的中' : '外れ'} / 累計的中率 ${entry.cumulativeAccuracy}%\n${new Date(entry.timestamp).toLocaleString('ja-JP')}\nクリックでここまで巻き戻し`}
+              style={{
+                flex: 1, minWidth: 3, maxWidth: 8, height: h,
+                background: isLockPoint ? '#e3b341' : color,
+                borderRadius: '1px 1px 0 0', cursor: 'pointer',
+                opacity: lockedAt !== null && entry.index > lockedAt ? 0.25 : 0.8,
+                transition: 'opacity 0.2s',
+                borderBottom: isLockPoint ? '2px solid #e3b341' : 'none',
+              }}
+            />
+          )
+        })}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 8, color: '#484f58', marginTop: 1 }}>
+        <span>#{1}</span>
+        <span>#{timeline.length}</span>
+      </div>
+    </div>
+  )
+}
+
 // ─── メイン ──────────────────────────────────────────────────
 export default memo(function LearningSettings({ onSettingsChange }) {
   const [settings, setSettings] = useState(() => getUserSettings())
-  const [snapshotData, setSnapshotData] = useState(() => getSnapshots())
-  const [newSnapshotName, setNewSnapshotName] = useState('')
-  const [activeTab, setActiveTab] = useState('patterns') // patterns | thresholds | snapshots
+  const [locked, setLocked] = useState(() => isLearningLocked())
+  const [lockedAt, setLockedAt] = useState(() => getLockedAtIndex())
+  const [timelineVersion, setTimelineVersion] = useState(0)
+  const [activeTab, setActiveTab] = useState('patterns') // patterns | thresholds | timeline
 
-  const lockedName = snapshotData.lockedSnapshot
+  const timeline = useMemo(() => {
+    return getLearningTimeline()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timelineVersion])
 
   function update(partial) {
     const updated = updateUserSettings(partial)
@@ -80,37 +125,29 @@ export default memo(function LearningSettings({ onSettingsChange }) {
     onSettingsChange?.(updated)
   }
 
-  function handleSaveSnapshot() {
-    const name = newSnapshotName.trim()
-    if (!name) return
-    const data = saveSnapshot(name)
-    setSnapshotData(data)
-    setNewSnapshotName('')
+  function handleRollback(index) {
+    if (locked) return
+    rollbackToIndex(index)
+    setLockedAt(null)
+    setLocked(false)
+    setTimelineVersion(v => v + 1)
+    onSettingsChange?.()
   }
 
-  function handleRestoreSnapshot(name) {
-    restoreSnapshot(name)
-    onSettingsChange?.(settings)
-  }
-
-  function handleDeleteSnapshot(name) {
-    const data = deleteSnapshot(name)
-    setSnapshotData(data)
-  }
-
-  function handleLock(name) {
-    const data = lockSnapshot(name)
-    setSnapshotData(data)
-    onSettingsChange?.(settings)
+  function handleLock() {
+    const idx = lockLearning()
+    setLocked(true)
+    setLockedAt(idx)
+    onSettingsChange?.()
   }
 
   function handleUnlock() {
-    const data = unlockSnapshot()
-    setSnapshotData(data)
-    onSettingsChange?.(settings)
+    unlockLearning()
+    setLocked(false)
+    setLockedAt(null)
+    setTimelineVersion(v => v + 1)
+    onSettingsChange?.()
   }
-
-  const snapshots = snapshotData.snapshots
 
   const TAB_STYLE = (active) => ({
     fontSize: 10, padding: '3px 8px', borderRadius: 4, cursor: 'pointer',
@@ -123,9 +160,9 @@ export default memo(function LearningSettings({ onSettingsChange }) {
     <div style={{ background: '#0d1117', borderRadius: 8, border: '1px solid #21262d', padding: 10, marginBottom: 12 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
         <span style={{ fontSize: 11, fontWeight: 600, color: '#d2a8ff' }}>学習カスタマイズ</span>
-        {lockedName && (
+        {locked && (
           <span style={{ fontSize: 9, padding: '2px 6px', borderRadius: 3, background: 'rgba(227,179,65,0.15)', color: '#e3b341', border: '1px solid rgba(227,179,65,0.3)' }}>
-            固定中: {lockedName}
+            固定中 (#{lockedAt !== null ? lockedAt + 1 : '?'})
           </span>
         )}
       </div>
@@ -134,8 +171,8 @@ export default memo(function LearningSettings({ onSettingsChange }) {
       <div style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
         <button onClick={() => setActiveTab('patterns')} style={TAB_STYLE(activeTab === 'patterns')}>検出パターン</button>
         <button onClick={() => setActiveTab('thresholds')} style={TAB_STYLE(activeTab === 'thresholds')}>閾値・学習速度</button>
-        <button onClick={() => setActiveTab('snapshots')} style={TAB_STYLE(activeTab === 'snapshots')}>
-          スナップショット {snapshots.length > 0 && `(${snapshots.length})`}
+        <button onClick={() => setActiveTab('timeline')} style={TAB_STYLE(activeTab === 'timeline')}>
+          学習履歴 {timeline.length > 0 && `(${timeline.length})`}
         </button>
       </div>
 
@@ -153,7 +190,6 @@ export default memo(function LearningSettings({ onSettingsChange }) {
                 color={PATTERN_TYPE_COLORS[key]}
                 checked={settings.enabledPatterns[key] !== false}
                 onChange={v => handleTogglePattern(key, v)}
-                disabled={!!lockedName}
               />
             ))}
           </div>
@@ -172,14 +208,12 @@ export default memo(function LearningSettings({ onSettingsChange }) {
                 <button
                   key={name}
                   onClick={() => handlePreset(name)}
-                  disabled={!!lockedName}
                   title={preset.description}
                   style={{
-                    fontSize: 10, padding: '4px 10px', borderRadius: 4, cursor: lockedName ? 'not-allowed' : 'pointer',
+                    fontSize: 10, padding: '4px 10px', borderRadius: 4, cursor: 'pointer',
                     border: `1px solid ${isActive ? '#d2a8ff66' : '#21262d'}`,
                     background: isActive ? 'rgba(210,168,255,0.15)' : 'transparent',
                     color: isActive ? '#d2a8ff' : '#6e7681',
-                    opacity: lockedName ? 0.5 : 1,
                   }}
                 >
                   {preset.label}
@@ -200,7 +234,6 @@ export default memo(function LearningSettings({ onSettingsChange }) {
             min={3} max={30} step={1}
             format={v => `${v >= 0 ? '+' : ''}${v}%`}
             onChange={v => update({ thresholds: { ...settings.thresholds, trendShiftPct: v } })}
-            disabled={!!lockedName}
           />
           <Slider
             label="レビュー急変検出"
@@ -208,7 +241,6 @@ export default memo(function LearningSettings({ onSettingsChange }) {
             min={0.1} max={1.0} step={0.05}
             format={v => `${v >= 0 ? '+' : ''}${v.toFixed(2)}`}
             onChange={v => update({ thresholds: { ...settings.thresholds, reviewSpikeDelta: v } })}
-            disabled={!!lockedName}
           />
 
           {/* 自動判定閾値 */}
@@ -222,7 +254,6 @@ export default memo(function LearningSettings({ onSettingsChange }) {
               const clamped = Math.max(v, settings.thresholds.autoReject + 0.1)
               update({ thresholds: { ...settings.thresholds, autoConfirm: clamped } })
             }}
-            disabled={!!lockedName}
           />
           <Slider
             label="自動却下ライン"
@@ -233,7 +264,6 @@ export default memo(function LearningSettings({ onSettingsChange }) {
               const clamped = Math.min(v, settings.thresholds.autoConfirm - 0.1)
               update({ thresholds: { ...settings.thresholds, autoReject: clamped } })
             }}
-            disabled={!!lockedName}
           />
 
           {/* 学習速度 */}
@@ -244,7 +274,6 @@ export default memo(function LearningSettings({ onSettingsChange }) {
             min={0.01} max={0.10} step={0.01}
             format={v => `+${(v * 100).toFixed(0)}%`}
             onChange={v => update({ learningRate: { ...settings.learningRate, confirm: v } })}
-            disabled={!!lockedName}
           />
           <Slider
             label="外れ時の減算"
@@ -252,103 +281,114 @@ export default memo(function LearningSettings({ onSettingsChange }) {
             min={0.01} max={0.10} step={0.01}
             format={v => `-${(v * 100).toFixed(0)}%`}
             onChange={v => update({ learningRate: { ...settings.learningRate, reject: -v } })}
-            disabled={!!lockedName}
           />
         </div>
       )}
 
-      {/* ─── スナップショット タブ ─── */}
-      {activeTab === 'snapshots' && (
+      {/* ─── 学習履歴 タブ ─── */}
+      {activeTab === 'timeline' && (
         <div>
           <div style={{ fontSize: 9, color: '#6e7681', marginBottom: 6, lineHeight: 1.5 }}>
-            現在の学習状態を保存・復元できます。「固定」すると学習の進行を一時停止します。
+            学習履歴のバーをクリックすると、その時点まで巻き戻せます。「固定」で学習の進行を一時停止できます。
           </div>
 
-          {/* 新規保存 */}
-          <div style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
-            <input
-              type="text"
-              placeholder="スナップショット名..."
-              value={newSnapshotName}
-              onChange={e => setNewSnapshotName(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleSaveSnapshot()}
-              style={{
-                flex: 1, fontSize: 10, padding: '4px 8px', borderRadius: 4,
-                border: '1px solid #21262d', background: '#161b22', color: '#e6edf3',
-                outline: 'none',
-              }}
-            />
-            <button
-              onClick={handleSaveSnapshot}
-              disabled={!newSnapshotName.trim()}
-              style={{
-                fontSize: 10, padding: '4px 10px', borderRadius: 4, cursor: 'pointer',
-                border: '1px solid rgba(86,211,100,0.3)', background: 'rgba(86,211,100,0.1)',
-                color: '#56d364', opacity: newSnapshotName.trim() ? 1 : 0.4,
-              }}
-            >
-              保存
-            </button>
+          {/* 固定/解除ボタン */}
+          <div style={{ display: 'flex', gap: 6, marginBottom: 8, alignItems: 'center' }}>
+            {locked ? (
+              <button onClick={handleUnlock} style={{
+                fontSize: 10, padding: '4px 12px', borderRadius: 4, cursor: 'pointer',
+                border: '1px solid rgba(227,179,65,0.4)', background: 'rgba(227,179,65,0.12)', color: '#e3b341',
+              }}>
+                固定解除 — 学習を再開
+              </button>
+            ) : (
+              <button onClick={handleLock} disabled={!timeline.length} style={{
+                fontSize: 10, padding: '4px 12px', borderRadius: 4, cursor: timeline.length ? 'pointer' : 'not-allowed',
+                border: '1px solid rgba(227,179,65,0.3)', background: 'rgba(227,179,65,0.06)', color: '#e3b341',
+                opacity: timeline.length ? 1 : 0.4,
+              }}>
+                現在の状態で固定
+              </button>
+            )}
+            {locked && (
+              <span style={{ fontSize: 9, color: '#484f58' }}>
+                重みの更新が停止中。解除すると蓄積分を反映して再計算します。
+              </span>
+            )}
           </div>
 
-          {/* 一覧 */}
-          {snapshots.length === 0 ? (
+          {/* 的中率推移バー */}
+          <AccuracyTimeline
+            timeline={timeline}
+            lockedAt={lockedAt}
+            onRollback={handleRollback}
+          />
+
+          {/* 直近の学習イベント一覧 */}
+          {timeline.length === 0 ? (
             <div style={{ fontSize: 10, color: '#484f58', textAlign: 'center', padding: 12 }}>
-              保存されたスナップショットはありません
+              学習履歴はまだありません
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {[...snapshots].reverse().map(snap => {
-                const isLocked = lockedName === snap.name
-                const accuracy = snap.stats.total > 0 ? Math.round((snap.stats.confirmed / snap.stats.total) * 100) : null
+            <div style={{ maxHeight: 140, overflowY: 'auto' }}>
+              {[...timeline].reverse().slice(0, 50).map((entry) => {
+                const isConfirmed = entry.action === 'confirmed'
+                const isAfterLock = locked && lockedAt !== null && entry.index > lockedAt
                 return (
-                  <div key={snap.name} style={{
-                    display: 'flex', alignItems: 'center', gap: 6, padding: '5px 8px',
-                    borderRadius: 4, border: `1px solid ${isLocked ? '#e3b34144' : '#21262d'}`,
-                    background: isLocked ? 'rgba(227,179,65,0.06)' : '#161b22',
+                  <div key={`${entry.id}-${entry.index}`} style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '3px 6px', borderRadius: 3, marginBottom: 2,
+                    background: isAfterLock ? 'rgba(227,179,65,0.04)' : '#161b22',
+                    border: `1px solid ${isAfterLock ? '#e3b34122' : '#21262d'}`,
+                    opacity: isAfterLock ? 0.5 : 1,
                   }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 10, color: '#e6edf3', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {isLocked && <span style={{ color: '#e3b341', marginRight: 4 }}>&#x1F512;</span>}
-                        {snap.name}
-                      </div>
-                      <div style={{ fontSize: 9, color: '#484f58' }}>
-                        {new Date(snap.timestamp).toLocaleDateString('ja-JP')}
-                        {' / '}検証{snap.stats.total}件
-                        {accuracy !== null && ` / 的中${accuracy}%`}
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', gap: 3 }}>
-                      {isLocked ? (
-                        <button onClick={handleUnlock} style={snapBtnStyle('#e3b341')} title="固定解除">
-                          解除
-                        </button>
-                      ) : (
-                        <>
-                          <button onClick={() => handleLock(snap.name)} style={snapBtnStyle('#e3b341')} title="学習を固定">
-                            固定
-                          </button>
-                          <button onClick={() => handleRestoreSnapshot(snap.name)} style={snapBtnStyle('#388bfd')} title="この状態に復元">
-                            復元
-                          </button>
-                          <button onClick={() => handleDeleteSnapshot(snap.name)} style={snapBtnStyle('#f85149')} title="削除">
-                            削除
-                          </button>
-                        </>
-                      )}
-                    </div>
+                    <span style={{ fontSize: 9, color: '#484f58', minWidth: 22, textAlign: 'right' }}>
+                      #{entry.index + 1}
+                    </span>
+                    <span style={{
+                      fontSize: 8, padding: '1px 4px', borderRadius: 2, fontWeight: 600,
+                      background: isConfirmed ? 'rgba(86,211,100,0.12)' : 'rgba(248,81,73,0.12)',
+                      color: isConfirmed ? '#56d364' : '#f85149',
+                    }}>
+                      {isConfirmed ? '的中' : '外れ'}
+                    </span>
+                    <span style={{
+                      fontSize: 8, padding: '1px 4px', borderRadius: 2,
+                      background: `${PATTERN_TYPE_COLORS[entry.patternType] || '#6e7681'}18`,
+                      color: PATTERN_TYPE_COLORS[entry.patternType] || '#6e7681',
+                    }}>
+                      {PATTERN_TYPE_LABELS[entry.patternType] || entry.patternType}
+                    </span>
+                    <span style={{ fontSize: 8, color: '#6e7681', marginLeft: 'auto' }}>
+                      {entry.source === 'manual' ? '手動' : '自動'}
+                    </span>
+                    <span style={{ fontSize: 8, color: '#484f58' }}>
+                      的中率{entry.cumulativeAccuracy}%
+                    </span>
+                    {!locked && (
+                      <button
+                        onClick={() => handleRollback(entry.index)}
+                        title={`#${entry.index + 1} まで巻き戻す`}
+                        style={{
+                          fontSize: 8, padding: '1px 4px', borderRadius: 2, cursor: 'pointer',
+                          border: '1px solid #388bfd33', background: 'transparent', color: '#388bfd',
+                        }}
+                      >
+                        ここまで
+                      </button>
+                    )}
                   </div>
                 )
               })}
+              {timeline.length > 50 && (
+                <div style={{ fontSize: 9, color: '#484f58', textAlign: 'center', padding: 4 }}>
+                  ...他 {timeline.length - 50}件
+                </div>
+              )}
             </div>
           )}
         </div>
       )}
     </div>
   )
-})
-
-const snapBtnStyle = (color) => ({
-  fontSize: 9, padding: '2px 6px', borderRadius: 3, cursor: 'pointer',
-  border: `1px solid ${color}44`, background: `${color}11`, color,
 })

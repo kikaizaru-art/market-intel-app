@@ -16,14 +16,13 @@
  *   learningRate:    { confirm, reject }
  *   preset:          'balanced' | 'cautious' | 'aggressive'
  *
- * スナップショット:
- *   snapshots: { name, timestamp, patternWeights, signalWeights, stats, feedbackLog }[]
- *   lockedSnapshot: string | null  — ロック中のスナップショット名 (学習を凍結)
+ * 学習制御:
+ *   lockedAtIndex: number | null  — この位置で学習を固定 (null = 通常進行)
+ *   feedbackLog から任意の時点まで重みを再計算してロールバック可能
  */
 
 const STORAGE_KEY = 'market-intel-pattern-store'
 const SETTINGS_KEY = 'market-intel-learning-settings'
-const SNAPSHOTS_KEY = 'market-intel-learning-snapshots'
 
 const WEIGHT_CONFIRM = 0.03
 const WEIGHT_REJECT  = -0.05
@@ -63,6 +62,7 @@ const DEFAULT_SETTINGS = {
   thresholds: { ...PRESETS.balanced.thresholds },
   learningRate: { ...PRESETS.balanced.learningRate },
   preset: 'balanced',
+  lockedAtIndex: null,
 }
 
 // ─── 設定の読み書き ────────────────────────────────────────
@@ -130,94 +130,125 @@ function detectPreset(settings) {
   return 'custom'
 }
 
-// ─── スナップショット ──────────────────────────────────────
+// ─── 学習タイムライン・ロールバック・ロック ────────────────
 
-function loadSnapshots() {
-  try {
-    const raw = localStorage.getItem(SNAPSHOTS_KEY)
-    if (!raw) return { snapshots: [], lockedSnapshot: null }
-    return JSON.parse(raw)
-  } catch {
-    return { snapshots: [], lockedSnapshot: null }
+/**
+ * feedbackLog を先頭から count 件まで再生して重みを再計算する。
+ * ログ自体が「学習履歴」なので、任意の時点に巻き戻せる。
+ */
+function replayWeights(feedbackLog, count) {
+  const settings = loadSettings()
+  const confirmDelta = settings.learningRate?.confirm ?? WEIGHT_CONFIRM
+  const rejectDelta  = settings.learningRate?.reject  ?? WEIGHT_REJECT
+
+  const patternWeights = {}
+  const signalWeights  = {}
+  const stats = { confirmed: 0, rejected: 0, total: 0 }
+
+  const entries = feedbackLog.slice(0, count)
+  for (const entry of entries) {
+    const delta = entry.action === 'confirmed' ? confirmDelta : rejectDelta
+    const pt = entry.patternType
+    patternWeights[pt] = Math.max(MIN_WEIGHT, Math.min(MAX_WEIGHT, (patternWeights[pt] || 0) + delta))
+
+    const sigDelta = entry.action === 'confirmed' ? confirmDelta * 0.67 : rejectDelta * 0.6
+    for (const signal of (entry.signals || [])) {
+      const sigKey = `${pt}:${signal}`
+      signalWeights[sigKey] = Math.max(-0.3, Math.min(0.3, (signalWeights[sigKey] || 0) + sigDelta))
+    }
+
+    stats[entry.action] = (stats[entry.action] || 0) + 1
+    stats.total++
   }
+
+  return { patternWeights, signalWeights, stats }
 }
 
-function saveSnapshots(data) {
-  try {
-    localStorage.setItem(SNAPSHOTS_KEY, JSON.stringify(data))
-  } catch {}
-}
-
-export function getSnapshots() {
-  return loadSnapshots()
-}
-
-export function saveSnapshot(name) {
+/**
+ * 学習タイムラインを取得。
+ * 各エントリに累積的中率を付与して返す。
+ */
+export function getLearningTimeline() {
   const store = loadStore()
-  const data = loadSnapshots()
-  // 同名は上書き
-  data.snapshots = data.snapshots.filter(s => s.name !== name)
-  data.snapshots.push({
-    name,
-    timestamp: Date.now(),
-    patternWeights: { ...store.patternWeights },
-    signalWeights: { ...store.signalWeights },
-    stats: { ...store.stats },
-    feedbackLog: [...store.feedbackLog],
+  const log = store.feedbackLog
+  if (!log.length) return []
+
+  let confirmed = 0
+  let total = 0
+  return log.map((entry, index) => {
+    total++
+    if (entry.action === 'confirmed') confirmed++
+    return {
+      ...entry,
+      index,
+      cumulativeAccuracy: Math.round((confirmed / total) * 100),
+      cumulativeTotal: total,
+    }
   })
-  // 最大10個
-  if (data.snapshots.length > 10) {
-    data.snapshots = data.snapshots.slice(-10)
-  }
-  saveSnapshots(data)
-  return data
 }
 
-export function restoreSnapshot(name) {
-  const data = loadSnapshots()
-  const snapshot = data.snapshots.find(s => s.name === name)
-  if (!snapshot) return null
+/**
+ * 指定インデックスの時点まで学習をロールバックする。
+ * それ以降のログは切り捨て、重みを再計算。
+ * @param {number} toIndex — この位置（含む）までのログを残す (0-based)
+ */
+export function rollbackToIndex(toIndex) {
   const store = loadStore()
-  store.patternWeights = { ...snapshot.patternWeights }
-  store.signalWeights = { ...snapshot.signalWeights }
-  store.stats = { ...snapshot.stats }
-  store.feedbackLog = [...snapshot.feedbackLog]
+  const keepCount = toIndex + 1
+  store.feedbackLog = store.feedbackLog.slice(0, keepCount)
+  store.processedIds = store.feedbackLog.map(e => e.id)
+
+  const { patternWeights, signalWeights, stats } = replayWeights(store.feedbackLog, keepCount)
+  store.patternWeights = patternWeights
+  store.signalWeights  = signalWeights
+  store.stats          = stats
+
   saveStore(store)
+  // ロック解除（巻き戻したらロックも外れる）
+  const settings = loadSettings()
+  if (settings.lockedAtIndex !== null && settings.lockedAtIndex !== undefined) {
+    saveSettings({ ...settings, lockedAtIndex: null })
+  }
   return store
 }
 
-export function deleteSnapshot(name) {
-  const data = loadSnapshots()
-  data.snapshots = data.snapshots.filter(s => s.name !== name)
-  if (data.lockedSnapshot === name) data.lockedSnapshot = null
-  saveSnapshots(data)
-  return data
+/**
+ * 現在の学習状態を固定（ロック）する。
+ * ロック中は新しいフィードバックをログに記録するが、重みは更新しない。
+ */
+export function lockLearning() {
+  const store = loadStore()
+  const settings = loadSettings()
+  settings.lockedAtIndex = store.feedbackLog.length - 1
+  saveSettings(settings)
+  return settings.lockedAtIndex
 }
 
-export function lockSnapshot(name) {
-  const data = loadSnapshots()
-  const snapshot = data.snapshots.find(s => s.name === name)
-  if (!snapshot) return data
-  // ロック時、スナップショットの状態を適用
-  restoreSnapshot(name)
-  data.lockedSnapshot = name
-  saveSnapshots(data)
-  return data
-}
+/**
+ * ロックを解除し、ロック中に溜まったログも含めて重みを再計算する。
+ */
+export function unlockLearning() {
+  const store = loadStore()
+  const settings = loadSettings()
+  settings.lockedAtIndex = null
+  saveSettings(settings)
 
-export function unlockSnapshot() {
-  const data = loadSnapshots()
-  data.lockedSnapshot = null
-  saveSnapshots(data)
-  return data
+  // ロック中に追加されたログも含めて重みを再計算
+  const { patternWeights, signalWeights, stats } = replayWeights(store.feedbackLog, store.feedbackLog.length)
+  store.patternWeights = patternWeights
+  store.signalWeights  = signalWeights
+  store.stats          = stats
+  saveStore(store)
 }
 
 export function isLearningLocked() {
-  return loadSnapshots().lockedSnapshot !== null
+  const settings = loadSettings()
+  return settings.lockedAtIndex !== null && settings.lockedAtIndex !== undefined
 }
 
-export function getLockedSnapshotName() {
-  return loadSnapshots().lockedSnapshot
+export function getLockedAtIndex() {
+  const settings = loadSettings()
+  return settings.lockedAtIndex ?? null
 }
 
 // ─── 学習ストア ────────────────────────────────────────────
@@ -354,6 +385,10 @@ export function recordBatchFeedback(confirmed, rejected) {
 
 export function resetLearning() {
   saveStore(createDefaultStore())
+  const settings = loadSettings()
+  if (settings.lockedAtIndex !== null && settings.lockedAtIndex !== undefined) {
+    saveSettings({ ...settings, lockedAtIndex: null })
+  }
 }
 
 export function getSignalWeights() {

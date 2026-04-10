@@ -15,7 +15,7 @@ const TABS = [
 ]
 
 function Dashboard() {
-  const { target, data, reset } = useTarget()
+  const { target, data, dataSources, reset } = useTarget()
   const [activeTab, setActiveTab] = useState(0)
   const touchStartX = useRef(null)
   const touchStartY = useRef(null)
@@ -69,6 +69,11 @@ function Dashboard() {
         </div>
         <div className="app-header-right">
           <span className="header-target-name">{target.companyName}</span>
+          {dataSources && (
+            <span className="header-badge" style={{ background: 'rgba(86,211,100,0.15)', color: '#56d364', border: '1px solid rgba(86,211,100,0.3)' }}>
+              実データ
+            </span>
+          )}
           <span className="header-timestamp">更新: {now}</span>
         </div>
       </header>

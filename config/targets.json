@@ -1,7 +1,7 @@
 {
   "titles": [
     { "id": "monster-strike", "name": "モンスターストライク", "genre": "アクションRPG", "store_id_ios": "553194370", "store_id_android": "jp.co.mixi.monsterstrike" },
-    { "id": "puzzle-dragons", "name": "パズル&ドラゴンズ", "genre": "パズルRPG", "store_id_ios": "563474464", "store_id_android": "jp.gungho.padEN" },
+    { "id": "puzzle-dragons", "name": "パズル&ドラゴンズ", "genre": "パズルRPG", "store_id_ios": "563474464", "store_id_android": "jp.gungho.pad" },
     { "id": "uma-musume", "name": "ウマ娘", "genre": "育成シミュレーション", "store_id_ios": "1325457498", "store_id_android": "jp.co.cygames.umamusume" }
   ],
   "genres": ["パズル", "RPG", "カジュアル", "ストラテジー", "スポーツ"],

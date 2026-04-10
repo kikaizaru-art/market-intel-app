@@ -3,34 +3,8 @@ import {
   ComposedChart, Bar, Line, BarChart, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, LineChart,
 } from 'recharts'
-
-const PALETTE = ['#388bfd', '#d2a8ff', '#56d364', '#e3b341']
-
-const CustomTooltip = ({ active, payload, label }) => {
-  if (!active || !payload?.length) return null
-  return (
-    <div style={{ background: '#161b22', border: '1px solid #30363d', borderRadius: 6, padding: '8px 12px', fontSize: 11 }}>
-      <p style={{ color: '#8b949e', marginBottom: 4 }}>{label}</p>
-      {payload.map(p => (
-        <p key={p.dataKey || p.name} style={{ color: p.color ?? '#56d364' }}>
-          {p.name}: <strong>{p.value}</strong>
-        </p>
-      ))}
-    </div>
-  )
-}
-
-function SentimentBar({ ratio, color }) {
-  const pct = Math.round(ratio * 100)
-  return (
-    <div className="sentiment-bar-wrap">
-      <div className="sentiment-bar-track">
-        <div className="sentiment-bar-fill" style={{ width: `${pct}%`, background: color }} />
-      </div>
-      <span className="sentiment-bar-label" style={{ color }}>{pct}%</span>
-    </div>
-  )
-}
+import { ChartTooltip, SentimentBar } from './shared/index.js'
+import { PALETTE } from '../constants.js'
 
 export default memo(function UserView({ data: reviewsData, snsBuzzData }) {
   const apps = reviewsData.apps
@@ -113,7 +87,7 @@ export default memo(function UserView({ data: reviewsData, snsBuzzData }) {
                 <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
                 <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
                 <YAxis domain={[3, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip content={<ChartTooltip />} />
                 {apps.map(app => (
                   <Line key={app.id} type="monotone" dataKey={app.name} stroke={APP_COLORS[app.id]} strokeWidth={2} dot={{ fill: APP_COLORS[app.id], r: 3 }} />
                 ))}
@@ -148,7 +122,7 @@ export default memo(function UserView({ data: reviewsData, snsBuzzData }) {
                 <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
                 <YAxis yAxisId="left" domain={[0, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
                 <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip content={<ChartTooltip />} />
                 <Bar yAxisId="right" dataKey="レビュー数" fill={`${accentColor}33`} stroke={`${accentColor}66`} strokeWidth={1} />
                 <Line yAxisId="left" type="monotone" dataKey="スコア" stroke={accentColor} strokeWidth={2} dot={{ fill: accentColor, r: 3 }} activeDot={{ r: 4 }} />
               </ComposedChart>
@@ -183,7 +157,7 @@ export default memo(function UserView({ data: reviewsData, snsBuzzData }) {
               <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
               <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
               <YAxis tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<ChartTooltip />} />
               <Bar dataKey="X投稿数" fill="#388bfd" opacity={0.7} />
             </BarChart>
           </ResponsiveContainer>
@@ -195,7 +169,9 @@ export default memo(function UserView({ data: reviewsData, snsBuzzData }) {
         </div>
       )}
 
-      <div className="panel-footer">generated data — 実API接続時: App Store Connect API / スクレイピング</div>
+      <div className="panel-footer">
+        {reviewsData.source?.includes('実データ') ? '実データ: Google Play' : 'generated data — 実API接続時: App Store Connect API / スクレイピング'}
+      </div>
     </div>
   )
 })

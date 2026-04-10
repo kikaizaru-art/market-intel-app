@@ -34,12 +34,26 @@ export function TargetProvider({ children }) {
         ...generated.industry,
         news: collected.news || generated.industry.news,
       },
+      // Phase 2: 広告データの統合
+      ads: collected.ads || null,
     }
   }, [target?.appName, target?.companyName, target?.genre, collected])
 
   const reset = useCallback(() => setTarget(null), [])
 
-  const value = useMemo(() => ({ target, data, setTarget, reset }), [target, data, reset])
+  // データソース情報を提供
+  const dataSources = useMemo(() => {
+    if (!collected) return null
+    return {
+      collected_at: collected.collected_at,
+      trends: !!collected.trends,
+      reviews: !!collected.reviews,
+      news: !!collected.news,
+      ads: !!collected.ads,
+    }
+  }, [collected])
+
+  const value = useMemo(() => ({ target, data, dataSources, setTarget, reset }), [target, data, dataSources, reset])
 
   return (
     <TargetContext.Provider value={value}>

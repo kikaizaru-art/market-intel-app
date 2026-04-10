@@ -1,5 +1,7 @@
 /**
  * 収集した実データを読み込み、ダッシュボードのコンポーネントが期待する形式に変換する
+ *
+ * Phase 2: trends, reviews, news, ads すべてのデータタイプに対応
  */
 
 const COLLECTED_URL = './data/collected.json'
@@ -7,22 +9,36 @@ const COLLECTED_URL = './data/collected.json'
 export async function loadCollectedData() {
   try {
     const res = await fetch(COLLECTED_URL)
-    if (!res.ok) return null
+    if (!res.ok) {
+      console.warn(`[loadCollectedData] fetch failed: ${res.status} ${res.statusText}`)
+      return null
+    }
     const raw = await res.json()
-    return {
+    console.log('[loadCollectedData] raw data keys:', Object.keys(raw))
+
+    const result = {
       collected_at: raw.collected_at,
       trends: transformTrends(raw.trends),
       reviews: transformReviews(raw.reviews),
       news: transformNews(raw.news),
+      ads: transformAds(raw.ads),
     }
-  } catch {
+
+    // 変換結果のサマリーをログ
+    const loaded = Object.entries(result)
+      .filter(([k, v]) => k !== 'collected_at' && v)
+      .map(([k]) => k)
+    console.log('[loadCollectedData] transformed:', loaded.join(', ') || 'none')
+
+    return result
+  } catch (e) {
+    console.warn('[loadCollectedData] failed to load collected data:', e.message)
     return null
   }
 }
 
 /**
- * Google Trends → MacroView 形式
- * MacroView は data._genres と data.weekly[{date, genre1: val, genre2: val}] を期待
+ * Google Trends → MacroView / IndustryView 形式
  */
 function transformTrends(trends) {
   if (!trends?.weekly?.length) return null
@@ -36,7 +52,6 @@ function transformTrends(trends) {
 
 /**
  * Google Play Reviews → UserView 形式
- * UserView は { apps: [{ id, name, genre, monthly: [{month, score, count, positive_ratio}], top_complaints, top_praises }] } を期待
  */
 function transformReviews(reviews) {
   if (!reviews?.apps?.length) return null
@@ -48,7 +63,6 @@ function transformReviews(reviews) {
     const positiveReviewTexts = recentReviews.filter(r => r.score >= 4)
     const positiveRatio = recentReviews.length > 0 ? positiveCount / recentReviews.length : 0.5
 
-    // レビューテキストから頻出キーワードを抽出
     const complaints = extractTopPhrases(negativeReviews.map(r => r.text))
     const praises = extractTopPhrases(positiveReviewTexts.map(r => r.text))
 
@@ -78,7 +92,6 @@ function transformReviews(reviews) {
  */
 function extractTopPhrases(texts) {
   if (texts.length === 0) return []
-  // 短いレビューは除外、先頭50文字を取得
   return texts
     .filter(t => t && t.length > 5)
     .slice(0, 3)
@@ -86,8 +99,7 @@ function extractTopPhrases(texts) {
 }
 
 /**
- * RSS News → IndustryView.news 形式
- * IndustryView は [{date, title, source, url, tags}] を期待
+ * RSS News → MarketFundamentalsView.news / IndustryView.news 形式
  */
 function transformNews(news) {
   if (!Array.isArray(news) || news.length === 0) return null
@@ -98,6 +110,25 @@ function transformNews(news) {
     url: item.link || null,
     tags: guessNewsTags(item.title || ''),
   }))
+}
+
+/**
+ * Meta Ad Library → 広告データ形式
+ */
+function transformAds(ads) {
+  if (!ads?.ads?.length) return null
+  return {
+    source: 'Meta Ad Library (実データ)',
+    ads: ads.ads.map(ad => ({
+      id: ad.id,
+      advertiser: ad.advertiser_name || ad.page_name || '不明',
+      title: ad.ad_creative_link_titles?.[0] || ad.ad_creative_bodies?.[0]?.slice(0, 50) || '(タイトルなし)',
+      body: ad.ad_creative_bodies?.[0] || '',
+      started: ad.ad_delivery_start_time || ad.ad_creation_time || '',
+      stopped: ad.ad_delivery_stop_time || null,
+      status: ad.ad_delivery_stop_time ? '終了' : '配信中',
+    })),
+  }
 }
 
 /**
@@ -120,6 +151,7 @@ function guessNewsTags(title) {
     [/カジュアル/, 'カジュアル'],
     [/アクション|バトル/, 'アクション'],
     [/ストア|配信/, 'ストア'],
+    [/シミュレーション/, 'シミュレーション'],
   ]
   for (const [regex, tag] of rules) {
     if (regex.test(title)) tags.push(tag)

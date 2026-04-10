@@ -75,7 +75,7 @@ function randRange(min, max, rng) {
 
 function generateWeeklyDates(weeks = 26) {
   const dates = []
-  const now = new Date('2026-04-05')
+  const now = new Date()
   for (let i = weeks - 1; i >= 0; i--) {
     const d = new Date(now)
     d.setDate(d.getDate() - i * 7)
@@ -86,7 +86,7 @@ function generateWeeklyDates(weeks = 26) {
 
 function generateMonthlyDates(months = 6) {
   const dates = []
-  const base = new Date('2026-03-01')
+  const base = new Date()
   for (let i = months - 1; i >= 0; i--) {
     const d = new Date(base)
     d.setMonth(d.getMonth() - i)

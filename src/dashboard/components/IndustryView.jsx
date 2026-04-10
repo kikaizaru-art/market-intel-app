@@ -6,51 +6,26 @@ import {
 } from 'recharts'
 import { movingAverage, calcGenreTrends } from '../../analyzers/trend.js'
 import { detectAllAnomalies } from '../../analyzers/anomaly.js'
+import { ChartTooltip } from './shared/index.js'
+import {
+  PALETTE, GENRE_COLORS, TREND_LABELS, TREND_ICONS, TREND_COLORS,
+  CPI_TREND_COLORS,
+} from '../constants.js'
+import { formatDate } from '../utils.js'
 
-const GENRE_COLORS = {
-  'パズル': '#388bfd', 'RPG': '#d2a8ff', 'カジュアル': '#56d364',
-  'ストラテジー': '#e3b341', 'スポーツ': '#79c0ff', 'アクション': '#f85149',
-  'シミュレーション': '#f0883e', 'その他': '#484f58',
-}
-
-const TREND_PALETTE = ['#388bfd', '#d2a8ff', '#56d364', '#e3b341', '#79c0ff']
-const TREND_LABELS = { rising: '上昇', falling: '下降', stable: '横ばい' }
-const TREND_ICONS = { rising: '▲', falling: '▼', stable: '→' }
-const TREND_COLORS = { rising: '#56d364', falling: '#f85149', stable: '#e3b341' }
-const CPI_TREND_COLORS = { rising: '#f85149', falling: '#56d364', stable: '#e3b341' }
-
-function formatTrendDate(dateStr) {
-  const [, month, day] = dateStr.split('-')
-  return day === '05' || day === '04' || day === '01' ? `${parseInt(month)}月` : ''
-}
-
-const ChartTooltip = ({ active, payload, label }) => {
-  if (!active || !payload?.length) return null
-  return (
-    <div style={{ background: '#161b22', border: '1px solid #30363d', borderRadius: 6, padding: '8px 12px', fontSize: 11 }}>
-      <p style={{ color: '#8b949e', marginBottom: 4 }}>{label}</p>
-      {payload.map(p => (
-        <p key={p.dataKey || p.name} style={{ color: p.color ?? p.fill }}>
-          {p.name}: <strong>{typeof p.value === 'number' ? (p.value < 20 && p.value !== Math.round(p.value) ? p.value : p.value.toFixed?.(1) ?? p.value) : p.value}{typeof p.value === 'number' && p.value < 20 && !p.dataKey?.includes('_MA') ? '%' : ''}</strong>
-        </p>
-      ))}
-    </div>
-  )
-}
+const TABS = [
+  { key: 'trends', label: 'トレンド' },
+  { key: 'cpi', label: 'CPI相場' },
+  { key: 'retention', label: 'リテンション' },
+  { key: 'market', label: '市場規模' },
+]
 
 export default memo(function IndustryView({ data: indData, trendsData }) {
   const [tab, setTab] = useState('trends')
 
-  const TABS = [
-    { key: 'trends', label: 'トレンド' },
-    { key: 'cpi', label: 'CPI相場' },
-    { key: 'retention', label: 'リテンション' },
-    { key: 'market', label: '市場規模' },
-  ]
-
   /* ---------- Macro / Trends ---------- */
   const GENRES = trendsData?._genres || Object.keys(trendsData?.weekly?.[0] || {}).filter(k => k !== 'date')
-  const GENRE_TREND_COLORS = Object.fromEntries(GENRES.map((g, i) => [g, TREND_PALETTE[i % TREND_PALETTE.length]]))
+  const GENRE_TREND_COLORS = Object.fromEntries(GENRES.map((g, i) => [g, PALETTE[i % PALETTE.length]]))
 
   const [activeGenres, setActiveGenres] = useState(new Set(GENRES))
   const [showMA, setShowMA] = useState(false)
@@ -130,7 +105,7 @@ export default memo(function IndustryView({ data: indData, trendsData }) {
             <ResponsiveContainer width="100%" height={160}>
               <LineChart data={trendChartData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
-                <XAxis dataKey="date" tickFormatter={formatTrendDate} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+                <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
                 <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
                 <Tooltip content={<ChartTooltip />} />
                 {GENRES.map(genre => activeGenres.has(genre) && (
@@ -264,7 +239,9 @@ export default memo(function IndustryView({ data: indData, trendsData }) {
           </>
         )}
       </div>
-      <div className="panel-footer">generated data — 実データ: pytrends / 4Gamer / GameBiz RSS + Unity Gaming Report</div>
+      <div className="panel-footer">
+        {trendsData?.source?.includes('実データ') ? '実データ: Google Trends + 業界レポート' : 'generated data — 実データ: pytrends / 4Gamer / GameBiz RSS + Unity Gaming Report'}
+      </div>
     </div>
   )
 })

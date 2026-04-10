@@ -1,10 +1,10 @@
 /**
- * データ格納層
+ * データ格納層 (Phase 2: JSONファイルベース)
  *
- * Phase 1: JSONファイルベース（シンプルに）
- * Phase 2: SQLite に移行予定（better-sqlite3）
+ * collectors/ が収集したデータを data/ に保存し、
+ * public/data/collected.json 経由でダッシュボードに提供する。
  *
- * スキーマ設計 (Phase 2):
+ * Phase 3 で SQLite (better-sqlite3) に移行予定:
  *   trends       (id, date, genre, value)
  *   ads          (id, advertiser, title, genre, format, started, status, reach, hook)
  *   reviews      (id, app_id, month, score, count, positive_ratio)

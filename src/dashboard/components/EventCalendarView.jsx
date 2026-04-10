@@ -1,24 +1,15 @@
 import { useState, useMemo, memo } from 'react'
-
-const TYPE_COLORS = {
-  'ガチャ': '#d2a8ff', 'コラボ': '#f0883e', 'シーズン': '#56d364',
-  'キャンペーン': '#388bfd', 'アップデート': '#8b949e',
-}
+import { TYPE_COLORS, PALETTE } from '../constants.js'
+import { isActive, getToday } from '../utils.js'
 
 const APP_PALETTE = ['#388bfd', '#d2a8ff', '#56d364', '#e3b341', '#f85149']
-
-function isActive(event, today) {
-  if (!event.end) return event.start <= today
-  return event.start <= today && event.end >= today
-}
 
 export default memo(function EventCalendarView({ data: calData }) {
   const [appFilter, setAppFilter] = useState('全て')
   const [typeFilter, setTypeFilter] = useState('全て')
 
-  const today = '2026-04-09'
+  const today = getToday()
 
-  // Dynamic app list and colors from data
   const APPS = useMemo(() => calData._apps || [...new Set(calData.events.map(e => e.app))], [calData])
   const APP_COLORS = useMemo(() => Object.fromEntries(APPS.map((a, i) => [a, APP_PALETTE[i % APP_PALETTE.length]])), [APPS])
   const TYPES = useMemo(() => [...new Set(calData.events.map(e => e.type))], [calData])
@@ -30,7 +21,7 @@ export default memo(function EventCalendarView({ data: calData }) {
       .sort((a, b) => b.start.localeCompare(a.start)),
     [calData, appFilter, typeFilter])
 
-  const activeEvents = useMemo(() => calData.events.filter(e => isActive(e, today)), [calData])
+  const activeEvents = useMemo(() => calData.events.filter(e => isActive(e, today)), [calData, today])
 
   const appActiveCounts = useMemo(() => {
     const map = {}

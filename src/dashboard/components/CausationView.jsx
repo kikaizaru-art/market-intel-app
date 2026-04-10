@@ -3,18 +3,11 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip,
   ResponsiveContainer,
 } from 'recharts'
+import { ChartTooltip, ImpactDot } from './shared/index.js'
+import { IMPACT_LABELS, IMPACT_COLORS, LAYER_COLORS } from '../constants.js'
 
 const LAYER_OPTIONS = ['マクロ', '競合', 'ユーザー']
 const IMPACT_OPTIONS = ['positive', 'negative', 'neutral']
-const IMPACT_LABELS = { positive: '好影響', negative: '悪影響', neutral: '中立' }
-const IMPACT_COLORS = { positive: '#56d364', negative: '#f85149', neutral: '#e3b341' }
-const LAYER_COLORS = { 'マクロ': '#388bfd', '競合': '#f85149', 'ユーザー': '#56d364' }
-
-function ImpactDot({ impact }) {
-  return (
-    <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: IMPACT_COLORS[impact], marginRight: 4 }} />
-  )
-}
 
 export default memo(function CausationView({ data: initialData }) {
   const [notes, setNotes] = useState(initialData.notes)

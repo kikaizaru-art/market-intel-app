@@ -5,34 +5,9 @@ import {
 } from 'recharts'
 import { movingAverage, calcGenreTrends } from '../../analyzers/trend.js'
 import { detectAllAnomalies } from '../../analyzers/anomaly.js'
-
-const PALETTE = ['#388bfd', '#d2a8ff', '#56d364', '#e3b341', '#79c0ff']
-
-const TREND_LABELS = { rising: '上昇', falling: '下降', stable: '横ばい' }
-const TREND_ICONS = { rising: '▲', falling: '▼', stable: '→' }
-const TREND_COLORS = { rising: '#56d364', falling: '#f85149', stable: '#e3b341' }
-
-function formatDate(dateStr) {
-  const [, month, day] = dateStr.split('-')
-  return day === '05' || day === '04' || day === '01' ? `${parseInt(month)}月` : ''
-}
-
-const CustomTooltip = ({ active, payload, label }) => {
-  if (!active || !payload?.length) return null
-  return (
-    <div style={{
-      background: '#161b22', border: '1px solid #30363d',
-      borderRadius: 6, padding: '8px 12px', fontSize: 11,
-    }}>
-      <p style={{ color: '#8b949e', marginBottom: 4 }}>{label}</p>
-      {payload.map(p => (
-        <p key={p.dataKey || p.name} style={{ color: p.color }}>
-          {p.name}: <strong>{typeof p.value === 'number' ? p.value.toFixed?.(1) ?? p.value : p.value}</strong>
-        </p>
-      ))}
-    </div>
-  )
-}
+import { ChartTooltip } from './shared/index.js'
+import { PALETTE, TREND_LABELS, TREND_ICONS, TREND_COLORS } from '../constants.js'
+import { formatDate } from '../utils.js'
 
 export default memo(function MacroView({ data }) {
   const GENRES = data._genres || Object.keys(data.weekly[0] || {}).filter(k => k !== 'date')
@@ -123,7 +98,7 @@ export default memo(function MacroView({ data }) {
             <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
             <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
             <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<ChartTooltip />} />
             {GENRES.map(genre => activeGenres.has(genre) && (
               <Line key={genre} type="monotone" dataKey={genre} stroke={GENRE_COLORS[genre]} strokeWidth={1.5} dot={false} activeDot={{ r: 3 }} />
             ))}
@@ -173,7 +148,7 @@ export default memo(function MacroView({ data }) {
       </div>
 
       <div className="panel-footer">
-        generated data — 実API接続時: pytrends / Google Trends API
+        {data.source?.includes('実データ') ? '実データ: Google Trends (pytrends)' : 'generated data — 実API接続時: pytrends / Google Trends API'}
       </div>
     </div>
   )

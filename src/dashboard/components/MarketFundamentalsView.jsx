@@ -3,61 +3,27 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
 } from 'recharts'
+import { ChartTooltip } from './shared/index.js'
+import { PALETTE, TYPE_COLORS, TAG_COLORS } from '../constants.js'
+import { formatDate, isActive, getToday } from '../utils.js'
 
-const PALETTE = ['#388bfd', '#d2a8ff', '#56d364']
-
-const TYPE_COLORS = {
-  'ガチャ': '#d2a8ff', 'コラボ': '#f0883e', 'シーズン': '#56d364',
-  'キャンペーン': '#388bfd', 'アップデート': '#8b949e',
-}
 const APP_PALETTE = ['#388bfd', '#d2a8ff', '#56d364', '#e3b341', '#f85149']
 
-const TAG_COLORS = {
-  '市場動向': '#388bfd', 'RPG': '#d2a8ff', '競合': '#f85149',
-  'ストラテジー': '#e3b341', 'ランキング': '#79c0ff', '規制': '#f0883e',
-  'Apple': '#8b949e', 'CPI': '#f85149', 'カジュアル': '#56d364',
-  'Google': '#56d364', 'パズル': '#388bfd', '事前登録': '#d2a8ff', '決算': '#e3b341',
-  '広告': '#f0883e', '海外展開': '#79c0ff', 'ストア': '#8b949e',
-  'アクション': '#f85149', 'シミュレーション': '#f0883e',
-}
-
-function isActive(event, today) {
-  if (!event.end) return event.start <= today
-  return event.start <= today && event.end >= today
-}
-
-function formatDate(dateStr) {
-  const [, month, day] = dateStr.split('-')
-  return day === '05' || day === '04' || day === '01' ? `${parseInt(month)}月` : ''
-}
-
-const ChartTooltip = ({ active, payload, label }) => {
-  if (!active || !payload?.length) return null
-  return (
-    <div style={{ background: '#161b22', border: '1px solid #30363d', borderRadius: 6, padding: '8px 12px', fontSize: 11 }}>
-      <p style={{ color: '#8b949e', marginBottom: 4 }}>{label}</p>
-      {payload.map(p => (
-        <p key={p.dataKey || p.name} style={{ color: p.color }}>{p.name}: <strong>{p.value}</strong></p>
-      ))}
-    </div>
-  )
-}
+const TABS = [
+  { key: 'ranking', label: 'ランキング' },
+  { key: 'events', label: 'イベント' },
+  { key: 'news', label: 'ニュース' },
+]
 
 export default memo(function MarketFundamentalsView({ data: mfData, eventsData, newsData }) {
   const [tab, setTab] = useState('ranking')
   const [appFilter, setAppFilter] = useState('全て')
   const [typeFilter, setTypeFilter] = useState('全て')
 
-  const TABS = [
-    { key: 'ranking', label: 'ランキング' },
-    { key: 'events', label: 'イベント' },
-    { key: 'news', label: 'ニュース' },
-  ]
-
   const APP_COLORS = Object.fromEntries((mfData.apps || []).map((a, i) => [a.id, PALETTE[i % PALETTE.length]]))
 
   /* ---------- Events ---------- */
-  const today = '2026-04-09'
+  const today = getToday()
   const calData = eventsData || { events: [], _apps: [] }
   const EVENT_APPS = useMemo(() => calData._apps || [...new Set(calData.events.map(e => e.app))], [calData])
   const EVENT_APP_COLORS = useMemo(() => Object.fromEntries(EVENT_APPS.map((a, i) => [a, APP_PALETTE[i % APP_PALETTE.length]])), [EVENT_APPS])
@@ -70,7 +36,7 @@ export default memo(function MarketFundamentalsView({ data: mfData, eventsData, 
       .sort((a, b) => b.start.localeCompare(a.start)),
     [calData, appFilter, typeFilter])
 
-  const activeEvents = useMemo(() => calData.events.filter(e => isActive(e, today)), [calData])
+  const activeEvents = useMemo(() => calData.events.filter(e => isActive(e, today)), [calData, today])
 
   const appActiveCounts = useMemo(() => {
     const map = {}

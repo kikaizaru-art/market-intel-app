@@ -1,27 +1,16 @@
-import { useState, useMemo, memo } from 'react'
+import { useState, memo } from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, ComposedChart, Line,
 } from 'recharts'
+import { ChartTooltip } from './shared/index.js'
+import { PALETTE, STATUS_COLORS, HEADCOUNT_TREND_LABELS, HEADCOUNT_TREND_COLORS } from '../constants.js'
 
-const COMPANY_COLORS = ['#388bfd', '#d2a8ff', '#56d364', '#e3b341']
-const TREND_LABELS = { increasing: '増員中', stable: '横ばい', decreasing: '減員中' }
-const TREND_COLORS = { increasing: '#56d364', stable: '#e3b341', decreasing: '#f85149' }
-const STATUS_COLORS = { '運営中': '#56d364', '開発中': '#388bfd' }
-
-const ChartTooltip = ({ active, payload, label }) => {
-  if (!active || !payload?.length) return null
-  return (
-    <div style={{ background: '#161b22', border: '1px solid #30363d', borderRadius: 6, padding: '8px 12px', fontSize: 11 }}>
-      <p style={{ color: '#8b949e', marginBottom: 4 }}>{label}</p>
-      {payload.map(p => (
-        <p key={p.dataKey || p.name} style={{ color: p.color }}>
-          {p.name}: <strong>{p.value}{p.dataKey?.includes('margin') ? '%' : p.dataKey?.includes('_b') ? '億' : ''}</strong>
-        </p>
-      ))}
-    </div>
-  )
-}
+const TABS = [
+  { key: 'financial', label: '決算' },
+  { key: 'pipeline', label: 'タイトル' },
+  { key: 'structure', label: '体制' },
+]
 
 export default memo(function CorporateView({ data: corpData }) {
   const companies = corpData.companies
@@ -30,12 +19,6 @@ export default memo(function CorporateView({ data: corpData }) {
 
   const company = companies.find(c => c.id === selectedCompany) || companies[0]
   const colorIdx = companies.findIndex(c => c.id === selectedCompany)
-
-  const TABS = [
-    { key: 'financial', label: '決算' },
-    { key: 'pipeline', label: 'タイトル' },
-    { key: 'structure', label: '体制' },
-  ]
 
   const quarterlyData = company?.quarterly_financials.map(q => ({
     quarter: q.quarter,
@@ -60,7 +43,7 @@ export default memo(function CorporateView({ data: corpData }) {
       <div className="panel-body">
         <div className="app-selector" style={{ marginBottom: 6 }}>
           {companies.map((c, i) => (
-            <button key={c.id} className={`app-btn ${selectedCompany === c.id ? 'active' : ''}`} style={selectedCompany === c.id ? { background: `${COMPANY_COLORS[i]}22`, borderColor: `${COMPANY_COLORS[i]}66`, color: COMPANY_COLORS[i] } : {}} onClick={() => setSelectedCompany(c.id)}>{c.name}</button>
+            <button key={c.id} className={`app-btn ${selectedCompany === c.id ? 'active' : ''}`} style={selectedCompany === c.id ? { background: `${PALETTE[i]}22`, borderColor: `${PALETTE[i]}66`, color: PALETTE[i] } : {}} onClick={() => setSelectedCompany(c.id)}>{c.name}</button>
           ))}
         </div>
 
@@ -78,7 +61,7 @@ export default memo(function CorporateView({ data: corpData }) {
                 <YAxis yAxisId="left" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
                 <YAxis yAxisId="right" orientation="right" domain={[0, 40]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
                 <Tooltip content={<ChartTooltip />} />
-                <Bar yAxisId="left" dataKey="売上" fill={`${COMPANY_COLORS[colorIdx]}55`} stroke={COMPANY_COLORS[colorIdx]} strokeWidth={1} />
+                <Bar yAxisId="left" dataKey="売上" fill={`${PALETTE[colorIdx]}55`} stroke={PALETTE[colorIdx]} strokeWidth={1} />
                 <Bar yAxisId="left" dataKey="営業利益" fill="#56d36444" stroke="#56d364" strokeWidth={1} />
                 <Line yAxisId="right" type="monotone" dataKey="営業利益率" name="営業利益率(%)" stroke="#e3b341" strokeWidth={2} dot={{ fill: '#e3b341', r: 3 }} />
               </ComposedChart>
@@ -86,7 +69,7 @@ export default memo(function CorporateView({ data: corpData }) {
             <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
               <div className="stat-card">
                 <div style={{ fontSize: 10, color: '#6e7681' }}>売上 ({latestQ.quarter})</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: COMPANY_COLORS[colorIdx] }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: PALETTE[colorIdx] }}>
                   {latestQ.revenue_b}億
                   <span style={{ fontSize: 10, marginLeft: 4, color: latestQ.revenue_b >= prevQ.revenue_b ? '#56d364' : '#f85149' }}>
                     {latestQ.revenue_b >= prevQ.revenue_b ? '▲' : '▼'}{Math.abs(((latestQ.revenue_b - prevQ.revenue_b) / prevQ.revenue_b * 100)).toFixed(0)}%
@@ -136,15 +119,15 @@ export default memo(function CorporateView({ data: corpData }) {
                   <div key={c.id} className="structure-bar-row">
                     <span className="structure-bar-label">{c.name}</span>
                     <div className="structure-bar-track">
-                      <div className="structure-bar-fill" style={{ width: `${pct}%`, background: COMPANY_COLORS[i], opacity: c.id === selectedCompany ? 1 : 0.4 }} />
+                      <div className="structure-bar-fill" style={{ width: `${pct}%`, background: PALETTE[i], opacity: c.id === selectedCompany ? 1 : 0.4 }} />
                     </div>
-                    <span className="structure-bar-value" style={{ color: COMPANY_COLORS[i] }}>{c.headcount}名</span>
+                    <span className="structure-bar-value" style={{ color: PALETTE[i] }}>{c.headcount}名</span>
                   </div>
                 )
               })}
             </div>
             <div style={{ display: 'flex', gap: 6, marginTop: 10 }}>
-              <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>人員動向</div><div style={{ fontSize: 12, fontWeight: 700, color: TREND_COLORS[company.headcount_trend] }}>{TREND_LABELS[company.headcount_trend]}</div></div>
+              <div className="stat-card"><div style={{ fontSize: 10, color: '#6e7681' }}>人員動向</div><div style={{ fontSize: 12, fontWeight: 700, color: HEADCOUNT_TREND_COLORS[company.headcount_trend] }}>{HEADCOUNT_TREND_LABELS[company.headcount_trend]}</div></div>
               <div className="stat-card" style={{ flex: 2 }}>
                 <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 3 }}>採用中ポジション</div>
                 <div>{company.hiring_roles.length > 0 ? company.hiring_roles.map(r => (<span key={r} className="hiring-tag">{r}</span>)) : (<span style={{ fontSize: 10, color: '#484f58' }}>採用情報なし</span>)}</div>

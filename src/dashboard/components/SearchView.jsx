@@ -112,7 +112,7 @@ export default function SearchView({ onSubmit }) {
         </div>
 
         <div className="search-footer">
-          Phase 2 — データ収集はモック生成です。実API接続により精度が向上します。
+          Phase 2 — <code>npm run collect</code> で実データを収集できます。収集データがない場合はモック生成を使用します。
         </div>
       </div>
     </div>

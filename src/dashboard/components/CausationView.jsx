@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback, memo } from 'react'
+import { useState, useMemo, useEffect, useCallback, useRef, memo } from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip,
   ResponsiveContainer,
@@ -12,6 +12,8 @@ import { generateAutoMemos, validateAutoMemos } from '../../analyzers/autoMemo.j
 import {
   getPatternWeights, getLearningStats, recordBatchFeedback,
   recordFeedback, resetLearning, getUserSettings,
+  loadCausalNotes, saveCausalNotes,
+  loadRejectedAutoKeys, addRejectedAutoKey, autoMemoStableKey,
 } from '../services/patternStore.js'
 import LearningSettings from './LearningSettings.jsx'
 
@@ -25,7 +27,11 @@ export default memo(function CausationView({
   eventsData,
   newsData,
 }) {
-  const [manualNotes, setManualNotes] = useState(initialData.notes)
+  // 手動メモ: localStorage に保存済みならそれを復元、なければモックデータ
+  const [manualNotes, setManualNotes] = useState(() => {
+    const saved = loadCausalNotes()
+    return saved !== null ? saved : initialData.notes
+  })
   const [autoConfirmed, setAutoConfirmed] = useState([])
   const [autoRejectedCount, setAutoRejectedCount] = useState(0)
   const [form, setForm] = useState({ date: '', event: '', app: '', layer: 'マクロ', impact: 'neutral', memo: '' })
@@ -37,6 +43,14 @@ export default memo(function CausationView({
   const [showSettings, setShowSettings] = useState(false)
   const [learningVersion, setLearningVersion] = useState(0)
   const [settingsVersion, setSettingsVersion] = useState(0)
+
+  // ─── 手動メモの永続化 ──────────────────────────────
+  const isInitialMount = useRef(true)
+  useEffect(() => {
+    // 初回マウント時はスキップ（localStorage→state 復元直後の保存を避ける）
+    if (isInitialMount.current) { isInitialMount.current = false; return }
+    saveCausalNotes(manualNotes)
+  }, [manualNotes])
 
   // ─── 自動メモ生成 + 自動検証 ──────────────────────
   const runAutoMemo = useCallback(() => {
@@ -59,8 +73,14 @@ export default memo(function CausationView({
     // 学習ストアに一括記録
     recordBatchFeedback(confirmed, rejected)
 
+    // 手動却下済みの自動メモを除外
+    const rejectedKeys = loadRejectedAutoKeys()
+    const filteredConfirmed = confirmed.filter(m =>
+      !rejectedKeys.includes(autoMemoStableKey(m))
+    )
+
     // 承認済みメモをノートに追加
-    const confirmedNotes = confirmed.map(m => ({
+    const confirmedNotes = filteredConfirmed.map(m => ({
       id: m.id,
       date: m.date,
       event: m.event,
@@ -105,8 +125,30 @@ export default memo(function CausationView({
   function handleManualReject(autoNote) {
     // 手動オーバーライド: 自動承認されたメモを却下
     recordFeedback('rejected', autoNote, 'manual')
+    addRejectedAutoKey(autoMemoStableKey(autoNote))  // 永続化: 再生成時も除外
     setAutoConfirmed(prev => prev.filter(m => m.id !== autoNote.id))
     setLearningVersion(v => v + 1)
+  }
+
+  // ─── 文脈付与: 自動メモに因果文脈を追加して手動メモに昇格 ──
+  function handleAddContext(autoNote, context, contextMemo) {
+    const promoted = {
+      id: `ctx_${Date.now()}`,
+      date: autoNote.date,
+      event: autoNote.event,
+      app: autoNote.app,
+      layer: autoNote.layer,
+      impact: autoNote.impact,
+      memo: contextMemo
+        ? `[${context}] ${contextMemo} — 元: ${autoNote.memo}`
+        : `[${context}] ${autoNote.memo}`,
+      causalContext: context,
+      promotedFrom: autoNote.patternType,
+      confidence: autoNote.confidence,
+    }
+    setManualNotes(prev => [promoted, ...prev])
+    // 自動メモリストから除外（手動メモに昇格したため）
+    setAutoConfirmed(prev => prev.filter(m => m.id !== autoNote.id))
   }
 
   function handleResetLearning() {
@@ -353,6 +395,7 @@ export default memo(function CausationView({
                   note={note}
                   onDelete={handleDelete}
                   onManualReject={handleManualReject}
+                  onAddContext={handleAddContext}
                 />
               ))}
             </div>
@@ -383,8 +426,27 @@ const VALIDATION_LABELS = {
   auto_threshold: '閾値判定',
 }
 
-const NoteCard = memo(function NoteCard({ note, onDelete, onManualReject }) {
+const CAUSAL_CONTEXTS = [
+  { key: 'own_action', label: '自分の施策', color: '#56d364' },
+  { key: 'competitor', label: '競合の動き', color: '#f0883e' },
+  { key: 'external',   label: '外部環境',   color: '#388bfd' },
+  { key: 'coincidence', label: '偶然・不明', color: '#6e7681' },
+]
+
+const NoteCard = memo(function NoteCard({ note, onDelete, onManualReject, onAddContext }) {
   const isAuto = note._source === 'auto'
+  const [showContext, setShowContext] = useState(false)
+  const [selectedCtx, setSelectedCtx] = useState(null)
+  const [ctxMemo, setCtxMemo] = useState('')
+
+  function handleContextSubmit(ctxKey) {
+    const ctx = CAUSAL_CONTEXTS.find(c => c.key === ctxKey)
+    if (!ctx) return
+    onAddContext(note, ctx.label, selectedCtx === ctxKey ? ctxMemo : '')
+    setShowContext(false)
+    setSelectedCtx(null)
+    setCtxMemo('')
+  }
 
   return (
     <div className={`note-card ${note.impact}`} style={isAuto ? {
@@ -425,12 +487,24 @@ const NoteCard = memo(function NoteCard({ note, onDelete, onManualReject }) {
           </>
         )}
 
-        {/* 自動メモには手動オーバーライド(却下)ボタン、手動メモには削除ボタン */}
+        {note.causalContext && (
+          <span style={{ fontSize: 8, padding: '1px 5px', borderRadius: 3, background: 'rgba(210,168,255,0.15)', color: '#d2a8ff', border: '1px solid rgba(210,168,255,0.3)' }}>
+            {note.causalContext}
+          </span>
+        )}
+
+        {/* 自動メモには文脈付与+手動却下ボタン、手動メモには削除ボタン */}
         {isAuto ? (
-          <button onClick={() => onManualReject(note)} title="手動却下（学習に反映）" style={{
-            fontSize: 9, padding: '1px 5px', borderRadius: 3, cursor: 'pointer', marginLeft: 'auto',
-            border: '1px solid rgba(248,81,73,0.3)', background: 'transparent', color: '#6e7681',
-          }}>&#10005;</button>
+          <div style={{ display: 'flex', gap: 3, marginLeft: 'auto' }}>
+            <button onClick={() => setShowContext(v => !v)} title="因果文脈を付与" style={{
+              fontSize: 9, padding: '1px 5px', borderRadius: 3, cursor: 'pointer',
+              border: '1px solid rgba(210,168,255,0.3)', background: showContext ? 'rgba(210,168,255,0.15)' : 'transparent', color: '#d2a8ff',
+            }}>文脈</button>
+            <button onClick={() => onManualReject(note)} title="手動却下（学習に反映）" style={{
+              fontSize: 9, padding: '1px 5px', borderRadius: 3, cursor: 'pointer',
+              border: '1px solid rgba(248,81,73,0.3)', background: 'transparent', color: '#6e7681',
+            }}>&#10005;</button>
+          </div>
         ) : (
           <button className="note-delete-btn" onClick={() => onDelete(note.id)} title="削除">&#10005;</button>
         )}
@@ -438,6 +512,64 @@ const NoteCard = memo(function NoteCard({ note, onDelete, onManualReject }) {
       <div className="note-event">{note.event}</div>
       {note.app && <div className="note-app">対象: {note.app}</div>}
       {note.memo && <div className="note-memo">{note.memo}</div>}
+
+      {/* ─── 文脈入力UI (3段階) ─── */}
+      {showContext && (
+        <div style={{ marginTop: 6, padding: '6px 8px', background: '#0d1117', borderRadius: 6, border: '1px solid #21262d' }}>
+          <div style={{ fontSize: 9, color: '#8b949e', marginBottom: 4 }}>なぜこれが起きた？（因果文脈を付与）</div>
+          {/* 段階1: ワンタップ選択肢 */}
+          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: selectedCtx ? 6 : 0 }}>
+            {CAUSAL_CONTEXTS.map(ctx => (
+              <button
+                key={ctx.key}
+                onClick={() => {
+                  if (selectedCtx === ctx.key) {
+                    // 同じボタンを再クリック → メモなしで即送信
+                    handleContextSubmit(ctx.key)
+                  } else {
+                    setSelectedCtx(ctx.key)
+                    setCtxMemo('')
+                  }
+                }}
+                style={{
+                  fontSize: 9, padding: '3px 8px', borderRadius: 4, cursor: 'pointer',
+                  border: `1px solid ${selectedCtx === ctx.key ? ctx.color : '#30363d'}`,
+                  background: selectedCtx === ctx.key ? `${ctx.color}22` : 'transparent',
+                  color: selectedCtx === ctx.key ? ctx.color : '#8b949e',
+                }}
+              >
+                {ctx.label}
+              </button>
+            ))}
+          </div>
+          {/* 段階2: メモ付き入力 */}
+          {selectedCtx && (
+            <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <input
+                type="text"
+                value={ctxMemo}
+                onChange={e => setCtxMemo(e.target.value)}
+                placeholder="補足メモ（省略可）"
+                onKeyDown={e => { if (e.key === 'Enter') handleContextSubmit(selectedCtx) }}
+                style={{
+                  flex: 1, fontSize: 10, padding: '3px 6px', borderRadius: 4,
+                  border: '1px solid #30363d', background: '#161b22', color: '#e6edf3',
+                  outline: 'none',
+                }}
+              />
+              <button
+                onClick={() => handleContextSubmit(selectedCtx)}
+                style={{
+                  fontSize: 9, padding: '3px 8px', borderRadius: 4, cursor: 'pointer',
+                  border: '1px solid rgba(210,168,255,0.4)', background: 'rgba(210,168,255,0.15)', color: '#d2a8ff',
+                }}
+              >
+                保存
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 })

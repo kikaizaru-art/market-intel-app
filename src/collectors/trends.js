@@ -27,7 +27,7 @@ export async function fetchTrends(trendsConfig) {
   try {
     const result = execSync(
       `python "${PY_SCRIPT}" ${JSON.stringify(JSON.stringify(keywords))} ${geo}`,
-      { encoding: 'utf-8', timeout: 30000, env: { ...process.env, PYTHONIOENCODING: 'utf-8' } }
+      { encoding: 'utf-8', timeout: 300000, env: { ...process.env, PYTHONIOENCODING: 'utf-8' } }
     )
     const weekly = JSON.parse(result.trim())
     if (weekly.length === 0) throw new Error('empty result')

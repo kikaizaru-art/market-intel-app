@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "collect": "node src/collectors/index.js"
+    "collect": "node src/collectors/index.js",
+    "collect:mm": "node src/collectors/index.js --domain memento-mori",
+    "discover": "node src/collectors/app-discover.js"
   },
   "dependencies": {
     "google-play-scraper": "^10.1.2",

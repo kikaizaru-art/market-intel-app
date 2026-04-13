@@ -26,16 +26,13 @@
     },
     "competitor": {
       "label": "競合動向",
-      "description": "他社アプリのストア順位・レビュー・広告出稿",
-      "collectors": ["store-reviews", "meta-ads"],
+      "description": "他社アプリのストア順位・レビュー",
+      "collectors": ["store-reviews", "store-ranking"],
       "sources": {
         "store-reviews": {
           "platform": "google-play"
         },
-        "meta-ads": {
-          "platform": "meta",
-          "requiresToken": "META_ACCESS_TOKEN"
-        }
+        "store-ranking": { "rankingDepth": 200 }
       }
     },
     "user": {

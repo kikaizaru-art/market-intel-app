@@ -1,7 +1,7 @@
 /**
  * 収集した実データを読み込み、ダッシュボードのコンポーネントが期待する形式に変換する
  *
- * Phase 2: trends, reviews, news, ads すべてのデータタイプに対応
+ * trends, reviews, ranking, community, news の全データタイプに対応
  */
 
 const COLLECTED_URL = './data/collected.json'
@@ -20,8 +20,9 @@ export async function loadCollectedData() {
       collected_at: raw.collected_at,
       trends: transformTrends(raw.trends),
       reviews: transformReviews(raw.reviews),
+      ranking: transformRanking(raw.ranking),
+      community: transformCommunity(raw.community),
       news: transformNews(raw.news),
-      ads: transformAds(raw.ads),
     }
 
     // 変換結果のサマリーをログ
@@ -113,20 +114,34 @@ function transformNews(news) {
 }
 
 /**
- * Meta Ad Library → 広告データ形式
+ * Store Ranking → 競合ポジション形式
  */
-function transformAds(ads) {
-  if (!ads?.ads?.length) return null
+function transformRanking(ranking) {
+  if (!ranking?.targetPositions?.length) return null
   return {
-    source: 'Meta Ad Library (実データ)',
-    ads: ads.ads.map(ad => ({
-      id: ad.id,
-      advertiser: ad.advertiser_name || ad.page_name || '不明',
-      title: ad.ad_creative_link_titles?.[0] || ad.ad_creative_bodies?.[0]?.slice(0, 50) || '(タイトルなし)',
-      body: ad.ad_creative_bodies?.[0] || '',
-      started: ad.ad_delivery_start_time || ad.ad_creation_time || '',
-      stopped: ad.ad_delivery_stop_time || null,
-      status: ad.ad_delivery_stop_time ? '終了' : '配信中',
+    source: ranking.source || 'Google Play Ranking',
+    genre: ranking.genre,
+    positions: ranking.targetPositions,
+    topGrossing: ranking.rankings?.top_grossing || [],
+    topFree: ranking.rankings?.top_free || [],
+  }
+}
+
+/**
+ * Community → コミュニティ活動形式
+ */
+function transformCommunity(community) {
+  if (!community?.stats) return null
+  return {
+    source: community.source || 'Reddit',
+    stats: community.stats,
+    posts: (community.posts || []).slice(0, 20).map(p => ({
+      title: p.title,
+      subreddit: p.subreddit,
+      score: p.score,
+      numComments: p.numComments,
+      created: p.created,
+      keyword: p.keyword,
     })),
   }
 }

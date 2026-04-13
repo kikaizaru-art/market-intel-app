@@ -30,12 +30,12 @@ export function TargetProvider({ children }) {
       ...generated,
       trends: collected.trends || generated.trends,
       reviews: collected.reviews || generated.reviews,
+      ranking: collected.ranking || null,
+      community: collected.community || null,
       industry: {
         ...generated.industry,
         news: collected.news || generated.industry.news,
       },
-      // Phase 2: 広告データの統合
-      ads: collected.ads || null,
     }
   }, [target?.appName, target?.companyName, target?.genre, collected])
 
@@ -48,8 +48,9 @@ export function TargetProvider({ children }) {
       collected_at: collected.collected_at,
       trends: !!collected.trends,
       reviews: !!collected.reviews,
+      ranking: !!collected.ranking,
+      community: !!collected.community,
       news: !!collected.news,
-      ads: !!collected.ads,
     }
   }, [collected])
 

@@ -1,0 +1,119 @@
+{
+  "domain": "memento-mori",
+  "name": "メメントモリ 市場分析",
+  "version": "1.0.0",
+  "description": "メメントモリ (MementoMori: AFKRPG) の市場環境・競合動向・ユーザー反応を多層的に収集・分析",
+
+  "layers": {
+    "macro": {
+      "label": "マクロ環境",
+      "description": "市場全体の潮流 — 放置RPGジャンルトレンド・業界ニュース",
+      "collectors": ["google-trends", "news-rss"],
+      "sources": {
+        "google-trends": {
+          "keywords": ["メメントモリ", "放置少女", "AFK Journey", "オリアカ"],
+          "geo": "JP"
+        },
+        "news-rss": {
+          "feeds": [
+            { "name": "4Gamer", "url": "https://www.4gamer.net/rss/index.xml" },
+            { "name": "AUTOMATON", "url": "https://automaton-media.com/feed/" },
+            { "name": "Inside", "url": "https://www.inside-games.jp/rss/index.rdf" },
+            { "name": "GameSpark", "url": "https://www.gamespark.jp/rss/index.rdf" }
+          ]
+        }
+      }
+    },
+    "competitor": {
+      "label": "競合動向",
+      "description": "競合アプリのストア情報・レビュー・カテゴリ順位",
+      "collectors": ["store-reviews", "store-ranking"],
+      "sources": {
+        "store-reviews": { "platform": "google-play" },
+        "store-ranking": { "rankingDepth": 200 }
+      }
+    },
+    "user": {
+      "label": "ユーザー反応",
+      "description": "アプリレビュー・コミュニティ活動",
+      "collectors": ["store-reviews", "community"],
+      "sources": {
+        "community": {
+          "subreddits": ["gachagaming", "MementoMoriGame"],
+          "keywords": ["MementoMori", "Memento Mori game"]
+        }
+      }
+    },
+    "causal": {
+      "label": "因果関係",
+      "description": "イベント×トレンド異常値の自動相関検出",
+      "autoMemo": true,
+      "validationEnabled": true,
+      "learningEnabled": true
+    }
+  },
+
+  "targets": [
+    {
+      "id": "memento-mori",
+      "name": "メメントモリ",
+      "category": "放置RPG",
+      "isMain": true,
+      "identifiers": {
+        "store_id_android": "jp.boi.mementomori.android",
+        "store_id_ios": "1611490041"
+      }
+    },
+    {
+      "id": "houchi-shoujo",
+      "name": "放置少女",
+      "category": "放置RPG",
+      "isMain": false,
+      "identifiers": {
+        "store_id_android": "jp.glee.girl"
+      }
+    },
+    {
+      "id": "afk-journey",
+      "name": "AFK Journey",
+      "category": "放置RPG",
+      "isMain": false,
+      "identifiers": {
+        "store_id_android": "com.farlightgames.igame.gp"
+      }
+    },
+    {
+      "id": "ori-aka",
+      "name": "オリアカ：ライト",
+      "category": "放置RPG",
+      "isMain": false,
+      "identifiers": {
+        "store_id_android": "com.qookkagames.starg2.gp.global"
+      }
+    }
+  ],
+
+  "categories": ["RPG", "放置ゲーム", "ファンタジー", "美少女", "ストラテジー"],
+  "competitors": ["C4 Connect", "Lilith Games", "Gamamobi"],
+
+  "seasonalPatterns": [
+    { "month": 1,  "event": "年末年始特需の終了", "impact": "negative", "layer": "macro" },
+    { "month": 2,  "event": "バレンタインイベント", "impact": "positive", "layer": "macro" },
+    { "month": 3,  "event": "周年イベント (10月配信)", "impact": "neutral", "layer": "macro" },
+    { "month": 5,  "event": "GW大型連休", "impact": "positive", "layer": "macro" },
+    { "month": 7,  "event": "夏休みシーズン", "impact": "positive", "layer": "macro" },
+    { "month": 8,  "event": "お盆シーズン", "impact": "positive", "layer": "macro" },
+    { "month": 10, "event": "周年記念イベント", "impact": "positive", "layer": "macro" },
+    { "month": 12, "event": "クリスマス・年末商戦", "impact": "positive", "layer": "macro" }
+  ],
+
+  "analysis": {
+    "anomalyThreshold": 2.0,
+    "trendWindow": 4,
+    "causationWindowDays": 7,
+    "autoConfirmThreshold": 0.65,
+    "autoRejectThreshold": 0.30
+  },
+
+  "dataPrefix": "memento-mori"
+}

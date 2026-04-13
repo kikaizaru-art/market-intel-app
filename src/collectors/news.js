@@ -9,17 +9,18 @@
 import fs from 'fs'
 import RSSParser from 'rss-parser'
 
-const RSS_FEEDS = [
+const DEFAULT_FEEDS = [
   { name: '4Gamer',    url: 'https://www.4gamer.net/rss/index.xml' },
   { name: 'AUTOMATON', url: 'https://automaton-media.com/feed/' },
   { name: 'Inside',    url: 'https://www.inside-games.jp/rss/index.rdf' },
   { name: 'GameSpark', url: 'https://www.gamespark.jp/rss/index.rdf' },
 ]
 
-export async function fetchNews() {
+export async function fetchNews(feeds) {
+  const rssFeeds = feeds || DEFAULT_FEEDS
   const parser = new RSSParser({ timeout: 15000 })
   const allItems = []
-  for (const feed of RSS_FEEDS) {
+  for (const feed of rssFeeds) {
     try {
       console.log(`[news] fetching ${feed.name}...`)
       const result = await parser.parseURL(feed.url)

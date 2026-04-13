@@ -48,3 +48,13 @@
 1. `npm run collect` → `data/` に個別JSON + `public/data/collected.json` に統合出力
 2. ダッシュボード起動時に `collected.json` を fetch
 3. 実データがあれば上書き、なければ `generateData.js` のモックを使用
+
+## 次の実装課題 (優先順)
+
+1. **因果ログの永続化** — 手動メモ・自動メモが React state のみで消える (`CausationView.jsx`)
+2. **自動検証の循環論法修正** — `autoMemo.js` の `validateAnomalyEvent`/`validateNewsCorrelation` が自己承認
+3. **文脈入力UI** — 自動検出に対してワンタップ選択肢+メモ+自由記帳で因果文脈を付与
+4. **ダッシュボード3タブ再構成** — 現行(アプリ情報/ユーザー/業界) → ビジョン(現在地/推移/次の一手)
+5. **インフルエンサードメイン設計** — メインユースケースだが config/collectors ともに未着手
+
+詳細: `docs/vision.md` の「既知の課題と次のアクション」

@@ -381,8 +381,8 @@ export function validateCustomPattern(memo, data) {
 |-------|------|------|
 | Phase 1 | モックデータ + ダッシュボード | 完了 |
 | Phase 2 | 実データ収集 (ゲーム市場) | 完了 |
-| Phase 2.5 | **マルチドメインフレームワーク設計** | **← 今ここ** |
-| Phase 3 | SQLite移行 + 因果ログ永続化 | 計画中 |
+| Phase 2.5 | マルチドメインフレームワーク設計 | 完了 |
+| Phase 3 | **ドメイン切替UI + 因果ログ永続化** | **← 今ここ** |
 | Phase 4 | 競馬ドメイン追加 (MVP最速) | 計画中 |
 | Phase 5 | 株式ドメイン追加 | 計画中 |
 | Phase 6 | LLM統合 (Claude API で因果サマリー生成) | 計画中 |

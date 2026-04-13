@@ -28,7 +28,7 @@
 
 - **4層モデル**: マクロ → 競合 → ユーザー → 因果関係 (全ドメイン共通)
 - **ドメイン設定**: `config/domains/{domain}.json` でドメインを定義
-- **ドメイン切替**: `DOMAIN=stock npm run collect` で切替可能
+- **ドメイン切替**: ダッシュボードUIでドメイン選択可能 / `DOMAIN=stock npm run collect` でCLI切替
 - **因果ログ自動蓄積**: 全ドメインの中核価値。パターンDBが時間とともに精度向上
 - 詳細設計: `docs/architecture.md`
 

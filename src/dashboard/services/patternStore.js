@@ -394,3 +394,40 @@ export function resetLearning() {
 export function getSignalWeights() {
   return loadStore().signalWeights
 }
+
+// ─── エクスポート / インポート ────────────────────────────────
+
+/**
+ * 学習データ全体をエクスポート用オブジェクトとして取得
+ */
+export function exportLearningData() {
+  const store = loadStore()
+  const settings = loadSettings()
+  return {
+    _format: 'market-intel-learning-v1',
+    exportedAt: new Date().toISOString(),
+    store,
+    settings,
+  }
+}
+
+/**
+ * エクスポートされた学習データをインポート（上書き）
+ * @param {object} data - exportLearningData() の戻り値
+ * @returns {{ success: boolean, message: string }}
+ */
+export function importLearningData(data) {
+  if (!data || data._format !== 'market-intel-learning-v1') {
+    return { success: false, message: 'フォーマットが不正です' }
+  }
+  if (!data.store || !data.settings) {
+    return { success: false, message: 'データが不完全です' }
+  }
+  try {
+    saveStore(data.store)
+    saveSettings({ ...DEFAULT_SETTINGS, ...data.settings })
+    return { success: true, message: `インポート完了 (${data.store.feedbackLog?.length || 0}件の学習ログ)` }
+  } catch (e) {
+    return { success: false, message: `インポート失敗: ${e.message}` }
+  }
+}

@@ -2,17 +2,14 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { useTarget } from './context/TargetContext.jsx'
 import { useDomain } from './context/DomainContext.jsx'
 import SearchView from './components/SearchView.jsx'
-import UserView from './components/UserView.jsx'
-import CausationView from './components/CausationView.jsx'
-import MarketFundamentalsView from './components/MarketFundamentalsView.jsx'
-import CorporateView from './components/CorporateView.jsx'
-import IndustryView from './components/IndustryView.jsx'
-import AppInfoView from './components/AppInfoView.jsx'
+import PositionView from './components/PositionView.jsx'
+import HistoryView from './components/HistoryView.jsx'
+import ActionsView from './components/ActionsView.jsx'
 
 const TABS = [
-  { key: 'appinfo',     label: 'アプリ情報',    accent: 'var(--accent-orange)' },
-  { key: 'user',        label: 'ユーザー',      accent: 'var(--accent-user)' },
-  { key: 'industry',    label: '業界・イベント', accent: '#a5d6ff' },
+  { key: 'position', label: '現在地',    accent: '#56d364' },
+  { key: 'history',  label: '推移',      accent: '#388bfd' },
+  { key: 'actions',  label: '次の一手',  accent: '#d2a8ff' },
 ]
 
 function Dashboard() {
@@ -114,37 +111,46 @@ function Dashboard() {
           ref={sliderRef}
           style={{ transform: `translateX(-${activeTab * 100}%)` }}
         >
+          {/* ━━━ 現在地 ━━━ */}
           <section className="slide-pane">
             <div className="dashboard">
-              <AppInfoView
+              <PositionView
                 target={target}
                 reviews={data.reviews}
                 fundamentals={data.fundamentals}
-                events={data.events}
+                trends={data.trends}
+                industry={data.industry}
                 corporate={data.corporate}
+                events={data.events}
                 causation={data.causation}
               />
             </div>
           </section>
 
+          {/* ━━━ 推移 ━━━ */}
           <section className="slide-pane">
             <div className="dashboard">
-              <UserView data={data.reviews} snsBuzzData={data.fundamentals?.sns_buzz} />
+              <HistoryView
+                target={target}
+                reviews={data.reviews}
+                fundamentals={data.fundamentals}
+                trends={data.trends}
+                industry={data.industry}
+                events={data.events}
+              />
             </div>
           </section>
 
+          {/* ━━━ 次の一手 ━━━ */}
           <section className="slide-pane">
             <div className="dashboard">
-              <MarketFundamentalsView data={data.fundamentals} eventsData={data.events} newsData={data.industry?.news} />
-              <CausationView
-                data={data.causation}
-                trendsData={data.trends}
-                reviewsData={data.reviews}
-                eventsData={data.events}
-                newsData={data.industry?.news}
+              <ActionsView
+                causation={data.causation}
+                trends={data.trends}
+                reviews={data.reviews}
+                events={data.events}
+                industry={data.industry}
               />
-              <CorporateView data={data.corporate} />
-              <IndustryView data={data.industry} trendsData={data.trends} />
             </div>
           </section>
         </div>

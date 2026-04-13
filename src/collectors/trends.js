@@ -35,9 +35,22 @@ export async function fetchTrends(trendsConfig) {
     return { source: 'Google Trends', geo, keywords, weekly }
   } catch (e) {
     console.warn('[trends] pytrends failed:', e.message?.split('\n')[0])
-    console.warn('[trends] falling back to mock data')
+
+    // モックファイルがあり、キーワードが一致する場合のみ使用
     const mockPath = path.resolve(__dirname, '../../data/mock/trends.json')
-    return JSON.parse(fs.readFileSync(mockPath))
+    if (fs.existsSync(mockPath)) {
+      const mock = JSON.parse(fs.readFileSync(mockPath))
+      const mockKeys = mock.keywords || Object.keys(mock.weekly?.[0] || {}).filter(k => k !== 'date')
+      const isMatch = keywords.some(k => mockKeys.includes(k))
+      if (isMatch) {
+        console.warn('[trends] falling back to mock data (keywords match)')
+        return mock
+      }
+    }
+
+    // モックが合わない場合、指定キーワードで空データを返す
+    console.warn('[trends] no matching mock — returning empty structure for:', keywords)
+    return { source: 'Google Trends (empty)', geo, keywords, weekly: [] }
   }
 }
 

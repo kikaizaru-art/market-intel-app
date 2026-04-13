@@ -1,0 +1,14 @@
+{
+  "source": "Meta Ad Library (mock)",
+  "fetched_at": "2026-01-01T00:00:00.000Z",
+  "ads": [
+    {
+      "id": "mock-ad-001",
+      "ad_creation_time": "2025-12-01",
+      "ad_creative_bodies": ["新作RPG登場！今すぐダウンロード"],
+      "ad_delivery_start_time": "2025-12-01",
+      "advertiser_name": "Mock Advertiser",
+      "page_name": "MockGame Official"
+    }
+  ]
+}

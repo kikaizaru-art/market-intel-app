@@ -13,9 +13,10 @@ import gplay from 'google-play-scraper'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const CONFIG_PATH = path.resolve(__dirname, '../../config/targets.json')
 
-export async function fetchStoreReviews() {
-  const config = JSON.parse(fs.readFileSync(CONFIG_PATH))
-  const apps = config.titles.filter(t => t.store_id_android)
+export async function fetchStoreReviews(titles) {
+  const apps = titles
+    ? titles.filter(t => t.store_id_android)
+    : JSON.parse(fs.readFileSync(CONFIG_PATH)).titles.filter(t => t.store_id_android)
 
   const results = []
   for (const app of apps) {

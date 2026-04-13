@@ -19,9 +19,8 @@ const CONFIG_PATH = path.resolve(__dirname, '../../config/targets.json')
 const DATA_DIR = path.resolve(__dirname, '../../data')
 const PY_SCRIPT = path.resolve(__dirname, 'fetch_trends.py')
 
-export async function fetchTrends() {
-  const config = JSON.parse(fs.readFileSync(CONFIG_PATH))
-  const { keywords, geo } = config.google_trends
+export async function fetchTrends(trendsConfig) {
+  const { keywords, geo } = trendsConfig || JSON.parse(fs.readFileSync(CONFIG_PATH)).google_trends
 
   console.log('[trends] fetching keywords:', keywords, '| geo:', geo)
 

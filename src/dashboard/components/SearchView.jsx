@@ -1,26 +1,24 @@
 import { useState, useCallback } from 'react'
 import { getAvailableGenres } from '../services/generateData.js'
+import { useDomain } from '../context/DomainContext.jsx'
 
 const GENRES = getAvailableGenres()
 
-const PRESETS = [
-  { appName: 'モンスターストライク', companyName: 'MIXI', genre: 'RPG' },
-  { appName: 'パズル&ドラゴンズ', companyName: 'ガンホー', genre: 'パズル' },
-  { appName: 'Clash Royale', companyName: 'Supercell', genre: 'ストラテジー' },
-  { appName: 'ウマ娘', companyName: 'Cygames', genre: 'シミュレーション' },
-]
-
 export default function SearchView({ onSubmit }) {
+  const { domainId, config, ui, domainList, setDomain } = useDomain()
   const [appName, setAppName] = useState('')
   const [companyName, setCompanyName] = useState('')
-  const [genre, setGenre] = useState('RPG')
+  const [genre, setGenre] = useState(GENRES[0])
   const [loading, setLoading] = useState(false)
+
+  const categories = domainId === 'game-market'
+    ? GENRES
+    : config.categories || []
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault()
     if (!appName.trim()) return
     setLoading(true)
-    // Small delay to show loading state (data generation is sync but fast)
     requestAnimationFrame(() => {
       onSubmit({ appName: appName.trim(), companyName: companyName.trim() || appName.trim(), genre })
     })
@@ -33,6 +31,15 @@ export default function SearchView({ onSubmit }) {
     })
   }, [onSubmit])
 
+  const handleDomainSwitch = useCallback((id) => {
+    setDomain(id)
+    setAppName('')
+    setCompanyName('')
+    setLoading(false)
+  }, [setDomain])
+
+  const isReady = domainList.find(d => d.id === domainId)?.ready
+
   return (
     <div className="search-page">
       <div className="search-container">
@@ -41,16 +48,34 @@ export default function SearchView({ onSubmit }) {
           <span className="search-logo-text">Market Intel</span>
         </div>
         <p className="search-description">
-          アプリ名を入力すると、競合分析・市場トレンド・ユーザー評価などのデータを収集します
+          {config.description}
         </p>
+
+        {/* Domain Selector */}
+        <div className="domain-selector">
+          {domainList.map((d) => (
+            <button
+              key={d.id}
+              className={`domain-btn ${d.id === domainId ? 'active' : ''}`}
+              style={{
+                '--domain-accent': d.accent,
+              }}
+              onClick={() => handleDomainSwitch(d.id)}
+            >
+              <span className="domain-btn-icon">{d.icon}</span>
+              <span className="domain-btn-name">{d.name}</span>
+              {!d.ready && <span className="domain-btn-badge">Preview</span>}
+            </button>
+          ))}
+        </div>
 
         <form className="search-form" onSubmit={handleSubmit}>
           <div className="search-field-group">
-            <label className="search-label">アプリ名 <span className="search-required">*</span></label>
+            <label className="search-label">{ui.targetLabel} <span className="search-required">*</span></label>
             <input
               type="text"
               className="search-input search-input-main"
-              placeholder="例: モンスターストライク"
+              placeholder={ui.targetPlaceholder}
               value={appName}
               onChange={e => setAppName(e.target.value)}
               autoFocus
@@ -59,23 +84,23 @@ export default function SearchView({ onSubmit }) {
 
           <div className="search-row">
             <div className="search-field-group" style={{ flex: 1 }}>
-              <label className="search-label">企業名</label>
+              <label className="search-label">{ui.subLabel}</label>
               <input
                 type="text"
                 className="search-input"
-                placeholder="例: MIXI（任意）"
+                placeholder={ui.subPlaceholder}
                 value={companyName}
                 onChange={e => setCompanyName(e.target.value)}
               />
             </div>
             <div className="search-field-group">
-              <label className="search-label">ジャンル</label>
+              <label className="search-label">{ui.categoryLabel}</label>
               <select
                 className="search-select"
                 value={genre}
                 onChange={e => setGenre(e.target.value)}
               >
-                {GENRES.map(g => (
+                {categories.map(g => (
                   <option key={g} value={g}>{g}</option>
                 ))}
               </select>
@@ -86,11 +111,12 @@ export default function SearchView({ onSubmit }) {
             type="submit"
             className="search-submit"
             disabled={!appName.trim() || loading}
+            style={!isReady ? { opacity: 0.85 } : undefined}
           >
             {loading ? (
               <span className="search-spinner" />
             ) : (
-              'データ収集開始'
+              isReady ? 'データ収集開始' : 'モックデータで分析開始'
             )}
           </button>
         </form>
@@ -98,7 +124,7 @@ export default function SearchView({ onSubmit }) {
         <div className="search-presets">
           <span className="search-presets-label">クイック分析:</span>
           <div className="search-presets-list">
-            {PRESETS.map((p, i) => (
+            {ui.presets.map((p, i) => (
               <button
                 key={i}
                 className="search-preset-btn"
@@ -112,7 +138,13 @@ export default function SearchView({ onSubmit }) {
         </div>
 
         <div className="search-footer">
-          Phase 2 — <code>npm run collect</code> で実データを収集できます。収集データがない場合はモック生成を使用します。
+          {isReady ? (
+            <>Phase 2 — <code>npm run collect</code> で実データを収集できます。収集データがない場合はモック生成を使用します。</>
+          ) : (
+            <>
+              <span style={{ color: ui.accent }}>{config.name}</span> — データコレクター開発中。モックデータでダッシュボードの動作を確認できます。
+            </>
+          )}
         </div>
       </div>
     </div>

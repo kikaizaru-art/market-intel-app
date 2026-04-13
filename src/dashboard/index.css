@@ -1035,6 +1035,76 @@ html, body {
   max-width: 420px;
 }
 
+/* Domain Selector */
+.domain-selector {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+}
+
+.domain-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.domain-btn:hover {
+  border-color: var(--domain-accent);
+  background: var(--bg-card-hover);
+}
+
+.domain-btn.active {
+  border-color: var(--domain-accent);
+  background: color-mix(in srgb, var(--domain-accent) 8%, transparent);
+  box-shadow: 0 0 0 1px var(--domain-accent);
+}
+
+.domain-btn.active .domain-btn-name {
+  color: var(--domain-accent);
+}
+
+.domain-btn-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.domain-btn-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.domain-btn-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 8px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  background: rgba(227, 179, 65, 0.15);
+  color: var(--accent-orange);
+  border: 1px solid rgba(227, 179, 65, 0.3);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.domain-badge {
+  font-size: 10px !important;
+}
+
 .search-form {
   width: 100%;
   display: flex;

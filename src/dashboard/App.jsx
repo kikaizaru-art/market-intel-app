@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useTarget } from './context/TargetContext.jsx'
+import { useDomain } from './context/DomainContext.jsx'
 import SearchView from './components/SearchView.jsx'
 import UserView from './components/UserView.jsx'
 import CausationView from './components/CausationView.jsx'
@@ -16,6 +17,7 @@ const TABS = [
 
 function Dashboard() {
   const { target, data, dataSources, reset } = useTarget()
+  const { config, ui } = useDomain()
   const [activeTab, setActiveTab] = useState(0)
   const touchStartX = useRef(null)
   const touchStartY = useRef(null)
@@ -64,7 +66,10 @@ function Dashboard() {
             &larr;
           </button>
           <span className="app-title">Market Intel</span>
-          <span className="app-subtitle">{target.appName} の競合環境分析</span>
+          <span className="header-badge domain-badge" style={{ background: `${ui.accent}18`, color: ui.accent, border: `1px solid ${ui.accent}44` }}>
+            {ui.icon} {config.name}
+          </span>
+          <span className="app-subtitle">{target.appName} の分析</span>
           <span className="header-badge">{target.genre}</span>
         </div>
         <div className="app-header-right">

@@ -67,7 +67,9 @@ function loadDomainConfig(domainName) {
 }
 
 async function run() {
-  const domainName = process.env.DOMAIN || 'game-market'
+  // --domain 引数 > 環境変数 DOMAIN > デフォルト game-market
+  const domainArg = process.argv.indexOf('--domain')
+  const domainName = (domainArg !== -1 ? process.argv[domainArg + 1] : process.env.DOMAIN || 'game-market').trim()
   console.log(`=== Market Intel Collector ===`)
   console.log(`[info] domain: ${domainName}`)
   console.log(`[info] started at ${new Date().toISOString()}`)

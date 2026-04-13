@@ -5,6 +5,7 @@ import {
   PRESETS,
   getLearningTimeline, rollbackToIndex,
   lockLearning, unlockLearning, isLearningLocked, getLockedAtIndex,
+  exportLearningData, importLearningData,
 } from '../services/patternStore.js'
 
 // ─── スライダー ──────────────────────────────────────────────
@@ -102,7 +103,8 @@ export default memo(function LearningSettings({ onSettingsChange }) {
   const [locked, setLocked] = useState(() => isLearningLocked())
   const [lockedAt, setLockedAt] = useState(() => getLockedAtIndex())
   const [timelineVersion, setTimelineVersion] = useState(0)
-  const [activeTab, setActiveTab] = useState('patterns') // patterns | thresholds | timeline
+  const [activeTab, setActiveTab] = useState('patterns') // patterns | thresholds | timeline | data
+  const [importMsg, setImportMsg] = useState(null)
 
   const timeline = useMemo(() => {
     return getLearningTimeline()
@@ -174,6 +176,7 @@ export default memo(function LearningSettings({ onSettingsChange }) {
         <button onClick={() => setActiveTab('timeline')} style={TAB_STYLE(activeTab === 'timeline')}>
           学習履歴 {timeline.length > 0 && `(${timeline.length})`}
         </button>
+        <button onClick={() => setActiveTab('data')} style={TAB_STYLE(activeTab === 'data')}>データ管理</button>
       </div>
 
       {/* ─── 検出パターン タブ ─── */}
@@ -282,6 +285,85 @@ export default memo(function LearningSettings({ onSettingsChange }) {
             format={v => `-${(v * 100).toFixed(0)}%`}
             onChange={v => update({ learningRate: { ...settings.learningRate, reject: -v } })}
           />
+        </div>
+      )}
+
+      {/* ─── データ管理 タブ ─── */}
+      {activeTab === 'data' && (
+        <div>
+          <div style={{ fontSize: 9, color: '#6e7681', marginBottom: 8, lineHeight: 1.5 }}>
+            学習データをファイルにエクスポート/インポートして永続化できます。ブラウザのlocalStorageが消えてもデータを復元可能です。
+          </div>
+
+          <div style={{ display: 'flex', gap: 6, marginBottom: 8 }}>
+            <button
+              onClick={() => {
+                const data = exportLearningData()
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = `market-intel-learning-${new Date().toISOString().slice(0, 10)}.json`
+                a.click()
+                URL.revokeObjectURL(url)
+              }}
+              style={{
+                flex: 1, fontSize: 10, padding: '8px 12px', borderRadius: 6, cursor: 'pointer',
+                border: '1px solid rgba(56,139,253,0.3)', background: 'rgba(56,139,253,0.08)', color: '#388bfd',
+              }}
+            >
+              エクスポート (JSON)
+            </button>
+            <label style={{
+              flex: 1, fontSize: 10, padding: '8px 12px', borderRadius: 6, cursor: 'pointer',
+              border: '1px solid rgba(210,168,255,0.3)', background: 'rgba(210,168,255,0.08)', color: '#d2a8ff',
+              textAlign: 'center',
+            }}>
+              インポート
+              <input
+                type="file"
+                accept=".json"
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (!file) return
+                  const reader = new FileReader()
+                  reader.onload = (ev) => {
+                    try {
+                      const data = JSON.parse(ev.target.result)
+                      const result = importLearningData(data)
+                      setImportMsg(result)
+                      if (result.success) {
+                        setSettings(getUserSettings())
+                        setTimelineVersion(v => v + 1)
+                        onSettingsChange?.()
+                      }
+                    } catch {
+                      setImportMsg({ success: false, message: 'JSONの解析に失敗しました' })
+                    }
+                  }
+                  reader.readAsText(file)
+                  e.target.value = ''
+                }}
+              />
+            </label>
+          </div>
+
+          {importMsg && (
+            <div style={{
+              fontSize: 10, padding: '6px 10px', borderRadius: 4, marginBottom: 8,
+              background: importMsg.success ? 'rgba(86,211,100,0.08)' : 'rgba(248,81,73,0.08)',
+              color: importMsg.success ? '#56d364' : '#f85149',
+              border: `1px solid ${importMsg.success ? 'rgba(86,211,100,0.3)' : 'rgba(248,81,73,0.3)'}`,
+            }}>
+              {importMsg.message}
+            </div>
+          )}
+
+          <div style={{ fontSize: 9, color: '#484f58', lineHeight: 1.5 }}>
+            エクスポートファイルには学習重み・フィードバックログ・設定が含まれます。
+            インポートすると現在のデータは上書きされます。
+          </div>
         </div>
       )}
 

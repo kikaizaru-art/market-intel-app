@@ -20,7 +20,8 @@
 
 - `npm run dev` — ローカル開発サーバー (port 5173)
 - `npm run build` — プロダクションビルド (dist/)
-- `npm run collect` — 実データ収集 (Google Trends, Google Play, RSS, Meta Ads)
+- `npm run collect` — 実データ収集 (Google Trends, Google Play, RSS)
+- `npm run discover` — アプリ自動探索 & ドメイン設定生成
 
 ## アーキテクチャ
 
@@ -30,7 +31,7 @@
 - `src/dashboard/components/PositionView.jsx` — 現在地タブ (KPI, 競合ポジション, マクロ環境)
 - `src/dashboard/components/HistoryView.jsx` — 推移タブ (トレンド, ランキング, レビュー, イベント, ニュース)
 - `src/dashboard/components/ActionsView.jsx` — 次の一手タブ (リスク/チャンス, 因果関係)
-- `src/collectors/` — データ収集モジュール (trends, store, news, meta-ads)
+- `src/collectors/` — データ収集モジュール (trends, store, news, app-discover)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation)
 - `src/framework/` — マルチドメインフレームワーク (domain, layers, collector-registry, causal-engine)
 
@@ -39,7 +40,7 @@
 対象の周辺環境を4つのレイヤーで多層的に収集し、因果関係を蓄積・学習する。
 
 - **L1 マクロ**: 市場全体の追い風・逆風 (トレンド、業界ニュース)
-- **L2 競合**: ライバルの動き (順位、レビュー、広告出稿)
+- **L2 競合**: ライバルの動き (順位、レビュー)
 - **L3 ユーザー**: 自分のユーザーの声と行動 (レビュー、SNSセンチメント)
 - **L4 因果**: 「こうしたらこうなった」の学習エンジン (自動蓄積・検証・信頼度更新)
 - **ドメイン設定**: `config/domains/{domain}.json` で対象を定義。切替で同じ構造が動く

@@ -10,7 +10,6 @@
  */
 
 import { fetchTrends } from './trends.js'
-import { fetchMetaAds } from './meta-ads.js'
 import { fetchStoreReviews } from './store.js'
 import { fetchNews } from './news.js'
 import fs from 'fs'
@@ -82,7 +81,7 @@ async function run() {
   const feeds = config.news_rss?.feeds
 
   // 1. Google Trends
-  console.log('\n[1/4] Google Trends...')
+  console.log('\n[1/3] Google Trends...')
   try {
     results.trends = await fetchTrends(config.google_trends)
     saveJson(path.join(DATA_DIR, `trends_${today}.json`), results.trends)
@@ -94,22 +93,8 @@ async function run() {
     results.trends = null
   }
 
-  // 2. Meta Ads
-  console.log('\n[2/4] Meta Ad Library...')
-  try {
-    const searchTerms = config.titles.map(t => t.name)
-    results.ads = await fetchMetaAds({ searchTerms })
-    saveJson(path.join(DATA_DIR, `meta-ads_${today}.json`), results.ads)
-    const count = results.ads?.ads?.length ?? 0
-    console.log(`  OK: ${count} ads`)
-  } catch (e) {
-    console.error(`  FAIL: ${e.message}`)
-    errors.push({ collector: 'meta-ads', error: e.message })
-    results.ads = null
-  }
-
-  // 3. Store Reviews
-  console.log('\n[3/4] Store Reviews (Google Play)...')
+  // 2. Store Reviews
+  console.log('\n[2/3] Store Reviews (Google Play)...')
   try {
     results.reviews = await fetchStoreReviews(config.titles)
     saveJson(path.join(DATA_DIR, `store-reviews_${today}.json`), results.reviews)
@@ -121,8 +106,8 @@ async function run() {
     results.reviews = null
   }
 
-  // 4. News
-  console.log('\n[4/4] News RSS...')
+  // 3. News
+  console.log('\n[3/3] News RSS...')
   try {
     results.news = await fetchNews(feeds)
     saveJson(path.join(DATA_DIR, `news_${today}.json`), results.news)
@@ -139,8 +124,8 @@ async function run() {
   console.log('\n  public/data/collected.json saved')
 
   // サマリー
-  const succeeded = 4 - errors.length
-  console.log(`\n=== Done: ${succeeded}/4 collectors succeeded (${domainName}) ===`)
+  const succeeded = 3 - errors.length
+  console.log(`\n=== Done: ${succeeded}/3 collectors succeeded (${domainName}) ===`)
   if (errors.length > 0) {
     console.log('Failures:')
     for (const err of errors) {

@@ -167,11 +167,10 @@ function buildDomainConfig({ domainName, mainApp, competitors, rssFeeds, keyword
       },
       competitor: {
         label: '競合動向',
-        description: '競合アプリのストア情報・レビュー・広告出稿',
-        collectors: ['store-reviews', 'meta-ads'],
+        description: '競合アプリのストア情報・レビュー',
+        collectors: ['store-reviews'],
         sources: {
           'store-reviews': { platform: 'google-play' },
-          'meta-ads': { platform: 'meta', requiresToken: 'META_ACCESS_TOKEN' },
         },
       },
       user: {

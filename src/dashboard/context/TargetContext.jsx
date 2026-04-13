@@ -34,8 +34,6 @@ export function TargetProvider({ children }) {
         ...generated.industry,
         news: collected.news || generated.industry.news,
       },
-      // Phase 2: 広告データの統合
-      ads: collected.ads || null,
     }
   }, [target?.appName, target?.companyName, target?.genre, collected])
 
@@ -49,7 +47,6 @@ export function TargetProvider({ children }) {
       trends: !!collected.trends,
       reviews: !!collected.reviews,
       news: !!collected.news,
-      ads: !!collected.ads,
     }
   }, [collected])
 

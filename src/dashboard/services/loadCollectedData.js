@@ -1,7 +1,7 @@
 /**
  * 収集した実データを読み込み、ダッシュボードのコンポーネントが期待する形式に変換する
  *
- * Phase 2: trends, reviews, news, ads すべてのデータタイプに対応
+ * Phase 2: trends, reviews, news のデータタイプに対応
  */
 
 const COLLECTED_URL = './data/collected.json'
@@ -21,7 +21,6 @@ export async function loadCollectedData() {
       trends: transformTrends(raw.trends),
       reviews: transformReviews(raw.reviews),
       news: transformNews(raw.news),
-      ads: transformAds(raw.ads),
     }
 
     // 変換結果のサマリーをログ
@@ -110,25 +109,6 @@ function transformNews(news) {
     url: item.link || null,
     tags: guessNewsTags(item.title || ''),
   }))
-}
-
-/**
- * Meta Ad Library → 広告データ形式
- */
-function transformAds(ads) {
-  if (!ads?.ads?.length) return null
-  return {
-    source: 'Meta Ad Library (実データ)',
-    ads: ads.ads.map(ad => ({
-      id: ad.id,
-      advertiser: ad.advertiser_name || ad.page_name || '不明',
-      title: ad.ad_creative_link_titles?.[0] || ad.ad_creative_bodies?.[0]?.slice(0, 50) || '(タイトルなし)',
-      body: ad.ad_creative_bodies?.[0] || '',
-      started: ad.ad_delivery_start_time || ad.ad_creation_time || '',
-      stopped: ad.ad_delivery_stop_time || null,
-      status: ad.ad_delivery_stop_time ? '終了' : '配信中',
-    })),
-  }
 }
 
 /**

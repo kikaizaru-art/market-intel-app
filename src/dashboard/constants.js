@@ -2,8 +2,11 @@
  * 共有定数 — カラーパレット、ラベル、設定値
  */
 
-// 汎用カラーパレット
-export const PALETTE = ['#388bfd', '#d2a8ff', '#56d364', '#e3b341', '#79c0ff']
+// 汎用カラーパレット (11色 — メイン + 最大10競合)
+export const PALETTE = [
+  '#388bfd', '#d2a8ff', '#56d364', '#e3b341', '#79c0ff',
+  '#f0883e', '#f778ba', '#a5d6ff', '#7ee787', '#ffa657', '#cda4de',
+]
 
 export const ACCENT_ORANGE = '#f0883e'
 

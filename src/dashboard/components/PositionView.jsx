@@ -212,13 +212,13 @@ export default memo(function PositionView({
               </LineChart>
             </ResponsiveContainer>
           )}
-          <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))', gap: 4, marginTop: 8 }}>
             {rankSummary.map(app => (
-              <div key={app.id} className="stat-card" style={{ minWidth: 80 }}>
-                <div style={{ fontSize: 9, color: APP_COLORS[app.id], fontWeight: 600 }}>{app.name}</div>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: '#e6edf3' }}>{app.latest}位</span>
-                  <span style={{ fontSize: 10, color: app.diff > 0 ? '#56d364' : app.diff < 0 ? '#f85149' : '#6e7681' }}>
+              <div key={app.id} className="stat-card" style={{ padding: '4px 6px' }}>
+                <div style={{ fontSize: 8, color: APP_COLORS[app.id], fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</div>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#e6edf3' }}>{app.latest}位</span>
+                  <span style={{ fontSize: 9, color: app.diff > 0 ? '#56d364' : app.diff < 0 ? '#f85149' : '#6e7681' }}>
                     {app.diff > 0 ? `▲${app.diff}` : app.diff < 0 ? `▼${Math.abs(app.diff)}` : '→'}
                   </span>
                 </div>
@@ -239,12 +239,12 @@ export default memo(function PositionView({
           </div>
         </div>
         <div className="panel-body">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2, maxHeight: 220, overflowY: 'auto' }}>
             {appSummaries.map(app => (
-              <div key={app.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0', borderBottom: '1px solid #21262d' }}>
-                <span style={{ fontSize: 11, fontWeight: 600, color: app.color, minWidth: 70 }}>{app.name}</span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#e6edf3' }}>★ {app.score}</span>
-                <span style={{ fontSize: 10, color: parseFloat(app.diff) >= 0 ? '#56d364' : '#f85149' }}>
+              <div key={app.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '3px 0', borderBottom: '1px solid #21262d' }}>
+                <span style={{ fontSize: 10, fontWeight: 600, color: app.color, minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#e6edf3' }}>★{app.score}</span>
+                <span style={{ fontSize: 9, color: parseFloat(app.diff) >= 0 ? '#56d364' : '#f85149' }}>
                   {parseFloat(app.diff) >= 0 ? '▲' : '▼'}{Math.abs(app.diff)}
                 </span>
                 <div style={{ flex: 1 }}>

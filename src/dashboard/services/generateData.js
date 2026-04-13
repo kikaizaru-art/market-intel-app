@@ -3,51 +3,53 @@
  * When real APIs are connected (Phase 2), this will be replaced by actual data collection.
  */
 
+const MAX_MOCK_COMPETITORS = 8
+
 const GENRE_POOL = {
   'パズル': {
     keywords: ['パズルゲーム', 'マッチ3', 'ブロックパズル', '脳トレ'],
-    competitors: ['パズル&ドラゴンズ', 'ツムツム', 'キャンディクラッシュ', 'トゥーンブラスト'],
-    companies: ['ガンホー', 'LINE', 'King', 'Peak Games'],
+    competitors: ['パズル&ドラゴンズ', 'ツムツム', 'キャンディクラッシュ', 'トゥーンブラスト', 'ガーデンスケイプ', 'ホームスケイプ', 'ぷよぷよ', 'LINE POP2'],
+    companies: ['ガンホー', 'LINE', 'King', 'Peak Games', 'Playrix', 'Playrix', 'SEGA', 'LINE'],
     complaints: ['広告が多すぎる', '難易度が急に上がる', '読み込みが遅い', 'スタミナ制限がきつい'],
     praises: ['パズルが面白い', '暇つぶしに最適', 'グラフィックきれい', '無課金でも楽しめる'],
     hooks: ['「このレベル、誰でも解けます」系', 'ビフォーアフター系', '失敗系リアクション', 'ASMR系'],
   },
   'RPG': {
     keywords: ['RPGスマホ', 'ガチャゲー', 'ターン制RPG', 'アクションRPG'],
-    competitors: ['原神', 'FGO', 'ウマ娘', 'ブルーアーカイブ'],
-    companies: ['miHoYo', 'アニプレックス', 'Cygames', 'Yostar'],
+    competitors: ['原神', 'FGO', 'ウマ娘', 'ブルーアーカイブ', '放置少女', 'AFK Journey', 'ヘブンバーンズレッド', 'グランブルーファンタジー'],
+    companies: ['miHoYo', 'アニプレックス', 'Cygames', 'Yostar', 'C4 Connect', 'Lilith Games', 'WFS', 'Cygames'],
     complaints: ['ガチャ確率が低い', 'スタミナ消費が早い', 'PvPバランスが悪い', 'インフレが激しい'],
     praises: ['ストーリーが面白い', 'キャラデザが良い', 'イベントが充実', 'BGMが素晴らしい'],
     hooks: ['キャラクター紹介系', 'コラボ告知系', '最強編成紹介系', 'ストーリー訴求系'],
   },
   'カジュアル': {
     keywords: ['カジュアルゲーム', '暇つぶしゲーム', 'ハイパーカジュアル', 'ミニゲーム'],
-    competitors: ['Among Us', 'Subway Surfers', '2048', 'Flappy Bird系'],
-    companies: ['Voodoo', 'Ketchapp', 'SayGames', 'Lion Studios'],
+    competitors: ['Among Us', 'Subway Surfers', '2048', 'Flappy Bird系', 'Crossy Road', 'ヘビ.io', 'フィッシュダム', 'ロイヤルマッチ'],
+    companies: ['Voodoo', 'Ketchapp', 'SayGames', 'Lion Studios', 'Hipster Whale', 'Kooapps', 'Playrix', 'Dream Games'],
     complaints: ['すぐ飽きる', '課金圧が強い', 'バグが多い', '広告がうざい'],
     praises: ['操作が簡単', 'サクッと遊べる', '無料で十分楽しめる', 'テンポが良い'],
     hooks: ['失敗系リアクション', 'UGC風ナチュラル系', '「暇なときにどうぞ」系', 'スコアチャレンジ系'],
   },
   'ストラテジー': {
     keywords: ['ストラテジー', '戦略ゲーム', 'タワーディフェンス', '城ゲー'],
-    competitors: ['クラロワ', 'Rise of Kingdoms', 'アークナイツ', 'ドミネーションズ'],
-    companies: ['Supercell', 'Lilith Games', 'Yostar', 'Nexon'],
+    competitors: ['クラロワ', 'Rise of Kingdoms', 'アークナイツ', 'ドミネーションズ', '三國志 真戦', 'Lords Mobile', 'マフィアシティ', 'エボニー'],
+    companies: ['Supercell', 'Lilith Games', 'Yostar', 'Nexon', 'Qookka Games', 'IGG', 'YOTTA Games', 'TG Inc.'],
     complaints: ['課金者が強すぎる', 'マッチングが不公平', 'アプデが遅い', 'UIが分かりにくい'],
     praises: ['戦略性が高い', 'やりこみ要素が豊富', 'ギルドが楽しい', 'グラフィックが綺麗'],
     hooks: ['「無課金でも最強」系', 'ランキング訴求系', '攻略紹介系', 'PvPハイライト系'],
   },
   'アクション': {
     keywords: ['アクションゲーム', 'バトルロイヤル', 'シューティング', '格闘ゲーム'],
-    competitors: ['PUBG Mobile', '荒野行動', 'Brawl Stars', 'シャドウファイト'],
-    companies: ['Krafton', 'NetEase', 'Supercell', 'Nekki'],
+    competitors: ['PUBG Mobile', '荒野行動', 'Brawl Stars', 'シャドウファイト', '鉄拳', 'Apex Legends Mobile', 'Call of Duty Mobile', 'フォートナイト'],
+    companies: ['Krafton', 'NetEase', 'Supercell', 'Nekki', 'BANDAI NAMCO', 'EA', 'Activision', 'Epic Games'],
     complaints: ['ラグがひどい', 'チーターが多い', 'マッチング遅い', '容量が大きい'],
     praises: ['操作感が良い', 'グラフィックが最高', '友達と遊べる', 'eスポーツが熱い'],
     hooks: ['ハイライトプレイ系', 'eスポーツ訴求系', '新シーズン告知系', 'コラボ系'],
   },
   'シミュレーション': {
     keywords: ['シミュレーション', '経営ゲーム', '育成ゲーム', '箱庭ゲーム'],
-    competitors: ['どうぶつの森', 'シムシティ', 'スタデューバレー', 'ポケモンGO'],
-    companies: ['Nintendo', 'EA', 'ConcernedApe', 'Niantic'],
+    competitors: ['どうぶつの森', 'シムシティ', 'スタデューバレー', 'ポケモンGO', 'ヘイ・デイ', 'クッキーラン', 'タウンシップ', 'マージマンション'],
+    companies: ['Nintendo', 'EA', 'ConcernedApe', 'Niantic', 'Supercell', 'Devsisters', 'Playrix', 'Metacore'],
     complaints: ['コンテンツ不足', '課金要素が多い', '進行が遅い', 'イベントが単調'],
     praises: ['まったり遊べる', '自由度が高い', '癒やされる', 'コレクション要素が楽しい'],
     hooks: ['ビフォーアフター系', '建設タイムラプス系', 'コレクション紹介系', '癒やし系'],
@@ -176,9 +178,9 @@ export function generateCompetitorData(target) {
   const genreInfo = GENRE_POOL[genre] || INFLUENCER_POOL[genre] || GENRE_POOL[DEFAULT_GENRE]
   const rng = seededRandom(appName + companyName + genre)
 
-  // Pick 3 competitors
-  const competitorApps = genreInfo.competitors.slice(0, 3)
-  const competitorCompanies = genreInfo.companies.slice(0, 3)
+  // Pick up to MAX_MOCK_COMPETITORS competitors
+  const competitorApps = genreInfo.competitors.slice(0, MAX_MOCK_COMPETITORS)
+  const competitorCompanies = genreInfo.companies.slice(0, MAX_MOCK_COMPETITORS)
 
   const allApps = [
     { id: 'target', name: appName, genre, company: companyName },
@@ -236,7 +238,7 @@ function generateTrends(genre, genreInfo, rng) {
 function generateReviews(allApps, genreInfo, rng) {
   const months = generateMonthlyDates(6)
 
-  const apps = allApps.slice(0, 3).map(app => {
+  const apps = allApps.map(app => {
     const baseScore = 3.5 + rng() * 1.2
     const monthly = months.map((month, i) => {
       const trend = (rng() - 0.4) * 0.3
@@ -340,7 +342,7 @@ function generateFundamentals(allApps, genre, rng) {
   const dates = generateWeeklyDates(26)
 
   // Match MarketFundamentalsView expected format: apps[].weekly_sales_rank
-  const apps = allApps.slice(0, 3).map((app, ai) => {
+  const apps = allApps.map((app, ai) => {
     const baseRank = 10 + ai * 25 + randRange(0, 15, rng)
     return {
       id: app.id,

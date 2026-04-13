@@ -18,6 +18,9 @@ export const PATTERN_TYPES = {
   REVIEW_SPIKE:    'review_spike',
   NEWS_CORRELATION:'news_correlation',
   SEASONAL:        'seasonal',
+  UPDATE_REACTION: 'update_reaction',
+  RANKING_SHIFT:   'ranking_shift',
+  COMMUNITY_BUZZ:  'community_buzz',
 }
 
 const PATTERN_LABELS = {
@@ -26,6 +29,9 @@ const PATTERN_LABELS = {
   review_spike:     'レビュー急変',
   news_correlation: 'ニュース相関',
   seasonal:         '季節パターン',
+  update_reaction:  'アプデ反応',
+  ranking_shift:    'ランキング変動',
+  community_buzz:   'コミュニティ活況',
 }
 
 export { PATTERN_LABELS }
@@ -37,6 +43,9 @@ const BASE_CONFIDENCE = {
   review_spike:     0.70,
   news_correlation: 0.50,
   seasonal:         0.65,
+  update_reaction:  0.72,
+  ranking_shift:    0.68,
+  community_buzz:   0.55,
 }
 
 // ─── 自動承認/却下の閾値 (デフォルト、設定で上書き可能) ─────
@@ -251,6 +260,179 @@ function detectSeasonalPatterns(currentDate, existingNotes, patternWeights) {
   return memos
 }
 
+// ─── 新パターン検出器 (Phase 3: 多角的因果検出) ───────────
+
+/**
+ * UPDATE_REACTION: アプリ更新(What's New) → 評価分布・レビュー速度の変化を検出
+ * store.js が返す recentChanges と histogram を利用
+ */
+function detectUpdateReactionPatterns(reviewsData, patternWeights) {
+  const memos = []
+  if (!reviewsData?.apps?.length) return memos
+
+  for (const app of reviewsData.apps) {
+    const info = app.appInfo
+    if (!info?.recentChanges || !info?.histogram) continue
+
+    // What's New が存在する = 最近アップデートがあった
+    const updateText = info.recentChanges.replace(/<[^>]*>/g, '').slice(0, 100)
+    if (!updateText || updateText.length < 5) continue
+
+    // ヒストグラムから低評価比率を算出
+    const h = info.histogram
+    const total = (h['1'] || 0) + (h['2'] || 0) + (h['3'] || 0) + (h['4'] || 0) + (h['5'] || 0)
+    if (total === 0) continue
+    const lowRatio = ((h['1'] || 0) + (h['2'] || 0)) / total
+    const highRatio = ((h['4'] || 0) + (h['5'] || 0)) / total
+
+    // レビュー速度が高い = 更新に対するユーザー反応が活発
+    const velocity = app.reviewVelocity?.perDay || 0
+    const isHighVelocity = velocity >= 3
+
+    // 低評価率が30%超 or 高速レビュー → 反応があったと判定
+    if (lowRatio >= 0.30 || isHighVelocity) {
+      const isNegative = lowRatio >= 0.30
+      const rawScore = isNegative ? lowRatio * 0.3 : 0.15
+      const confidence = calcConfidence(PATTERN_TYPES.UPDATE_REACTION, rawScore, patternWeights)
+      memos.push({
+        id: makeId(),
+        date: new Date().toISOString().slice(0, 10),
+        event: `${app.name}のアプデ後に${isNegative ? '低評価増加' : 'レビュー活発化'}`,
+        app: app.name,
+        layer: 'ユーザー',
+        impact: isNegative ? 'negative' : 'positive',
+        memo: `更新内容: "${updateText}" | v${info.version || '?'} | 低評価率${(lowRatio * 100).toFixed(0)}%, レビュー速度${velocity}/日`,
+        auto: true,
+        patternType: PATTERN_TYPES.UPDATE_REACTION,
+        confidence,
+        signals: [`update_detected`, `low_ratio_${(lowRatio * 100).toFixed(0)}`, `velocity_${velocity}`],
+        _validation: { appName: app.name, lowRatio, highRatio, velocity },
+      })
+    }
+  }
+  return memos
+}
+
+/**
+ * RANKING_SHIFT: カテゴリランキングの順位変動を検出
+ * store-ranking.js が返す targetPositions を利用
+ */
+function detectRankingShiftPatterns(rankingData, patternWeights) {
+  const memos = []
+  if (!rankingData?.targetPositions?.length) return memos
+
+  for (const pos of rankingData.targetPositions) {
+    // 上位30位以内 or 圏外からの浮上は注目シグナル
+    const isTop30 = pos.rank <= 30
+    const isNotable = pos.rank <= 50
+
+    if (isNotable) {
+      const rawScore = isTop30 ? 0.2 : 0.1
+      const confidence = calcConfidence(PATTERN_TYPES.RANKING_SHIFT, rawScore, patternWeights)
+      memos.push({
+        id: makeId(),
+        date: new Date().toISOString().slice(0, 10),
+        event: `${pos.name}が${pos.collection === 'top_grossing' ? '売上' : '無料'}ランキング${pos.rank}位`,
+        app: pos.name,
+        layer: '競合',
+        impact: isTop30 ? 'positive' : 'neutral',
+        memo: `${rankingData.genre || 'RPG'}カテゴリ${pos.collection === 'top_grossing' ? '売上' : '無料'}ランキングで${pos.rank}位 (${pos.totalInList}件中)`,
+        auto: true,
+        patternType: PATTERN_TYPES.RANKING_SHIFT,
+        confidence,
+        signals: [`rank_${pos.rank}`, `collection_${pos.collection}`],
+        _validation: { appName: pos.name, rank: pos.rank, collection: pos.collection },
+      })
+    }
+  }
+  return memos
+}
+
+/**
+ * COMMUNITY_BUZZ: コミュニティ活動の盛り上がりを検出
+ * community.js が返す stats (投稿頻度, エンゲージメント) を利用
+ */
+function detectCommunityBuzzPatterns(communityData, patternWeights) {
+  const memos = []
+  if (!communityData?.stats) return memos
+
+  const { totalPosts, postsPerDay, avgScore, maxScore } = communityData.stats
+
+  // 1日あたり3投稿以上 or 最大スコア500以上 = バズの兆候
+  const isHighActivity = postsPerDay >= 3
+  const isViral = maxScore >= 500
+
+  if (isHighActivity || isViral) {
+    const rawScore = isViral ? 0.25 : 0.15
+    const confidence = calcConfidence(PATTERN_TYPES.COMMUNITY_BUZZ, rawScore, patternWeights)
+    const trigger = isViral ? `バイラル投稿(スコア${maxScore})` : `高頻度投稿(${postsPerDay}/日)`
+    memos.push({
+      id: makeId(),
+      date: new Date().toISOString().slice(0, 10),
+      event: `コミュニティ活況: ${trigger}`,
+      app: '全体',
+      layer: 'ユーザー',
+      impact: 'positive',
+      memo: `Reddit: ${totalPosts}投稿, ${postsPerDay}件/日, 平均スコア${avgScore}, 最大${maxScore}`,
+      auto: true,
+      patternType: PATTERN_TYPES.COMMUNITY_BUZZ,
+      confidence,
+      signals: [`posts_per_day_${postsPerDay}`, `max_score_${maxScore}`, `avg_score_${avgScore}`],
+      _validation: { postsPerDay, avgScore, maxScore },
+    })
+  }
+  return memos
+}
+
+// ─── 新パターンの検証器 ──────────────────────────────────────
+
+function validateUpdateReaction(memo, trendsData, reviewsData) {
+  // 更新後にトレンドが反応したか (検索トレンドの変化で検証)
+  if (!trendsData?.weekly?.length || !memo._validation) return null
+  const { appName } = memo._validation
+  const weekly = trendsData.weekly
+  if (weekly.length < 4) return null
+
+  // アプリ名に近いキーワードの直近トレンドを確認
+  const genres = trendsData._genres || Object.keys(weekly[0] || {}).filter(k => k !== 'date')
+  const matchGenre = genres.find(g => appName.includes(g) || g.includes(appName))
+  if (!matchGenre) return null
+
+  const last2 = weekly.slice(-2).map(w => w[matchGenre] ?? 0)
+  const prev2 = weekly.slice(-4, -2).map(w => w[matchGenre] ?? 0)
+  const last2Avg = last2.reduce((a, b) => a + b, 0) / 2
+  const prev2Avg = prev2.reduce((a, b) => a + b, 0) / 2
+
+  // 5%以上の変動があれば反応ありと判定
+  const changePct = prev2Avg !== 0 ? Math.abs((last2Avg - prev2Avg) / prev2Avg) * 100 : 0
+  return changePct >= 5 ? 'confirmed' : 'rejected'
+}
+
+function validateRankingShift(memo) {
+  // ランキングデータは単発スナップショットなので、存在自体が検証済み
+  if (!memo._validation) return null
+  return memo._validation.rank <= 100 ? 'confirmed' : 'rejected'
+}
+
+function validateCommunityBuzz(memo, trendsData) {
+  // コミュニティの盛り上がりが検索トレンドにも反映されているか
+  if (!trendsData?.weekly?.length || !memo._validation) return null
+  const weekly = trendsData.weekly
+  if (weekly.length < 4) return null
+
+  const genres = trendsData._genres || Object.keys(weekly[0] || {}).filter(k => k !== 'date')
+  if (!genres.length) return null
+
+  // 全体的なトレンド上昇があればバズの裏付け
+  let upCount = 0
+  for (const genre of genres) {
+    const last2 = weekly.slice(-2).map(w => w[genre] ?? 0)
+    const prev2 = weekly.slice(-4, -2).map(w => w[genre] ?? 0)
+    if (last2.reduce((a, b) => a + b, 0) / 2 > prev2.reduce((a, b) => a + b, 0) / 2) upCount++
+  }
+  return upCount > genres.length / 2 ? 'confirmed' : 'rejected'
+}
+
 // ─── 自動検証ロジック ─────────────────────────────────────
 // データの実績と照合して予測が的中したか判定する
 
@@ -388,6 +570,9 @@ const VALIDATORS = {
   [PATTERN_TYPES.ANOMALY_EVENT]:    validateAnomalyEvent,
   [PATTERN_TYPES.NEWS_CORRELATION]: validateNewsCorrelation,
   [PATTERN_TYPES.SEASONAL]:         validateSeasonal,
+  [PATTERN_TYPES.UPDATE_REACTION]:  validateUpdateReaction,
+  [PATTERN_TYPES.RANKING_SHIFT]:    validateRankingShift,
+  [PATTERN_TYPES.COMMUNITY_BUZZ]:   validateCommunityBuzz,
 }
 
 /**
@@ -461,6 +646,8 @@ export function generateAutoMemos({
   reviewsData,
   eventsData,
   newsData,
+  rankingData,
+  communityData,
   existingNotes = [],
   patternWeights = {},
   currentDate,
@@ -477,6 +664,9 @@ export function generateAutoMemos({
     ...(enabled?.review_spike !== false ? detectReviewSpikePatterns(reviewsData, patternWeights, settings) : []),
     ...(enabled?.news_correlation !== false ? detectNewsCorrelationPatterns(newsData, trendsData, anomalies, patternWeights) : []),
     ...(enabled?.seasonal !== false ? detectSeasonalPatterns(currentDate, existingNotes, patternWeights) : []),
+    ...(enabled?.update_reaction !== false ? detectUpdateReactionPatterns(reviewsData, patternWeights) : []),
+    ...(enabled?.ranking_shift !== false ? detectRankingShiftPatterns(rankingData, patternWeights) : []),
+    ...(enabled?.community_buzz !== false ? detectCommunityBuzzPatterns(communityData, patternWeights) : []),
   ]
 
   const deduplicated = deduplicateMemos(allMemos, existingNotes)

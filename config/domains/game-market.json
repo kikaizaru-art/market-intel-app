@@ -27,11 +27,12 @@
     "competitor": {
       "label": "競合動向",
       "description": "他社アプリのストア順位・レビュー",
-      "collectors": ["store-reviews"],
+      "collectors": ["store-reviews", "store-ranking"],
       "sources": {
         "store-reviews": {
           "platform": "google-play"
-        }
+        },
+        "store-ranking": { "rankingDepth": 200 }
       }
     },
     "user": {

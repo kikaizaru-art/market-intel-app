@@ -30,6 +30,8 @@ export function TargetProvider({ children }) {
       ...generated,
       trends: collected.trends || generated.trends,
       reviews: collected.reviews || generated.reviews,
+      ranking: collected.ranking || null,
+      community: collected.community || null,
       industry: {
         ...generated.industry,
         news: collected.news || generated.industry.news,
@@ -46,6 +48,8 @@ export function TargetProvider({ children }) {
       collected_at: collected.collected_at,
       trends: !!collected.trends,
       reviews: !!collected.reviews,
+      ranking: !!collected.ranking,
+      community: !!collected.community,
       news: !!collected.news,
     }
   }, [collected])

@@ -20,7 +20,7 @@
 
 - `npm run dev` — ローカル開発サーバー (port 5173)
 - `npm run build` — プロダクションビルド (dist/)
-- `npm run collect` — 実データ収集 (Google Trends, Google Play, RSS)
+- `npm run collect` — 実データ収集 (Google Trends, Google Play, Ranking, Reddit, RSS)
 - `npm run discover` — アプリ自動探索 & ドメイン設定生成
 
 ## アーキテクチャ
@@ -31,7 +31,7 @@
 - `src/dashboard/components/PositionView.jsx` — 現在地タブ (KPI, 競合ポジション, マクロ環境)
 - `src/dashboard/components/HistoryView.jsx` — 推移タブ (トレンド, ランキング, レビュー, イベント, ニュース)
 - `src/dashboard/components/ActionsView.jsx` — 次の一手タブ (リスク/チャンス, 因果関係)
-- `src/collectors/` — データ収集モジュール (trends, store, news, app-discover)
+- `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, app-discover)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation)
 - `src/framework/` — マルチドメインフレームワーク (domain, layers, collector-registry, causal-engine)
 

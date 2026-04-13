@@ -26,17 +26,22 @@
     },
     "competitor": {
       "label": "競合動向",
-      "description": "競合アプリのストア情報・レビュー",
-      "collectors": ["store-reviews"],
+      "description": "競合アプリのストア情報・レビュー・カテゴリ順位",
+      "collectors": ["store-reviews", "store-ranking"],
       "sources": {
-        "store-reviews": { "platform": "google-play" }
+        "store-reviews": { "platform": "google-play" },
+        "store-ranking": { "rankingDepth": 200 }
       }
     },
     "user": {
       "label": "ユーザー反応",
-      "description": "アプリレビュー・SNSセンチメント",
-      "collectors": ["store-reviews"],
-      "sources": {}
+      "description": "アプリレビュー・コミュニティ活動",
+      "collectors": ["store-reviews", "community"],
+      "sources": {
+        "community": {
+          "subreddits": ["gachagaming", "MementoMoriGame"]
+        }
+      }
     },
     "causal": {
       "label": "因果関係",

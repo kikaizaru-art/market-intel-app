@@ -1,7 +1,7 @@
 /**
  * 収集した実データを読み込み、ダッシュボードのコンポーネントが期待する形式に変換する
  *
- * Phase 2: trends, reviews, news のデータタイプに対応
+ * trends, reviews, ranking, community, news の全データタイプに対応
  */
 
 const COLLECTED_URL = './data/collected.json'
@@ -20,6 +20,8 @@ export async function loadCollectedData() {
       collected_at: raw.collected_at,
       trends: transformTrends(raw.trends),
       reviews: transformReviews(raw.reviews),
+      ranking: transformRanking(raw.ranking),
+      community: transformCommunity(raw.community),
       news: transformNews(raw.news),
     }
 
@@ -109,6 +111,39 @@ function transformNews(news) {
     url: item.link || null,
     tags: guessNewsTags(item.title || ''),
   }))
+}
+
+/**
+ * Store Ranking → 競合ポジション形式
+ */
+function transformRanking(ranking) {
+  if (!ranking?.targetPositions?.length) return null
+  return {
+    source: ranking.source || 'Google Play Ranking',
+    genre: ranking.genre,
+    positions: ranking.targetPositions,
+    topGrossing: ranking.rankings?.top_grossing || [],
+    topFree: ranking.rankings?.top_free || [],
+  }
+}
+
+/**
+ * Community → コミュニティ活動形式
+ */
+function transformCommunity(community) {
+  if (!community?.stats) return null
+  return {
+    source: community.source || 'Reddit',
+    stats: community.stats,
+    posts: (community.posts || []).slice(0, 20).map(p => ({
+      title: p.title,
+      subreddit: p.subreddit,
+      score: p.score,
+      numComments: p.numComments,
+      created: p.created,
+      keyword: p.keyword,
+    })),
+  }
 }
 
 /**

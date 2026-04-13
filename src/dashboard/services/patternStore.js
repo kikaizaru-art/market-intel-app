@@ -23,6 +23,8 @@
 
 const STORAGE_KEY = 'market-intel-pattern-store'
 const SETTINGS_KEY = 'market-intel-learning-settings'
+const CAUSAL_NOTES_KEY = 'market-intel-causal-notes'
+const REJECTED_AUTO_KEY = 'market-intel-rejected-auto'
 
 const WEIGHT_CONFIRM = 0.03
 const WEIGHT_REJECT  = -0.05
@@ -393,6 +395,68 @@ export function resetLearning() {
 
 export function getSignalWeights() {
   return loadStore().signalWeights
+}
+
+// ─── 因果ノートの永続化 ──────────────────────────────────────
+
+/**
+ * 手動メモを localStorage から読込
+ * @returns {object[]}
+ */
+export function loadCausalNotes() {
+  try {
+    const raw = localStorage.getItem(CAUSAL_NOTES_KEY)
+    return raw ? JSON.parse(raw) : null  // null = 未保存 (初回は mock を使う)
+  } catch {
+    return null
+  }
+}
+
+/**
+ * 手動メモを localStorage に保存
+ * @param {object[]} notes
+ */
+export function saveCausalNotes(notes) {
+  try {
+    localStorage.setItem(CAUSAL_NOTES_KEY, JSON.stringify(notes))
+  } catch {}
+}
+
+/**
+ * 手動却下された自動メモのキー一覧を取得
+ * キー形式: `${date}_${patternType}_${app}`
+ * @returns {string[]}
+ */
+export function loadRejectedAutoKeys() {
+  try {
+    const raw = localStorage.getItem(REJECTED_AUTO_KEY)
+    return raw ? JSON.parse(raw) : []
+  } catch {
+    return []
+  }
+}
+
+/**
+ * 自動メモを手動却下したキーを追加
+ * @param {string} key
+ */
+export function addRejectedAutoKey(key) {
+  const keys = loadRejectedAutoKeys()
+  if (!keys.includes(key)) {
+    keys.push(key)
+    // 最大200件に制限
+    const trimmed = keys.length > 200 ? keys.slice(-200) : keys
+    try {
+      localStorage.setItem(REJECTED_AUTO_KEY, JSON.stringify(trimmed))
+    } catch {}
+  }
+}
+
+/**
+ * 自動メモの安定キーを生成 (IDは毎回変わるため date+type+app で同定)
+ */
+export function autoMemoStableKey(memo) {
+  return `${memo.date}_${memo.patternType}_${memo.app}`
 }
 
 // ─── エクスポート / インポート ────────────────────────────────

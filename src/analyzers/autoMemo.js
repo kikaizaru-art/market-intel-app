@@ -293,23 +293,62 @@ function validateReviewSpike(memo, reviewsData) {
 
 /**
  * 異常値×イベントの検証:
- * 異常値の発生が実データで確認できるか (z-scoreの存在自体が検証)
+ * イベント発生後のトレンド推移が予測インパクト方向と一致するか確認。
+ * 検出に使った異常値データ自体ではなく、その後の推移で検証する。
  */
 function validateAnomalyEvent(memo, trendsData) {
   if (!trendsData?.weekly?.length || !memo._validation) return null
-  // 異常値はすでにデータから検出されたものなので、存在自体が的中
-  // ただし近接度が低い場合は弱い相関
-  return memo.confidence >= 0.6 ? 'confirmed' : null
+  const { anomalyGenre, anomalyType, eventDate } = memo._validation
+  if (!anomalyGenre || !eventDate) return null
+
+  const weekly = trendsData.weekly
+  // イベント日以降のデータポイントを探す
+  const eventIdx = weekly.findIndex(w => w.date >= eventDate)
+  if (eventIdx < 0 || eventIdx + 2 >= weekly.length) return null  // 検証に十分なデータがない
+
+  // イベント前2週 vs イベント後2週のトレンドを比較
+  const beforeStart = Math.max(0, eventIdx - 2)
+  const before = weekly.slice(beforeStart, eventIdx).map(w => w[anomalyGenre] ?? 0)
+  const after = weekly.slice(eventIdx, eventIdx + 2).map(w => w[anomalyGenre] ?? 0)
+  if (!before.length || !after.length) return null
+
+  const beforeAvg = before.reduce((a, b) => a + b, 0) / before.length
+  const afterAvg = after.reduce((a, b) => a + b, 0) / after.length
+  const actualUp = afterAvg > beforeAvg
+
+  // anomalyType=spike → positive impact を予測、drop → negative
+  const predictedUp = anomalyType === 'spike'
+  return actualUp === predictedUp ? 'confirmed' : 'rejected'
 }
 
 /**
  * ニュース相関の検証:
- * ニュースと異常値の時間近接 + タグ一致があれば的中
+ * ニュース発生後にトレンド変動が持続しているか確認。
+ * 単なる時間近接ではなく、ニュース後のトレンド方向で検証する。
  */
 function validateNewsCorrelation(memo, trendsData) {
-  if (!memo._validation) return null
-  // 既にタグ一致+時間近接で生成されているので、信頼度ベースで判定
-  return memo.confidence >= 0.55 ? 'confirmed' : null
+  if (!trendsData?.weekly?.length || !memo._validation) return null
+  const { genre, anomalyType } = memo._validation
+  if (!genre) return null
+
+  const weekly = trendsData.weekly
+  const newsDate = memo.date
+  // ニュース日以降のデータを探す
+  const newsIdx = weekly.findIndex(w => w.date >= newsDate)
+  if (newsIdx < 0 || newsIdx + 2 >= weekly.length) return null
+
+  // ニュース前2週 vs ニュース後2週
+  const beforeStart = Math.max(0, newsIdx - 2)
+  const before = weekly.slice(beforeStart, newsIdx).map(w => w[genre] ?? 0)
+  const after = weekly.slice(newsIdx, newsIdx + 2).map(w => w[genre] ?? 0)
+  if (!before.length || !after.length) return null
+
+  const beforeAvg = before.reduce((a, b) => a + b, 0) / before.length
+  const afterAvg = after.reduce((a, b) => a + b, 0) / after.length
+  const actualUp = afterAvg > beforeAvg
+
+  const predictedUp = anomalyType === 'spike'
+  return actualUp === predictedUp ? 'confirmed' : 'rejected'
 }
 
 /**

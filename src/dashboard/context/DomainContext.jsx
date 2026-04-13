@@ -2,11 +2,13 @@ import { createContext, useContext, useState, useMemo, useCallback } from 'react
 import gameMarketConfig from '../../../config/domains/game-market.json'
 import keibaConfig from '../../../config/domains/keiba.json'
 import stockConfig from '../../../config/domains/stock.json'
+import influencerConfig from '../../../config/domains/influencer.json'
 
 const DOMAINS = {
   'game-market': gameMarketConfig,
   'keiba': keibaConfig,
   'stock': stockConfig,
+  'influencer': influencerConfig,
 }
 
 /** ドメインごとのUI設定 */
@@ -54,6 +56,21 @@ const DOMAIN_UI = {
       { appName: 'スクウェア・エニックス', companyName: '9684', genre: 'ゲーム・エンタメ' },
       { appName: 'ソニーG', companyName: '6758', genre: 'IT・通信' },
       { appName: 'サイバーエージェント', companyName: '4751', genre: '広告・メディア' },
+    ],
+  },
+  'influencer': {
+    icon: '\u{1F4F8}',
+    accent: '#f85149',
+    targetLabel: 'クリエイター名',
+    targetPlaceholder: '例: HIKAKIN',
+    subLabel: '事務所 / MCN',
+    subPlaceholder: '例: UUUM（任意）',
+    categoryLabel: 'カテゴリ',
+    presets: [
+      { appName: 'HIKAKIN', companyName: 'UUUM', genre: 'エンタメ' },
+      { appName: 'はじめしゃちょー', companyName: 'UUUM', genre: 'エンタメ' },
+      { appName: '中田敦彦', companyName: 'PROGRESS', genre: '教育・ビジネス' },
+      { appName: 'リュウジ', companyName: '個人', genre: '料理・グルメ' },
     ],
   },
 }

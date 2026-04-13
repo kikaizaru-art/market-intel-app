@@ -635,6 +635,36 @@ html, body {
   border: 1px solid;
 }
 
+/* ===== POSITION VIEW (現在地) ===== */
+.position-indicator { background: var(--accent-user); }
+.position-title { color: var(--accent-user); }
+
+.position-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .position-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== HISTORY VIEW (推移) ===== */
+.history-indicator { background: var(--accent-macro); }
+.history-title { color: var(--accent-macro); }
+
+.history-tab.active {
+  background: rgba(56, 139, 253, 0.15);
+  border-color: rgba(56, 139, 253, 0.4);
+  color: var(--accent-macro);
+}
+
+/* ===== ACTIONS VIEW (次の一手) ===== */
+.actions-indicator { background: var(--accent-causation); }
+.actions-title { color: var(--accent-causation); }
+
 /* ===== APP INFO VIEW ===== */
 .appinfo-indicator { background: var(--accent-orange); }
 .appinfo-title { color: var(--accent-orange); }

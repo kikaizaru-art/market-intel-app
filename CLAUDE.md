@@ -27,7 +27,9 @@
 - `src/dashboard/constants.js` — 共有定数 (カラーパレット, ラベル)
 - `src/dashboard/utils.js` — 共有ユーティリティ (formatDate, isActive)
 - `src/dashboard/components/shared/` — 共通UIコンポーネント (ChartTooltip, SentimentBar)
-- `src/dashboard/components/appinfo/` — AppInfoView のタブ分割コンポーネント
+- `src/dashboard/components/PositionView.jsx` — 現在地タブ (KPI, 競合ポジション, マクロ環境)
+- `src/dashboard/components/HistoryView.jsx` — 推移タブ (トレンド, ランキング, レビュー, イベント, ニュース)
+- `src/dashboard/components/ActionsView.jsx` — 次の一手タブ (リスク/チャンス, 因果関係)
 - `src/collectors/` — データ収集モジュール (trends, store, news, meta-ads)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation)
 - `src/framework/` — マルチドメインフレームワーク (domain, layers, collector-registry, causal-engine)
@@ -55,7 +57,7 @@
 1. ~~**因果ログの永続化**~~ — localStorage で手動メモ・手動却下キーを永続化済み
 2. ~~**自動検証の循環論法修正**~~ — イベント前後のトレンド推移で独立検証する方式に修正済み
 3. ~~**文脈入力UI**~~ — ワンタップ4選択肢+メモ付き+自由記帳で因果文脈を付与、手動メモに昇格
-4. **ダッシュボード3タブ再構成** — 現行(アプリ情報/ユーザー/業界) → ビジョン(現在地/推移/次の一手)
-5. **インフルエンサードメイン設計** — メインユースケースだが config/collectors ともに未着手
+4. ~~**ダッシュボード3タブ再構成**~~ — 現在地/推移/次の一手 の3タブに再構成済み (PositionView/HistoryView/ActionsView)
+5. ~~**インフルエンサードメイン設計**~~ — ドメイン設定・モックデータ・UI登録・コレクタースタブ実装済み
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」

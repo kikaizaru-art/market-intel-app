@@ -54,6 +54,82 @@ const GENRE_POOL = {
   },
 }
 
+// ─── インフルエンサー向けカテゴリプール ─────────────────
+const INFLUENCER_POOL = {
+  'エンタメ': {
+    keywords: ['YouTuber', 'エンタメ動画', 'おもしろ動画', 'バラエティ'],
+    competitors: ['HIKAKIN', 'はじめしゃちょー', 'ヒカル', 'コムドット'],
+    companies: ['UUUM', 'GROVE', 'Kiii', 'VAZ'],
+    complaints: ['最近つまらない', 'ネタ切れ感がある', '広告が多い', '企業案件ばかり'],
+    praises: ['テンポが良い', '編集が上手い', '毎日更新ありがたい', '裏表がなくて好き'],
+    hooks: ['ドッキリ系', '大金企画系', '24時間チャレンジ', 'コラボ系'],
+  },
+  'ゲーム実況': {
+    keywords: ['ゲーム実況', 'ゲーム配信', 'Vtuber', 'eスポーツ'],
+    competitors: ['キヨ', '兄者弟者', 'ポッキー', '赤髪のとも'],
+    companies: ['UUUM', 'hololive', 'にじさんじ', 'GameWith'],
+    complaints: ['同じゲームばかり', '配信が長すぎる', 'サムネが釣り', 'ネタバレが多い'],
+    praises: ['リアクションが面白い', 'トークが上手い', '視聴者参加型が楽しい', 'BGMが良い'],
+    hooks: ['初見プレイ系', 'ランキング実況', 'コラボ配信', '最速クリア系'],
+  },
+  '教育・ビジネス': {
+    keywords: ['ビジネス系YouTuber', '教育系', '自己啓発', 'マネーリテラシー'],
+    competitors: ['中田敦彦', '両学長', 'マコなり社長', 'サラタメ'],
+    companies: ['PROGRESS', '個人運営', 'リベ大', 'マネーフォワード'],
+    complaints: ['表面的すぎる', '結論が遅い', '自慢話が多い', '情報が古い'],
+    praises: ['分かりやすい', '勉強になる', 'テンポが良い', '通勤中に聴ける'],
+    hooks: ['要約系', 'ランキング系', '失敗談系', '具体的How-to系'],
+  },
+  '美容・ファッション': {
+    keywords: ['美容系YouTuber', 'コスメレビュー', 'メイク動画', 'ファッション'],
+    competitors: ['関根りさ', '会社員J', 'nanakoななこ', '水越みさと'],
+    companies: ['GROVE', 'C Channel', 'TWIN PLANET', 'PPP STUDIO'],
+    complaints: ['PR多すぎ', '高い商品ばかり', '肌が違うと参考にならない', '案件と分かりにくい'],
+    praises: ['正直レビューが信頼できる', 'プチプラ紹介が嬉しい', '比較が分かりやすい', '垢抜けた'],
+    hooks: ['ビフォーアフター系', '○○円以下縛り', '毎日メイク紹介', '殿堂入りコスメ系'],
+  },
+  '料理・グルメ': {
+    keywords: ['料理系YouTuber', 'レシピ動画', 'グルメ', 'ASMR料理'],
+    competitors: ['リュウジ', '料理研究家ゆかり', 'きまぐれクック', 'Genの炊事場'],
+    companies: ['個人運営', 'tastemade', 'DELISH KITCHEN', 'kurashiru'],
+    complaints: ['材料が手に入りにくい', '味付けが濃い', '工程が多い', '洗い物が増える'],
+    praises: ['簡単で美味しい', '手順が分かりやすい', 'ASMR心地良い', '節約レシピ助かる'],
+    hooks: ['時短レシピ系', '100均グッズ活用', '大食い系', '再現料理系'],
+  },
+  'テック・ガジェット': {
+    keywords: ['ガジェット系YouTuber', 'スマホレビュー', 'PC', 'テック'],
+    competitors: ['瀬戸弘司', 'カズチャンネル', 'トバログ', 'Appleが大好きなんだよ'],
+    companies: ['UUUM', '個人運営', 'ガジェット通信', 'Engadget JP'],
+    complaints: ['Apple贔屓', '高い商品ばかり', '提供品のレビューは信用できない', 'スペック読み上げるだけ'],
+    praises: ['比較が詳しい', '実際に使ってるのが分かる', 'デメリットも言ってくれる', '長期レビューが嬉しい'],
+    hooks: ['開封系', 'vs比較系', '○万円で揃える', 'ベストバイ系'],
+  },
+  'Vlog・ライフスタイル': {
+    keywords: ['Vlog', 'ライフスタイル', 'ルーティン', 'ミニマリスト'],
+    competitors: ['Nami Channel', 'ondo', 'in living.', 'SUB'],
+    companies: ['個人運営', 'GROVE', 'BitStar', 'CHOCOLAT'],
+    complaints: ['映像は綺麗だけど内容が薄い', '生活感がない', 'BGMがうるさい', '毎回同じパターン'],
+    praises: ['映像が美しい', '癒される', '丁寧な暮らしに憧れる', 'モチベーションが上がる'],
+    hooks: ['モーニングルーティン', '購入品紹介', 'ルームツアー', '休日Vlog'],
+  },
+  '音楽': {
+    keywords: ['歌ってみた', '弾いてみた', 'Music', 'カバー曲'],
+    competitors: ['THE FIRST TAKE', 'Goose house', 'コバソロ', 'Rainych'],
+    companies: ['Sony Music', 'UUUM', '個人運営', 'CulTV'],
+    complaints: ['音質が悪い', '選曲が偏っている', 'オリジナル曲が少ない', 'MV風で内容がない'],
+    praises: ['歌が上手い', '原曲より好き', 'アレンジが素敵', 'ライブが最高'],
+    hooks: ['一発撮り系', 'ストリート演奏', 'マッシュアップ', 'リクエスト企画'],
+  },
+  'スポーツ・フィットネス': {
+    keywords: ['筋トレ', 'フィットネス', 'ダイエット', 'スポーツ'],
+    competitors: ['なかやまきんに君', 'のがちゃんねる', 'メトロンブログ', 'Marina Takewaki'],
+    companies: ['UUUM', '個人運営', 'LEAN BODY', 'RIZAP'],
+    complaints: ['キツすぎる', '初心者向けじゃない', 'サプリ推しがうざい', '効果が出ない'],
+    praises: ['一緒にやると続く', '説明が分かりやすい', '楽しくて汗かける', '結果が出た'],
+    hooks: ['○日チャレンジ', 'ビフォーアフター', '○分で完結', '食事管理系'],
+  },
+}
+
 const DEFAULT_GENRE = 'RPG'
 
 function seededRandom(seed) {
@@ -97,7 +173,7 @@ function generateMonthlyDates(months = 6) {
 
 export function generateCompetitorData(target) {
   const { appName, companyName, genre } = target
-  const genreInfo = GENRE_POOL[genre] || GENRE_POOL[DEFAULT_GENRE]
+  const genreInfo = GENRE_POOL[genre] || INFLUENCER_POOL[genre] || GENRE_POOL[DEFAULT_GENRE]
   const rng = seededRandom(appName + companyName + genre)
 
   // Pick 3 competitors
@@ -133,7 +209,9 @@ export function generateCompetitorData(target) {
 
 function generateTrends(genre, genreInfo, rng) {
   const dates = generateWeeklyDates(26)
-  const genres = [genre, ...Object.keys(GENRE_POOL).filter(g => g !== genre).slice(0, 4)]
+  const isInfluencer = genre in INFLUENCER_POOL
+  const pool = isInfluencer ? INFLUENCER_POOL : GENRE_POOL
+  const genres = [genre, ...Object.keys(pool).filter(g => g !== genre).slice(0, 4)]
   const baseLevels = { [genres[0]]: 80, [genres[1]]: 65, [genres[2]]: 55, [genres[3]]: 45, [genres[4]]: 35 }
 
   const weekly = dates.map((date, i) => {
@@ -289,15 +367,28 @@ function generateFundamentals(allApps, genre, rng) {
 }
 
 function generateEvents(allApps, rng) {
-  const types = ['ガチャ', 'コラボ', 'シーズン', 'キャンペーン', 'アップデート']
-  const nameTemplates = {
-    'ガチャ': ['限定キャラ ピックアップ', '新英雄ガチャ', '復刻祭ガチャ', '周年記念ガチャ'],
-    'コラボ': ['人気アニメコラボ', 'YouTuberコラボ', '他ゲームコラボ', 'ブランドコラボ'],
-    'シーズン': ['春の大感謝祭', 'シーズン更新', 'ランキングシーズン', 'エイプリルフール'],
-    'キャンペーン': ['友達招待キャンペーン', '新規応援ログボ', 'カムバックCP', 'SNSフォローCP'],
-    'アップデート': ['大型アップデート', '新モード追加', 'バランス調整', 'UI刷新'],
-  }
-  const sources = ['公式X', 'ストア更新', '公式サイト']
+  const influencer = allApps[0]?.genre in INFLUENCER_POOL
+  const types = influencer
+    ? ['コラボ', '企画', 'ライブ配信', '案件', 'チャンネル変更']
+    : ['ガチャ', 'コラボ', 'シーズン', 'キャンペーン', 'アップデート']
+  const nameTemplates = influencer
+    ? {
+        'コラボ': ['人気クリエイターコラボ', '企業タイアップコラボ', '異ジャンルコラボ', 'コラボライブ'],
+        '企画': ['100万人記念企画', '視聴者参加型企画', '大型検証企画', '○○やってみた'],
+        'ライブ配信': ['プレミア公開', '生配信イベント', 'Q&Aライブ', '記念ライブ'],
+        '案件': ['新商品タイアップ', 'ブランドPR', 'アプリ紹介案件', 'サービス紹介'],
+        'チャンネル変更': ['サムネイル刷新', '投稿頻度変更', '新シリーズ開始', 'チャンネル名変更'],
+      }
+    : {
+        'ガチャ': ['限定キャラ ピックアップ', '新英雄ガチャ', '復刻祭ガチャ', '周年記念ガチャ'],
+        'コラボ': ['人気アニメコラボ', 'YouTuberコラボ', '他ゲームコラボ', 'ブランドコラボ'],
+        'シーズン': ['春の大感謝祭', 'シーズン更新', 'ランキングシーズン', 'エイプリルフール'],
+        'キャンペーン': ['友達招待キャンペーン', '新規応援ログボ', 'カムバックCP', 'SNSフォローCP'],
+        'アップデート': ['大型アップデート', '新モード追加', 'バランス調整', 'UI刷新'],
+      }
+  const sources = influencer
+    ? ['YouTube', 'X/Twitter', 'Instagram', 'TikTok']
+    : ['公式X', 'ストア更新', '公式サイト']
 
   const events = []
   const apps = allApps.slice(0, 4)
@@ -328,18 +419,28 @@ function generateEvents(allApps, rng) {
 }
 
 function generateCausation(allApps, rng) {
-  const layers = ['マクロ', '競合', 'ユーザー']
-  const impacts = ['positive', 'negative', 'neutral']
-  const eventTemplates = [
-    { event: '大型アップデート', layer: 'ユーザー', impact: 'positive', memo: 'インストール数が翌週+30%' },
-    { event: '競合アプリリリース', layer: '競合', impact: 'negative', memo: 'DAUが一時的に-15%低下' },
-    { event: 'TVCMキャンペーン開始', layer: 'マクロ', impact: 'positive', memo: '認知度向上、新規流入+25%' },
-    { event: 'サーバー障害発生', layer: 'ユーザー', impact: 'negative', memo: 'レビュースコアが0.3pt低下' },
-    { event: '周年記念イベント', layer: 'ユーザー', impact: 'positive', memo: '課金率が前月比+40%' },
-    { event: '為替変動 (円安)', layer: 'マクロ', impact: 'neutral', memo: '海外売上の円換算が増加' },
-    { event: '競合が大型セール実施', layer: '競合', impact: 'negative', memo: '競合へのユーザー流出の兆候' },
-    { event: '新キャラクター追加', layer: 'ユーザー', impact: 'positive', memo: 'ガチャ売上が2倍に' },
-  ]
+  const influencer = allApps[0]?.genre in INFLUENCER_POOL
+  const eventTemplates = influencer
+    ? [
+        { event: 'バズ動画が出た', layer: 'ユーザー', impact: 'positive', memo: '再生数が通常の5倍、登録者+2万' },
+        { event: '競合クリエイターが同テーマ投稿', layer: '競合', impact: 'negative', memo: '自分の動画のインプレッションが-20%' },
+        { event: 'ジャンルトレンドが急上昇', layer: 'マクロ', impact: 'positive', memo: '検索流入が+40%、新規視聴者増' },
+        { event: 'コメント欄が炎上', layer: 'ユーザー', impact: 'negative', memo: '高評価率が70%→55%に低下' },
+        { event: '企業タイアップ動画を投稿', layer: 'ユーザー', impact: 'neutral', memo: '再生数は通常の0.8倍だが収益は3倍' },
+        { event: 'YouTube アルゴリズム変更', layer: 'マクロ', impact: 'negative', memo: 'ショート動画の表示頻度が低下' },
+        { event: '競合がチャンネル休止を発表', layer: '競合', impact: 'positive', memo: '同ジャンルの視聴者が流入' },
+        { event: '投稿頻度を週3→週5に変更', layer: 'ユーザー', impact: 'positive', memo: '月間再生数が+60%増加' },
+      ]
+    : [
+        { event: '大型アップデート', layer: 'ユーザー', impact: 'positive', memo: 'インストール数が翌週+30%' },
+        { event: '競合アプリリリース', layer: '競合', impact: 'negative', memo: 'DAUが一時的に-15%低下' },
+        { event: 'TVCMキャンペーン開始', layer: 'マクロ', impact: 'positive', memo: '認知度向上、新規流入+25%' },
+        { event: 'サーバー障害発生', layer: 'ユーザー', impact: 'negative', memo: 'レビュースコアが0.3pt低下' },
+        { event: '周年記念イベント', layer: 'ユーザー', impact: 'positive', memo: '課金率が前月比+40%' },
+        { event: '為替変動 (円安)', layer: 'マクロ', impact: 'neutral', memo: '海外売上の円換算が増加' },
+        { event: '競合が大型セール実施', layer: '競合', impact: 'negative', memo: '競合へのユーザー流出の兆候' },
+        { event: '新キャラクター追加', layer: 'ユーザー', impact: 'positive', memo: 'ガチャ売上が2倍に' },
+      ]
 
   const notes = eventTemplates.slice(0, 6).map((tpl, i) => {
     const day = randRange(1, 28, rng)
@@ -360,52 +461,99 @@ function generateCausation(allApps, rng) {
 }
 
 function generateIndustry(genre, genreInfo, rng) {
+  const influencer = genre in INFLUENCER_POOL
   const trendOptions = ['rising', 'stable', 'falling']
-  const news = [
-    { date: '2026-04-08', title: `【4Gamer】2026年Q1モバイルゲーム市場レポート: ${genre}ジャンルが前年比+12%`, source: '4Gamer', url: null, tags: ['市場動向', genre] },
-    { date: '2026-04-07', title: '【GameBiz】海外スタジオの日本参入が加速', source: 'GameBiz', url: null, tags: ['競合', genre] },
-    { date: '2026-04-05', title: '【ファミ通】App Store / Google Playの3月売上ランキングまとめ', source: 'ファミ通', url: null, tags: ['ランキング'] },
-    { date: '2026-04-03', title: '【GameBiz】Unity 2026 Gaming Report: CPI前年比上昇', source: 'GameBiz', url: null, tags: ['CPI', genre] },
-    { date: '2026-04-01', title: `【4Gamer】Apple、開発者向け手数料体系を見直しへ`, source: '4Gamer', url: null, tags: ['規制', 'Apple'] },
-    { date: '2026-03-28', title: `【Social Game Info】${genre}カテゴリでランキング変動`, source: 'Social Game Info', url: null, tags: ['ランキング', genre] },
-  ]
 
-  const genres = Object.keys(GENRE_POOL).slice(0, 5)
+  const news = influencer
+    ? [
+        { date: '2026-04-08', title: `【CREATORS STATION】2026年Q1 ${genre}系クリエイター市場レポート: 登録者成長率+15%`, source: 'CREATORS STATION', url: null, tags: ['市場動向', genre] },
+        { date: '2026-04-07', title: '【yutura】YouTubeショート動画の収益化ルールが改定', source: 'yutura', url: null, tags: ['プラットフォーム', 'YouTube'] },
+        { date: '2026-04-05', title: '【Social Blade】日本のYouTubeチャンネル登録者ランキング3月まとめ', source: 'Social Blade', url: null, tags: ['ランキング'] },
+        { date: '2026-04-03', title: '【CREATORS STATION】TikTok Creator Fund 報酬単価の推移分析', source: 'CREATORS STATION', url: null, tags: ['収益化', 'TikTok'] },
+        { date: '2026-04-01', title: '【yutura】Instagram Reels のアルゴリズム変更、リーチに影響', source: 'yutura', url: null, tags: ['アルゴリズム', 'Instagram'] },
+        { date: '2026-03-28', title: `【CREATORS STATION】${genre}カテゴリで新規チャンネルが急増`, source: 'CREATORS STATION', url: null, tags: ['競合', genre] },
+      ]
+    : [
+        { date: '2026-04-08', title: `【4Gamer】2026年Q1モバイルゲーム市場レポート: ${genre}ジャンルが前年比+12%`, source: '4Gamer', url: null, tags: ['市場動向', genre] },
+        { date: '2026-04-07', title: '【GameBiz】海外スタジオの日本参入が加速', source: 'GameBiz', url: null, tags: ['競合', genre] },
+        { date: '2026-04-05', title: '【ファミ通】App Store / Google Playの3月売上ランキングまとめ', source: 'ファミ通', url: null, tags: ['ランキング'] },
+        { date: '2026-04-03', title: '【GameBiz】Unity 2026 Gaming Report: CPI前年比上昇', source: 'GameBiz', url: null, tags: ['CPI', genre] },
+        { date: '2026-04-01', title: `【4Gamer】Apple、開発者向け手数料体系を見直しへ`, source: '4Gamer', url: null, tags: ['規制', 'Apple'] },
+        { date: '2026-03-28', title: `【Social Game Info】${genre}カテゴリでランキング変動`, source: 'Social Game Info', url: null, tags: ['ランキング', genre] },
+      ]
 
-  const benchmarks = {
-    source: 'Unity Gaming Report 2026 / 無料公開レポート',
-    cpi_by_genre: {
-      period: '2025Q4',
-      currency: 'USD',
-      data: genres.map(g => ({
-        genre: g,
-        ios: Math.round((1.5 + rng() * 5.5) * 100) / 100,
-        android: Math.round((0.8 + rng() * 4.0) * 100) / 100,
-        trend: pick(trendOptions, rng),
-      })),
-    },
-    retention_by_genre: {
-      period: '2025Q4',
-      data: genres.map(g => ({
-        genre: g,
-        d1: Math.round(25 + rng() * 20),
-        d7: Math.round(8 + rng() * 15),
-        d30: Math.round(2 + rng() * 10),
-      })),
-    },
-    market_size: {
-      jp_mobile_game_2025: '1.8兆円',
-      yoy_growth: '+4.2%',
-      top_genre_share: [
-        ...genres.map(g => ({ genre: g, share: Math.round(8 + rng() * 25) })),
-        { genre: 'その他', share: 18 },
-      ],
-    },
-  }
+  const pool = influencer ? INFLUENCER_POOL : GENRE_POOL
+  const genres = Object.keys(pool).slice(0, 5)
 
-  return { source: 'Industry Data (generated)', news, benchmarks }
+  const benchmarks = influencer
+    ? {
+        source: 'Social Blade / CREATORS STATION / 推定データ',
+        cpi_by_genre: {
+          period: '2025Q4',
+          currency: '円/登録者',
+          data: genres.map(g => ({
+            genre: g,
+            ios: Math.round((5 + rng() * 30) * 10) / 10,
+            android: Math.round((3 + rng() * 20) * 10) / 10,
+            trend: pick(trendOptions, rng),
+          })),
+        },
+        retention_by_genre: {
+          period: '2025Q4',
+          data: genres.map(g => ({
+            genre: g,
+            d1: Math.round(30 + rng() * 25),
+            d7: Math.round(15 + rng() * 20),
+            d30: Math.round(5 + rng() * 15),
+          })),
+        },
+        market_size: {
+          jp_mobile_game_2025: '5,800億円',
+          yoy_growth: '+18.5%',
+          top_genre_share: [
+            ...genres.map(g => ({ genre: g, share: Math.round(5 + rng() * 20) })),
+            { genre: 'その他', share: 15 },
+          ],
+        },
+      }
+    : {
+        source: 'Unity Gaming Report 2026 / 無料公開レポート',
+        cpi_by_genre: {
+          period: '2025Q4',
+          currency: 'USD',
+          data: genres.map(g => ({
+            genre: g,
+            ios: Math.round((1.5 + rng() * 5.5) * 100) / 100,
+            android: Math.round((0.8 + rng() * 4.0) * 100) / 100,
+            trend: pick(trendOptions, rng),
+          })),
+        },
+        retention_by_genre: {
+          period: '2025Q4',
+          data: genres.map(g => ({
+            genre: g,
+            d1: Math.round(25 + rng() * 20),
+            d7: Math.round(8 + rng() * 15),
+            d30: Math.round(2 + rng() * 10),
+          })),
+        },
+        market_size: {
+          jp_mobile_game_2025: '1.8兆円',
+          yoy_growth: '+4.2%',
+          top_genre_share: [
+            ...genres.map(g => ({ genre: g, share: Math.round(8 + rng() * 25) })),
+            { genre: 'その他', share: 18 },
+          ],
+        },
+      }
+
+  return { source: influencer ? 'Creator Economy Data (generated)' : 'Industry Data (generated)', news, benchmarks }
 }
 
 export function getAvailableGenres() {
   return Object.keys(GENRE_POOL)
+}
+
+export function getInfluencerCategories() {
+  return Object.keys(INFLUENCER_POOL)
 }

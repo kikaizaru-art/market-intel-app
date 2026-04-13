@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react'
-import { getAvailableGenres } from '../services/generateData.js'
+import { getAvailableGenres, getInfluencerCategories } from '../services/generateData.js'
 import { useDomain } from '../context/DomainContext.jsx'
 
 const GENRES = getAvailableGenres()
+const INFLUENCER_CATEGORIES = getInfluencerCategories()
 
 export default function SearchView({ onSubmit }) {
   const { domainId, config, ui, domainList, setDomain } = useDomain()
@@ -13,7 +14,9 @@ export default function SearchView({ onSubmit }) {
 
   const categories = domainId === 'game-market'
     ? GENRES
-    : config.categories || []
+    : domainId === 'influencer'
+      ? INFLUENCER_CATEGORIES
+      : config.categories || []
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault()

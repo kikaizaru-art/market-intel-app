@@ -131,10 +131,12 @@ async function run() {
   // 4. Community (Reddit)
   console.log(`\n[4/${TOTAL_COLLECTORS}] Community (Reddit)...`)
   try {
-    const keywords = config.titles.filter(t => t.isMain).map(t => t.name)
-    if (keywords.length === 0) keywords.push(config.titles[0]?.name)
+    // ドメイン設定に英語キーワードがあればそちらを優先 (Redditは英語圏)
+    const communityKeywords = config.community?.keywords
+      || config.titles.filter(t => t.isMain).map(t => t.name)
+    if (communityKeywords.length === 0) communityKeywords.push(config.titles[0]?.name)
     const subreddits = config.community?.subreddits || []
-    results.community = await fetchCommunity(keywords, { subreddits })
+    results.community = await fetchCommunity(communityKeywords, { subreddits })
     saveJson(path.join(DATA_DIR, `community_${today}.json`), results.community)
     console.log(`  OK: ${results.community?.stats?.totalPosts ?? 0} posts`)
   } catch (e) {

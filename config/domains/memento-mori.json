@@ -39,7 +39,8 @@
       "collectors": ["store-reviews", "community"],
       "sources": {
         "community": {
-          "subreddits": ["gachagaming", "MementoMoriGame"]
+          "subreddits": ["gachagaming", "MementoMoriGame"],
+          "keywords": ["MementoMori", "Memento Mori game"]
         }
       }
     },
@@ -69,7 +70,7 @@
       "category": "放置RPG",
       "isMain": false,
       "identifiers": {
-        "store_id_android": "com.c4connect.ir.houchishoujo"
+        "store_id_android": "jp.glee.girl"
       }
     },
     {
@@ -87,7 +88,7 @@
       "category": "放置RPG",
       "isMain": false,
       "identifiers": {
-        "store_id_android": "com.gamamobi.originlight"
+        "store_id_android": "com.qookkagames.starg2.gp.global"
       }
     }
   ],

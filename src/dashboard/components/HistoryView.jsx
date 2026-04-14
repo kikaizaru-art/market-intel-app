@@ -327,6 +327,48 @@ export default memo(function HistoryView({
           {/* ──── レビュー ──── */}
           {section === 'reviews' && (
             <>
+              {/* ──── 自分のアプリ（固定ヘッダー） ──── */}
+              {(() => {
+                const mainApp = apps.find(a => a.isMain || a.id === 'target')
+                if (!mainApp) return null
+                const mainColor = REVIEW_COLORS[mainApp.id] || PALETTE[0]
+                const latest = mainApp.monthly[mainApp.monthly.length - 1]
+                const prev = mainApp.monthly[mainApp.monthly.length - 2]
+                const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
+                return (
+                  <div style={{ padding: '6px 8px', borderRadius: 6, background: `${mainColor}12`, border: `1px solid ${mainColor}44`, marginBottom: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: mainColor }}>{mainApp.name}</span>
+                      <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{latest?.score}</span>
+                      <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
+                        {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
+                      </span>
+                      <span style={{ marginLeft: 'auto', fontSize: 9, color: '#6e7681' }}>
+                        {mainApp.monthly.reduce((s, m) => s + m.count, 0).toLocaleString()}件
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ fontSize: 9, color: '#6e7681', whiteSpace: 'nowrap' }}>好意度</span>
+                      <div style={{ flex: 1 }}>
+                        <SentimentBar ratio={latest?.positive_ratio ?? 0} color={mainColor} />
+                      </div>
+                    </div>
+                    {mainApp.top_complaints && (
+                      <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 10, color: '#f85149', marginBottom: 3, fontWeight: 600 }}>主な不満</div>
+                          {mainApp.top_complaints.map(c => (<span key={c} className="complaint-tag">{c}</span>))}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 10, color: '#56d364', marginBottom: 3, fontWeight: 600 }}>主な好評点</div>
+                          {(mainApp.top_praises || []).map(p => (<span key={p} className="praise-tag">{p}</span>))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })()}
+
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <div className="app-selector" style={{ marginBottom: 0 }}>
                   {apps.filter(a => a.isMain || a.id === 'target').map(app => {
@@ -373,35 +415,6 @@ export default memo(function HistoryView({
                   </ComposedChart>
                 </ResponsiveContainer>
               )}
-
-              {/* ──── 自分のアプリ（固定表示） ──── */}
-              {(() => {
-                const mainApp = apps.find(a => a.isMain || a.id === 'target')
-                if (!mainApp) return null
-                const mainColor = REVIEW_COLORS[mainApp.id] || PALETTE[0]
-                const latest = mainApp.monthly[mainApp.monthly.length - 1]
-                const prev = mainApp.monthly[mainApp.monthly.length - 2]
-                const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
-                return (
-                  <div style={{ marginTop: 8, padding: '6px 10px', borderRadius: 6, background: `${mainColor}12`, border: `1px solid ${mainColor}44` }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: latest ? 4 : 0 }}>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: mainColor }}>{mainApp.name}</span>
-                      <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★ {latest?.score}</span>
-                      <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
-                        {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
-                      </span>
-                    </div>
-                    {latest && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ fontSize: 9, color: '#6e7681', whiteSpace: 'nowrap' }}>好意度</span>
-                        <div style={{ flex: 1 }}>
-                          <SentimentBar ratio={latest.positive_ratio} color={mainColor} />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )
-              })()}
 
               {/* ──── 競合アプリ スコアカード ──── */}
               {apps.filter(a => !(a.isMain || a.id === 'target')).length > 0 && (

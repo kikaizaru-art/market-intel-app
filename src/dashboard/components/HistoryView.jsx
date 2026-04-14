@@ -333,7 +333,7 @@ export default memo(function HistoryView({
                     const isSelected = selectedReviewApp === app.id
                     return (
                       <button key={app.id} className={`app-btn ${isSelected ? 'active' : ''}`} style={{ background: `${REVIEW_COLORS[app.id]}22`, borderColor: `${REVIEW_COLORS[app.id]}66`, color: REVIEW_COLORS[app.id], fontWeight: 700 }} onClick={() => setSelectedReviewApp(app.id)}>
-                        <span style={{ marginRight: 3, fontSize: 10 }}>★</span>{app.name}
+                        {app.name}
                       </button>
                     )
                   })}
@@ -384,21 +384,21 @@ export default memo(function HistoryView({
                 const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
                 return (
                   <div style={{ marginTop: 8, padding: '6px 10px', borderRadius: 6, background: `${mainColor}12`, border: `1px solid ${mainColor}44` }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: mainColor }}>★ {mainApp.name}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: latest ? 4 : 0 }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: mainColor }}>{mainApp.name}</span>
                       <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★ {latest?.score}</span>
                       <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
                         {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
                       </span>
-                      {latest && (
-                        <>
-                          <div style={{ flex: 1, maxWidth: 100 }}>
-                            <SentimentBar ratio={latest.positive_ratio} color={mainColor} />
-                          </div>
-                          <span style={{ fontSize: 10, color: '#6e7681' }}>好意的 {Math.round(latest.positive_ratio * 100)}%</span>
-                        </>
-                      )}
                     </div>
+                    {latest && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 9, color: '#6e7681', whiteSpace: 'nowrap' }}>好意度</span>
+                        <div style={{ flex: 1 }}>
+                          <SentimentBar ratio={latest.positive_ratio} color={mainColor} />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )
               })()}
@@ -452,9 +452,11 @@ export default memo(function HistoryView({
                   {reviewApp.monthly?.length > 0 && (() => {
                     const latest = reviewApp.monthly[reviewApp.monthly.length - 1]
                     return latest ? (
-                      <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <SentimentBar ratio={latest.positive_ratio} color={reviewAccent} />
-                        <span style={{ fontSize: 10, color: '#6e7681' }}>好意的 {Math.round(latest.positive_ratio * 100)}%</span>
+                      <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 9, color: '#6e7681', whiteSpace: 'nowrap' }}>好意度</span>
+                        <div style={{ flex: 1 }}>
+                          <SentimentBar ratio={latest.positive_ratio} color={reviewAccent} />
+                        </div>
                       </div>
                     ) : null
                   })()}

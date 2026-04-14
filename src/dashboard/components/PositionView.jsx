@@ -273,16 +273,18 @@ export default memo(function PositionView({
             if (!main) return null
             return (
               <div style={{ padding: '6px 8px', borderRadius: 6, background: `${main.color}12`, border: `1px solid ${main.color}44`, marginBottom: 8 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: main.color }}>★ {main.name}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: main.color }}>{main.name}</span>
                   <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{main.score}</span>
                   <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(main.diff) >= 0 ? '#56d364' : '#f85149' }}>
                     {parseFloat(main.diff) >= 0 ? '▲' : '▼'}{Math.abs(main.diff)}
                   </span>
-                  <div style={{ flex: 1, maxWidth: 120 }}>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{ fontSize: 9, color: '#6e7681', whiteSpace: 'nowrap' }}>好意度</span>
+                  <div style={{ flex: 1 }}>
                     <SentimentBar ratio={main.sentiment} color={main.color} />
                   </div>
-                  <span style={{ fontSize: 10, color: '#6e7681' }}>好意的 {Math.round(main.sentiment * 100)}%</span>
                 </div>
                 {targetReview && (
                   <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>

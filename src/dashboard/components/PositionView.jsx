@@ -90,6 +90,8 @@ export default memo(function PositionView({
         score: latest?.score ?? 0,
         diff: prev ? (latest.score - prev.score).toFixed(1) : '0.0',
         sentiment: latest?.positive_ratio ?? 0,
+        month: latest?.month || null,
+        count: latest?.count ?? 0,
         color: PALETTE[i % PALETTE.length],
       }
     }), [apps])
@@ -263,7 +265,10 @@ export default memo(function PositionView({
           <div className="panel-header-left">
             <div className="panel-indicator user-indicator" />
             <span className="panel-title user-title">ユーザーの声</span>
-            <span className="panel-tag">レビュー分析</span>
+            <span className="panel-tag">レビュー分析{(() => {
+              const main = appSummaries.find(a => a.isMain)
+              return main?.month ? ` · ${main.month.replace('-', '/')}` : ''
+            })()}</span>
           </div>
         </div>
         <div className="panel-body">
@@ -278,6 +283,9 @@ export default memo(function PositionView({
                   <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{main.score}</span>
                   <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(main.diff) >= 0 ? '#56d364' : '#f85149' }}>
                     {parseFloat(main.diff) >= 0 ? '▲' : '▼'}{Math.abs(main.diff)}
+                  </span>
+                  <span style={{ marginLeft: 'auto', fontSize: 9, color: '#6e7681' }}>
+                    {main.month && main.month.replace('-', '/')}　{main.count.toLocaleString()}件
                   </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -314,6 +322,7 @@ export default memo(function PositionView({
                     <span style={{ fontSize: 9, color: parseFloat(app.diff) >= 0 ? '#56d364' : '#f85149' }}>
                       {parseFloat(app.diff) >= 0 ? '▲' : '▼'}{Math.abs(app.diff)}
                     </span>
+                    <span style={{ fontSize: 9, color: '#484f58', whiteSpace: 'nowrap' }}>{app.count.toLocaleString()}件</span>
                     <div style={{ flex: 1 }}>
                       <SentimentBar ratio={app.sentiment} color={app.color} />
                     </div>

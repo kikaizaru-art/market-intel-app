@@ -528,31 +528,72 @@ export default memo(function HistoryView({
           {/* ──── ベンチマーク比較 ──── */}
           {section === 'compReviewEvents' && (
             <>
+              {/* 自アプリカード — ターゲットタブ同様 */}
+              {mainApp && (() => {
+                const latest = mainApp.monthly[mainApp.monthly.length - 1]
+                const prev = mainApp.monthly[mainApp.monthly.length - 2]
+                const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
+                const latestRank = [...mainRankChartData].reverse().find(d => d.順位 != null)?.順位
+                const prevRankIdx = mainRankChartData.findIndex(d => d.順位 === latestRank)
+                const prevRank = prevRankIdx > 0
+                  ? [...mainRankChartData.slice(0, prevRankIdx)].reverse().find(d => d.順位 != null)?.順位
+                  : null
+                const rankDiff = prevRank != null && latestRank != null ? prevRank - latestRank : 0
+                const showRanking = compView === 'ranking' && mainRankHasData
+                return (
+                  <div style={{ padding: '6px 8px', borderRadius: 6, background: `${mainAccent}12`, border: `1px solid ${mainAccent}44`, marginBottom: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: mainAccent }}>{mainApp.name}</span>
+                      {showRanking ? (
+                        <>
+                          <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>{latestRank != null ? `${latestRank}位` : '—'}</span>
+                          {latestRank != null && prevRank != null && (
+                            <span style={{ fontSize: 10, fontWeight: 600, color: rankDiff > 0 ? '#56d364' : rankDiff < 0 ? '#f85149' : '#6e7681' }}>
+                              {rankDiff > 0 ? `▲${rankDiff}` : rankDiff < 0 ? `▼${Math.abs(rankDiff)}` : '→'}
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{latest?.score}</span>
+                          <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
+                            {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
+                          </span>
+                        </>
+                      )}
+                      <div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
+                        <button
+                          onClick={() => setCompView('score')}
+                          className="macro-toggle-btn"
+                          style={{
+                            borderColor: compView === 'score' ? 'rgba(56,139,253,0.5)' : '#30363d',
+                            background: compView === 'score' ? 'rgba(56,139,253,0.15)' : 'transparent',
+                            color: compView === 'score' ? '#388bfd' : '#6e7681',
+                          }}
+                        >スコア</button>
+                        <button
+                          onClick={() => setCompView('ranking')}
+                          disabled={!mainRankHasData}
+                          className="macro-toggle-btn"
+                          style={{
+                            borderColor: compView === 'ranking' ? 'rgba(56,139,253,0.5)' : '#30363d',
+                            background: compView === 'ranking' ? 'rgba(56,139,253,0.15)' : 'transparent',
+                            color: compView === 'ranking' ? '#388bfd' : '#6e7681',
+                            opacity: mainRankHasData ? 1 : 0.4,
+                            cursor: mainRankHasData ? 'pointer' : 'not-allowed',
+                          }}
+                        >ランキング</button>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })()}
+
               {competitorApps.length > 0 ? (
                 <>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
                     <div style={{ fontSize: 10, color: '#6e7681' }}>
                       {compView === 'score' ? '競合スコア推移' : '競合順位推移 (低い=上位)'}
-                    </div>
-                    <div style={{ display: 'flex', gap: 4 }}>
-                      <button
-                        onClick={() => setCompView('score')}
-                        className="macro-toggle-btn"
-                        style={{
-                          borderColor: compView === 'score' ? 'rgba(56,139,253,0.5)' : '#30363d',
-                          background: compView === 'score' ? 'rgba(56,139,253,0.15)' : 'transparent',
-                          color: compView === 'score' ? '#388bfd' : '#6e7681',
-                        }}
-                      >スコア</button>
-                      <button
-                        onClick={() => setCompView('ranking')}
-                        className="macro-toggle-btn"
-                        style={{
-                          borderColor: compView === 'ranking' ? 'rgba(56,139,253,0.5)' : '#30363d',
-                          background: compView === 'ranking' ? 'rgba(56,139,253,0.15)' : 'transparent',
-                          color: compView === 'ranking' ? '#388bfd' : '#6e7681',
-                        }}
-                      >ランキング</button>
                     </div>
                   </div>
 

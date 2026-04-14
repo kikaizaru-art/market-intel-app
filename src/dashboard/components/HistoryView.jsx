@@ -2,7 +2,7 @@ import { useState, useMemo, memo } from 'react'
 import {
   LineChart, Line, ComposedChart, Bar,
   XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, ReferenceDot, ReferenceLine,
+  Tooltip, ResponsiveContainer, ReferenceDot, ReferenceLine, Cell,
 } from 'recharts'
 import { ChartTooltip, SentimentBar } from './shared/index.js'
 import {
@@ -134,6 +134,7 @@ export default memo(function HistoryView({
     [apps])
 
   const [selectedCompetitor, setSelectedCompetitor] = useState(null)
+  const [selectedReviewMonth, setSelectedReviewMonth] = useState(null)
   const selectedCompApp = useMemo(() =>
     apps.find(a => a.id === selectedCompetitor), [apps, selectedCompetitor])
   const compAccent = REVIEW_COLORS[selectedCompetitor] || PALETTE[1]
@@ -554,7 +555,11 @@ export default memo(function HistoryView({
                         <YAxis yAxisId="left" domain={[0, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
                         <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
                         <Tooltip content={<ChartTooltip />} />
-                        <Bar yAxisId="right" dataKey="レビュー数" fill={`${mainAccent}33`} stroke={`${mainAccent}66`} strokeWidth={1} />
+                        <Bar yAxisId="right" dataKey="レビュー数" cursor="pointer" onClick={(data) => setSelectedReviewMonth(prev => prev === data?.month ? null : data?.month)}>
+                          {mainChartData.map((entry, idx) => (
+                            <Cell key={idx} fill={entry.month === selectedReviewMonth ? `${mainAccent}66` : `${mainAccent}33`} stroke={entry.month === selectedReviewMonth ? mainAccent : `${mainAccent}66`} strokeWidth={entry.month === selectedReviewMonth ? 2 : 1} />
+                          ))}
+                        </Bar>
                         <Line yAxisId="left" type="monotone" dataKey="スコア" stroke={mainAccent} strokeWidth={2} dot={{ fill: mainAccent, r: 3 }} activeDot={{ r: 4 }} />
                         {eventMonths.filter(m => chartMonthSet.has(m)).map(month => (
                           <ReferenceLine
@@ -569,6 +574,52 @@ export default memo(function HistoryView({
                         ))}
                       </ComposedChart>
                     </ResponsiveContainer>
+
+                    {/* Selected month detail panel */}
+                    {selectedReviewMonth && (() => {
+                      const monthData = mainApp.monthly.find(m => m.month.slice(5) + '月' === selectedReviewMonth)
+                      if (!monthData) return null
+                      const monthEvents = mainAppEventsByMonth[selectedReviewMonth] || []
+                      const prevIdx = mainApp.monthly.indexOf(monthData) - 1
+                      const prevData = prevIdx >= 0 ? mainApp.monthly[prevIdx] : null
+                      const scoreDiff = prevData ? (monthData.score - prevData.score).toFixed(1) : null
+                      return (
+                        <div style={{ margin: '8px 0', padding: '8px 10px', borderRadius: 6, border: `1px solid ${mainAccent}44`, background: `${mainAccent}08` }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                            <span style={{ fontSize: 12, fontWeight: 700, color: mainAccent }}>{selectedReviewMonth}</span>
+                            <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{monthData.score}</span>
+                            {scoreDiff !== null && (
+                              <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(scoreDiff) >= 0 ? '#56d364' : '#f85149' }}>
+                                {parseFloat(scoreDiff) >= 0 ? '▲' : '▼'}{Math.abs(parseFloat(scoreDiff))}
+                              </span>
+                            )}
+                            <span style={{ fontSize: 10, color: '#6e7681' }}>{monthData.count.toLocaleString()}件</span>
+                            <span style={{ marginLeft: 'auto', fontSize: 9, color: '#484f58', cursor: 'pointer' }} onClick={(e) => { e.stopPropagation(); setSelectedReviewMonth(null) }}>✕ 閉じる</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: monthEvents.length ? 8 : 0 }}>
+                            <span style={{ fontSize: 9, color: '#6e7681', whiteSpace: 'nowrap' }}>好意度</span>
+                            <div style={{ flex: 1 }}><SentimentBar ratio={monthData.positive_ratio} color={mainAccent} /></div>
+                            <span style={{ fontSize: 10, fontWeight: 600, color: '#e6edf3' }}>{Math.round(monthData.positive_ratio * 100)}%</span>
+                          </div>
+                          {monthEvents.length > 0 && (
+                            <div style={{ borderTop: '1px solid #21262d', paddingTop: 6 }}>
+                              <div style={{ fontSize: 9, color: '#8b949e', marginBottom: 4 }}>この月のイベント</div>
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                                {monthEvents.map((e, i) => (
+                                  <div key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '2px 6px', borderRadius: 4, background: `${TYPE_COLORS[e.type] || '#8b949e'}15`, border: `1px solid ${TYPE_COLORS[e.type] || '#8b949e'}33` }}>
+                                    <span style={{ fontSize: 9, fontWeight: 600, color: TYPE_COLORS[e.type] || '#8b949e' }}>{e.type}</span>
+                                    <span style={{ fontSize: 9, color: '#e6edf3' }}>{e.name}</span>
+                                    {isActive(e, today) && <span style={{ fontSize: 8, padding: '0 3px', borderRadius: 2, background: 'rgba(86,211,100,0.15)', color: '#56d364' }}>開催中</span>}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })()}
+
+                    {!selectedReviewMonth && <div style={{ fontSize: 9, color: '#484f58', textAlign: 'center', marginTop: 4 }}>棒グラフをタップで月別詳細を表示</div>}
 
                     {/* Event detail strip */}
                     {eventMonths.length > 0 && (

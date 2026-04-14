@@ -34,6 +34,8 @@
 - `src/dashboard/components/ActionsView.jsx` — 次の一手タブ (リスク/チャンス, 因果関係)
 - `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, app-discover, competitor-discovery)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation)
+- `src/dashboard/services/storageBackend.js` — IndexedDB ストレージバックエンド (インメモリキャッシュ + 非同期永続化)
+- `src/dashboard/services/patternStore.js` — パターン学習ストア (storageBackend 経由で IndexedDB に保存)
 - `src/framework/` — マルチドメインフレームワーク (domain, layers, collector-registry, causal-engine)
 
 ## 4層収集モデル
@@ -58,7 +60,7 @@
 
 ## 次の実装課題 (優先順)
 
-1. ~~**因果ログの永続化**~~ — localStorage で手動メモ・手動却下キーを永続化済み
+1. ~~**因果ログの永続化**~~ — IndexedDB (インメモリキャッシュ付き) で堅牢に永続化済み。localStorage からの自動移行あり
 2. ~~**自動検証の循環論法修正**~~ — イベント前後のトレンド推移で独立検証する方式に修正済み
 3. ~~**文脈入力UI**~~ — ワンタップ4選択肢+メモ付き+自由記帳で因果文脈を付与、手動メモに昇格
 4. ~~**ダッシュボード3タブ再構成**~~ — 現在地/推移/次の一手 の3タブに再構成済み (PositionView/HistoryView/ActionsView)

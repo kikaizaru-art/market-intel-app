@@ -292,7 +292,7 @@ export default memo(function LearningSettings({ onSettingsChange }) {
       {activeTab === 'data' && (
         <div>
           <div style={{ fontSize: 9, color: '#6e7681', marginBottom: 8, lineHeight: 1.5 }}>
-            学習データをファイルにエクスポート/インポートして永続化できます。ブラウザのlocalStorageが消えてもデータを復元可能です。
+            学習データをファイルにエクスポート/インポートできます。IndexedDB に自動保存されますが、バックアップとしてエクスポートも可能です。
           </div>
 
           <div style={{ display: 'flex', gap: 6, marginBottom: 8 }}>

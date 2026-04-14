@@ -37,9 +37,14 @@
     },
     "user": {
       "label": "ユーザー反応",
-      "description": "アプリレビュー・SNSセンチメント",
-      "collectors": ["store-reviews"],
-      "sources": {}
+      "description": "アプリレビュー・コミュニティ活動・SNSセンチメント",
+      "collectors": ["store-reviews", "community"],
+      "sources": {
+        "community": {
+          "subreddits": ["gachagaming", "PuzzleAndDragons"],
+          "keywords": ["Monster Strike", "Puzzle and Dragons", "Uma Musume"]
+        }
+      }
     },
     "causal": {
       "label": "因果関係",
@@ -55,6 +60,7 @@
       "id": "monster-strike",
       "name": "モンスターストライク",
       "category": "アクションRPG",
+      "isMain": true,
       "identifiers": {
         "store_id_ios": "553194370",
         "store_id_android": "jp.co.mixi.monsterstrike"

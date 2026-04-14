@@ -28,6 +28,8 @@ export default memo(function PositionView({
   corporate,
   events,
   causation,
+  ranking,
+  community,
 }) {
   // ─── 対象アプリの基本指標 ───────────────────────
   const targetReview = useMemo(() =>
@@ -195,38 +197,63 @@ export default memo(function PositionView({
           <div className="panel-header-left">
             <div className="panel-indicator" style={{ background: '#f0883e' }} />
             <span className="panel-title" style={{ color: '#f0883e' }}>競合ポジション</span>
-            <span className="panel-tag">ランキング比較</span>
+            <span className="panel-tag">{ranking?.source ? '実データ' : 'ランキング比較'}</span>
           </div>
         </div>
         <div className="panel-body">
-          {recentRankData.length > 0 && (
-            <ResponsiveContainer width="100%" height={120}>
-              <LineChart data={recentRankData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
-                <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 9, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
-                <YAxis reversed domain={[1, 100]} tick={{ fontSize: 9, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-                <Tooltip content={<ChartTooltip />} />
-                {(fundamentals?.apps || []).map(app => (
-                  <Line key={app.id} type="monotone" dataKey={app.name} stroke={APP_COLORS[app.id]} strokeWidth={1.5} dot={false} />
+          {/* 実データのランキングがある場合 */}
+          {ranking?.positions?.length > 0 ? (
+            <>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))', gap: 4 }}>
+                {ranking.positions.map((pos, i) => (
+                  <div key={pos.id} className="stat-card" style={{ padding: '4px 6px' }}>
+                    <div style={{ fontSize: 8, color: PALETTE[i % PALETTE.length], fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pos.name}</div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#e6edf3' }}>{pos.rank}位</span>
+                      <span style={{ fontSize: 8, color: '#6e7681' }}>{pos.collection === 'top_grossing' ? '売上' : '無料'}</span>
+                    </div>
+                  </div>
                 ))}
-              </LineChart>
-            </ResponsiveContainer>
-          )}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))', gap: 4, marginTop: 8 }}>
-            {rankSummary.map(app => (
-              <div key={app.id} className="stat-card" style={{ padding: '4px 6px' }}>
-                <div style={{ fontSize: 8, color: APP_COLORS[app.id], fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</div>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#e6edf3' }}>{app.latest}位</span>
-                  <span style={{ fontSize: 9, color: app.diff > 0 ? '#56d364' : app.diff < 0 ? '#f85149' : '#6e7681' }}>
-                    {app.diff > 0 ? `▲${app.diff}` : app.diff < 0 ? `▼${Math.abs(app.diff)}` : '→'}
-                  </span>
-                </div>
               </div>
-            ))}
-          </div>
+              {(ranking.topGrossing?.length > 0 || ranking.topFree?.length > 0) && (
+                <div style={{ marginTop: 8, fontSize: 10, color: '#6e7681' }}>
+                  上位: {(ranking.topGrossing || ranking.topFree || []).slice(0, 5).map((a, i) => `${i + 1}. ${a.title}`).join('  ')}
+                </div>
+              )}
+            </>
+          ) : (
+            /* モックデータのランキング */
+            <>
+              {recentRankData.length > 0 && (
+                <ResponsiveContainer width="100%" height={120}>
+                  <LineChart data={recentRankData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+                    <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 9, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+                    <YAxis reversed domain={[1, 100]} tick={{ fontSize: 9, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                    <Tooltip content={<ChartTooltip />} />
+                    {(fundamentals?.apps || []).map(app => (
+                      <Line key={app.id} type="monotone" dataKey={app.name} stroke={APP_COLORS[app.id]} strokeWidth={1.5} dot={false} />
+                    ))}
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))', gap: 4, marginTop: 8 }}>
+                {rankSummary.map(app => (
+                  <div key={app.id} className="stat-card" style={{ padding: '4px 6px' }}>
+                    <div style={{ fontSize: 8, color: APP_COLORS[app.id], fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#e6edf3' }}>{app.latest}位</span>
+                      <span style={{ fontSize: 9, color: app.diff > 0 ? '#56d364' : app.diff < 0 ? '#f85149' : '#6e7681' }}>
+                        {app.diff > 0 ? `▲${app.diff}` : app.diff < 0 ? `▼${Math.abs(app.diff)}` : '→'}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
-        <div className="panel-footer">セールスランキング直近推移</div>
+        <div className="panel-footer">{ranking?.source || 'セールスランキング直近推移'}</div>
       </div>
 
       {/* ━━━ ユーザーの声 ━━━ */}
@@ -336,6 +363,51 @@ export default memo(function PositionView({
         </div>
         <div className="panel-footer">検索トレンド + SNS + 企業情報</div>
       </div>
+
+      {/* ━━━ コミュニティ活動 (実データ) ━━━ */}
+      {community?.stats && (
+        <div className="panel">
+          <div className="panel-header">
+            <div className="panel-header-left">
+              <div className="panel-indicator" style={{ background: '#da3633' }} />
+              <span className="panel-title" style={{ color: '#da3633' }}>コミュニティ</span>
+              <span className="panel-tag">{community.source}</span>
+            </div>
+          </div>
+          <div className="panel-body">
+            <div style={{ display: 'flex', gap: 6 }}>
+              <div className="stat-card">
+                <div style={{ fontSize: 9, color: '#6e7681' }}>投稿数</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#da3633' }}>{community.stats.totalPosts}</div>
+              </div>
+              <div className="stat-card">
+                <div style={{ fontSize: 9, color: '#6e7681' }}>投稿/日</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#e3b341' }}>{community.stats.postsPerDay}</div>
+              </div>
+              <div className="stat-card">
+                <div style={{ fontSize: 9, color: '#6e7681' }}>平均スコア</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#56d364' }}>{community.stats.avgScore}</div>
+              </div>
+              <div className="stat-card">
+                <div style={{ fontSize: 9, color: '#6e7681' }}>平均コメント</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#388bfd' }}>{community.stats.avgComments}</div>
+              </div>
+            </div>
+            {community.posts?.length > 0 && (
+              <div style={{ marginTop: 8, maxHeight: 120, overflowY: 'auto' }}>
+                {community.posts.slice(0, 5).map((post, i) => (
+                  <div key={i} style={{ padding: '3px 0', borderBottom: '1px solid #21262d', fontSize: 10 }}>
+                    <span style={{ color: '#da3633', marginRight: 4 }}>r/{post.subreddit}</span>
+                    <span style={{ color: '#e6edf3' }}>{post.title}</span>
+                    <span style={{ color: '#6e7681', marginLeft: 4 }}>{post.score}pt {post.numComments}c</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="panel-footer">Reddit コミュニティ活動</div>
+        </div>
+      )}
 
       {/* ━━━ 直近の因果メモ ━━━ */}
       <div className="panel" style={{ gridColumn: '1 / -1' }}>

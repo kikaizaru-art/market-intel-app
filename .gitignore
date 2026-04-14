@@ -6,4 +6,6 @@ dist/
 *.local
 data/cache/
 data/*_*.json
+!data/history/
 public/data/
+!public/data/collected.json

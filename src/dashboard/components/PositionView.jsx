@@ -1,4 +1,4 @@
-import { useMemo, memo } from 'react'
+import { useState, useMemo, memo } from 'react'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
@@ -95,6 +95,11 @@ export default memo(function PositionView({
         color: PALETTE[i % PALETTE.length],
       }
     }), [apps])
+
+  // ─── 競合選択 ────────────────────────────────────
+  const [selectedCompetitor, setSelectedCompetitor] = useState(null)
+  const selectedCompApp = useMemo(() =>
+    apps.find(a => a.id === selectedCompetitor), [apps, selectedCompetitor])
 
   // ─── 因果サマリー ─────────────────────────────────
   const notes = causation?.notes || []
@@ -318,21 +323,53 @@ export default memo(function PositionView({
           {appSummaries.filter(a => !a.isMain).length > 0 && (
             <>
               <div style={{ fontSize: 9, color: '#6e7681', marginBottom: 3 }}>競合</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 1, maxHeight: 140, overflowY: 'auto' }}>
-                {appSummaries.filter(a => !a.isMain).map(app => (
-                  <div key={app.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '3px 6px', borderBottom: '1px solid #21262d' }}>
-                    <span style={{ fontSize: 10, fontWeight: 600, color: app.color, minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: '#e6edf3' }}>★{app.score}</span>
-                    <span style={{ fontSize: 9, color: parseFloat(app.diff) >= 0 ? '#56d364' : '#f85149' }}>
-                      {parseFloat(app.diff) >= 0 ? '▲' : '▼'}{Math.abs(app.diff)}
-                    </span>
-                    <span style={{ fontSize: 9, color: '#484f58', whiteSpace: 'nowrap' }}>{app.count.toLocaleString()}件</span>
-                    <div style={{ flex: 1 }}>
-                      <SentimentBar ratio={app.sentiment} color={app.color} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                {appSummaries.filter(a => !a.isMain).map(app => {
+                  const isSelected = selectedCompetitor === app.id
+                  return (
+                    <div key={app.id}
+                      style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '3px 6px', borderBottom: '1px solid #21262d', cursor: 'pointer', borderRadius: isSelected ? 4 : 0, background: isSelected ? `${app.color}11` : 'transparent' }}
+                      onClick={() => setSelectedCompetitor(isSelected ? null : app.id)}
+                    >
+                      <span style={{ fontSize: 10, fontWeight: 600, color: app.color, minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: '#e6edf3' }}>★{app.score}</span>
+                      <span style={{ fontSize: 9, color: parseFloat(app.diff) >= 0 ? '#56d364' : '#f85149' }}>
+                        {parseFloat(app.diff) >= 0 ? '▲' : '▼'}{Math.abs(app.diff)}
+                      </span>
+                      <span style={{ fontSize: 9, color: '#484f58', whiteSpace: 'nowrap' }}>{app.count.toLocaleString()}件</span>
+                      <div style={{ flex: 1 }}>
+                        <SentimentBar ratio={app.sentiment} color={app.color} />
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* ── 選択した競合のレビュー詳細 ── */}
+              {selectedCompApp && (() => {
+                const accent = PALETTE[apps.findIndex(a => a.id === selectedCompApp.id) % PALETTE.length]
+                return (
+                  <div style={{ marginTop: 6, padding: '6px 8px', borderRadius: 6, border: `1px solid ${accent}33`, background: `${accent}08` }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: accent, marginBottom: 6 }}>
+                      {selectedCompApp.name} のレビュー
+                    </div>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 10, color: '#f85149', marginBottom: 4, fontWeight: 600 }}>不満</div>
+                        {(selectedCompApp.top_complaints || []).map((c, i) => (
+                          <div key={i} style={{ fontSize: 10, color: '#e6edf3', padding: '2px 0', borderBottom: '1px solid #21262d', lineHeight: 1.4 }}>{c}</div>
+                        ))}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 10, color: '#56d364', marginBottom: 4, fontWeight: 600 }}>好評</div>
+                        {(selectedCompApp.top_praises || []).map((p, i) => (
+                          <div key={i} style={{ fontSize: 10, color: '#e6edf3', padding: '2px 0', borderBottom: '1px solid #21262d', lineHeight: 1.4 }}>{p}</div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                )
+              })()}
             </>
           )}
         </div>

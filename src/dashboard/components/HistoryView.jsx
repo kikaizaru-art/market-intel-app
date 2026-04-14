@@ -133,6 +133,7 @@ export default memo(function HistoryView({
 
   const [selectedReviewMonth, setSelectedReviewMonth] = useState(null)
   const [selectedCompMonth, setSelectedCompMonth] = useState(null)
+  const [compView, setCompView] = useState('score')
 
   const mainChartData = useMemo(() => {
     if (!mainApp) return []
@@ -157,6 +158,44 @@ export default memo(function HistoryView({
   }, [apps])
 
   const mainAccent = REVIEW_COLORS[mainApp?.id] || PALETTE[0]
+
+  // ─── Competitor rank data (score/ranking 切替用) ───
+  const hasRealRank = (ranking?.history?.length ?? 0) > 1
+  const compRankChartData = hasRealRank ? realRankHistoryData : rankData
+  const compRankTargets = hasRealRank
+    ? realRankTargets
+    : (fundamentals?.apps?.map(a => a.name) || [])
+
+  const competitorRankSummary = useMemo(() => {
+    if (hasRealRank) {
+      const hist = ranking.history
+      const last = hist[hist.length - 1]
+      const prevIdx = Math.max(0, hist.length - 8)
+      const prev = hist[prevIdx]
+      return competitorApps.map(app => {
+        const latest = last?.positions.find(p => p.name === app.name)?.rank
+        const prevRank = prev?.positions.find(p => p.name === app.name)?.rank ?? latest
+        const pos = (ranking.positions || []).find(p => p.name === app.name)
+        if (latest == null) return null
+        return {
+          name: app.name,
+          id: app.id,
+          latest,
+          diff: prevRank != null ? prevRank - latest : 0,
+          collection: pos?.collection,
+        }
+      }).filter(Boolean)
+    }
+    return competitorApps.map(app => {
+      const f = fundamentals?.apps?.find(fa => fa.name === app.name || fa.id === app.id)
+      if (!f) return null
+      const ranks = f.weekly_sales_rank || []
+      const latest = ranks[ranks.length - 1]?.rank
+      const prev = ranks[ranks.length - 5]?.rank ?? latest
+      if (latest == null) return null
+      return { name: app.name, id: app.id, latest, diff: prev - latest }
+    }).filter(Boolean)
+  }, [hasRealRank, ranking?.history, ranking?.positions, fundamentals?.apps, competitorApps])
 
   // ─── Reviews × Events helper ──────────────────────
   const mainAppEventsByMonth = useMemo(() => {
@@ -473,66 +512,150 @@ export default memo(function HistoryView({
             <>
               {competitorApps.length > 0 ? (
                 <>
-                  <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>競合スコア推移</div>
-
-                  <ResponsiveContainer width="100%" height={180}>
-                    <LineChart
-                      data={compareData}
-                      margin={{ top: 4, right: 8, bottom: 0, left: -20 }}
-                      onClick={(data) => { if (data?.activeLabel) setSelectedCompMonth(prev => prev === data.activeLabel ? null : data.activeLabel) }}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
-                      <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
-                      <YAxis domain={[3, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-                      <Tooltip content={<ChartTooltip />} />
-                      {apps.map(app => (
-                        <Line key={app.id} type="monotone" dataKey={app.name} stroke={REVIEW_COLORS[app.id]} strokeWidth={app.isMain || app.id === 'target' ? 2.5 : 1.5} strokeDasharray={app.isMain || app.id === 'target' ? undefined : '4 3'} dot={{ fill: REVIEW_COLORS[app.id], r: 2 }} />
-                      ))}
-                      {selectedCompMonth && (
-                        <ReferenceLine x={selectedCompMonth} stroke="#e6edf3" strokeWidth={1.5} />
-                      )}
-                    </LineChart>
-                  </ResponsiveContainer>
-
-                  {selectedCompMonth ? (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 4 }}>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: '#e6edf3' }}>{selectedCompMonth}</span>
-                      <span style={{ fontSize: 9, color: '#484f58', cursor: 'pointer' }} onClick={() => setSelectedCompMonth(null)}>✕ 解除</span>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <div style={{ fontSize: 10, color: '#6e7681' }}>
+                      {compView === 'score' ? '競合スコア推移' : '競合順位推移 (低い=上位)'}
                     </div>
-                  ) : (
-                    <div style={{ fontSize: 9, color: '#484f58', textAlign: 'center', marginTop: 4 }}>チャートをタップで月別データを表示</div>
-                  )}
-
-                  {/* Competitor list — month-specific or latest */}
-                  <div style={{ marginTop: 6 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                      {competitorApps.map(app => {
-                        const monthIdx = selectedCompMonth
-                          ? app.monthly.findIndex(m => m.month.slice(5) + '月' === selectedCompMonth)
-                          : app.monthly.length - 1
-                        const monthData = monthIdx >= 0 ? app.monthly[monthIdx] : null
-                        const prevData = monthIdx > 0 ? app.monthly[monthIdx - 1] : null
-                        const diff = prevData && monthData ? (monthData.score - prevData.score).toFixed(1) : '0.0'
-                        if (!monthData) return null
-                        return (
-                          <div key={app.id} style={{ padding: '5px 8px', borderBottom: '1px solid #21262d' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                              <span style={{ fontSize: 10, fontWeight: 600, color: REVIEW_COLORS[app.id], minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
-                              <span style={{ fontSize: 11, fontWeight: 700, color: '#e6edf3' }}>★{monthData.score}</span>
-                              <span style={{ fontSize: 9, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
-                                {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
-                              </span>
-                              <span style={{ fontSize: 9, color: '#6e7681' }}>{monthData.count.toLocaleString()}件</span>
-                              <div style={{ flex: 1 }}>
-                                <SentimentBar ratio={monthData.positive_ratio ?? 0} color={REVIEW_COLORS[app.id]} />
-                              </div>
-                            </div>
-                          </div>
-                        )
-                      })}
+                    <div style={{ display: 'flex', gap: 4 }}>
+                      <button
+                        onClick={() => setCompView('score')}
+                        className="macro-toggle-btn"
+                        style={{
+                          borderColor: compView === 'score' ? 'rgba(56,139,253,0.5)' : '#30363d',
+                          background: compView === 'score' ? 'rgba(56,139,253,0.15)' : 'transparent',
+                          color: compView === 'score' ? '#388bfd' : '#6e7681',
+                        }}
+                      >スコア</button>
+                      <button
+                        onClick={() => setCompView('ranking')}
+                        className="macro-toggle-btn"
+                        style={{
+                          borderColor: compView === 'ranking' ? 'rgba(56,139,253,0.5)' : '#30363d',
+                          background: compView === 'ranking' ? 'rgba(56,139,253,0.15)' : 'transparent',
+                          color: compView === 'ranking' ? '#388bfd' : '#6e7681',
+                        }}
+                      >ランキング</button>
                     </div>
                   </div>
+
+                  {compView === 'score' ? (
+                    <>
+                      <ResponsiveContainer width="100%" height={180}>
+                        <LineChart
+                          data={compareData}
+                          margin={{ top: 4, right: 8, bottom: 0, left: -20 }}
+                          onClick={(data) => { if (data?.activeLabel) setSelectedCompMonth(prev => prev === data.activeLabel ? null : data.activeLabel) }}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+                          <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+                          <YAxis domain={[3, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                          <Tooltip content={<ChartTooltip />} />
+                          {apps.map(app => (
+                            <Line key={app.id} type="monotone" dataKey={app.name} stroke={REVIEW_COLORS[app.id]} strokeWidth={app.isMain || app.id === 'target' ? 2.5 : 1.5} strokeDasharray={app.isMain || app.id === 'target' ? undefined : '4 3'} dot={{ fill: REVIEW_COLORS[app.id], r: 2 }} />
+                          ))}
+                          {selectedCompMonth && (
+                            <ReferenceLine x={selectedCompMonth} stroke="#e6edf3" strokeWidth={1.5} />
+                          )}
+                        </LineChart>
+                      </ResponsiveContainer>
+
+                      {selectedCompMonth ? (
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 4 }}>
+                          <span style={{ fontSize: 11, fontWeight: 700, color: '#e6edf3' }}>{selectedCompMonth}</span>
+                          <span style={{ fontSize: 9, color: '#484f58', cursor: 'pointer' }} onClick={() => setSelectedCompMonth(null)}>✕ 解除</span>
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: 9, color: '#484f58', textAlign: 'center', marginTop: 4 }}>チャートをタップで月別データを表示</div>
+                      )}
+
+                      {/* Competitor list — month-specific or latest (score) */}
+                      <div style={{ marginTop: 6 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                          {competitorApps.map(app => {
+                            const monthIdx = selectedCompMonth
+                              ? app.monthly.findIndex(m => m.month.slice(5) + '月' === selectedCompMonth)
+                              : app.monthly.length - 1
+                            const monthData = monthIdx >= 0 ? app.monthly[monthIdx] : null
+                            const prevData = monthIdx > 0 ? app.monthly[monthIdx - 1] : null
+                            const diff = prevData && monthData ? (monthData.score - prevData.score).toFixed(1) : '0.0'
+                            if (!monthData) return null
+                            return (
+                              <div key={app.id} style={{ padding: '5px 8px', borderBottom: '1px solid #21262d' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                  <span style={{ fontSize: 10, fontWeight: 600, color: REVIEW_COLORS[app.id], minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
+                                  <span style={{ fontSize: 11, fontWeight: 700, color: '#e6edf3' }}>★{monthData.score}</span>
+                                  <span style={{ fontSize: 9, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
+                                    {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
+                                  </span>
+                                  <span style={{ fontSize: 9, color: '#6e7681' }}>{monthData.count.toLocaleString()}件</span>
+                                  <div style={{ flex: 1 }}>
+                                    <SentimentBar ratio={monthData.positive_ratio ?? 0} color={REVIEW_COLORS[app.id]} />
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {compRankChartData.length > 0 && competitorRankSummary.length > 0 ? (
+                        <>
+                          <ResponsiveContainer width="100%" height={180}>
+                            <LineChart data={compRankChartData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+                              <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+                              <YAxis reversed domain={['auto', 'auto']} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                              <Tooltip content={<ChartTooltip />} />
+                              {compRankTargets.map(name => {
+                                const app = apps.find(a => a.name === name)
+                                const color = app ? REVIEW_COLORS[app.id] : PALETTE[compRankTargets.indexOf(name) % PALETTE.length]
+                                const isMain = app && (app.isMain || app.id === 'target')
+                                return (
+                                  <Line
+                                    key={name}
+                                    type="monotone"
+                                    dataKey={name}
+                                    stroke={color}
+                                    strokeWidth={isMain ? 2.5 : 1.5}
+                                    strokeDasharray={isMain ? undefined : '4 3'}
+                                    dot={{ r: 2 }}
+                                    connectNulls
+                                  />
+                                )
+                              })}
+                            </LineChart>
+                          </ResponsiveContainer>
+
+                          {/* Competitor list — latest rank */}
+                          <div style={{ marginTop: 6 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                              {competitorRankSummary.map(app => (
+                                <div key={app.id} style={{ padding: '5px 8px', borderBottom: '1px solid #21262d' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                    <span style={{ fontSize: 10, fontWeight: 600, color: REVIEW_COLORS[app.id] || '#6e7681', minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
+                                    <span style={{ fontSize: 11, fontWeight: 700, color: '#e6edf3' }}>{app.latest}位</span>
+                                    <span style={{ fontSize: 9, color: app.diff > 0 ? '#56d364' : app.diff < 0 ? '#f85149' : '#6e7681' }}>
+                                      {app.diff > 0 ? `▲${app.diff}` : app.diff < 0 ? `▼${Math.abs(app.diff)}` : '→'}
+                                    </span>
+                                    {app.collection && (
+                                      <span style={{ fontSize: 9, color: '#6e7681' }}>{app.collection === 'top_grossing' ? '売上' : '無料'}</span>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div style={{ fontSize: 10, color: '#484f58', textAlign: 'center', padding: 20 }}>
+                          ランキングデータがありません
+                        </div>
+                      )}
+                    </>
+                  )}
                 </>
               ) : (
                 <div style={{ fontSize: 10, color: '#484f58', textAlign: 'center', padding: 20 }}>
@@ -568,6 +691,7 @@ export default memo(function HistoryView({
           section === 'trends' ? '出典: Google Trends' :
           section === 'ranking' && ranking?.source ? `出典: ${ranking.source}` :
           section === 'reviewEvents' ? '出典: レビュー + イベントカレンダー' :
+          section === 'compReviewEvents' && compView === 'ranking' && ranking?.source ? `出典: ${ranking.source}` :
           section === 'compReviewEvents' && reviews?.source ? `出典: ${reviews.source}` :
           '過去からの変化を時系列で確認'
         }</div>

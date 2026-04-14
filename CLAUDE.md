@@ -21,7 +21,8 @@
 - `npm run dev` — ローカル開発サーバー (port 5173)
 - `npm run build` — プロダクションビルド (dist/)
 - `npm run collect` — 実データ収集 (Google Trends, Google Play, Ranking, Reddit, RSS)
-- `npm run discover` — アプリ自動探索 & ドメイン設定生成
+- `npm run discover` — アプリ自動探索 & ドメイン設定生成 (新規ドメイン)
+- `npm run discover:refresh` — 競合自動再探索 & 更新 (既存ドメイン)
 
 ## アーキテクチャ
 
@@ -31,7 +32,7 @@
 - `src/dashboard/components/PositionView.jsx` — 現在地タブ (KPI, 競合ポジション, マクロ環境)
 - `src/dashboard/components/HistoryView.jsx` — 推移タブ (トレンド, ランキング, レビュー, イベント, ニュース)
 - `src/dashboard/components/ActionsView.jsx` — 次の一手タブ (リスク/チャンス, 因果関係)
-- `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, app-discover)
+- `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, app-discover, competitor-discovery)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation)
 - `src/framework/` — マルチドメインフレームワーク (domain, layers, collector-registry, causal-engine)
 
@@ -60,5 +61,16 @@
 3. ~~**文脈入力UI**~~ — ワンタップ4選択肢+メモ付き+自由記帳で因果文脈を付与、手動メモに昇格
 4. ~~**ダッシュボード3タブ再構成**~~ — 現在地/推移/次の一手 の3タブに再構成済み (PositionView/HistoryView/ActionsView)
 5. ~~**インフルエンサードメイン設計**~~ — ドメイン設定・モックデータ・UI登録・コレクタースタブ実装済み
+6. ~~**競合自動探索 & 定期更新**~~ — ポジション×方向性スコアリングで5〜10件を自動選定、`discover:refresh` で更新
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」
+
+## 競合自動探索 (competitor-discovery)
+
+- **探索ソース**: Google Play の類似アプリ + キーワード検索 + 同開発者アプリ
+- **スコアリング**: ポジション類似度 (60%) × 方向性類似度 (40%)
+  - ポジション: カテゴリ一致、インストール数の近さ (対数)、レビュースコアの近さ
+  - 方向性: 更新日の近さ (活発さ)、free/paid一致、レビュー数 (規模)
+- **選定**: 上位 5〜10 件を自動選定 (`pinned: true` の手動追加は保持)
+- **実行**: `DOMAIN=memento-mori npm run discover:refresh`
+- **ドメイン設定**: `targets[].discovery` にスコア・ソース・発見日を記録

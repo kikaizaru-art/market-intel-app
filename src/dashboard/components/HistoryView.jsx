@@ -136,9 +136,8 @@ export default memo(function HistoryView({
   // ─── Events ───────────────────────────────────────
   const calData = events || { events: [], _apps: [] }
   const EVENT_APPS = useMemo(() => calData._apps || [...new Set(calData.events.map(e => e.app))], [calData])
-  const APP_PALETTE = ['#388bfd', '#d2a8ff', '#56d364', '#e3b341', '#f85149']
   const EVENT_APP_COLORS = useMemo(() =>
-    Object.fromEntries(EVENT_APPS.map((a, i) => [a, APP_PALETTE[i % APP_PALETTE.length]])),
+    Object.fromEntries(EVENT_APPS.map((a, i) => [a, PALETTE[i % PALETTE.length]])),
     [EVENT_APPS])
 
   const activeEvents = useMemo(() => calData.events.filter(e => isActive(e, today)), [calData, today])
@@ -253,13 +252,13 @@ export default memo(function HistoryView({
                   ))}
                 </LineChart>
               </ResponsiveContainer>
-              <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: 4, marginTop: 8 }}>
                 {rankSummary.map(app => (
-                  <div key={app.id} className="stat-card">
-                    <div style={{ fontSize: 10, color: '#6e7681' }}>{app.name}</div>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                      <span style={{ fontSize: 16, fontWeight: 700, color: APP_COLORS[app.id] }}>{app.latest}位</span>
-                      <span style={{ fontSize: 10, color: app.diff > 0 ? '#56d364' : app.diff < 0 ? '#f85149' : '#6e7681' }}>
+                  <div key={app.id} className="stat-card" style={{ padding: '4px 8px' }}>
+                    <div style={{ fontSize: 9, color: '#6e7681', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: APP_COLORS[app.id] }}>{app.latest}位</span>
+                      <span style={{ fontSize: 9, color: app.diff > 0 ? '#56d364' : app.diff < 0 ? '#f85149' : '#6e7681' }}>
                         {app.diff > 0 ? `▲${app.diff}` : app.diff < 0 ? `▼${Math.abs(app.diff)}` : '→'}
                       </span>
                     </div>

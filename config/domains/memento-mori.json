@@ -11,7 +11,7 @@
       "collectors": ["google-trends", "news-rss"],
       "sources": {
         "google-trends": {
-          "keywords": ["メメントモリ", "放置少女", "AFK Journey", "オリアカ"],
+          "keywords": ["メメントモリ", "放置少女", "AFK Journey", "オリアカ", "勝利の女神:NIKKE"],
           "geo": "JP"
         },
         "news-rss": {
@@ -69,6 +69,7 @@
       "name": "放置少女",
       "category": "放置RPG",
       "isMain": false,
+      "pinned": true,
       "identifiers": {
         "store_id_android": "jp.glee.girl"
       }
@@ -80,6 +81,14 @@
       "isMain": false,
       "identifiers": {
         "store_id_android": "com.farlightgames.igame.gp"
+      },
+      "discovery": {
+        "source": "similar",
+        "similarityScore": 0.82,
+        "positionScore": 0.85,
+        "directionScore": 0.78,
+        "discoveredAt": "2026-04-13",
+        "lastSeen": "2026-04-13"
       }
     },
     {
@@ -89,12 +98,105 @@
       "isMain": false,
       "identifiers": {
         "store_id_android": "com.qookkagames.starg2.gp.global"
+      },
+      "discovery": {
+        "source": "similar",
+        "similarityScore": 0.78,
+        "positionScore": 0.80,
+        "directionScore": 0.75,
+        "discoveredAt": "2026-04-13",
+        "lastSeen": "2026-04-13"
+      }
+    },
+    {
+      "id": "nikke",
+      "name": "勝利の女神:NIKKE",
+      "category": "シューティングRPG",
+      "isMain": false,
+      "identifiers": {
+        "store_id_android": "com.proximabeta.nikke"
+      },
+      "discovery": {
+        "source": "similar",
+        "similarityScore": 0.75,
+        "positionScore": 0.72,
+        "directionScore": 0.80,
+        "discoveredAt": "2026-04-13",
+        "lastSeen": "2026-04-13"
+      }
+    },
+    {
+      "id": "bluearchive",
+      "name": "ブルーアーカイブ",
+      "category": "学園RPG",
+      "isMain": false,
+      "identifiers": {
+        "store_id_android": "com.YostarJP.BlueArchive"
+      },
+      "discovery": {
+        "source": "search",
+        "similarityScore": 0.73,
+        "positionScore": 0.70,
+        "directionScore": 0.78,
+        "discoveredAt": "2026-04-13",
+        "lastSeen": "2026-04-13"
+      }
+    },
+    {
+      "id": "arknights",
+      "name": "アークナイツ",
+      "category": "タワーディフェンスRPG",
+      "isMain": false,
+      "identifiers": {
+        "store_id_android": "com.YostarJP.Arknights"
+      },
+      "discovery": {
+        "source": "search",
+        "similarityScore": 0.70,
+        "positionScore": 0.65,
+        "directionScore": 0.78,
+        "discoveredAt": "2026-04-13",
+        "lastSeen": "2026-04-13"
+      }
+    },
+    {
+      "id": "hevenburnsred",
+      "name": "ヘブンバーンズレッド",
+      "category": "RPG",
+      "isMain": false,
+      "identifiers": {
+        "store_id_android": "jp.wright_flyer.rpg.hbrjp"
+      },
+      "discovery": {
+        "source": "search",
+        "similarityScore": 0.68,
+        "positionScore": 0.63,
+        "directionScore": 0.76,
+        "discoveredAt": "2026-04-13",
+        "lastSeen": "2026-04-13"
+      }
+    },
+    {
+      "id": "revived-witch",
+      "name": "リバイブドウィッチ",
+      "category": "放置RPG",
+      "isMain": false,
+      "identifiers": {
+        "store_id_android": "com.yostar.revived.witch"
+      },
+      "discovery": {
+        "source": "similar",
+        "similarityScore": 0.65,
+        "positionScore": 0.68,
+        "directionScore": 0.60,
+        "discoveredAt": "2026-04-13",
+        "lastSeen": "2026-04-13"
       }
     }
   ],
 
   "categories": ["RPG", "放置ゲーム", "ファンタジー", "美少女", "ストラテジー"],
-  "competitors": ["C4 Connect", "Lilith Games", "Gamamobi"],
+  "competitors": ["C4 Connect", "Lilith Games", "Gamamobi", "Level Infinite", "Yostar", "WFS"],
 
   "seasonalPatterns": [
     { "month": 1,  "event": "年末年始特需の終了", "impact": "negative", "layer": "macro" },
@@ -113,6 +215,14 @@
     "causationWindowDays": 7,
     "autoConfirmThreshold": 0.65,
     "autoRejectThreshold": 0.30
+  },
+
+  "discovery": {
+    "lastRun": "2026-04-13",
+    "candidatesEvaluated": 45,
+    "autoSelected": 7,
+    "pinnedCount": 1,
+    "minScore": 0.65
   },
 
   "dataPrefix": "memento-mori"

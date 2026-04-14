@@ -273,7 +273,6 @@ export default memo(function PositionView({
               const main = appSummaries.find(a => a.isMain)
               return main?.month ? ` · ${main.month.replace('-', '/')}` : ''
             })()}</span>
-          {reviews?.source && <span className="panel-tag" style={{ background: 'rgba(56,139,253,0.1)', color: '#388bfd', borderColor: 'rgba(56,139,253,0.3)' }}>出典: {reviews.source}</span>}
           </div>
         </div>
         <div className="panel-body">

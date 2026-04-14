@@ -327,11 +327,6 @@ export default memo(function HistoryView({
           {/* ──── レビュー ──── */}
           {section === 'reviews' && (
             <>
-              {reviews?.source && (
-                <div style={{ fontSize: 10, color: '#388bfd', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <span style={{ padding: '1px 6px', borderRadius: 3, background: 'rgba(56,139,253,0.1)', border: '1px solid rgba(56,139,253,0.3)' }}>出典: {reviews.source}</span>
-                </div>
-              )}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <div className="app-selector" style={{ marginBottom: 0 }}>
                   {apps.filter(a => a.isMain || a.id === 'target').map(app => {
@@ -527,7 +522,12 @@ export default memo(function HistoryView({
             </div>
           )}
         </div>
-        <div className="panel-footer">過去からの変化を時系列で確認</div>
+        <div className="panel-footer">{
+          section === 'reviews' && reviews?.source ? `出典: ${reviews.source}` :
+          section === 'trends' ? '出典: Google Trends' :
+          section === 'ranking' && ranking?.source ? `出典: ${ranking.source}` :
+          '過去からの変化を時系列で確認'
+        }</div>
       </div>
     </>
   )

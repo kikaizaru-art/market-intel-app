@@ -123,6 +123,8 @@ function Dashboard() {
                 corporate={data.corporate}
                 events={data.events}
                 causation={data.causation}
+                ranking={data.ranking}
+                community={data.community}
               />
             </div>
           </section>
@@ -137,6 +139,8 @@ function Dashboard() {
                 trends={data.trends}
                 industry={data.industry}
                 events={data.events}
+                ranking={data.ranking}
+                community={data.community}
               />
             </div>
           </section>

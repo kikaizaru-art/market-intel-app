@@ -33,6 +33,8 @@ export default memo(function HistoryView({
   trends,
   industry,
   events,
+  ranking,
+  community,
 }) {
   const [section, setSection] = useState('trends')
   const today = getToday()
@@ -75,7 +77,28 @@ export default memo(function HistoryView({
   const anomalies = useMemo(() => detectAllAnomalies(weeklyData, GENRES), [weeklyData, GENRES])
   const genreTrends = useMemo(() => calcGenreTrends(weeklyData, GENRES), [weeklyData, GENRES])
 
-  // ─── Rankings ─────────────────────────────────────
+  // ─── Rankings (実データ) ────────────────────────────
+  const realRankHistoryData = useMemo(() => {
+    if (!ranking?.history?.length) return []
+    return ranking.history.map(h => {
+      const row = { date: h.date }
+      for (const pos of h.positions) {
+        row[pos.name] = pos.rank
+      }
+      return row
+    })
+  }, [ranking?.history])
+
+  const realRankTargets = useMemo(() => {
+    if (!ranking?.history?.length) return []
+    const names = new Set()
+    for (const h of ranking.history) {
+      for (const pos of h.positions) names.add(pos.name)
+    }
+    return [...names]
+  }, [ranking?.history])
+
+  // ─── Rankings (モック) ─────────────────────────────
   const APP_COLORS = useMemo(() =>
     Object.fromEntries((fundamentals?.apps || []).map((a, i) => [a.id, PALETTE[i % PALETTE.length]])),
     [fundamentals?.apps])
@@ -240,31 +263,64 @@ export default memo(function HistoryView({
           {/* ──── ランキング ──── */}
           {section === 'ranking' && (
             <>
-              <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>セールスランキング推移 (低い=上位)</div>
-              <ResponsiveContainer width="100%" height={220}>
-                <LineChart data={rankData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
-                  <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
-                  <YAxis reversed domain={[1, 100]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-                  <Tooltip content={<ChartTooltip />} />
-                  {(fundamentals?.apps || []).map(app => (
-                    <Line key={app.id} type="monotone" dataKey={app.name} stroke={APP_COLORS[app.id]} strokeWidth={1.5} dot={false} />
-                  ))}
-                </LineChart>
-              </ResponsiveContainer>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: 4, marginTop: 8 }}>
-                {rankSummary.map(app => (
-                  <div key={app.id} className="stat-card" style={{ padding: '4px 8px' }}>
-                    <div style={{ fontSize: 9, color: '#6e7681', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</div>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
-                      <span style={{ fontSize: 14, fontWeight: 700, color: APP_COLORS[app.id] }}>{app.latest}位</span>
-                      <span style={{ fontSize: 9, color: app.diff > 0 ? '#56d364' : app.diff < 0 ? '#f85149' : '#6e7681' }}>
-                        {app.diff > 0 ? `▲${app.diff}` : app.diff < 0 ? `▼${Math.abs(app.diff)}` : '→'}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+              <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>
+                {ranking?.source ? `${ranking.source} (実データ)` : 'セールスランキング推移 (低い=上位)'}
               </div>
+              {/* 実データ日次履歴がある場合 */}
+              {ranking?.history?.length > 1 ? (
+                <>
+                  <ResponsiveContainer width="100%" height={220}>
+                    <LineChart data={realRankHistoryData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+                      <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+                      <YAxis reversed domain={['auto', 'auto']} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                      <Tooltip content={<ChartTooltip />} />
+                      {realRankTargets.map((name, i) => (
+                        <Line key={name} type="monotone" dataKey={name} stroke={PALETTE[i % PALETTE.length]} strokeWidth={1.5} dot={{ r: 2 }} connectNulls />
+                      ))}
+                    </LineChart>
+                  </ResponsiveContainer>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: 4, marginTop: 8 }}>
+                    {(ranking.positions || []).map((pos, i) => (
+                      <div key={pos.id} className="stat-card" style={{ padding: '4px 8px' }}>
+                        <div style={{ fontSize: 9, color: PALETTE[i % PALETTE.length], fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pos.name}</div>
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: '#e6edf3' }}>{pos.rank}位</span>
+                          <span style={{ fontSize: 8, color: '#6e7681' }}>{pos.collection === 'top_grossing' ? '売上' : '無料'}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                /* モックデータ */
+                <>
+                  <ResponsiveContainer width="100%" height={220}>
+                    <LineChart data={rankData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+                      <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+                      <YAxis reversed domain={[1, 100]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                      <Tooltip content={<ChartTooltip />} />
+                      {(fundamentals?.apps || []).map(app => (
+                        <Line key={app.id} type="monotone" dataKey={app.name} stroke={APP_COLORS[app.id]} strokeWidth={1.5} dot={false} />
+                      ))}
+                    </LineChart>
+                  </ResponsiveContainer>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: 4, marginTop: 8 }}>
+                    {rankSummary.map(app => (
+                      <div key={app.id} className="stat-card" style={{ padding: '4px 8px' }}>
+                        <div style={{ fontSize: 9, color: '#6e7681', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</div>
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: APP_COLORS[app.id] }}>{app.latest}位</span>
+                          <span style={{ fontSize: 9, color: app.diff > 0 ? '#56d364' : app.diff < 0 ? '#f85149' : '#6e7681' }}>
+                            {app.diff > 0 ? `▲${app.diff}` : app.diff < 0 ? `▼${Math.abs(app.diff)}` : '→'}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </>
           )}
 

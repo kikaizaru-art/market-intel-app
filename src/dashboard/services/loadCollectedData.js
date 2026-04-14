@@ -53,6 +53,9 @@ function transformTrends(trends) {
 
 /**
  * Google Play Reviews → UserView 形式
+ *
+ * 履歴蓄積データ (monthlyHistory) があれば推移チャートに反映し、
+ * 最新のレビューテキストから苦情・賞賛を抽出する。
  */
 function transformReviews(reviews) {
   if (!reviews?.apps?.length) return null
@@ -70,22 +73,53 @@ function transformReviews(reviews) {
     const now = new Date()
     const month = now.toISOString().slice(0, 7)
 
-    return {
-      id: app.id,
-      name: app.name,
-      genre: app.genre,
-      monthly: [{
+    // 蓄積済み月次履歴があれば使用、なければ今月のスナップショットのみ
+    let monthly
+    if (app.monthlyHistory?.length) {
+      monthly = app.monthlyHistory.map(h => ({
+        month: h.month,
+        score: Math.round((h.score || 0) * 10) / 10,
+        count: h.reviews || h.ratings || 0,
+        positive_ratio: calcPositiveRatio(h.histogram),
+        version: h.version || null,
+        recentChanges: h.recentChanges || null,
+      }))
+    } else {
+      monthly = [{
         month,
         score: Math.round((app.appInfo?.score || 0) * 10) / 10,
         count: app.appInfo?.reviews || recentReviews.length,
         positive_ratio: Math.round(positiveRatio * 100) / 100,
-      }],
+      }]
+    }
+
+    return {
+      id: app.id,
+      name: app.name,
+      genre: app.genre,
+      isMain: app.isMain || false,
+      monthly,
+      histogram: app.appInfo?.histogram || null,
+      reviewVelocity: app.reviewVelocity || null,
       top_complaints: complaints.length > 0 ? complaints : ['データ不足'],
       top_praises: praises.length > 0 ? praises : ['データ不足'],
+      recentReviews: recentReviews.slice(0, 10),
     }
   })
 
   return { source: 'Google Play (実データ)', apps }
+}
+
+/**
+ * ヒストグラムからポジティブ比率を算出
+ * (4-5星 / 全体)
+ */
+function calcPositiveRatio(histogram) {
+  if (!histogram) return 0.5
+  const total = Object.values(histogram).reduce((a, b) => a + (b || 0), 0)
+  if (total === 0) return 0.5
+  const positive = (histogram['4'] || 0) + (histogram['5'] || 0)
+  return Math.round((positive / total) * 100) / 100
 }
 
 /**
@@ -114,7 +148,7 @@ function transformNews(news) {
 }
 
 /**
- * Store Ranking → 競合ポジション形式
+ * Store Ranking → 競合ポジション形式 (履歴対応)
  */
 function transformRanking(ranking) {
   if (!ranking?.targetPositions?.length) return null
@@ -124,11 +158,16 @@ function transformRanking(ranking) {
     positions: ranking.targetPositions,
     topGrossing: ranking.rankings?.top_grossing || [],
     topFree: ranking.rankings?.top_free || [],
+    // 日次ランキング推移 (蓄積データがあれば)
+    history: (ranking.history || []).map(h => ({
+      date: h.date,
+      positions: h.positions,
+    })),
   }
 }
 
 /**
- * Community → コミュニティ活動形式
+ * Community → コミュニティ活動形式 (履歴対応)
  */
 function transformCommunity(community) {
   if (!community?.stats) return null
@@ -142,6 +181,13 @@ function transformCommunity(community) {
       numComments: p.numComments,
       created: p.created,
       keyword: p.keyword,
+    })),
+    // 日次コミュニティ活動推移 (蓄積データがあれば)
+    history: (community.history || []).map(h => ({
+      date: h.date,
+      totalPosts: h.stats?.totalPosts || 0,
+      postsPerDay: h.stats?.postsPerDay || 0,
+      avgScore: h.stats?.avgScore || 0,
     })),
   }
 }

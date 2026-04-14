@@ -30,6 +30,7 @@ const DATA_DIR = path.resolve(__dirname, '../../data')
 const PUBLIC_DATA_DIR = path.resolve(__dirname, '../../public/data')
 const CONFIG_DIR = path.resolve(__dirname, '../../config')
 const DOMAINS_DIR = path.resolve(CONFIG_DIR, 'domains')
+const HISTORY_DIR = path.resolve(DATA_DIR, 'history')
 const TOTAL_COLLECTORS = 5
 
 function saveJson(filepath, data) {
@@ -157,10 +158,14 @@ async function run() {
     results.news = null
   }
 
+  // 履歴蓄積: 過去データとマージして推移を追跡できるようにする
+  console.log('\n[history] merging with historical data...')
+  const merged = mergeWithHistory(domainName, today, results)
+
   // ダッシュボード用に統合ファイルを出力
   fs.mkdirSync(PUBLIC_DATA_DIR, { recursive: true })
-  saveJson(path.join(PUBLIC_DATA_DIR, 'collected.json'), results)
-  console.log('\n  public/data/collected.json saved')
+  saveJson(path.join(PUBLIC_DATA_DIR, 'collected.json'), merged)
+  console.log('  public/data/collected.json saved')
 
   // サマリー
   const succeeded = TOTAL_COLLECTORS - errors.length
@@ -171,6 +176,108 @@ async function run() {
       console.log(`  - ${err.collector}: ${err.error}`)
     }
   }
+}
+
+/**
+ * 過去の履歴データとマージし、推移を追跡可能にする
+ *
+ * - reviews: 月次スナップショットを蓄積 (最大12ヶ月)
+ * - trends: 週次データを蓄積 (最大26週)
+ * - ranking: 日次スナップショットを蓄積 (最大90日)
+ * - community: 日次統計を蓄積 (最大30日)
+ */
+function mergeWithHistory(domainName, today, results) {
+  fs.mkdirSync(HISTORY_DIR, { recursive: true })
+  const historyPath = path.join(HISTORY_DIR, `${domainName}.json`)
+
+  let history = { reviews: {}, trends: [], ranking: [], community: [] }
+  if (fs.existsSync(historyPath)) {
+    try {
+      history = JSON.parse(fs.readFileSync(historyPath, 'utf8'))
+    } catch (e) {
+      console.warn('[history] failed to read history, starting fresh:', e.message)
+    }
+  }
+
+  const month = today.slice(0, 7) // YYYY-MM
+
+  // === Reviews 履歴蓄積 (月次) ===
+  if (results.reviews?.apps?.length) {
+    for (const app of results.reviews.apps) {
+      if (!history.reviews[app.id]) history.reviews[app.id] = {}
+      history.reviews[app.id][month] = {
+        score: app.appInfo?.score ?? null,
+        ratings: app.appInfo?.ratings ?? null,
+        reviews: app.appInfo?.reviews ?? null,
+        histogram: app.appInfo?.histogram ?? null,
+        reviewVelocity: app.reviewVelocity ?? null,
+        version: app.appInfo?.version ?? null,
+        recentChanges: app.appInfo?.recentChanges ?? null,
+      }
+    }
+
+    // reviews に monthly 履歴を注入
+    for (const app of results.reviews.apps) {
+      const appHistory = history.reviews[app.id]
+      if (appHistory) {
+        app.monthlyHistory = Object.entries(appHistory)
+          .sort(([a], [b]) => a.localeCompare(b))
+          .slice(-12) // 最大12ヶ月
+          .map(([m, data]) => ({ month: m, ...data }))
+      }
+    }
+  }
+
+  // === Trends 履歴蓄積 (週次: 重複除去で結合) ===
+  if (results.trends?.weekly?.length) {
+    const existingDates = new Set((history.trends || []).map(w => w.date))
+    for (const week of results.trends.weekly) {
+      if (!existingDates.has(week.date)) {
+        history.trends.push(week)
+      }
+    }
+    // 日付順ソート、最大52週保持
+    history.trends.sort((a, b) => a.date.localeCompare(b.date))
+    if (history.trends.length > 52) {
+      history.trends = history.trends.slice(-52)
+    }
+    // results に蓄積済みデータを反映
+    results.trends.weekly = history.trends
+  }
+
+  // === Ranking 履歴蓄積 (日次スナップショット) ===
+  if (results.ranking?.targetPositions?.length) {
+    history.ranking.push({
+      date: today,
+      positions: results.ranking.targetPositions,
+    })
+    // 重複日付の除去 & 最大90日保持
+    const seen = new Set()
+    history.ranking = history.ranking
+      .filter(r => { const dup = seen.has(r.date); seen.add(r.date); return !dup })
+      .slice(-90)
+    results.ranking.history = history.ranking
+  }
+
+  // === Community 履歴蓄積 (日次統計) ===
+  if (results.community?.stats) {
+    history.community.push({
+      date: today,
+      stats: results.community.stats,
+    })
+    const seen = new Set()
+    history.community = history.community
+      .filter(r => { const dup = seen.has(r.date); seen.add(r.date); return !dup })
+      .slice(-30)
+    results.community.history = history.community
+  }
+
+  // 履歴を保存
+  saveJson(historyPath, history)
+  const reviewMonths = Object.values(history.reviews).reduce((max, h) => Math.max(max, Object.keys(h).length), 0)
+  console.log(`[history] saved: ${history.trends.length} trend weeks, ${reviewMonths} review months, ${history.ranking.length} ranking days, ${history.community.length} community days`)
+
+  return results
 }
 
 run().catch(e => {

@@ -50,9 +50,11 @@
 
 ## データフロー
 
-1. `npm run collect` → `data/` に個別JSON + `public/data/collected.json` に統合出力
-2. ダッシュボード起動時に `collected.json` を fetch
-3. 実データがあれば上書き、なければ `generateData.js` のモックを使用
+1. `npm run collect` → `data/` に個別JSON + `data/history/{domain}.json` に履歴蓄積 + `public/data/collected.json` に統合出力
+2. 履歴蓄積: reviews(月次12ヶ月), trends(週次52週), ranking(日次90日), community(日次30日)
+3. ダッシュボード起動時に `collected.json` を fetch
+4. 実データがあれば上書き、なければ `generateData.js` のモックを使用
+5. GitHub Actions (`collect.yml`) で毎日 JST 7:00 に自動収集・デプロイ
 
 ## 次の実装課題 (優先順)
 
@@ -62,6 +64,7 @@
 4. ~~**ダッシュボード3タブ再構成**~~ — 現在地/推移/次の一手 の3タブに再構成済み (PositionView/HistoryView/ActionsView)
 5. ~~**インフルエンサードメイン設計**~~ — ドメイン設定・モックデータ・UI登録・コレクタースタブ実装済み
 6. ~~**競合自動探索 & 定期更新**~~ — ポジション×方向性スコアリングで5〜10件を自動選定、`discover:refresh` で更新
+7. ~~**実データ収集パイプライン**~~ — 5コレクター (Trends/Store/Ranking/Community/News) + 履歴蓄積 + GitHub Actions 定期実行
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」
 

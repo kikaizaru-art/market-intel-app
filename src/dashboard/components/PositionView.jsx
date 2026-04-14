@@ -266,6 +266,10 @@ export default memo(function PositionView({
             <div className="panel-indicator user-indicator" />
             <span className="panel-title user-title">ユーザーの声</span>
             <span className="panel-tag">レビュー分析{(() => {
+              if (reviews?.collected_at) {
+                const d = new Date(reviews.collected_at)
+                return ` · ${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`
+              }
               const main = appSummaries.find(a => a.isMain)
               return main?.month ? ` · ${main.month.replace('-', '/')}` : ''
             })()}</span>
@@ -285,7 +289,7 @@ export default memo(function PositionView({
                     {parseFloat(main.diff) >= 0 ? '▲' : '▼'}{Math.abs(main.diff)}
                   </span>
                   <span style={{ marginLeft: 'auto', fontSize: 9, color: '#6e7681' }}>
-                    {main.month && main.month.replace('-', '/')}　{main.count.toLocaleString()}件
+                    {main.count.toLocaleString()}件
                   </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>

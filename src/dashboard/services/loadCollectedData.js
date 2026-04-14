@@ -19,7 +19,7 @@ export async function loadCollectedData() {
     const result = {
       collected_at: raw.collected_at,
       trends: transformTrends(raw.trends),
-      reviews: transformReviews(raw.reviews),
+      reviews: transformReviews(raw.reviews, raw.collected_at),
       ranking: transformRanking(raw.ranking),
       community: transformCommunity(raw.community),
       news: transformNews(raw.news),
@@ -57,7 +57,7 @@ function transformTrends(trends) {
  * 履歴蓄積データ (monthlyHistory) があれば推移チャートに反映し、
  * 最新のレビューテキストから苦情・賞賛を抽出する。
  */
-function transformReviews(reviews) {
+function transformReviews(reviews, collected_at) {
   if (!reviews?.apps?.length) return null
 
   const apps = reviews.apps.map(app => {
@@ -107,7 +107,7 @@ function transformReviews(reviews) {
     }
   })
 
-  return { source: 'Google Play (実データ)', apps }
+  return { source: 'Google Play (実データ)', apps, collected_at: collected_at || null }
 }
 
 /**

@@ -27,7 +27,7 @@ export default memo(function CausationView({
   eventsData,
   newsData,
 }) {
-  // 手動メモ: localStorage に保存済みならそれを復元、なければモックデータ
+  // 手動メモ: IndexedDB に保存済みならそれを復元、なければモックデータ
   const [manualNotes, setManualNotes] = useState(() => {
     const saved = loadCausalNotes()
     return saved !== null ? saved : initialData.notes
@@ -47,7 +47,7 @@ export default memo(function CausationView({
   // ─── 手動メモの永続化 ──────────────────────────────
   const isInitialMount = useRef(true)
   useEffect(() => {
-    // 初回マウント時はスキップ（localStorage→state 復元直後の保存を避ける）
+    // 初回マウント時はスキップ（キャッシュ→state 復元直後の保存を避ける）
     if (isInitialMount.current) { isInitialMount.current = false; return }
     saveCausalNotes(manualNotes)
   }, [manualNotes])

@@ -1,5 +1,5 @@
 /**
- * パターン学習ストア (localStorage ベース)
+ * パターン学習ストア (IndexedDB ベース / インメモリキャッシュ)
  *
  * 自動検証の結果（承認/却下）を蓄積し、
  * パターンタイプごとの信頼度重みを動的に調整する。
@@ -19,7 +19,16 @@
  * 学習制御:
  *   lockedAtIndex: number | null  — この位置で学習を固定 (null = 通常進行)
  *   feedbackLog から任意の時点まで重みを再計算してロールバック可能
+ *
+ * 永続化:
+ *   IndexedDB + インメモリキャッシュで堅牢に保存。
+ *   読み取りは同期 (キャッシュ)、書き込みは同期 (キャッシュ) + 非同期 (IndexedDB)。
+ *   ブラウザキャッシュクリアでもデータが失われにくい。
  */
+
+import { getItem, setItem, initStorage } from './storageBackend.js'
+
+export { initStorage }
 
 const STORAGE_KEY = 'market-intel-pattern-store'
 const SETTINGS_KEY = 'market-intel-learning-settings'
@@ -71,7 +80,7 @@ const DEFAULT_SETTINGS = {
 
 function loadSettings() {
   try {
-    const raw = localStorage.getItem(SETTINGS_KEY)
+    const raw = getItem(SETTINGS_KEY)
     if (!raw) return { ...DEFAULT_SETTINGS }
     return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) }
   } catch {
@@ -81,7 +90,7 @@ function loadSettings() {
 
 function saveSettings(settings) {
   try {
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings))
+    setItem(SETTINGS_KEY, JSON.stringify(settings))
   } catch {}
 }
 
@@ -257,7 +266,7 @@ export function getLockedAtIndex() {
 
 function loadStore() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
+    const raw = getItem(STORAGE_KEY)
     if (!raw) return createDefaultStore()
     return JSON.parse(raw)
   } catch {
@@ -267,7 +276,7 @@ function loadStore() {
 
 function saveStore(store) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(store))
+    setItem(STORAGE_KEY, JSON.stringify(store))
   } catch {}
 }
 
@@ -400,12 +409,12 @@ export function getSignalWeights() {
 // ─── 因果ノートの永続化 ──────────────────────────────────────
 
 /**
- * 手動メモを localStorage から読込
+ * 手動メモを読込 (IndexedDB キャッシュから同期的に取得)
  * @returns {object[]}
  */
 export function loadCausalNotes() {
   try {
-    const raw = localStorage.getItem(CAUSAL_NOTES_KEY)
+    const raw = getItem(CAUSAL_NOTES_KEY)
     return raw ? JSON.parse(raw) : null  // null = 未保存 (初回は mock を使う)
   } catch {
     return null
@@ -413,12 +422,12 @@ export function loadCausalNotes() {
 }
 
 /**
- * 手動メモを localStorage に保存
+ * 手動メモを保存 (キャッシュ + IndexedDB)
  * @param {object[]} notes
  */
 export function saveCausalNotes(notes) {
   try {
-    localStorage.setItem(CAUSAL_NOTES_KEY, JSON.stringify(notes))
+    setItem(CAUSAL_NOTES_KEY, JSON.stringify(notes))
   } catch {}
 }
 
@@ -429,7 +438,7 @@ export function saveCausalNotes(notes) {
  */
 export function loadRejectedAutoKeys() {
   try {
-    const raw = localStorage.getItem(REJECTED_AUTO_KEY)
+    const raw = getItem(REJECTED_AUTO_KEY)
     return raw ? JSON.parse(raw) : []
   } catch {
     return []
@@ -447,7 +456,7 @@ export function addRejectedAutoKey(key) {
     // 最大200件に制限
     const trimmed = keys.length > 200 ? keys.slice(-200) : keys
     try {
-      localStorage.setItem(REJECTED_AUTO_KEY, JSON.stringify(trimmed))
+      setItem(REJECTED_AUTO_KEY, JSON.stringify(trimmed))
     } catch {}
   }
 }

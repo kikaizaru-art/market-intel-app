@@ -125,22 +125,27 @@ export default memo(function HistoryView({
 
   // ─── Reviews ──────────────────────────────────────
   const apps = reviews?.apps || []
+  const mainApp = useMemo(() => apps.find(a => a.isMain || a.id === 'target'), [apps])
+  const competitorApps = useMemo(() => apps.filter(a => !(a.isMain || a.id === 'target')), [apps])
   const REVIEW_COLORS = useMemo(() =>
     Object.fromEntries(apps.map((a, i) => [a.id, PALETTE[i % PALETTE.length]])),
     [apps])
 
-  const [selectedReviewApp, setSelectedReviewApp] = useState(apps[0]?.id)
+  const [selectedCompetitor, setSelectedCompetitor] = useState(null)
+  const selectedCompApp = useMemo(() =>
+    apps.find(a => a.id === selectedCompetitor), [apps, selectedCompetitor])
+  const compAccent = REVIEW_COLORS[selectedCompetitor] || PALETTE[1]
 
-  const reviewApp = apps.find(a => a.id === selectedReviewApp) || apps[0]
-  const reviewAccent = REVIEW_COLORS[reviewApp?.id] || PALETTE[0]
-
-  const reviewChartData = useMemo(() =>
-    reviewApp?.monthly.map(m => ({
+  const mainChartData = useMemo(() => {
+    if (!mainApp) return []
+    const mainColor = REVIEW_COLORS[mainApp.id] || PALETTE[0]
+    return mainApp.monthly.map(m => ({
       month: m.month.slice(5) + '月',
       スコア: m.score,
       レビュー数: m.count,
       好意的: Math.round(m.positive_ratio * 100),
-    })) || [], [reviewApp])
+    }))
+  }, [mainApp, REVIEW_COLORS])
 
   const compareData = useMemo(() => {
     if (!apps.length) return []
@@ -154,7 +159,7 @@ export default memo(function HistoryView({
     })
   }, [apps])
 
-  const [reviewCompare, setReviewCompare] = useState(false)
+  const mainAccent = REVIEW_COLORS[mainApp?.id] || PALETTE[0]
 
   // ─── Events ───────────────────────────────────────
   const calData = events || { events: [], _apps: [] }
@@ -327,153 +332,127 @@ export default memo(function HistoryView({
           {/* ──── レビュー ──── */}
           {section === 'reviews' && (
             <>
-              {/* ──── 自分のアプリ（固定ヘッダー） ──── */}
-              {(() => {
-                const mainApp = apps.find(a => a.isMain || a.id === 'target')
-                if (!mainApp) return null
-                const mainColor = REVIEW_COLORS[mainApp.id] || PALETTE[0]
+              {/* ════ 自社レビュー推移 ════ */}
+              {mainApp && (() => {
                 const latest = mainApp.monthly[mainApp.monthly.length - 1]
                 const prev = mainApp.monthly[mainApp.monthly.length - 2]
                 const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
                 return (
-                  <div style={{ padding: '6px 8px', borderRadius: 6, background: `${mainColor}12`, border: `1px solid ${mainColor}44`, marginBottom: 8 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: mainColor }}>{mainApp.name}</span>
-                      <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{latest?.score}</span>
-                      <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
-                        {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
-                      </span>
-                      <span style={{ marginLeft: 'auto', fontSize: 9, color: '#6e7681' }}>
-                        {mainApp.monthly.reduce((s, m) => s + m.count, 0).toLocaleString()}件
-                      </span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ fontSize: 9, color: '#6e7681', whiteSpace: 'nowrap' }}>好意度</span>
-                      <div style={{ flex: 1 }}>
-                        <SentimentBar ratio={latest?.positive_ratio ?? 0} color={mainColor} />
+                  <>
+                    <div style={{ padding: '6px 8px', borderRadius: 6, background: `${mainAccent}12`, border: `1px solid ${mainAccent}44`, marginBottom: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: mainAccent }}>{mainApp.name}</span>
+                        <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{latest?.score}</span>
+                        <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
+                          {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
+                        </span>
+                        <span style={{ marginLeft: 'auto', fontSize: 9, color: '#6e7681' }}>
+                          {mainApp.monthly.reduce((s, m) => s + m.count, 0).toLocaleString()}件
+                        </span>
                       </div>
-                    </div>
-                    {mainApp.top_complaints && (
-                      <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 9, color: '#6e7681', whiteSpace: 'nowrap' }}>好意度</span>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: 10, color: '#f85149', marginBottom: 3, fontWeight: 600 }}>主な不満</div>
-                          {mainApp.top_complaints.map(c => (<span key={c} className="complaint-tag">{c}</span>))}
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: 10, color: '#56d364', marginBottom: 3, fontWeight: 600 }}>主な好評点</div>
-                          {(mainApp.top_praises || []).map(p => (<span key={p} className="praise-tag">{p}</span>))}
+                          <SentimentBar ratio={latest?.positive_ratio ?? 0} color={mainAccent} />
                         </div>
                       </div>
-                    )}
-                  </div>
+                      {mainApp.top_complaints && (
+                        <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 10, color: '#f85149', marginBottom: 3, fontWeight: 600 }}>主な不満</div>
+                            {mainApp.top_complaints.map(c => (<span key={c} className="complaint-tag">{c}</span>))}
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 10, color: '#56d364', marginBottom: 3, fontWeight: 600 }}>主な好評点</div>
+                            {(mainApp.top_praises || []).map(p => (<span key={p} className="praise-tag">{p}</span>))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <ResponsiveContainer width="100%" height={180}>
+                      <ComposedChart data={mainChartData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+                        <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+                        <YAxis yAxisId="left" domain={[0, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                        <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                        <Tooltip content={<ChartTooltip />} />
+                        <Bar yAxisId="right" dataKey="レビュー数" fill={`${mainAccent}33`} stroke={`${mainAccent}66`} strokeWidth={1} />
+                        <Line yAxisId="left" type="monotone" dataKey="スコア" stroke={mainAccent} strokeWidth={2} dot={{ fill: mainAccent, r: 3 }} activeDot={{ r: 4 }} />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </>
                 )
               })()}
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <div className="app-selector" style={{ marginBottom: 0 }}>
-                  {apps.filter(a => a.isMain || a.id === 'target').map(app => {
-                    const isSelected = selectedReviewApp === app.id
-                    return (
-                      <button key={app.id} className={`app-btn ${isSelected ? 'active' : ''}`} style={{ background: `${REVIEW_COLORS[app.id]}22`, borderColor: `${REVIEW_COLORS[app.id]}66`, color: REVIEW_COLORS[app.id], fontWeight: 700 }} onClick={() => setSelectedReviewApp(app.id)}>
-                        {app.name}
-                      </button>
-                    )
-                  })}
-                  <span style={{ borderLeft: '1px solid #30363d', margin: '0 2px', height: 16 }} />
-                  {apps.filter(a => !(a.isMain || a.id === 'target')).map(app => {
-                    const isSelected = selectedReviewApp === app.id
-                    return (
-                      <button key={app.id} className={`app-btn ${isSelected ? 'active' : ''}`} style={isSelected ? { background: `${REVIEW_COLORS[app.id]}22`, borderColor: `${REVIEW_COLORS[app.id]}66`, color: REVIEW_COLORS[app.id] } : {}} onClick={() => setSelectedReviewApp(app.id)}>{app.name}</button>
-                    )
-                  })}
-                </div>
-                <button onClick={() => setReviewCompare(v => !v)} className="macro-toggle-btn" style={{ borderColor: reviewCompare ? 'rgba(86,211,100,0.5)' : '#30363d', background: reviewCompare ? 'rgba(86,211,100,0.15)' : 'transparent', color: reviewCompare ? '#56d364' : '#6e7681' }}>比較</button>
-              </div>
+              {/* ════ 競合比較 ════ */}
+              {competitorApps.length > 0 && (
+                <>
+                  <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px solid #21262d' }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: '#8b949e', marginBottom: 6 }}>競合スコア比較</div>
+                    <ResponsiveContainer width="100%" height={160}>
+                      <LineChart data={compareData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+                        <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+                        <YAxis domain={[3, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                        <Tooltip content={<ChartTooltip />} />
+                        {apps.map(app => (
+                          <Line key={app.id} type="monotone" dataKey={app.name} stroke={REVIEW_COLORS[app.id]} strokeWidth={app.isMain || app.id === 'target' ? 2.5 : 1.5} strokeDasharray={app.isMain || app.id === 'target' ? undefined : '4 3'} dot={{ fill: REVIEW_COLORS[app.id], r: 2 }} />
+                        ))}
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
 
-              {reviewCompare ? (
-                <ResponsiveContainer width="100%" height={220}>
-                  <LineChart data={compareData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
-                    <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
-                    <YAxis domain={[3, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-                    <Tooltip content={<ChartTooltip />} />
-                    {apps.map(app => (
-                      <Line key={app.id} type="monotone" dataKey={app.name} stroke={REVIEW_COLORS[app.id]} strokeWidth={2} dot={{ fill: REVIEW_COLORS[app.id], r: 3 }} />
-                    ))}
-                  </LineChart>
-                </ResponsiveContainer>
-              ) : (
-                <ResponsiveContainer width="100%" height={220}>
-                  <ComposedChart data={reviewChartData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
-                    <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
-                    <YAxis yAxisId="left" domain={[0, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-                    <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
-                    <Tooltip content={<ChartTooltip />} />
-                    <Bar yAxisId="right" dataKey="レビュー数" fill={`${reviewAccent}33`} stroke={`${reviewAccent}66`} strokeWidth={1} />
-                    <Line yAxisId="left" type="monotone" dataKey="スコア" stroke={reviewAccent} strokeWidth={2} dot={{ fill: reviewAccent, r: 3 }} activeDot={{ r: 4 }} />
-                  </ComposedChart>
-                </ResponsiveContainer>
-              )}
-
-              {/* ──── 競合アプリ スコアカード ──── */}
-              {apps.filter(a => !(a.isMain || a.id === 'target')).length > 0 && (
-                <div style={{ marginTop: 8 }}>
-                  <div style={{ fontSize: 9, color: '#6e7681', marginBottom: 3 }}>競合 — クリックでレビューまとめ表示</div>
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                    {apps.filter(a => !(a.isMain || a.id === 'target')).map(app => {
-                      const latest = app.monthly[app.monthly.length - 1]
-                      const prev = app.monthly[app.monthly.length - 2]
-                      const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
-                      const isSelected = selectedReviewApp === app.id
-                      return (
-                        <div key={app.id} className="stat-card" style={{ cursor: 'pointer', flex: '1 1 0', minWidth: 90, borderColor: isSelected ? `${REVIEW_COLORS[app.id]}66` : undefined, background: isSelected ? `${REVIEW_COLORS[app.id]}11` : undefined }} onClick={() => setSelectedReviewApp(app.id)}>
-                          <div style={{ fontSize: 10, color: REVIEW_COLORS[app.id], fontWeight: 600 }}>{app.name}</div>
-                          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                            <span style={{ fontSize: 14, fontWeight: 700, color: '#e6edf3' }}>★ {latest?.score}</span>
-                            <span style={{ fontSize: 10, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
+                  <div style={{ marginTop: 8 }}>
+                    <div style={{ fontSize: 9, color: '#6e7681', marginBottom: 3 }}>競合 — クリックでレビュー表示</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                      {competitorApps.map(app => {
+                        const latest = app.monthly[app.monthly.length - 1]
+                        const prev = app.monthly[app.monthly.length - 2]
+                        const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
+                        const isSelected = selectedCompetitor === app.id
+                        return (
+                          <div key={app.id}
+                            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '3px 6px', borderBottom: '1px solid #21262d', cursor: 'pointer', borderRadius: isSelected ? 4 : 0, background: isSelected ? `${REVIEW_COLORS[app.id]}11` : 'transparent' }}
+                            onClick={() => setSelectedCompetitor(isSelected ? null : app.id)}
+                          >
+                            <span style={{ fontSize: 10, fontWeight: 600, color: REVIEW_COLORS[app.id], minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
+                            <span style={{ fontSize: 12, fontWeight: 700, color: '#e6edf3' }}>★{latest?.score}</span>
+                            <span style={{ fontSize: 9, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
                               {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
                             </span>
+                            <div style={{ flex: 1 }}>
+                              <SentimentBar ratio={latest?.positive_ratio ?? 0} color={REVIEW_COLORS[app.id]} />
+                            </div>
                           </div>
-                        </div>
-                      )
-                    })}
+                        )
+                      })}
+                    </div>
                   </div>
-                </div>
-              )}
 
-              {/* ──── 選択した競合のレビューまとめ ──── */}
-              {reviewApp && !(reviewApp.isMain || reviewApp.id === 'target') && (
-                <div style={{ marginTop: 8, padding: '8px 10px', borderRadius: 6, border: `1px solid ${reviewAccent}33`, background: `${reviewAccent}08` }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: reviewAccent, marginBottom: 6 }}>
-                    {reviewApp.name} のレビューまとめ
-                  </div>
-                  <div style={{ display: 'flex', gap: 12 }}>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 10, color: '#f85149', marginBottom: 4, fontWeight: 600 }}>主な不満</div>
-                      {(reviewApp.top_complaints || []).map(c => (
-                        <span key={c} className="complaint-tag">{c}</span>
-                      ))}
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 10, color: '#56d364', marginBottom: 4, fontWeight: 600 }}>主な好評点</div>
-                      {(reviewApp.top_praises || []).map(p => (
-                        <span key={p} className="praise-tag">{p}</span>
-                      ))}
-                    </div>
-                  </div>
-                  {reviewApp.monthly?.length > 0 && (() => {
-                    const latest = reviewApp.monthly[reviewApp.monthly.length - 1]
-                    return latest ? (
-                      <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ fontSize: 9, color: '#6e7681', whiteSpace: 'nowrap' }}>好意度</span>
+                  {/* ──── 選択した競合のレビュー詳細 ──── */}
+                  {selectedCompApp && (
+                    <div style={{ marginTop: 6, padding: '6px 8px', borderRadius: 6, border: `1px solid ${compAccent}33`, background: `${compAccent}08` }}>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: compAccent, marginBottom: 6 }}>
+                        {selectedCompApp.name} のレビュー
+                      </div>
+                      <div style={{ display: 'flex', gap: 8 }}>
                         <div style={{ flex: 1 }}>
-                          <SentimentBar ratio={latest.positive_ratio} color={reviewAccent} />
+                          <div style={{ fontSize: 10, color: '#f85149', marginBottom: 4, fontWeight: 600 }}>不満</div>
+                          {(selectedCompApp.top_complaints || []).map((c, i) => (
+                            <div key={i} style={{ fontSize: 10, color: '#e6edf3', padding: '2px 0', borderBottom: '1px solid #21262d', lineHeight: 1.4 }}>{c}</div>
+                          ))}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 10, color: '#56d364', marginBottom: 4, fontWeight: 600 }}>好評</div>
+                          {(selectedCompApp.top_praises || []).map((p, i) => (
+                            <div key={i} style={{ fontSize: 10, color: '#e6edf3', padding: '2px 0', borderBottom: '1px solid #21262d', lineHeight: 1.4 }}>{p}</div>
+                          ))}
                         </div>
                       </div>
-                    ) : null
-                  })()}
-                </div>
+                    </div>
+                  )}
+                </>
               )}
             </>
           )}

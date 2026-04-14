@@ -1,0 +1,104 @@
+name: Collect Real Data
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: "対象ドメイン"
+        required: true
+        default: "game-market"
+        type: choice
+        options:
+          - game-market
+          - memento-mori
+          - influencer
+          - keiba
+          - stock
+      deploy:
+        description: "収集後に GitHub Pages へデプロイする"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: collect-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pytrends
+      - run: npm ci
+
+      - name: Run collectors
+        env:
+          DOMAIN: ${{ inputs.domain }}
+        run: npm run collect
+
+      - name: Upload collected data as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: collected-${{ inputs.domain }}-${{ github.run_number }}
+          path: |
+            public/data/collected.json
+            data/
+          retention-days: 30
+
+      - name: Commit collected data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/collected.json data/
+          if git diff --cached --quiet; then
+            echo "No data changes to commit"
+          else
+            git commit -m "data: collect ${{ inputs.domain }} $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+  deploy:
+    needs: collect
+    if: ${{ inputs.deploy }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - run: git pull origin ${{ github.ref_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -694,7 +694,12 @@ export default memo(function HistoryView({
                   <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>競合スコア推移×イベント相関</div>
 
                   <ResponsiveContainer width="100%" height={180}>
-                    <LineChart data={compareData} margin={{ top: 16, right: 8, bottom: 0, left: -20 }}>
+                    <LineChart
+                      data={compareData}
+                      margin={{ top: 16, right: 8, bottom: 0, left: -20 }}
+                      onClick={(data) => { if (data?.activeLabel) setSelectedCompMonth(prev => prev === data.activeLabel ? null : data.activeLabel) }}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
                       <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
                       <YAxis domain={[3, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
@@ -715,33 +720,59 @@ export default memo(function HistoryView({
                           />
                         ))
                       })}
+                      {selectedCompMonth && (
+                        <ReferenceLine x={selectedCompMonth} stroke="#e6edf3" strokeWidth={1.5} />
+                      )}
                     </LineChart>
                   </ResponsiveContainer>
 
-                  {/* Competitor selector */}
-                  <div style={{ marginTop: 8 }}>
-                    <div style={{ fontSize: 10, fontWeight: 600, color: '#8b949e', marginBottom: 4 }}>アプリ選択 — タップで個別チャート表示</div>
+                  {selectedCompMonth ? (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 4 }}>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: '#e6edf3' }}>{selectedCompMonth}</span>
+                      <span style={{ fontSize: 9, color: '#484f58', cursor: 'pointer' }} onClick={() => setSelectedCompMonth(null)}>✕ 解除</span>
+                    </div>
+                  ) : (
+                    <div style={{ fontSize: 9, color: '#484f58', textAlign: 'center', marginTop: 4 }}>チャートをタップで月別データを表示</div>
+                  )}
+
+                  {/* Competitor list — month-specific or latest */}
+                  <div style={{ marginTop: 6 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                       {competitorApps.map(app => {
-                        const latest = app.monthly[app.monthly.length - 1]
-                        const prev = app.monthly[app.monthly.length - 2]
-                        const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
-                        const isSelected = selectedCompetitor === app.id
-                        const allEvents = Object.values(compEventsLookup[app.name] || {}).flat()
+                        const monthIdx = selectedCompMonth
+                          ? app.monthly.findIndex(m => m.month.slice(5) + '月' === selectedCompMonth)
+                          : app.monthly.length - 1
+                        const monthData = monthIdx >= 0 ? app.monthly[monthIdx] : null
+                        const prevData = monthIdx > 0 ? app.monthly[monthIdx - 1] : null
+                        const diff = prevData && monthData ? (monthData.score - prevData.score).toFixed(1) : '0.0'
+                        const monthEvents = selectedCompMonth
+                          ? ((compEventsLookup[app.name] || {})[selectedCompMonth] || [])
+                          : Object.values(compEventsLookup[app.name] || {}).flat()
+                        if (!monthData) return null
                         return (
-                          <div key={app.id}
-                            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 8px', borderBottom: '1px solid #21262d', cursor: 'pointer', borderRadius: isSelected ? 4 : 0, background: isSelected ? `${REVIEW_COLORS[app.id]}15` : 'transparent', border: isSelected ? `1px solid ${REVIEW_COLORS[app.id]}44` : '1px solid transparent' }}
-                            onClick={() => { setSelectedCompetitor(isSelected ? null : app.id); setSelectedCompMonth(null) }}
-                          >
-                            <span style={{ fontSize: 10, fontWeight: 600, color: REVIEW_COLORS[app.id], minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: '#e6edf3' }}>★{latest?.score}</span>
-                            <span style={{ fontSize: 9, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
-                              {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
-                            </span>
-                            {allEvents.length > 0 && <span style={{ fontSize: 9, color: '#484f58' }}>{allEvents.length}件</span>}
-                            <div style={{ flex: 1 }}>
-                              <SentimentBar ratio={latest?.positive_ratio ?? 0} color={REVIEW_COLORS[app.id]} />
+                          <div key={app.id} style={{ padding: '5px 8px', borderBottom: '1px solid #21262d' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                              <span style={{ fontSize: 10, fontWeight: 600, color: REVIEW_COLORS[app.id], minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
+                              <span style={{ fontSize: 11, fontWeight: 700, color: '#e6edf3' }}>★{monthData.score}</span>
+                              <span style={{ fontSize: 9, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
+                                {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
+                              </span>
+                              <span style={{ fontSize: 9, color: '#6e7681' }}>{monthData.count.toLocaleString()}件</span>
+                              <div style={{ flex: 1 }}>
+                                <SentimentBar ratio={monthData.positive_ratio ?? 0} color={REVIEW_COLORS[app.id]} />
+                              </div>
                             </div>
+                            {monthEvents.length > 0 && (
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginTop: 3, paddingLeft: 66 }}>
+                                {monthEvents.map((e, i) => (
+                                  <div key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '2px 6px', borderRadius: 4, background: `${TYPE_COLORS[e.type] || '#8b949e'}15`, border: `1px solid ${TYPE_COLORS[e.type] || '#8b949e'}33` }}>
+                                    <span style={{ fontSize: 9, fontWeight: 600, color: TYPE_COLORS[e.type] || '#8b949e' }}>{e.type}</span>
+                                    <span style={{ fontSize: 9, color: '#e6edf3' }}>{e.name}</span>
+                                    {isActive(e, today) && <span style={{ fontSize: 8, padding: '0 3px', borderRadius: 2, background: 'rgba(86,211,100,0.15)', color: '#56d364' }}>開催中</span>}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         )
                       })}

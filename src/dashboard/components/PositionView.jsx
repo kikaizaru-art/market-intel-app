@@ -86,6 +86,7 @@ export default memo(function PositionView({
       const prev = app.monthly[app.monthly.length - 2]
       return {
         id: app.id, name: app.name,
+        isMain: app.isMain || app.id === 'target',
         score: latest?.score ?? 0,
         diff: prev ? (latest.score - prev.score).toFixed(1) : '0.0',
         sentiment: latest?.positive_ratio ?? 0,
@@ -268,8 +269,10 @@ export default memo(function PositionView({
         <div className="panel-body">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2, maxHeight: 220, overflowY: 'auto' }}>
             {appSummaries.map(app => (
-              <div key={app.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '3px 0', borderBottom: '1px solid #21262d' }}>
-                <span style={{ fontSize: 10, fontWeight: 600, color: app.color, minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
+              <div key={app.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 6px', borderBottom: '1px solid #21262d', borderRadius: app.isMain ? 4 : 0, background: app.isMain ? `${app.color}11` : 'transparent', borderLeft: app.isMain ? `2px solid ${app.color}` : '2px solid transparent' }}>
+                <span style={{ fontSize: 10, fontWeight: app.isMain ? 700 : 600, color: app.color, minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {app.isMain && <span style={{ marginRight: 2 }}>★</span>}{app.name}
+                </span>
                 <span style={{ fontSize: 12, fontWeight: 700, color: '#e6edf3' }}>★{app.score}</span>
                 <span style={{ fontSize: 9, color: parseFloat(app.diff) >= 0 ? '#56d364' : '#f85149' }}>
                   {parseFloat(app.diff) >= 0 ? '▲' : '▼'}{Math.abs(app.diff)}

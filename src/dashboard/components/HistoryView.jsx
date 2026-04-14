@@ -329,9 +329,15 @@ export default memo(function HistoryView({
             <>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <div className="app-selector" style={{ marginBottom: 0 }}>
-                  {apps.map(app => (
-                    <button key={app.id} className={`app-btn ${selectedReviewApp === app.id ? 'active' : ''}`} style={selectedReviewApp === app.id ? { background: `${REVIEW_COLORS[app.id]}22`, borderColor: `${REVIEW_COLORS[app.id]}66`, color: REVIEW_COLORS[app.id] } : {}} onClick={() => setSelectedReviewApp(app.id)}>{app.name}</button>
-                  ))}
+                  {apps.map(app => {
+                    const isMain = app.isMain || app.id === 'target'
+                    const isSelected = selectedReviewApp === app.id
+                    return (
+                      <button key={app.id} className={`app-btn ${isSelected ? 'active' : ''}`} style={isSelected ? { background: `${REVIEW_COLORS[app.id]}22`, borderColor: `${REVIEW_COLORS[app.id]}66`, color: REVIEW_COLORS[app.id], fontWeight: isMain ? 700 : 500 } : { fontWeight: isMain ? 700 : 400 }} onClick={() => setSelectedReviewApp(app.id)}>
+                        {isMain && <span style={{ marginRight: 3, fontSize: 10 }}>★</span>}{app.name}
+                      </button>
+                    )
+                  })}
                 </div>
                 <button onClick={() => setReviewCompare(v => !v)} className="macro-toggle-btn" style={{ borderColor: reviewCompare ? 'rgba(86,211,100,0.5)' : '#30363d', background: reviewCompare ? 'rgba(86,211,100,0.15)' : 'transparent', color: reviewCompare ? '#56d364' : '#6e7681' }}>比較</button>
               </div>
@@ -364,12 +370,15 @@ export default memo(function HistoryView({
 
               <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
                 {apps.map((app, i) => {
+                  const isMain = app.isMain || app.id === 'target'
                   const latest = app.monthly[app.monthly.length - 1]
                   const prev = app.monthly[app.monthly.length - 2]
                   const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
                   return (
-                    <div key={app.id} className="stat-card">
-                      <div style={{ fontSize: 10, color: REVIEW_COLORS[app.id], fontWeight: 600 }}>{app.name}</div>
+                    <div key={app.id} className="stat-card" style={{ cursor: 'pointer', borderColor: selectedReviewApp === app.id ? `${REVIEW_COLORS[app.id]}66` : isMain ? `${REVIEW_COLORS[app.id]}44` : undefined, background: selectedReviewApp === app.id ? `${REVIEW_COLORS[app.id]}11` : undefined }} onClick={() => setSelectedReviewApp(app.id)}>
+                      <div style={{ fontSize: 10, color: REVIEW_COLORS[app.id], fontWeight: isMain ? 700 : 600 }}>
+                        {isMain && <span style={{ marginRight: 2 }}>★</span>}{app.name}
+                      </div>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
                         <span style={{ fontSize: 14, fontWeight: 700, color: '#e6edf3' }}>★ {latest?.score}</span>
                         <span style={{ fontSize: 10, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
@@ -380,6 +389,39 @@ export default memo(function HistoryView({
                   )
                 })}
               </div>
+
+              {/* ──── 選択アプリのレビューまとめ ──── */}
+              {reviewApp && (
+                <div style={{ marginTop: 10, padding: '8px 10px', borderRadius: 6, border: `1px solid ${reviewAccent}33`, background: `${reviewAccent}08` }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: reviewAccent, marginBottom: 6 }}>
+                    {(reviewApp.isMain || reviewApp.id === 'target') && <span style={{ marginRight: 3 }}>★</span>}
+                    {reviewApp.name} のレビューまとめ
+                  </div>
+                  <div style={{ display: 'flex', gap: 12 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 10, color: '#f85149', marginBottom: 4, fontWeight: 600 }}>主な不満</div>
+                      {(reviewApp.top_complaints || []).map(c => (
+                        <span key={c} className="complaint-tag">{c}</span>
+                      ))}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 10, color: '#56d364', marginBottom: 4, fontWeight: 600 }}>主な好評点</div>
+                      {(reviewApp.top_praises || []).map(p => (
+                        <span key={p} className="praise-tag">{p}</span>
+                      ))}
+                    </div>
+                  </div>
+                  {reviewApp.monthly?.length > 0 && (() => {
+                    const latest = reviewApp.monthly[reviewApp.monthly.length - 1]
+                    return latest ? (
+                      <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <SentimentBar ratio={latest.positive_ratio} color={reviewAccent} />
+                        <span style={{ fontSize: 10, color: '#6e7681' }}>好意的 {Math.round(latest.positive_ratio * 100)}%</span>
+                      </div>
+                    ) : null
+                  })()}
+                </div>
+              )}
             </>
           )}
 

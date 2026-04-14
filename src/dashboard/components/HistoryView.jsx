@@ -326,25 +326,48 @@ export default memo(function HistoryView({
                 const rankDiff = prevRank != null && latestRank != null ? prevRank - latestRank : 0
                 const showRanking = reviewView === 'ranking' && mainRankHasData
 
+                // 選択月に連動した表示値
+                const selectedMonthData = selectedReviewMonth
+                  ? mainApp.monthly.find(m => m.month.slice(5) + '月' === selectedReviewMonth)
+                  : null
+                const cardScoreData = selectedMonthData || latest
+                const cardScorePrev = selectedMonthData
+                  ? (mainApp.monthly[mainApp.monthly.indexOf(selectedMonthData) - 1] || null)
+                  : prev
+                const cardScoreDiff = cardScorePrev && cardScoreData
+                  ? (cardScoreData.score - cardScorePrev.score).toFixed(1)
+                  : '0.0'
+                const selectedRankRow = selectedReviewMonth
+                  ? mainRankChartData.find(d => d.month === selectedReviewMonth)
+                  : null
+                const cardRank = selectedRankRow ? selectedRankRow.順位 : latestRank
+                const cardPrevRank = selectedRankRow
+                  ? [...mainRankChartData.slice(0, mainRankChartData.indexOf(selectedRankRow))].reverse().find(d => d.順位 != null)?.順位 ?? null
+                  : prevRank
+                const cardRankDiff = cardPrevRank != null && cardRank != null ? cardPrevRank - cardRank : 0
+
                 return (
                   <>
                     <div style={{ padding: '6px 8px', borderRadius: 6, background: `${mainAccent}12`, border: `1px solid ${mainAccent}44`, marginBottom: 8 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <span style={{ fontSize: 12, fontWeight: 700, color: mainAccent }}>{mainApp.name}</span>
+                        {selectedReviewMonth && (
+                          <span style={{ fontSize: 10, fontWeight: 600, color: '#8b949e', padding: '1px 6px', borderRadius: 3, background: '#21262d' }}>{selectedReviewMonth}</span>
+                        )}
                         {showRanking ? (
                           <>
-                            <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>{latestRank != null ? `${latestRank}位` : '—'}</span>
-                            {latestRank != null && prevRank != null && (
-                              <span style={{ fontSize: 10, fontWeight: 600, color: rankDiff > 0 ? '#56d364' : rankDiff < 0 ? '#f85149' : '#6e7681' }}>
-                                {rankDiff > 0 ? `▲${rankDiff}` : rankDiff < 0 ? `▼${Math.abs(rankDiff)}` : '→'}
+                            <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>{cardRank != null ? `${cardRank}位` : '—'}</span>
+                            {cardRank != null && cardPrevRank != null && (
+                              <span style={{ fontSize: 10, fontWeight: 600, color: cardRankDiff > 0 ? '#56d364' : cardRankDiff < 0 ? '#f85149' : '#6e7681' }}>
+                                {cardRankDiff > 0 ? `▲${cardRankDiff}` : cardRankDiff < 0 ? `▼${Math.abs(cardRankDiff)}` : '→'}
                               </span>
                             )}
                           </>
                         ) : (
                           <>
-                            <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{latest?.score}</span>
-                            <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
-                              {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
+                            <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{cardScoreData?.score}</span>
+                            <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(cardScoreDiff) >= 0 ? '#56d364' : '#f85149' }}>
+                              {parseFloat(cardScoreDiff) >= 0 ? '▲' : '▼'}{Math.abs(cardScoreDiff)}
                             </span>
                           </>
                         )}
@@ -540,24 +563,48 @@ export default memo(function HistoryView({
                   : null
                 const rankDiff = prevRank != null && latestRank != null ? prevRank - latestRank : 0
                 const showRanking = compView === 'ranking' && mainRankHasData
+
+                // 選択月に連動した表示値
+                const selectedMonthData = selectedCompMonth
+                  ? mainApp.monthly.find(m => m.month.slice(5) + '月' === selectedCompMonth)
+                  : null
+                const cardScoreData = selectedMonthData || latest
+                const cardScorePrev = selectedMonthData
+                  ? (mainApp.monthly[mainApp.monthly.indexOf(selectedMonthData) - 1] || null)
+                  : prev
+                const cardScoreDiff = cardScorePrev && cardScoreData
+                  ? (cardScoreData.score - cardScorePrev.score).toFixed(1)
+                  : '0.0'
+                const selectedRankRow = selectedCompMonth
+                  ? mainRankChartData.find(d => d.month === selectedCompMonth)
+                  : null
+                const cardRank = selectedRankRow ? selectedRankRow.順位 : latestRank
+                const cardPrevRank = selectedRankRow
+                  ? [...mainRankChartData.slice(0, mainRankChartData.indexOf(selectedRankRow))].reverse().find(d => d.順位 != null)?.順位 ?? null
+                  : prevRank
+                const cardRankDiff = cardPrevRank != null && cardRank != null ? cardPrevRank - cardRank : 0
+
                 return (
                   <div style={{ padding: '6px 8px', borderRadius: 6, background: `${mainAccent}12`, border: `1px solid ${mainAccent}44`, marginBottom: 8 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <span style={{ fontSize: 12, fontWeight: 700, color: mainAccent }}>{mainApp.name}</span>
+                      {selectedCompMonth && (
+                        <span style={{ fontSize: 10, fontWeight: 600, color: '#8b949e', padding: '1px 6px', borderRadius: 3, background: '#21262d' }}>{selectedCompMonth}</span>
+                      )}
                       {showRanking ? (
                         <>
-                          <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>{latestRank != null ? `${latestRank}位` : '—'}</span>
-                          {latestRank != null && prevRank != null && (
-                            <span style={{ fontSize: 10, fontWeight: 600, color: rankDiff > 0 ? '#56d364' : rankDiff < 0 ? '#f85149' : '#6e7681' }}>
-                              {rankDiff > 0 ? `▲${rankDiff}` : rankDiff < 0 ? `▼${Math.abs(rankDiff)}` : '→'}
+                          <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>{cardRank != null ? `${cardRank}位` : '—'}</span>
+                          {cardRank != null && cardPrevRank != null && (
+                            <span style={{ fontSize: 10, fontWeight: 600, color: cardRankDiff > 0 ? '#56d364' : cardRankDiff < 0 ? '#f85149' : '#6e7681' }}>
+                              {cardRankDiff > 0 ? `▲${cardRankDiff}` : cardRankDiff < 0 ? `▼${Math.abs(cardRankDiff)}` : '→'}
                             </span>
                           )}
                         </>
                       ) : (
                         <>
-                          <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{latest?.score}</span>
-                          <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
-                            {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
+                          <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{cardScoreData?.score}</span>
+                          <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(cardScoreDiff) >= 0 ? '#56d364' : '#f85149' }}>
+                            {parseFloat(cardScoreDiff) >= 0 ? '▲' : '▼'}{Math.abs(cardScoreDiff)}
                           </span>
                         </>
                       )}

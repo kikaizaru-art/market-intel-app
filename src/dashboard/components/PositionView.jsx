@@ -267,33 +267,58 @@ export default memo(function PositionView({
           </div>
         </div>
         <div className="panel-body">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 2, maxHeight: 220, overflowY: 'auto' }}>
-            {appSummaries.map(app => (
-              <div key={app.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 6px', borderBottom: '1px solid #21262d', borderRadius: app.isMain ? 4 : 0, background: app.isMain ? `${app.color}11` : 'transparent', borderLeft: app.isMain ? `2px solid ${app.color}` : '2px solid transparent' }}>
-                <span style={{ fontSize: 10, fontWeight: app.isMain ? 700 : 600, color: app.color, minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {app.isMain && <span style={{ marginRight: 2 }}>★</span>}{app.name}
-                </span>
-                <span style={{ fontSize: 12, fontWeight: 700, color: '#e6edf3' }}>★{app.score}</span>
-                <span style={{ fontSize: 9, color: parseFloat(app.diff) >= 0 ? '#56d364' : '#f85149' }}>
-                  {parseFloat(app.diff) >= 0 ? '▲' : '▼'}{Math.abs(app.diff)}
-                </span>
-                <div style={{ flex: 1 }}>
-                  <SentimentBar ratio={app.sentiment} color={app.color} />
+          {/* ── 自分のアプリ（固定ヘッダー） ── */}
+          {(() => {
+            const main = appSummaries.find(a => a.isMain)
+            if (!main) return null
+            return (
+              <div style={{ padding: '6px 8px', borderRadius: 6, background: `${main.color}12`, border: `1px solid ${main.color}44`, marginBottom: 8 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: main.color }}>★ {main.name}</span>
+                  <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{main.score}</span>
+                  <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(main.diff) >= 0 ? '#56d364' : '#f85149' }}>
+                    {parseFloat(main.diff) >= 0 ? '▲' : '▼'}{Math.abs(main.diff)}
+                  </span>
+                  <div style={{ flex: 1, maxWidth: 120 }}>
+                    <SentimentBar ratio={main.sentiment} color={main.color} />
+                  </div>
+                  <span style={{ fontSize: 10, color: '#6e7681' }}>好意的 {Math.round(main.sentiment * 100)}%</span>
                 </div>
+                {targetReview && (
+                  <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 10, color: '#f85149', marginBottom: 3, fontWeight: 600 }}>主な不満</div>
+                      {targetReview.top_complaints.map(c => (<span key={c} className="complaint-tag">{c}</span>))}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 10, color: '#56d364', marginBottom: 3, fontWeight: 600 }}>主な好評点</div>
+                      {targetReview.top_praises.map(p => (<span key={p} className="praise-tag">{p}</span>))}
+                    </div>
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
-          {targetReview && (
-            <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>主な不満</div>
-                {targetReview.top_complaints.map(c => (<span key={c} className="complaint-tag">{c}</span>))}
+            )
+          })()}
+
+          {/* ── 競合アプリ ── */}
+          {appSummaries.filter(a => !a.isMain).length > 0 && (
+            <>
+              <div style={{ fontSize: 9, color: '#6e7681', marginBottom: 3 }}>競合</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 1, maxHeight: 140, overflowY: 'auto' }}>
+                {appSummaries.filter(a => !a.isMain).map(app => (
+                  <div key={app.id} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '3px 6px', borderBottom: '1px solid #21262d' }}>
+                    <span style={{ fontSize: 10, fontWeight: 600, color: app.color, minWidth: 60, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.name}</span>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: '#e6edf3' }}>★{app.score}</span>
+                    <span style={{ fontSize: 9, color: parseFloat(app.diff) >= 0 ? '#56d364' : '#f85149' }}>
+                      {parseFloat(app.diff) >= 0 ? '▲' : '▼'}{Math.abs(app.diff)}
+                    </span>
+                    <div style={{ flex: 1 }}>
+                      <SentimentBar ratio={app.sentiment} color={app.color} />
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>主な好評点</div>
-                {targetReview.top_praises.map(p => (<span key={p} className="praise-tag">{p}</span>))}
-              </div>
-            </div>
+            </>
           )}
         </div>
         <div className="panel-footer">ストアレビュー + SNSセンチメント</div>

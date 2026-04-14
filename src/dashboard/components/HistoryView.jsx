@@ -329,13 +329,19 @@ export default memo(function HistoryView({
             <>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <div className="app-selector" style={{ marginBottom: 0 }}>
-                  {apps.map(app => {
-                    const isMain = app.isMain || app.id === 'target'
+                  {apps.filter(a => a.isMain || a.id === 'target').map(app => {
                     const isSelected = selectedReviewApp === app.id
                     return (
-                      <button key={app.id} className={`app-btn ${isSelected ? 'active' : ''}`} style={isSelected ? { background: `${REVIEW_COLORS[app.id]}22`, borderColor: `${REVIEW_COLORS[app.id]}66`, color: REVIEW_COLORS[app.id], fontWeight: isMain ? 700 : 500 } : { fontWeight: isMain ? 700 : 400 }} onClick={() => setSelectedReviewApp(app.id)}>
-                        {isMain && <span style={{ marginRight: 3, fontSize: 10 }}>★</span>}{app.name}
+                      <button key={app.id} className={`app-btn ${isSelected ? 'active' : ''}`} style={{ background: `${REVIEW_COLORS[app.id]}22`, borderColor: `${REVIEW_COLORS[app.id]}66`, color: REVIEW_COLORS[app.id], fontWeight: 700 }} onClick={() => setSelectedReviewApp(app.id)}>
+                        <span style={{ marginRight: 3, fontSize: 10 }}>★</span>{app.name}
                       </button>
+                    )
+                  })}
+                  <span style={{ borderLeft: '1px solid #30363d', margin: '0 2px', height: 16 }} />
+                  {apps.filter(a => !(a.isMain || a.id === 'target')).map(app => {
+                    const isSelected = selectedReviewApp === app.id
+                    return (
+                      <button key={app.id} className={`app-btn ${isSelected ? 'active' : ''}`} style={isSelected ? { background: `${REVIEW_COLORS[app.id]}22`, borderColor: `${REVIEW_COLORS[app.id]}66`, color: REVIEW_COLORS[app.id] } : {}} onClick={() => setSelectedReviewApp(app.id)}>{app.name}</button>
                     )
                   })}
                 </div>
@@ -368,33 +374,65 @@ export default memo(function HistoryView({
                 </ResponsiveContainer>
               )}
 
-              <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-                {apps.map((app, i) => {
-                  const isMain = app.isMain || app.id === 'target'
-                  const latest = app.monthly[app.monthly.length - 1]
-                  const prev = app.monthly[app.monthly.length - 2]
-                  const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
-                  return (
-                    <div key={app.id} className="stat-card" style={{ cursor: 'pointer', borderColor: selectedReviewApp === app.id ? `${REVIEW_COLORS[app.id]}66` : isMain ? `${REVIEW_COLORS[app.id]}44` : undefined, background: selectedReviewApp === app.id ? `${REVIEW_COLORS[app.id]}11` : undefined }} onClick={() => setSelectedReviewApp(app.id)}>
-                      <div style={{ fontSize: 10, color: REVIEW_COLORS[app.id], fontWeight: isMain ? 700 : 600 }}>
-                        {isMain && <span style={{ marginRight: 2 }}>★</span>}{app.name}
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                        <span style={{ fontSize: 14, fontWeight: 700, color: '#e6edf3' }}>★ {latest?.score}</span>
-                        <span style={{ fontSize: 10, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
-                          {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
-                        </span>
-                      </div>
+              {/* ──── 自分のアプリ（固定表示） ──── */}
+              {(() => {
+                const mainApp = apps.find(a => a.isMain || a.id === 'target')
+                if (!mainApp) return null
+                const mainColor = REVIEW_COLORS[mainApp.id] || PALETTE[0]
+                const latest = mainApp.monthly[mainApp.monthly.length - 1]
+                const prev = mainApp.monthly[mainApp.monthly.length - 2]
+                const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
+                return (
+                  <div style={{ marginTop: 8, padding: '6px 10px', borderRadius: 6, background: `${mainColor}12`, border: `1px solid ${mainColor}44` }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: mainColor }}>★ {mainApp.name}</span>
+                      <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★ {latest?.score}</span>
+                      <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
+                        {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
+                      </span>
+                      {latest && (
+                        <>
+                          <div style={{ flex: 1, maxWidth: 100 }}>
+                            <SentimentBar ratio={latest.positive_ratio} color={mainColor} />
+                          </div>
+                          <span style={{ fontSize: 10, color: '#6e7681' }}>好意的 {Math.round(latest.positive_ratio * 100)}%</span>
+                        </>
+                      )}
                     </div>
-                  )
-                })}
-              </div>
+                  </div>
+                )
+              })()}
 
-              {/* ──── 選択アプリのレビューまとめ ──── */}
-              {reviewApp && (
-                <div style={{ marginTop: 10, padding: '8px 10px', borderRadius: 6, border: `1px solid ${reviewAccent}33`, background: `${reviewAccent}08` }}>
+              {/* ──── 競合アプリ スコアカード ──── */}
+              {apps.filter(a => !(a.isMain || a.id === 'target')).length > 0 && (
+                <div style={{ marginTop: 8 }}>
+                  <div style={{ fontSize: 9, color: '#6e7681', marginBottom: 3 }}>競合 — クリックでレビューまとめ表示</div>
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                    {apps.filter(a => !(a.isMain || a.id === 'target')).map(app => {
+                      const latest = app.monthly[app.monthly.length - 1]
+                      const prev = app.monthly[app.monthly.length - 2]
+                      const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
+                      const isSelected = selectedReviewApp === app.id
+                      return (
+                        <div key={app.id} className="stat-card" style={{ cursor: 'pointer', flex: '1 1 0', minWidth: 90, borderColor: isSelected ? `${REVIEW_COLORS[app.id]}66` : undefined, background: isSelected ? `${REVIEW_COLORS[app.id]}11` : undefined }} onClick={() => setSelectedReviewApp(app.id)}>
+                          <div style={{ fontSize: 10, color: REVIEW_COLORS[app.id], fontWeight: 600 }}>{app.name}</div>
+                          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+                            <span style={{ fontSize: 14, fontWeight: 700, color: '#e6edf3' }}>★ {latest?.score}</span>
+                            <span style={{ fontSize: 10, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
+                              {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* ──── 選択した競合のレビューまとめ ──── */}
+              {reviewApp && !(reviewApp.isMain || reviewApp.id === 'target') && (
+                <div style={{ marginTop: 8, padding: '8px 10px', borderRadius: 6, border: `1px solid ${reviewAccent}33`, background: `${reviewAccent}08` }}>
                   <div style={{ fontSize: 11, fontWeight: 700, color: reviewAccent, marginBottom: 6 }}>
-                    {(reviewApp.isMain || reviewApp.id === 'target') && <span style={{ marginRight: 3 }}>★</span>}
                     {reviewApp.name} のレビューまとめ
                   </div>
                   <div style={{ display: 'flex', gap: 12 }}>

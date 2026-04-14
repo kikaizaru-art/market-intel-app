@@ -272,7 +272,7 @@ function generateReviews(allApps, genreInfo, rng) {
     }
   })
 
-  return { source: 'App Store / Google Play (generated)', apps }
+  return { source: 'App Store / Google Play (generated)', apps, collected_at: new Date().toISOString() }
 }
 
 function generateCorporate(allApps, allCompanies, genre, rng) {

@@ -134,6 +134,7 @@ export default memo(function HistoryView({
   const [selectedReviewMonth, setSelectedReviewMonth] = useState(null)
   const [selectedCompMonth, setSelectedCompMonth] = useState(null)
   const [compView, setCompView] = useState('score')
+  const [reviewView, setReviewView] = useState('score')
 
   const mainChartData = useMemo(() => {
     if (!mainApp) return []
@@ -158,6 +159,34 @@ export default memo(function HistoryView({
   }, [apps])
 
   const mainAccent = REVIEW_COLORS[mainApp?.id] || PALETTE[0]
+
+  // ─── Main app monthly rank (reviewEvents ranking 切替用) ───
+  const mainRankChartData = useMemo(() => {
+    if (!mainApp) return []
+    const byMonth = {}
+    if (ranking?.history?.length) {
+      for (const h of ranking.history) {
+        const mk = h.date.slice(0, 7)
+        const pos = h.positions.find(p => p.name === mainApp.name)
+        if (pos) byMonth[mk] = pos.rank
+      }
+    } else if (fundamentals?.apps?.length) {
+      const f = fundamentals.apps.find(fa => fa.name === mainApp.name || fa.id === mainApp.id)
+      for (const w of f?.weekly_sales_rank || []) {
+        byMonth[w.date.slice(0, 7)] = w.rank
+      }
+    }
+    return mainApp.monthly.map(m => ({
+      month: m.month.slice(5) + '月',
+      monthKey: m.month,
+      順位: byMonth[m.month] ?? null,
+      レビュー数: m.count,
+    }))
+  }, [mainApp, ranking?.history, fundamentals?.apps])
+
+  const mainRankHasData = useMemo(() =>
+    mainRankChartData.some(d => d.順位 != null),
+    [mainRankChartData])
 
   // ─── Competitor rank data (score/ranking 切替用) ───
   const hasRealRank = (ranking?.history?.length ?? 0) > 1
@@ -365,34 +394,84 @@ export default memo(function HistoryView({
                 const chartMonthSet = new Set(mainChartData.map(d => d.month))
                 const extraMonths = eventMonths.filter(m => !chartMonthSet.has(m)).sort()
 
+                // ranking mode 用
+                const latestRank = [...mainRankChartData].reverse().find(d => d.順位 != null)?.順位
+                const prevRankIdx = mainRankChartData.findIndex(d => d.順位 === latestRank)
+                const prevRank = prevRankIdx > 0
+                  ? [...mainRankChartData.slice(0, prevRankIdx)].reverse().find(d => d.順位 != null)?.順位
+                  : null
+                const rankDiff = prevRank != null && latestRank != null ? prevRank - latestRank : 0
+                const showRanking = reviewView === 'ranking' && mainRankHasData
+
                 return (
                   <>
                     <div style={{ padding: '6px 8px', borderRadius: 6, background: `${mainAccent}12`, border: `1px solid ${mainAccent}44`, marginBottom: 8 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <span style={{ fontSize: 12, fontWeight: 700, color: mainAccent }}>{mainApp.name}</span>
-                        <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{latest?.score}</span>
-                        <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
-                          {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
-                        </span>
-                        <span style={{ marginLeft: 'auto', fontSize: 9, color: '#6e7681' }}>
-                          レビュー×イベント
-                        </span>
+                        {showRanking ? (
+                          <>
+                            <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>{latestRank != null ? `${latestRank}位` : '—'}</span>
+                            {latestRank != null && prevRank != null && (
+                              <span style={{ fontSize: 10, fontWeight: 600, color: rankDiff > 0 ? '#56d364' : rankDiff < 0 ? '#f85149' : '#6e7681' }}>
+                                {rankDiff > 0 ? `▲${rankDiff}` : rankDiff < 0 ? `▼${Math.abs(rankDiff)}` : '→'}
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{latest?.score}</span>
+                            <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(diff) >= 0 ? '#56d364' : '#f85149' }}>
+                              {parseFloat(diff) >= 0 ? '▲' : '▼'}{Math.abs(diff)}
+                            </span>
+                          </>
+                        )}
+                        <div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
+                          <button
+                            onClick={() => setReviewView('score')}
+                            className="macro-toggle-btn"
+                            style={{
+                              borderColor: reviewView === 'score' ? 'rgba(56,139,253,0.5)' : '#30363d',
+                              background: reviewView === 'score' ? 'rgba(56,139,253,0.15)' : 'transparent',
+                              color: reviewView === 'score' ? '#388bfd' : '#6e7681',
+                            }}
+                          >スコア</button>
+                          <button
+                            onClick={() => setReviewView('ranking')}
+                            disabled={!mainRankHasData}
+                            className="macro-toggle-btn"
+                            style={{
+                              borderColor: reviewView === 'ranking' ? 'rgba(56,139,253,0.5)' : '#30363d',
+                              background: reviewView === 'ranking' ? 'rgba(56,139,253,0.15)' : 'transparent',
+                              color: reviewView === 'ranking' ? '#388bfd' : '#6e7681',
+                              opacity: mainRankHasData ? 1 : 0.4,
+                              cursor: mainRankHasData ? 'pointer' : 'not-allowed',
+                            }}
+                          >ランキング</button>
+                        </div>
                       </div>
                     </div>
 
                     <ResponsiveContainer width="100%" height={200}>
-                      <ComposedChart data={mainChartData} margin={{ top: 16, right: 8, bottom: 0, left: -20 }}>
+                      <ComposedChart data={showRanking ? mainRankChartData : mainChartData} margin={{ top: 16, right: 8, bottom: 0, left: -20 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
                         <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
-                        <YAxis yAxisId="left" domain={[0, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                        {showRanking ? (
+                          <YAxis yAxisId="left" reversed domain={['auto', 'auto']} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                        ) : (
+                          <YAxis yAxisId="left" domain={[0, 5]} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                        )}
                         <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
                         <Tooltip content={<ChartTooltip />} />
                         <Bar yAxisId="right" dataKey="レビュー数" cursor="pointer" onClick={(data) => setSelectedReviewMonth(prev => prev === data?.month ? null : data?.month)}>
-                          {mainChartData.map((entry, idx) => (
+                          {(showRanking ? mainRankChartData : mainChartData).map((entry, idx) => (
                             <Cell key={idx} fill={entry.month === selectedReviewMonth ? `${mainAccent}66` : `${mainAccent}33`} stroke={entry.month === selectedReviewMonth ? mainAccent : `${mainAccent}66`} strokeWidth={entry.month === selectedReviewMonth ? 2 : 1} />
                           ))}
                         </Bar>
-                        <Line yAxisId="left" type="monotone" dataKey="スコア" stroke={mainAccent} strokeWidth={2} dot={{ fill: mainAccent, r: 3 }} activeDot={{ r: 4 }} />
+                        {showRanking ? (
+                          <Line yAxisId="left" type="monotone" dataKey="順位" stroke={mainAccent} strokeWidth={2} dot={{ fill: mainAccent, r: 3 }} activeDot={{ r: 4 }} connectNulls />
+                        ) : (
+                          <Line yAxisId="left" type="monotone" dataKey="スコア" stroke={mainAccent} strokeWidth={2} dot={{ fill: mainAccent, r: 3 }} activeDot={{ r: 4 }} />
+                        )}
                         {eventMonths.filter(m => chartMonthSet.has(m)).map(month => (
                           <ReferenceLine
                             key={`ev-${month}`}
@@ -415,15 +494,31 @@ export default memo(function HistoryView({
                       const prevIdx = mainApp.monthly.indexOf(monthData) - 1
                       const prevData = prevIdx >= 0 ? mainApp.monthly[prevIdx] : null
                       const scoreDiff = prevData ? (monthData.score - prevData.score).toFixed(1) : null
+                      const rankRow = mainRankChartData.find(d => d.month === selectedReviewMonth)
+                      const prevRankRow = rankRow ? [...mainRankChartData.slice(0, mainRankChartData.indexOf(rankRow))].reverse().find(d => d.順位 != null) : null
+                      const rowRankDiff = rankRow?.順位 != null && prevRankRow?.順位 != null ? prevRankRow.順位 - rankRow.順位 : null
                       return (
                         <div style={{ margin: '8px 0', padding: '8px 10px', borderRadius: 6, border: `1px solid ${mainAccent}44`, background: `${mainAccent}08` }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                             <span style={{ fontSize: 12, fontWeight: 700, color: mainAccent }}>{selectedReviewMonth}</span>
-                            <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{monthData.score}</span>
-                            {scoreDiff !== null && (
-                              <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(scoreDiff) >= 0 ? '#56d364' : '#f85149' }}>
-                                {parseFloat(scoreDiff) >= 0 ? '▲' : '▼'}{Math.abs(parseFloat(scoreDiff))}
-                              </span>
+                            {showRanking ? (
+                              <>
+                                <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>{rankRow?.順位 != null ? `${rankRow.順位}位` : '—'}</span>
+                                {rowRankDiff !== null && (
+                                  <span style={{ fontSize: 10, fontWeight: 600, color: rowRankDiff > 0 ? '#56d364' : rowRankDiff < 0 ? '#f85149' : '#6e7681' }}>
+                                    {rowRankDiff > 0 ? `▲${rowRankDiff}` : rowRankDiff < 0 ? `▼${Math.abs(rowRankDiff)}` : '→'}
+                                  </span>
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{monthData.score}</span>
+                                {scoreDiff !== null && (
+                                  <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(scoreDiff) >= 0 ? '#56d364' : '#f85149' }}>
+                                    {parseFloat(scoreDiff) >= 0 ? '▲' : '▼'}{Math.abs(parseFloat(scoreDiff))}
+                                  </span>
+                                )}
+                              </>
                             )}
                             <span style={{ fontSize: 10, color: '#6e7681' }}>{monthData.count.toLocaleString()}件</span>
                             <span style={{ marginLeft: 'auto', fontSize: 9, color: '#484f58', cursor: 'pointer' }} onClick={(e) => { e.stopPropagation(); setSelectedReviewMonth(null) }}>✕ 閉じる</span>
@@ -690,6 +785,7 @@ export default memo(function HistoryView({
         <div className="panel-footer">{
           section === 'trends' ? '出典: Google Trends' :
           section === 'ranking' && ranking?.source ? `出典: ${ranking.source}` :
+          section === 'reviewEvents' && reviewView === 'ranking' && ranking?.source ? `出典: ${ranking.source} + イベントカレンダー` :
           section === 'reviewEvents' ? '出典: レビュー + イベントカレンダー' :
           section === 'compReviewEvents' && compView === 'ranking' && ranking?.source ? `出典: ${ranking.source}` :
           section === 'compReviewEvents' && reviews?.source ? `出典: ${reviews.source}` :

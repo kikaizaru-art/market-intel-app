@@ -15,8 +15,8 @@ import { detectAllAnomalies } from '../../analyzers/anomaly.js'
 
 const SECTION_TABS = [
   { key: 'trends', label: 'トレンド' },
-  { key: 'reviewEvents', label: 'レビュー×イベント' },
-  { key: 'compReviewEvents', label: '競合推移' },
+  { key: 'reviewEvents', label: 'ターゲット' },
+  { key: 'compReviewEvents', label: 'ベンチマーク比較' },
   { key: 'news', label: 'ニュース' },
 ]
 
@@ -306,7 +306,7 @@ export default memo(function HistoryView({
             </>
           )}
 
-          {/* ──── レビュー×イベント (自社) ──── */}
+          {/* ──── ターゲット (自社) ──── */}
           {section === 'reviewEvents' && (
             <>
               {mainApp ? (() => {
@@ -525,7 +525,7 @@ export default memo(function HistoryView({
             </>
           )}
 
-          {/* ──── 競合推移 ──── */}
+          {/* ──── ベンチマーク比較 ──── */}
           {section === 'compReviewEvents' && (
             <>
               {competitorApps.length > 0 ? (

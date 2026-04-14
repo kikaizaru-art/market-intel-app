@@ -6,12 +6,12 @@ import { ChartTooltip, SentimentBar } from '../shared/index.js'
 import { ACCENT_ORANGE } from '../../constants.js'
 import { formatDate } from '../../utils.js'
 
-export default function OverviewTab({ reviewChartData, rankChartData, latestReview, scoreDiff, totalReviews, latestRank, rankDiff, targetReview }) {
+export default function OverviewTab({ reviewChartData, rankChartData, latestReview, scoreDiff, totalReviews, latestRank, rankDiff, targetReview, reviewSource }) {
   return (
     <>
       <div className="appinfo-overview-grid">
         <div className="stat-card">
-          <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 2 }}>レビュースコア</div>
+          <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 2 }}>レビュースコア {reviewSource && <span style={{ fontSize: 8, color: '#388bfd' }}>({reviewSource})</span>}</div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
             <span style={{ fontSize: 18, fontWeight: 700, color: ACCENT_ORANGE }}>★ {latestReview?.score ?? '-'}</span>
             {scoreDiff !== '0.0' && (

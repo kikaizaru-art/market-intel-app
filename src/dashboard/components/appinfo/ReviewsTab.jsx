@@ -5,10 +5,13 @@ import {
 import { ChartTooltip, SentimentBar } from '../shared/index.js'
 import { ACCENT_ORANGE } from '../../constants.js'
 
-export default function ReviewsTab({ reviewChartData, latestReview, scoreDiff, totalReviews, targetReview }) {
+export default function ReviewsTab({ reviewChartData, latestReview, scoreDiff, totalReviews, targetReview, reviewSource }) {
   return (
     <>
-      <div style={{ fontSize: 10, color: '#6e7681', marginBottom: 4 }}>レビュースコア & レビュー数推移</div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+        <span style={{ fontSize: 10, color: '#6e7681' }}>レビュースコア & レビュー数推移</span>
+        {reviewSource && <span style={{ fontSize: 9, padding: '1px 6px', borderRadius: 3, background: 'rgba(56,139,253,0.1)', color: '#388bfd', border: '1px solid rgba(56,139,253,0.3)' }}>出典: {reviewSource}</span>}
+      </div>
       <ResponsiveContainer width="100%" height={180}>
         <ComposedChart data={reviewChartData} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />

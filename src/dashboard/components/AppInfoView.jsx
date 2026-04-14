@@ -80,6 +80,7 @@ export default memo(function AppInfoView({ target, reviews, fundamentals, events
             reviewChartData={reviewChartData} rankChartData={rankChartData}
             latestReview={latestReview} scoreDiff={scoreDiff} totalReviews={totalReviews}
             latestRank={latestRank} rankDiff={rankDiff} targetReview={targetReview}
+            reviewSource={reviews?.source}
           />
         )}
 
@@ -87,6 +88,7 @@ export default memo(function AppInfoView({ target, reviews, fundamentals, events
           <ReviewsTab
             reviewChartData={reviewChartData} latestReview={latestReview}
             scoreDiff={scoreDiff} totalReviews={totalReviews} targetReview={targetReview}
+            reviewSource={reviews?.source}
           />
         )}
 

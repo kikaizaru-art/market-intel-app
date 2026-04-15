@@ -266,20 +266,29 @@ function mergeWithHistory(domainName, today, results) {
     }
   }
 
-  // === Trends 履歴蓄積 (週次: 重複除去で結合) ===
+  // === Trends 履歴蓄積 (週次: 最新フェッチを優先してマージ) ===
+  // Google Trends は取得期間ごとに相対的に再正規化されるため、
+  // 今回のフェッチに含まれる週 (直近3ヶ月) は新しい値で上書きし、
+  // それより古い週だけ履歴から引き継ぐことで、直近ウィンドウを
+  // 単一スケールに揃える。
+  if (!Array.isArray(history.trends)) history.trends = []
   if (results.trends?.weekly?.length) {
-    const existingDates = new Set((history.trends || []).map(w => w.date))
-    for (const week of results.trends.weekly) {
-      if (!existingDates.has(week.date)) {
-        history.trends.push(week)
-      }
+    const newByDate = new Map(results.trends.weekly.map(w => [w.date, w]))
+    const merged = []
+    for (const w of history.trends) {
+      if (!newByDate.has(w.date)) merged.push(w)
     }
-    // 日付順ソート、最大52週保持
-    history.trends.sort((a, b) => a.date.localeCompare(b.date))
-    if (history.trends.length > 52) {
-      history.trends = history.trends.slice(-52)
+    for (const w of results.trends.weekly) merged.push(w)
+    merged.sort((a, b) => a.date.localeCompare(b.date))
+    // 最大52週保持
+    history.trends = merged.slice(-52)
+  }
+  // 今回フェッチが失敗/空でも、蓄積済み履歴を results に反映して
+  // ダッシュボードが過去の推移を表示できるようにする
+  if (history.trends.length > 0) {
+    if (!results.trends) {
+      results.trends = { source: 'Google Trends (history)', weekly: [] }
     }
-    // results に蓄積済みデータを反映
     results.trends.weekly = history.trends
   }
 

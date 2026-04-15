@@ -190,10 +190,12 @@ function mergeWithHistory(domainName, today, results) {
   fs.mkdirSync(HISTORY_DIR, { recursive: true })
   const historyPath = path.join(HISTORY_DIR, `${domainName}.json`)
 
-  let history = { reviews: {}, trends: [], ranking: [], community: [] }
+  let history = { reviews: {}, reviewTexts: {}, trends: [], ranking: [], community: [] }
   if (fs.existsSync(historyPath)) {
     try {
       history = JSON.parse(fs.readFileSync(historyPath, 'utf8'))
+      // 後方互換: 既存履歴に reviewTexts が無ければ空で初期化
+      if (!history.reviewTexts) history.reviewTexts = {}
     } catch (e) {
       console.warn('[history] failed to read history, starting fresh:', e.message)
     }
@@ -225,6 +227,42 @@ function mergeWithHistory(domainName, today, results) {
           .slice(-12) // 最大12ヶ月
           .map(([m, data]) => ({ month: m, ...data }))
       }
+    }
+
+    // === Review Texts 履歴蓄積 (個別レビュー本文を ID で重複除去して保持) ===
+    // L3 (ユーザー) の本丸データ。何が起きたかを時系列で振り返れる
+    // 1アプリあたり最大 1000 件、日付降順で保持
+    const REVIEW_TEXTS_LIMIT = 1000
+    const capturedAt = new Date().toISOString()
+    for (const app of results.reviews.apps) {
+      if (!Array.isArray(app.recentReviews) || app.recentReviews.length === 0) continue
+      const existing = history.reviewTexts[app.id] || []
+      const byId = new Map(existing.map(r => [r.id, r]))
+
+      for (const r of app.recentReviews) {
+        if (!r.id) continue
+        if (byId.has(r.id)) continue // 既存はそのまま (capturedAt を保持)
+        byId.set(r.id, {
+          id: r.id,
+          score: r.score ?? null,
+          text: r.text || '',
+          date: typeof r.date === 'string' ? r.date : r.date?.toISOString?.() || null,
+          thumbsUp: r.thumbsUp ?? 0,
+          appVersion: app.appInfo?.version || null,
+          capturedAt,
+        })
+      }
+
+      // 日付降順 (新しい順) でソートして上限まで保持
+      const sorted = Array.from(byId.values()).sort((a, b) => {
+        const da = a.date || ''
+        const db = b.date || ''
+        return db.localeCompare(da)
+      })
+      history.reviewTexts[app.id] = sorted.slice(0, REVIEW_TEXTS_LIMIT)
+
+      // results 側にも蓄積済みレビューを注入 (ダッシュボードで時系列分析に使う)
+      app.reviewTextsHistory = history.reviewTexts[app.id]
     }
   }
 
@@ -275,7 +313,8 @@ function mergeWithHistory(domainName, today, results) {
   // 履歴を保存
   saveJson(historyPath, history)
   const reviewMonths = Object.values(history.reviews).reduce((max, h) => Math.max(max, Object.keys(h).length), 0)
-  console.log(`[history] saved: ${history.trends.length} trend weeks, ${reviewMonths} review months, ${history.ranking.length} ranking days, ${history.community.length} community days`)
+  const reviewTextsTotal = Object.values(history.reviewTexts || {}).reduce((sum, arr) => sum + arr.length, 0)
+  console.log(`[history] saved: ${history.trends.length} trend weeks, ${reviewMonths} review months, ${reviewTextsTotal} review texts, ${history.ranking.length} ranking days, ${history.community.length} community days`)
 
   return results
 }

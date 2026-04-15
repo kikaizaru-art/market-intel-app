@@ -104,6 +104,9 @@ function transformReviews(reviews, collected_at) {
       top_complaints: complaints.length > 0 ? complaints : ['データ不足'],
       top_praises: praises.length > 0 ? praises : ['データ不足'],
       recentReviews: recentReviews.slice(0, 10),
+      // 蓄積された個別レビュー本文 (日付降順, 最大1000件 / appVersion 紐付き)
+      // L3 ユーザー層の時系列分析・バージョン別センチメント推移に使用
+      reviewTextsHistory: app.reviewTextsHistory || [],
     }
   })
 

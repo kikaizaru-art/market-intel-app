@@ -16,8 +16,8 @@ import { detectAllAnomalies } from '../../analyzers/anomaly.js'
 const SECTION_TABS = [
   { key: 'reviewEvents', label: 'ターゲット' },
   { key: 'compReviewEvents', label: 'ベンチマーク比較' },
-  { key: 'news', label: 'ニュース' },
   { key: 'trends', label: 'トレンド' },
+  { key: 'news', label: 'ニュース' },
 ]
 
 /**

@@ -122,6 +122,7 @@ export default memo(function HistoryView({
   const [selectedCompMonth, setSelectedCompMonth] = useState(null)
   const [compView, setCompView] = useState('score')
   const [reviewView, setReviewView] = useState('score')
+  const [selectedNewsWeek, setSelectedNewsWeek] = useState(null)
 
   const mainChartData = useMemo(() => {
     if (!mainApp) return []
@@ -229,6 +230,40 @@ export default memo(function HistoryView({
 
   // ─── News ─────────────────────────────────────────
   const newsData = industry?.news || []
+
+  // ─── News 時系列バケット (週単位) ─────────────────
+  const newsTimeseries = useMemo(() => {
+    const dated = newsData.filter(n => n.date)
+    if (!dated.length) return []
+    // 週頭 (月曜日) でバケット化
+    const weekStartOf = (dateStr) => {
+      const d = new Date(dateStr)
+      if (isNaN(d.getTime())) return null
+      const day = d.getDay() // 0=日, 1=月, ..., 6=土
+      const diff = (day + 6) % 7 // 月曜日までの差分
+      d.setDate(d.getDate() - diff)
+      return d.toISOString().slice(0, 10)
+    }
+    const buckets = {}
+    for (const item of dated) {
+      const wk = weekStartOf(item.date)
+      if (!wk) continue
+      if (!buckets[wk]) buckets[wk] = { week: wk, count: 0, items: [] }
+      buckets[wk].count += 1
+      buckets[wk].items.push(item)
+    }
+    const sorted = Object.values(buckets).sort((a, b) => a.week.localeCompare(b.week))
+    return sorted.map(b => ({
+      ...b,
+      label: `${b.week.slice(5, 7)}/${b.week.slice(8, 10)}週`,
+    }))
+  }, [newsData])
+
+  const filteredNews = useMemo(() => {
+    if (!selectedNewsWeek) return newsData
+    const bucket = newsTimeseries.find(b => b.week === selectedNewsWeek)
+    return bucket?.items || []
+  }, [newsData, newsTimeseries, selectedNewsWeek])
 
   return (
     <>
@@ -757,24 +792,81 @@ export default memo(function HistoryView({
 
           {/* ──── ニュース ──── */}
           {section === 'news' && newsData.length > 0 && (
-            <div style={{ maxHeight: 400, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {newsData.map((item, i) => (
-                <div key={i} className="news-item">
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
-                    <span style={{ fontSize: 10, color: '#6e7681', fontFamily: 'monospace' }}>{item.date}</span>
-                    <span className="news-source-badge">{item.source}</span>
+            <>
+              {newsTimeseries.length > 0 && (
+                <>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <span style={{ fontSize: 10, color: '#6e7681' }}>週次ニュース件数</span>
+                    {selectedNewsWeek && (
+                      <>
+                        <span style={{ fontSize: 10, fontWeight: 600, color: '#8b949e', padding: '1px 6px', borderRadius: 3, background: '#21262d' }}>
+                          {newsTimeseries.find(b => b.week === selectedNewsWeek)?.label || selectedNewsWeek}
+                        </span>
+                        <button
+                          onClick={() => setSelectedNewsWeek(null)}
+                          className="macro-toggle-btn"
+                          style={{ borderColor: '#30363d', background: 'transparent', color: '#6e7681' }}
+                        >クリア</button>
+                      </>
+                    )}
+                    <span style={{ marginLeft: 'auto', fontSize: 9, color: '#6e7681' }}>
+                      全{newsData.length}件 / 表示{filteredNews.length}件
+                    </span>
                   </div>
-                  <div style={{ fontSize: 11, color: '#e6edf3', lineHeight: 1.4, marginBottom: 4 }}>
-                    {item.url ? <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ color: '#e6edf3', textDecoration: 'none' }}>{item.title}</a> : item.title}
+                  <ResponsiveContainer width="100%" height={140}>
+                    <ComposedChart data={newsTimeseries} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+                      <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+                      <YAxis allowDecimals={false} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                      <Tooltip content={<ChartTooltip />} />
+                      <Bar
+                        dataKey="count"
+                        name="件数"
+                        cursor="pointer"
+                        onClick={(data) => setSelectedNewsWeek(prev => prev === data?.week ? null : data?.week)}
+                      >
+                        {newsTimeseries.map((entry, idx) => (
+                          <Cell
+                            key={idx}
+                            fill={entry.week === selectedNewsWeek ? '#388bfd' : '#388bfd66'}
+                            stroke={entry.week === selectedNewsWeek ? '#58a6ff' : '#388bfd99'}
+                            strokeWidth={entry.week === selectedNewsWeek ? 2 : 1}
+                          />
+                        ))}
+                      </Bar>
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                  {!selectedNewsWeek && (
+                    <div style={{ fontSize: 9, color: '#484f58', textAlign: 'center', marginTop: 2, marginBottom: 6 }}>
+                      棒グラフをタップでその週のニュースに絞り込み
+                    </div>
+                  )}
+                </>
+              )}
+
+              <div style={{ maxHeight: 400, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4 }}>
+                {filteredNews.length > 0 ? filteredNews.map((item, i) => (
+                  <div key={i} className="news-item">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
+                      <span style={{ fontSize: 10, color: '#6e7681', fontFamily: 'monospace' }}>{item.date}</span>
+                      <span className="news-source-badge">{item.source}</span>
+                    </div>
+                    <div style={{ fontSize: 11, color: '#e6edf3', lineHeight: 1.4, marginBottom: 4 }}>
+                      {item.url ? <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ color: '#e6edf3', textDecoration: 'none' }}>{item.title}</a> : item.title}
+                    </div>
+                    <div>
+                      {item.tags.map(tag => (
+                        <span key={tag} className="news-tag" style={{ background: `${TAG_COLORS[tag] ?? '#6e7681'}15`, color: TAG_COLORS[tag] ?? '#6e7681', borderColor: `${TAG_COLORS[tag] ?? '#6e7681'}33` }}>{tag}</span>
+                      ))}
+                    </div>
                   </div>
-                  <div>
-                    {item.tags.map(tag => (
-                      <span key={tag} className="news-tag" style={{ background: `${TAG_COLORS[tag] ?? '#6e7681'}15`, color: TAG_COLORS[tag] ?? '#6e7681', borderColor: `${TAG_COLORS[tag] ?? '#6e7681'}33` }}>{tag}</span>
-                    ))}
+                )) : (
+                  <div style={{ fontSize: 10, color: '#484f58', textAlign: 'center', padding: 20 }}>
+                    該当週のニュースはありません
                   </div>
-                </div>
-              ))}
-            </div>
+                )}
+              </div>
+            </>
           )}
         </div>
         <div className="panel-footer">{

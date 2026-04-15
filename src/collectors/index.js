@@ -292,30 +292,42 @@ function mergeWithHistory(domainName, today, results) {
     results.trends.weekly = history.trends
   }
 
-  // === Ranking 履歴蓄積 (日次スナップショット) ===
+  // === Ranking 履歴蓄積 (日次スナップショット: 同日は最新で上書き) ===
+  if (!Array.isArray(history.ranking)) history.ranking = []
   if (results.ranking?.targetPositions?.length) {
+    // 同日に再走した場合は最新のスナップショットを採用 (prefer-latest)
+    history.ranking = history.ranking.filter(r => r.date !== today)
     history.ranking.push({
       date: today,
       positions: results.ranking.targetPositions,
     })
-    // 重複日付の除去 & 最大90日保持
-    const seen = new Set()
-    history.ranking = history.ranking
-      .filter(r => { const dup = seen.has(r.date); seen.add(r.date); return !dup })
-      .slice(-90)
+    history.ranking.sort((a, b) => a.date.localeCompare(b.date))
+    history.ranking = history.ranking.slice(-90) // 最大90日保持
+  }
+  // フェッチ失敗/空でも蓄積履歴を results に反映
+  if (history.ranking.length > 0) {
+    if (!results.ranking) {
+      results.ranking = { source: 'Store Ranking (history)', targetPositions: [] }
+    }
     results.ranking.history = history.ranking
   }
 
-  // === Community 履歴蓄積 (日次統計) ===
+  // === Community 履歴蓄積 (日次統計: 同日は最新で上書き) ===
+  if (!Array.isArray(history.community)) history.community = []
   if (results.community?.stats) {
+    history.community = history.community.filter(r => r.date !== today)
     history.community.push({
       date: today,
       stats: results.community.stats,
     })
-    const seen = new Set()
-    history.community = history.community
-      .filter(r => { const dup = seen.has(r.date); seen.add(r.date); return !dup })
-      .slice(-30)
+    history.community.sort((a, b) => a.date.localeCompare(b.date))
+    history.community = history.community.slice(-30) // 最大30日保持
+  }
+  // フェッチ失敗/空でも蓄積履歴を results に反映
+  if (history.community.length > 0) {
+    if (!results.community) {
+      results.community = { source: 'Community (history)', stats: null }
+    }
     results.community.history = history.community
   }
 

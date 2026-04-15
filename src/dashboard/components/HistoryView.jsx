@@ -14,10 +14,10 @@ import { movingAverage, calcGenreTrends } from '../../analyzers/trend.js'
 import { detectAllAnomalies } from '../../analyzers/anomaly.js'
 
 const SECTION_TABS = [
-  { key: 'trends', label: 'トレンド' },
   { key: 'reviewEvents', label: 'ターゲット' },
   { key: 'compReviewEvents', label: 'ベンチマーク比較' },
   { key: 'news', label: 'ニュース' },
+  { key: 'trends', label: 'トレンド' },
 ]
 
 /**
@@ -35,7 +35,7 @@ export default memo(function HistoryView({
   ranking,
   community,
 }) {
-  const [section, setSection] = useState('trends')
+  const [section, setSection] = useState('reviewEvents')
   const today = getToday()
 
   // ─── Trends ───────────────────────────────────────

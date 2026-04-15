@@ -242,6 +242,49 @@ export default memo(function HistoryView({
           </div>
         </div>
         <div className="panel-body">
+          {/* ──── 自アプリ最新スナップショット (タブ切替でも固定表示) ──── */}
+          {mainApp && (() => {
+            const monthly = mainApp.monthly || []
+            const latest = monthly[monthly.length - 1]
+            const prev = monthly[monthly.length - 2]
+            const scoreDiff = latest && prev ? +(latest.score - prev.score).toFixed(1) : null
+            const ranksFilled = mainRankChartData.filter(d => d.順位 != null)
+            const latestRank = ranksFilled[ranksFilled.length - 1]?.順位 ?? null
+            const prevRank = ranksFilled[ranksFilled.length - 2]?.順位 ?? null
+            const rankDiff = latestRank != null && prevRank != null ? prevRank - latestRank : null
+
+            return (
+              <div style={{ padding: '8px 10px', borderRadius: 6, background: `${mainAccent}12`, border: `1px solid ${mainAccent}44`, marginBottom: 8 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: mainAccent }}>{mainApp.name}</span>
+                  <span style={{ fontSize: 9, fontWeight: 600, color: '#8b949e', padding: '1px 6px', borderRadius: 3, background: '#21262d' }}>最新</span>
+                  {latest && (
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+                      <span style={{ fontSize: 9, color: '#6e7681' }}>スコア</span>
+                      <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{latest.score}</span>
+                      {scoreDiff !== null && (
+                        <span style={{ fontSize: 10, fontWeight: 600, color: scoreDiff >= 0 ? '#56d364' : '#f85149' }}>
+                          {scoreDiff >= 0 ? '▲' : '▼'}{Math.abs(scoreDiff)}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  {latestRank != null && (
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+                      <span style={{ fontSize: 9, color: '#6e7681' }}>順位</span>
+                      <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>{latestRank}位</span>
+                      {rankDiff !== null && (
+                        <span style={{ fontSize: 10, fontWeight: 600, color: rankDiff > 0 ? '#56d364' : rankDiff < 0 ? '#f85149' : '#6e7681' }}>
+                          {rankDiff > 0 ? `▲${rankDiff}` : rankDiff < 0 ? `▼${Math.abs(rankDiff)}` : '→'}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )
+          })()}
+
           <div className="fundamental-tabs">
             {SECTION_TABS.map(t => (
               <button key={t.key} className={`fundamental-tab history-tab ${section === t.key ? 'active' : ''}`} onClick={() => setSection(t.key)}>{t.label}</button>
@@ -310,90 +353,42 @@ export default memo(function HistoryView({
           {section === 'reviewEvents' && (
             <>
               {mainApp ? (() => {
-                const latest = mainApp.monthly[mainApp.monthly.length - 1]
-                const prev = mainApp.monthly[mainApp.monthly.length - 2]
-                const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
                 const eventMonths = Object.keys(mainAppEventsByMonth)
                 const chartMonthSet = new Set(mainChartData.map(d => d.month))
                 const extraMonths = eventMonths.filter(m => !chartMonthSet.has(m)).sort()
-
-                // ranking mode 用
-                const latestRank = [...mainRankChartData].reverse().find(d => d.順位 != null)?.順位
-                const prevRankIdx = mainRankChartData.findIndex(d => d.順位 === latestRank)
-                const prevRank = prevRankIdx > 0
-                  ? [...mainRankChartData.slice(0, prevRankIdx)].reverse().find(d => d.順位 != null)?.順位
-                  : null
-                const rankDiff = prevRank != null && latestRank != null ? prevRank - latestRank : 0
                 const showRanking = reviewView === 'ranking' && mainRankHasData
-
-                // 選択月に連動した表示値
-                const selectedMonthData = selectedReviewMonth
-                  ? mainApp.monthly.find(m => m.month.slice(5) + '月' === selectedReviewMonth)
-                  : null
-                const cardScoreData = selectedMonthData || latest
-                const cardScorePrev = selectedMonthData
-                  ? (mainApp.monthly[mainApp.monthly.indexOf(selectedMonthData) - 1] || null)
-                  : prev
-                const cardScoreDiff = cardScorePrev && cardScoreData
-                  ? (cardScoreData.score - cardScorePrev.score).toFixed(1)
-                  : '0.0'
-                const selectedRankRow = selectedReviewMonth
-                  ? mainRankChartData.find(d => d.month === selectedReviewMonth)
-                  : null
-                const cardRank = selectedRankRow ? selectedRankRow.順位 : latestRank
-                const cardPrevRank = selectedRankRow
-                  ? [...mainRankChartData.slice(0, mainRankChartData.indexOf(selectedRankRow))].reverse().find(d => d.順位 != null)?.順位 ?? null
-                  : prevRank
-                const cardRankDiff = cardPrevRank != null && cardRank != null ? cardPrevRank - cardRank : 0
 
                 return (
                   <>
-                    <div style={{ padding: '6px 8px', borderRadius: 6, background: `${mainAccent}12`, border: `1px solid ${mainAccent}44`, marginBottom: 8 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: mainAccent }}>{mainApp.name}</span>
-                        {selectedReviewMonth && (
-                          <span style={{ fontSize: 10, fontWeight: 600, color: '#8b949e', padding: '1px 6px', borderRadius: 3, background: '#21262d' }}>{selectedReviewMonth}</span>
-                        )}
-                        {showRanking ? (
-                          <>
-                            <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>{cardRank != null ? `${cardRank}位` : '—'}</span>
-                            {cardRank != null && cardPrevRank != null && (
-                              <span style={{ fontSize: 10, fontWeight: 600, color: cardRankDiff > 0 ? '#56d364' : cardRankDiff < 0 ? '#f85149' : '#6e7681' }}>
-                                {cardRankDiff > 0 ? `▲${cardRankDiff}` : cardRankDiff < 0 ? `▼${Math.abs(cardRankDiff)}` : '→'}
-                              </span>
-                            )}
-                          </>
-                        ) : (
-                          <>
-                            <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{cardScoreData?.score}</span>
-                            <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(cardScoreDiff) >= 0 ? '#56d364' : '#f85149' }}>
-                              {parseFloat(cardScoreDiff) >= 0 ? '▲' : '▼'}{Math.abs(cardScoreDiff)}
-                            </span>
-                          </>
-                        )}
-                        <div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
-                          <button
-                            onClick={() => setReviewView('score')}
-                            className="macro-toggle-btn"
-                            style={{
-                              borderColor: reviewView === 'score' ? 'rgba(56,139,253,0.5)' : '#30363d',
-                              background: reviewView === 'score' ? 'rgba(56,139,253,0.15)' : 'transparent',
-                              color: reviewView === 'score' ? '#388bfd' : '#6e7681',
-                            }}
-                          >スコア</button>
-                          <button
-                            onClick={() => setReviewView('ranking')}
-                            disabled={!mainRankHasData}
-                            className="macro-toggle-btn"
-                            style={{
-                              borderColor: reviewView === 'ranking' ? 'rgba(56,139,253,0.5)' : '#30363d',
-                              background: reviewView === 'ranking' ? 'rgba(56,139,253,0.15)' : 'transparent',
-                              color: reviewView === 'ranking' ? '#388bfd' : '#6e7681',
-                              opacity: mainRankHasData ? 1 : 0.4,
-                              cursor: mainRankHasData ? 'pointer' : 'not-allowed',
-                            }}
-                          >ランキング</button>
-                        </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                      <span style={{ fontSize: 10, color: '#6e7681' }}>
+                        {showRanking ? '順位推移 (低い=上位)' : 'スコア推移'}
+                      </span>
+                      {selectedReviewMonth && (
+                        <span style={{ fontSize: 10, fontWeight: 600, color: '#8b949e', padding: '1px 6px', borderRadius: 3, background: '#21262d' }}>{selectedReviewMonth}</span>
+                      )}
+                      <div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
+                        <button
+                          onClick={() => setReviewView('score')}
+                          className="macro-toggle-btn"
+                          style={{
+                            borderColor: reviewView === 'score' ? 'rgba(56,139,253,0.5)' : '#30363d',
+                            background: reviewView === 'score' ? 'rgba(56,139,253,0.15)' : 'transparent',
+                            color: reviewView === 'score' ? '#388bfd' : '#6e7681',
+                          }}
+                        >スコア</button>
+                        <button
+                          onClick={() => setReviewView('ranking')}
+                          disabled={!mainRankHasData}
+                          className="macro-toggle-btn"
+                          style={{
+                            borderColor: reviewView === 'ranking' ? 'rgba(56,139,253,0.5)' : '#30363d',
+                            background: reviewView === 'ranking' ? 'rgba(56,139,253,0.15)' : 'transparent',
+                            color: reviewView === 'ranking' ? '#388bfd' : '#6e7681',
+                            opacity: mainRankHasData ? 1 : 0.4,
+                            cursor: mainRankHasData ? 'pointer' : 'not-allowed',
+                          }}
+                        >ランキング</button>
                       </div>
                     </div>
 
@@ -551,96 +546,37 @@ export default memo(function HistoryView({
           {/* ──── ベンチマーク比較 ──── */}
           {section === 'compReviewEvents' && (
             <>
-              {/* 自アプリカード — ターゲットタブ同様 */}
-              {mainApp && (() => {
-                const latest = mainApp.monthly[mainApp.monthly.length - 1]
-                const prev = mainApp.monthly[mainApp.monthly.length - 2]
-                const diff = prev ? (latest.score - prev.score).toFixed(1) : '0.0'
-                const latestRank = [...mainRankChartData].reverse().find(d => d.順位 != null)?.順位
-                const prevRankIdx = mainRankChartData.findIndex(d => d.順位 === latestRank)
-                const prevRank = prevRankIdx > 0
-                  ? [...mainRankChartData.slice(0, prevRankIdx)].reverse().find(d => d.順位 != null)?.順位
-                  : null
-                const rankDiff = prevRank != null && latestRank != null ? prevRank - latestRank : 0
-                const showRanking = compView === 'ranking' && mainRankHasData
-
-                // 選択月に連動した表示値
-                const selectedMonthData = selectedCompMonth
-                  ? mainApp.monthly.find(m => m.month.slice(5) + '月' === selectedCompMonth)
-                  : null
-                const cardScoreData = selectedMonthData || latest
-                const cardScorePrev = selectedMonthData
-                  ? (mainApp.monthly[mainApp.monthly.indexOf(selectedMonthData) - 1] || null)
-                  : prev
-                const cardScoreDiff = cardScorePrev && cardScoreData
-                  ? (cardScoreData.score - cardScorePrev.score).toFixed(1)
-                  : '0.0'
-                const selectedRankRow = selectedCompMonth
-                  ? mainRankChartData.find(d => d.month === selectedCompMonth)
-                  : null
-                const cardRank = selectedRankRow ? selectedRankRow.順位 : latestRank
-                const cardPrevRank = selectedRankRow
-                  ? [...mainRankChartData.slice(0, mainRankChartData.indexOf(selectedRankRow))].reverse().find(d => d.順位 != null)?.順位 ?? null
-                  : prevRank
-                const cardRankDiff = cardPrevRank != null && cardRank != null ? cardPrevRank - cardRank : 0
-
-                return (
-                  <div style={{ padding: '6px 8px', borderRadius: 6, background: `${mainAccent}12`, border: `1px solid ${mainAccent}44`, marginBottom: 8 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: mainAccent }}>{mainApp.name}</span>
-                      {selectedCompMonth && (
-                        <span style={{ fontSize: 10, fontWeight: 600, color: '#8b949e', padding: '1px 6px', borderRadius: 3, background: '#21262d' }}>{selectedCompMonth}</span>
-                      )}
-                      {showRanking ? (
-                        <>
-                          <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>{cardRank != null ? `${cardRank}位` : '—'}</span>
-                          {cardRank != null && cardPrevRank != null && (
-                            <span style={{ fontSize: 10, fontWeight: 600, color: cardRankDiff > 0 ? '#56d364' : cardRankDiff < 0 ? '#f85149' : '#6e7681' }}>
-                              {cardRankDiff > 0 ? `▲${cardRankDiff}` : cardRankDiff < 0 ? `▼${Math.abs(cardRankDiff)}` : '→'}
-                            </span>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          <span style={{ fontSize: 16, fontWeight: 700, color: '#e6edf3' }}>★{cardScoreData?.score}</span>
-                          <span style={{ fontSize: 10, fontWeight: 600, color: parseFloat(cardScoreDiff) >= 0 ? '#56d364' : '#f85149' }}>
-                            {parseFloat(cardScoreDiff) >= 0 ? '▲' : '▼'}{Math.abs(cardScoreDiff)}
-                          </span>
-                        </>
-                      )}
-                      <div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
-                        <button
-                          onClick={() => setCompView('score')}
-                          className="macro-toggle-btn"
-                          style={{
-                            borderColor: compView === 'score' ? 'rgba(56,139,253,0.5)' : '#30363d',
-                            background: compView === 'score' ? 'rgba(56,139,253,0.15)' : 'transparent',
-                            color: compView === 'score' ? '#388bfd' : '#6e7681',
-                          }}
-                        >スコア</button>
-                        <button
-                          onClick={() => setCompView('ranking')}
-                          disabled={!mainRankHasData}
-                          className="macro-toggle-btn"
-                          style={{
-                            borderColor: compView === 'ranking' ? 'rgba(56,139,253,0.5)' : '#30363d',
-                            background: compView === 'ranking' ? 'rgba(56,139,253,0.15)' : 'transparent',
-                            color: compView === 'ranking' ? '#388bfd' : '#6e7681',
-                            opacity: mainRankHasData ? 1 : 0.4,
-                            cursor: mainRankHasData ? 'pointer' : 'not-allowed',
-                          }}
-                        >ランキング</button>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })()}
-
               {competitorApps.length > 0 ? (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                     <div style={{ fontSize: 10, color: '#6e7681' }}>
                       {compView === 'score' ? '競合スコア推移' : '競合順位推移 (低い=上位)'}
+                    </div>
+                    {selectedCompMonth && (
+                      <span style={{ fontSize: 10, fontWeight: 600, color: '#8b949e', padding: '1px 6px', borderRadius: 3, background: '#21262d' }}>{selectedCompMonth}</span>
+                    )}
+                    <div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
+                      <button
+                        onClick={() => setCompView('score')}
+                        className="macro-toggle-btn"
+                        style={{
+                          borderColor: compView === 'score' ? 'rgba(56,139,253,0.5)' : '#30363d',
+                          background: compView === 'score' ? 'rgba(56,139,253,0.15)' : 'transparent',
+                          color: compView === 'score' ? '#388bfd' : '#6e7681',
+                        }}
+                      >スコア</button>
+                      <button
+                        onClick={() => setCompView('ranking')}
+                        disabled={!mainRankHasData}
+                        className="macro-toggle-btn"
+                        style={{
+                          borderColor: compView === 'ranking' ? 'rgba(56,139,253,0.5)' : '#30363d',
+                          background: compView === 'ranking' ? 'rgba(56,139,253,0.15)' : 'transparent',
+                          color: compView === 'ranking' ? '#388bfd' : '#6e7681',
+                          opacity: mainRankHasData ? 1 : 0.4,
+                          cursor: mainRankHasData ? 'pointer' : 'not-allowed',
+                        }}
+                      >ランキング</button>
                     </div>
                   </div>
 

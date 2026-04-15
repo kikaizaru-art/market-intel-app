@@ -13,7 +13,7 @@ const TABS = [
 ]
 
 function Dashboard() {
-  const { target, data, dataSources, reset } = useTarget()
+  const { target, data, dataSources, dataMode, setDataMode, hasCollected, reset } = useTarget()
   const { config, ui } = useDomain()
   const [activeTab, setActiveTab] = useState(0)
   const touchStartX = useRef(null)
@@ -71,11 +71,27 @@ function Dashboard() {
         </div>
         <div className="app-header-right">
           <span className="header-target-name">{target.companyName}</span>
-          {dataSources && (
-            <span className="header-badge" style={{ background: 'rgba(86,211,100,0.15)', color: '#56d364', border: '1px solid rgba(86,211,100,0.3)' }}>
-              実データ
-            </span>
-          )}
+          <button
+            type="button"
+            className="header-badge data-mode-toggle"
+            onClick={() => setDataMode(dataMode === 'mock' ? 'auto' : 'mock')}
+            title={
+              dataMode === 'mock'
+                ? 'モックデータ表示中（クリックで実データに切替）'
+                : hasCollected
+                  ? '実データ表示中（クリックでモックに切替）'
+                  : '実データ未取得（クリックでモック固定に切替）'
+            }
+            style={
+              dataMode === 'mock'
+                ? { background: 'rgba(210,168,255,0.15)', color: '#d2a8ff', border: '1px solid rgba(210,168,255,0.3)', cursor: 'pointer' }
+                : dataSources
+                  ? { background: 'rgba(86,211,100,0.15)', color: '#56d364', border: '1px solid rgba(86,211,100,0.3)', cursor: 'pointer' }
+                  : { background: 'rgba(139,148,158,0.15)', color: '#8b949e', border: '1px solid rgba(139,148,158,0.3)', cursor: 'pointer' }
+            }
+          >
+            {dataMode === 'mock' ? 'モック' : dataSources ? '実データ' : 'モック(既定)'}
+          </button>
           <span className="header-timestamp">更新: {now}</span>
         </div>
       </header>

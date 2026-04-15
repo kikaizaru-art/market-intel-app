@@ -77,6 +77,17 @@ html, body {
   border: 1px solid rgba(56, 139, 253, 0.3);
 }
 
+button.header-badge.data-mode-toggle {
+  font: inherit;
+  font-size: 10px;
+  line-height: 1.4;
+  transition: filter 0.15s ease;
+}
+
+button.header-badge.data-mode-toggle:hover {
+  filter: brightness(1.2);
+}
+
 .app-header-right {
   display: flex;
   align-items: center;

@@ -1,0 +1,210 @@
+{
+  "reviews": {
+    "memento-mori": {
+      "2026-04": {
+        "score": 4.5160165,
+        "ratings": 90280,
+        "reviews": 8971,
+        "histogram": {
+          "1": 4311,
+          "2": 1655,
+          "3": 4179,
+          "4": 13118,
+          "5": 67011
+        },
+        "reviewVelocity": {
+          "perDay": 3.2,
+          "span": 9
+        },
+        "version": "4.12.0",
+        "recentChanges": "【v4.12.0】<br>====================================<br>・不具合の修正<br>===================================="
+      }
+    },
+    "houchi-shoujo": {
+      "2026-04": {
+        "score": 3.9967508,
+        "ratings": 100042,
+        "reviews": 29152,
+        "histogram": {
+          "1": 13457,
+          "2": 4113,
+          "3": 7241,
+          "4": 19705,
+          "5": 55520
+        },
+        "reviewVelocity": {
+          "perDay": 0.6,
+          "span": 53
+        },
+        "version": "2.3.160",
+        "recentChanges": "パフォーマンス最適化"
+      }
+    },
+    "afk-journey": {
+      "2026-04": {
+        "score": 4.2283106,
+        "ratings": 293038,
+        "reviews": 1413,
+        "histogram": {
+          "1": 24524,
+          "2": 13356,
+          "3": 14249,
+          "4": 59277,
+          "5": 181495
+        },
+        "reviewVelocity": {
+          "perDay": 0.3,
+          "span": 100
+        },
+        "version": "1.6.21",
+        "recentChanges": "【アップデート内容】<br>1．カタストロフ英雄の追加：バージョンアップデート後、「終末の砲手」レトゥムが星占いとギルドショップで獲得できるようになります。<br>2．名声ミッションを追加：魔法生物勢力。<br>3．サブミッション「北風吹く時」を追加。<br>4．新機能「星夜の逸話」を実装。「星夜の逸話」から、アタリアのストーリー「下されし裁き」を体験できます。<br>5．下記英雄の覚醒の力Lv.2効果を実装：インドラ、ガルダ。<br>6．「シーズンショップ」の交換アイテムにネフィル、デゼルのソウルマークを追加。<br>7．バージョン1.6.2期間中に、夢の宝探しシリーズイベントが開催されます。ご期待ください。"
+      }
+    },
+    "ori-aka": {
+      "2026-04": {
+        "score": 2.9891305,
+        "ratings": 112,
+        "reviews": 40,
+        "histogram": {
+          "1": 40,
+          "2": 7,
+          "3": 13,
+          "4": 15,
+          "5": 35
+        },
+        "reviewVelocity": {
+          "perDay": 2.6,
+          "span": 12
+        },
+        "version": "1.0.7",
+        "recentChanges": null
+      }
+    },
+    "nikke": {
+      "2026-04": {
+        "score": 4.587421,
+        "ratings": 593613,
+        "reviews": 13589,
+        "histogram": {
+          "1": 21352,
+          "2": 6235,
+          "3": 23634,
+          "4": 93486,
+          "5": 448883
+        },
+        "reviewVelocity": {
+          "perDay": 1.8,
+          "span": 17
+        },
+        "version": "144.8.11",
+        "recentChanges": "『勝利の女神：NIKKE』2X2 LOVE Ver.リリース！<br><br>【新ニケ】<br>SSR アルカナ：フォーチュンメイト<br><br>【新イベント】<br>恋愛シミュレーションイベント「2X2 LOVE」<br>14日間ログインイベント「LOVE DIARY」<br>21日間ログインイベント「Cheer Up Spring!」<br><br>【新コスチューム】<br>プリバティ - シャープレッスン<br>ベスティー：タクティカル・アップ - ピュアビギナー<br>ソラ - スプリングフライト<br>バイパー - パンキーストリート<br>クレイ - チアーアップトレーニング<br><br>【その他】<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご覧ください。"
+      }
+    },
+    "bluearchive": {
+      "2026-04": {
+        "score": 4.087418,
+        "ratings": 38044,
+        "reviews": 11733,
+        "histogram": {
+          "1": 5883,
+          "2": 1398,
+          "3": 1998,
+          "4": 2983,
+          "5": 25776
+        },
+        "reviewVelocity": {
+          "perDay": 2.8,
+          "span": 11
+        },
+        "version": "1.67.412528",
+        "recentChanges": "・表示ミス及び軽微な不具合の修正"
+      }
+    }
+  },
+  "trends": [],
+  "ranking": [
+    {
+      "date": "2026-04-15",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 6,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 5,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 103,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 3,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 19,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 9,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 76,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 57,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 52,
+          "totalInList": 200
+        }
+      ]
+    }
+  ],
+  "community": [
+    {
+      "date": "2026-04-15",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
+    }
+  ]
+}

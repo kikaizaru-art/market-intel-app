@@ -32,6 +32,7 @@
 - `src/dashboard/components/PositionView.jsx` — 現在地タブ (KPI, 競合ポジション, マクロ環境)
 - `src/dashboard/components/HistoryView.jsx` — 推移タブ (トレンド, ランキング, レビュー, イベント, ニュース)
 - `src/dashboard/components/ActionsView.jsx` — 次の一手タブ (リスク/チャンス, AI分析, 因果関係)
+- `src/dashboard/components/EventQuickInput.jsx` — 施策クイック記録UI (ドメイン別プリセット, ワンタップ+メモ+自由記帳)
 - `src/dashboard/components/LlmSettings.jsx` — LLM設定UI (Ollama接続, モデル選択)
 - `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, app-discover, competitor-discovery)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation, llmAnalyzer)

@@ -77,14 +77,33 @@ const DOMAIN_UI = {
 
 const DomainContext = createContext(null)
 
+const DOMAIN_STORAGE_KEY = 'market-intel:domain'
+
+function loadInitialDomain() {
+  if (typeof window === 'undefined') return 'game-market'
+  try {
+    const stored = window.localStorage.getItem(DOMAIN_STORAGE_KEY)
+    return stored && DOMAINS[stored] ? stored : 'game-market'
+  } catch {
+    return 'game-market'
+  }
+}
+
 export function DomainProvider({ children }) {
-  const [domainId, setDomainId] = useState('game-market')
+  const [domainId, setDomainId] = useState(loadInitialDomain)
 
   const config = useMemo(() => DOMAINS[domainId], [domainId])
   const ui = useMemo(() => DOMAIN_UI[domainId], [domainId])
 
   const setDomain = useCallback((id) => {
-    if (DOMAINS[id]) setDomainId(id)
+    if (DOMAINS[id]) {
+      setDomainId(id)
+      try {
+        window.localStorage.setItem(DOMAIN_STORAGE_KEY, id)
+      } catch {
+        // ignore storage failures
+      }
+    }
   }, [])
 
   const value = useMemo(() => ({

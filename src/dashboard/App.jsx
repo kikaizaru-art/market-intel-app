@@ -5,6 +5,7 @@ import SearchView from './components/SearchView.jsx'
 import PositionView from './components/PositionView.jsx'
 import HistoryView from './components/HistoryView.jsx'
 import ActionsView from './components/ActionsView.jsx'
+import DebugPanel from './components/DebugPanel.jsx'
 
 const TABS = [
   { key: 'position', label: '現在地',    accent: '#56d364' },
@@ -182,9 +183,10 @@ function Dashboard() {
 export default function App() {
   const { target, setTarget } = useTarget()
 
-  if (!target) {
-    return <SearchView onSubmit={setTarget} />
-  }
-
-  return <Dashboard />
+  return (
+    <>
+      {!target ? <SearchView onSubmit={setTarget} /> : <Dashboard />}
+      <DebugPanel />
+    </>
+  )
 }

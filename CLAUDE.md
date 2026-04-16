@@ -31,11 +31,14 @@
 - `src/dashboard/components/shared/` — 共通UIコンポーネント (ChartTooltip, SentimentBar)
 - `src/dashboard/components/PositionView.jsx` — 現在地タブ (KPI, 競合ポジション, マクロ環境)
 - `src/dashboard/components/HistoryView.jsx` — 推移タブ (トレンド, ランキング, レビュー, イベント, ニュース)
-- `src/dashboard/components/ActionsView.jsx` — 次の一手タブ (リスク/チャンス, 因果関係)
+- `src/dashboard/components/ActionsView.jsx` — 次の一手タブ (リスク/チャンス, AI分析, 因果関係)
+- `src/dashboard/components/LlmSettings.jsx` — LLM設定UI (Ollama接続, モデル選択)
 - `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, app-discover, competitor-discovery)
-- `src/analyzers/` — 分析ロジック (trend, anomaly, causation)
+- `src/analyzers/` — 分析ロジック (trend, anomaly, causation, llmAnalyzer)
+- `src/analyzers/llmAnalyzer.js` — LLM分析モジュール (因果サマリー生成, 季節要因分析, テンプレートフォールバック)
 - `src/dashboard/services/storageBackend.js` — IndexedDB ストレージバックエンド (インメモリキャッシュ + 非同期永続化)
 - `src/dashboard/services/patternStore.js` — パターン学習ストア (storageBackend 経由で IndexedDB に保存)
+- `src/dashboard/services/llmService.js` — ローカルLLMサービス (Ollama接続, 設定永続化, プロバイダー抽象化)
 - `src/framework/` — マルチドメインフレームワーク (domain, layers, collector-registry, causal-engine)
 
 ## 4層収集モデル
@@ -67,8 +70,18 @@
 5. ~~**インフルエンサードメイン設計**~~ — ドメイン設定・モックデータ・UI登録・コレクタースタブ実装済み
 6. ~~**競合自動探索 & 定期更新**~~ — ポジション×方向性スコアリングで5〜10件を自動選定、`discover:refresh` で更新
 7. ~~**実データ収集パイプライン**~~ — 5コレクター (Trends/Store/Ranking/Community/News) + 履歴蓄積 + GitHub Actions 定期実行
+8. ~~**ローカルLLM統合 (Phase 3)**~~ — Ollama ベースの因果サマリー生成 + 季節要因分析。未接続時はテンプレートフォールバック
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」
+
+## ローカルLLM統合
+
+- **バックエンド**: Ollama (localhost:11434) — ローカルで無料実行
+- **対応モデル**: Ollama で利用可能な任意のモデル (llama3.2, gemma2 等)
+- **機能**: 因果パターンの自然言語サマリー、季節要因分析
+- **フォールバック**: LLM未接続時はテンプレートベースの分析を表示
+- **設定**: IndexedDB に永続化、UI から接続先・モデル・Temperature を設定可能
+- **起動方法**: `ollama serve` でサーバー起動 → ダッシュボードの「次の一手」タブで自動接続
 
 ## 競合自動探索 (competitor-discovery)
 

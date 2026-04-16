@@ -39,7 +39,7 @@ export function findCausationCandidates(anomalies, notes, windowDays = 7) {
   return candidates.sort((a, b) => b.proximityScore - a.proximityScore)
 }
 
-// Phase 3 TODOs:
-// - LLM (Claude API) でサマリー生成
-// - 季節要因との突合せ（年次カレンダー）
-// - 複数ジャンル間の相互影響分析
+// Phase 3 実装状況:
+// - [済] LLM (Ollama) でサマリー生成 → llmAnalyzer.js
+// - [済] 季節要因との突合せ → llmAnalyzer.js (analyzeSeasonalPatterns)
+// - 複数ジャンル間の相互影響分析 (未着手)

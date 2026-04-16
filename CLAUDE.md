@@ -38,7 +38,7 @@
 - `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, app-discover, competitor-discovery)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation, llmAnalyzer, actionRecommender)
 - `src/analyzers/llmAnalyzer.js` — LLM分析モジュール (因果サマリー生成, 季節要因分析, テンプレートフォールバック)
-- `src/analyzers/actionRecommender.js` — アクション推奨エンジン (施策記録の前後メトリクス変動 → eventType別に効果集計 → 現状と照合)
+- `src/analyzers/actionRecommender.js` — アクション推奨エンジン (施策記録の前後メトリクス変動 → 同時期の市場 baseline を差し引いた純効果で eventType別に集計 → 現状と照合)
 - `src/dashboard/services/storageBackend.js` — IndexedDB ストレージバックエンド (インメモリキャッシュ + 非同期永続化)
 - `src/dashboard/services/patternStore.js` — パターン学習ストア (storageBackend 経由で IndexedDB に保存)
 - `src/dashboard/services/llmService.js` — ローカルLLMサービス (Ollama接続, 設定永続化, プロバイダー抽象化)
@@ -75,6 +75,7 @@
 7. ~~**実データ収集パイプライン**~~ — 5コレクター (Trends/Store/Ranking/Community/News) + 履歴蓄積 + GitHub Actions 定期実行
 8. ~~**ローカルLLM統合 (Phase 3)**~~ — Ollama ベースの因果サマリー生成 + 季節要因分析。未接続時はテンプレートフォールバック
 9. ~~**推奨アクション (次の一手の本質機能)**~~ — 過去の施策記録 (eventType 付き) の前後でレビュー/トレンド変動を計測し、eventType 別に成功率・平均効果・信頼度を集計。現状 (リスク/チャンス) と照合して推奨/警告をランク表示
+10. ~~**施策効果の市場補正 (外部要因の分離)**~~ — 施策前後の生の変動から同時期の市場平均 (競合アプリのレビュー変化 or 他ジャンルのトレンド変化) を差し引いた「純効果」で集計・ランク付け。「追い風に乗っただけ」を除外して真の施策効果を抽出
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」
 

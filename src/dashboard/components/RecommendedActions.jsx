@@ -93,7 +93,7 @@ export default memo(function RecommendedActions({ fallbackNotes, trendsData, rev
         )}
       </div>
       <div className="panel-footer" style={{ fontSize: 9, color: '#484f58' }}>
-        施策記録後のレビュー/トレンド変動 (前後2ヶ月 or 4週平均) から算出。2件以上の記録で表示。
+        施策記録後のレビュー/トレンド変動 (前後2ヶ月 or 4週平均) から算出。同時期の市場平均を差し引いた純効果で評価。2件以上の記録で表示。
       </div>
     </div>
   )
@@ -117,6 +117,11 @@ const EmptyState = memo(function EmptyState({ actionable, measured }) {
   )
 })
 
+function signed(v) {
+  if (v == null || Number.isNaN(v)) return '—'
+  return `${v > 0 ? '+' : ''}${v}%`
+}
+
 const RecommendationCard = memo(function RecommendationCard({ rec, preset }) {
   const accent = rec.isRisky ? '#f85149' : rec.isProven ? '#56d364' : '#8b949e'
   const bg = rec.isRisky
@@ -124,7 +129,7 @@ const RecommendationCard = memo(function RecommendationCard({ rec, preset }) {
     : rec.isProven
       ? 'rgba(86,211,100,0.05)'
       : '#161b22'
-  const deltaColor = rec.avgDelta > 0 ? '#56d364' : rec.avgDelta < 0 ? '#f85149' : '#e3b341'
+  const deltaColor = rec.avgNetDelta > 0 ? '#56d364' : rec.avgNetDelta < 0 ? '#f85149' : '#e3b341'
   const rateColor =
     rec.positiveRate >= 60 ? '#56d364' :
     rec.positiveRate >= 40 ? '#e3b341' : '#f85149'
@@ -149,22 +154,50 @@ const RecommendationCard = memo(function RecommendationCard({ rec, preset }) {
             {rec.match.label}
           </span>
         )}
+        {rec.marketAdjusted && (
+          <span
+            title="同時期の市場 (競合アプリ or 他ジャンル) 平均変化を差し引いた純効果"
+            style={{
+              fontSize: 9, padding: '1px 6px', borderRadius: 3, fontWeight: 600,
+              background: 'rgba(56,139,253,0.12)', color: '#58a6ff', border: '1px solid rgba(56,139,253,0.35)',
+            }}
+          >
+            市場補正済
+          </span>
+        )}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 10, fontSize: 10, color: '#8b949e', flexWrap: 'wrap' }}>
           <span>過去 <strong style={{ color: '#e6edf3' }}>{rec.trials}</strong>回</span>
           <span>好影響率 <strong style={{ color: rateColor }}>{rec.positiveRate}%</strong></span>
-          <span>平均効果 <strong style={{ color: deltaColor }}>{rec.avgDelta > 0 ? '+' : ''}{rec.avgDelta}%</strong></span>
+          <span>純効果 <strong style={{ color: deltaColor }}>{signed(rec.avgNetDelta)}</strong></span>
           <span>信頼度 <strong style={{ color: '#d2a8ff' }}>{Math.round(rec.confidence * 100)}%</strong></span>
         </div>
       </div>
+      {rec.marketAdjusted && (
+        <div style={{ fontSize: 9, color: '#6e7681', marginBottom: 6, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <span>生の変動 <strong style={{ color: '#8b949e' }}>{signed(rec.avgRawDelta)}</strong></span>
+          <span>市場分 <strong style={{ color: '#8b949e' }}>{signed(rec.avgBaselineDelta)}</strong></span>
+          <span style={{ color: '#484f58' }}>(純 = 生 − 市場)</span>
+        </div>
+      )}
       <div style={{ display: 'flex', gap: 8, fontSize: 9, color: '#6e7681', flexWrap: 'wrap' }}>
-        {rec.recentSamples.map((s, i) => (
-          <span key={i} style={{ background: '#0d1117', border: '1px solid #21262d', borderRadius: 4, padding: '2px 6px' }}>
-            {s.date.slice(5)}
-            <span style={{ marginLeft: 4, color: s.verdict === 'positive' ? '#56d364' : s.verdict === 'negative' ? '#f85149' : '#e3b341' }}>
-              {s.deltaPct > 0 ? '+' : ''}{s.deltaPct}%
+        {rec.recentSamples.map((s, i) => {
+          const hasBaseline = s.baselineDelta != null
+          const tooltip = hasBaseline
+            ? `生 ${signed(s.rawDelta)} − 市場 ${signed(s.baselineDelta)} = 純 ${signed(s.netDelta)}`
+            : `効果 ${signed(s.netDelta)}`
+          return (
+            <span
+              key={i}
+              title={tooltip}
+              style={{ background: '#0d1117', border: '1px solid #21262d', borderRadius: 4, padding: '2px 6px' }}
+            >
+              {s.date.slice(5)}
+              <span style={{ marginLeft: 4, color: s.verdict === 'positive' ? '#56d364' : s.verdict === 'negative' ? '#f85149' : '#e3b341' }}>
+                {signed(s.netDelta)}
+              </span>
             </span>
-          </span>
-        ))}
+          )
+        })}
         <span style={{ marginLeft: 'auto', color: '#484f58' }}>
           好 {rec.positive} / 悪 {rec.negative} / 中 {rec.neutral}
         </span>

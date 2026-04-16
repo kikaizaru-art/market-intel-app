@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect, useCallback, memo } from 'react'
 import CausationView from './CausationView.jsx'
 import LlmSettings from './LlmSettings.jsx'
+import RecommendedActions from './RecommendedActions.jsx'
 import { detectAllAnomalies } from '../../analyzers/anomaly.js'
 import { calcGenreTrends } from '../../analyzers/trend.js'
 import { generateCausationSummary, analyzeSeasonalPatterns } from '../../analyzers/llmAnalyzer.js'
@@ -193,6 +194,15 @@ export default memo(function ActionsView({
           </div>
         </div>
       </div>
+
+      {/* ━━━ 推奨アクション ━━━ */}
+      <RecommendedActions
+        fallbackNotes={causation?.notes}
+        trendsData={trends}
+        reviewsData={reviews}
+        risks={allRisks}
+        opportunities={opportunities}
+      />
 
       {/* ━━━ AI サマリー ━━━ */}
       <div className="panel" style={{ gridColumn: '1 / -1' }}>

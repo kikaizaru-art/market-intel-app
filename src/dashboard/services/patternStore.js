@@ -429,6 +429,21 @@ export function saveCausalNotes(notes) {
   try {
     setItem(CAUSAL_NOTES_KEY, JSON.stringify(notes))
   } catch {}
+  for (const fn of causalNotesListeners) {
+    try { fn(notes) } catch {}
+  }
+}
+
+const causalNotesListeners = new Set()
+
+/**
+ * 手動メモの変更を購読。返り値は解除用の関数。
+ * @param {(notes: object[]) => void} listener
+ * @returns {() => void}
+ */
+export function subscribeCausalNotes(listener) {
+  causalNotesListeners.add(listener)
+  return () => causalNotesListeners.delete(listener)
 }
 
 /**

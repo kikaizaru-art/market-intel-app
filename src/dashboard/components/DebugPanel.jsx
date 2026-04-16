@@ -1,8 +1,15 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useDomain } from '../context/DomainContext.jsx'
 import { useTarget } from '../context/TargetContext.jsx'
-import { getConnectionStatus, getSettings as getLlmSettings, getAvailableModels, onStatusChange } from '../services/llmService.js'
-import { loadCausalNotes, saveCausalNotes } from '../services/patternStore.js'
+import {
+  getConnectionStatus, getSettings as getLlmSettings, onStatusChange,
+  isMockEnabled as isLlmMockEnabled, setMockEnabled as setLlmMockEnabled,
+  checkConnection as checkLlmConnection,
+} from '../services/llmService.js'
+import {
+  loadCausalNotes, saveCausalNotes,
+  recordBatchFeedback, resetLearning, getLearningStats,
+} from '../services/patternStore.js'
 import { QUICK_EVENT_PRESETS } from '../constants.js'
 
 const STORAGE_KEYS = [
@@ -137,13 +144,52 @@ function generateQuickEventMocks(domainId, targetName) {
   return notes.sort((a, b) => b.date.localeCompare(a.date))
 }
 
+// ─── 学習フィードバック モック ─────────────────────────────────
+function generateFeedbackMocks() {
+  // 各パターンタイプ毎に confirmed/rejected を混ぜて注入
+  // → 学習パネル (的中率 / パターン重み / タイムライン) を有効化
+  const patterns = [
+    { patternType: 'anomaly_event',    confirmRatio: 0.75, count: 8 },
+    { patternType: 'trend_shift',      confirmRatio: 0.60, count: 10 },
+    { patternType: 'review_spike',     confirmRatio: 0.80, count: 5 },
+    { patternType: 'news_correlation', confirmRatio: 0.50, count: 6 },
+    { patternType: 'seasonal',         confirmRatio: 0.70, count: 4 },
+  ]
+  const signalsByType = {
+    anomaly_event:    ['peak_timing', 'sustained_effect', 'event_proximity'],
+    trend_shift:      ['rising_momentum', 'cross_genre', 'volatility_drop'],
+    review_spike:     ['score_drop', 'volume_surge', 'sentiment_shift'],
+    news_correlation: ['publish_date', 'tag_match', 'source_reliability'],
+    seasonal:         ['same_month_history', 'year_over_year'],
+  }
+  const confirmed = []
+  const rejected = []
+  const now = Date.now()
+  patterns.forEach(({ patternType, confirmRatio, count }, pi) => {
+    for (let i = 0; i < count; i++) {
+      const isConfirmed = Math.random() < confirmRatio
+      const memo = {
+        id: `mock_fb_${patternType}_${pi}_${i}_${now}`,
+        patternType,
+        signals: signalsByType[patternType].slice(0, 2),
+        confidence: 0.5 + Math.random() * 0.4,
+        validationResult: isConfirmed ? 'data_verified' : 'confidence_threshold',
+      }
+      if (isConfirmed) confirmed.push(memo)
+      else rejected.push(memo)
+    }
+  })
+  return { confirmed, rejected }
+}
+
 export default function DebugPanel() {
   const [open, setOpen] = useState(false)
-  const { domainId, domainList } = useDomain()
-  const { target, dataMode, hasCollected, dataSources, reset, setTarget } = useTarget()
+  const { domainId, domainList, setDomain } = useDomain()
+  const { target, dataMode, setDataMode, hasCollected, dataSources, reset, setTarget } = useTarget()
   const [storageSnapshot, setStorageSnapshot] = useState({})
   const [llmStatus, setLlmStatus] = useState(getConnectionStatus)
   const [llmModel, setLlmModel] = useState(() => getLlmSettings().model)
+  const [llmMock, setLlmMock] = useState(() => isLlmMockEnabled())
 
   useEffect(() => {
     return onStatusChange(({ status, settings }) => {
@@ -241,6 +287,76 @@ export default function DebugPanel() {
     saveCausalNotes([...mocks, ...existing])
     window.location.reload()
   }, [domainId, target])
+
+  // ─── 学習フィードバック モック ──────────────────────
+  const [learningStats, setLearningStats] = useState(() => getLearningStats())
+  const refreshLearning = useCallback(() => setLearningStats(getLearningStats()), [])
+  useEffect(() => { if (open) refreshLearning() }, [open, refreshLearning])
+
+  const handleInjectFeedback = useCallback(() => {
+    const { confirmed, rejected } = generateFeedbackMocks()
+    recordBatchFeedback(confirmed, rejected)
+    setQuickEventMsg(`学習ログに ${confirmed.length + rejected.length}件 注入 (承認${confirmed.length}/却下${rejected.length})`)
+    refreshLearning()
+    refreshSnapshot()
+  }, [refreshLearning, refreshSnapshot])
+
+  const handleResetLearning = useCallback(() => {
+    resetLearning()
+    setQuickEventMsg('学習ログを初期化')
+    refreshLearning()
+    refreshSnapshot()
+  }, [refreshLearning, refreshSnapshot])
+
+  // ─── Full Demo: 全機能をワンクリックで確認可能にする ──
+  const handleFullDemo = useCallback(() => {
+    // 1. モックモード固定
+    setDataMode('mock')
+    // 2. 未選択ならターゲット自動設定
+    const presets = {
+      'game-market': { appName: 'モンスターストライク', companyName: 'MIXI', genre: 'RPG' },
+      'keiba':       { appName: '有馬記念', companyName: '中山・芝2500m', genre: 'GI' },
+      'stock':       { appName: '任天堂', companyName: '7974', genre: 'ゲーム・エンタメ' },
+      'influencer':  { appName: 'HIKAKIN', companyName: 'UUUM', genre: 'エンタメ' },
+    }
+    const effectiveTarget = target || presets[domainId] || presets['game-market']
+    if (!target) setTarget(effectiveTarget)
+    // 3. クイックイベント注入
+    const mocks = generateQuickEventMocks(domainId, effectiveTarget.appName)
+    const existing = loadCausalNotes() || []
+    saveCausalNotes([...mocks, ...existing])
+    // 4. 学習フィードバック注入
+    const { confirmed, rejected } = generateFeedbackMocks()
+    recordBatchFeedback(confirmed, rejected)
+    // 5. LLM モック有効化
+    setLlmMockEnabled(true)
+    setLlmMock(true)
+    checkLlmConnection()
+    setQuickEventMsg(`Demo 準備完了: mock mode + 施策${mocks.length}件 + 学習${confirmed.length + rejected.length}件 + LLM mock`)
+    refreshLearning()
+    refreshQeStats()
+    refreshSnapshot()
+  }, [domainId, target, setDataMode, setTarget, refreshLearning, refreshQeStats, refreshSnapshot])
+
+  // ─── LLM モック切替 ─────────────────────────────────
+  const handleToggleLlmMock = useCallback(() => {
+    const next = !llmMock
+    setLlmMockEnabled(next)
+    setLlmMock(next)
+    checkLlmConnection() // 状態反映
+    setQuickEventMsg(next ? 'LLM モック ON (AI分析をテンプレートなしで確認可)' : 'LLM モック OFF')
+    refreshSnapshot()
+  }, [llmMock, refreshSnapshot])
+
+  // ─── ドメイン切替 ───────────────────────────────────
+  const handleSwitchDomain = useCallback((id) => {
+    if (id === domainId) return
+    // ドメイン切替時はターゲットもリセット（互換性のないプリセットを避ける）
+    reset()
+    try { window.localStorage.removeItem('market-intel:target') } catch {}
+    setDomain(id)
+    refreshSnapshot()
+  }, [domainId, reset, setDomain, refreshSnapshot])
 
   // Toggle with Ctrl+Shift+D
   useEffect(() => {
@@ -381,6 +497,102 @@ export default function DebugPanel() {
                 {quickEventMsg}
               </div>
             )}
+          </div>
+
+          {/* Demo シナリオ */}
+          <div className="debug-section">
+            <div className="debug-section-title">Demo シナリオ</div>
+            <div style={{ fontSize: 9, color: '#8b949e', marginBottom: 6, lineHeight: 1.4 }}>
+              全機能 (モック表示 / 施策記録 / 学習統計 / AI分析) をワンクリックで有効化
+            </div>
+            <div className="debug-actions">
+              <button
+                className="debug-action-btn"
+                onClick={handleFullDemo}
+                style={{ borderColor: 'rgba(240,136,62,0.4)', color: '#f0883e' }}
+              >
+                {'\u2728'} Full Demo 注入
+              </button>
+            </div>
+          </div>
+
+          {/* 学習フィードバック */}
+          <div className="debug-section">
+            <div className="debug-section-title">Learning (pattern store)</div>
+            <div className="debug-state-grid" style={{ marginBottom: 8 }}>
+              <span className="debug-state-key">feedback</span>
+              <span className="debug-state-val">
+                {learningStats.totalFeedback > 0
+                  ? <span style={{ color: '#56d364' }}>{learningStats.totalFeedback}件</span>
+                  : <span className="debug-null">0件</span>
+                }
+              </span>
+              <span className="debug-state-key">accuracy</span>
+              <span className="debug-state-val">
+                {learningStats.totalFeedback > 0
+                  ? <span style={{ color: '#e3b341' }}>{learningStats.accuracy}%</span>
+                  : <span className="debug-null">—</span>
+                }
+              </span>
+              <span className="debug-state-key">patterns</span>
+              <span className="debug-state-val">
+                {Object.keys(learningStats.patternWeights || {}).length}種
+              </span>
+            </div>
+            <div className="debug-actions">
+              <button
+                className="debug-action-btn"
+                onClick={handleInjectFeedback}
+                style={{ borderColor: 'rgba(86,211,100,0.3)', color: '#56d364' }}
+              >
+                学習ログ 注入
+              </button>
+              <button className="debug-action-btn danger" onClick={handleResetLearning}>
+                学習 Reset
+              </button>
+            </div>
+          </div>
+
+          {/* LLM Mock */}
+          <div className="debug-section">
+            <div className="debug-section-title">LLM Mock</div>
+            <div style={{ fontSize: 9, color: '#8b949e', marginBottom: 6, lineHeight: 1.4 }}>
+              Ollama 未接続でも AI 分析パネルにモック応答を表示
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button
+                className="debug-action-btn"
+                onClick={handleToggleLlmMock}
+                style={llmMock
+                  ? { borderColor: 'rgba(210,168,255,0.4)', color: '#d2a8ff', background: 'rgba(210,168,255,0.08)' }
+                  : {}}
+              >
+                {llmMock ? 'Mock ON' : 'Mock OFF'}
+              </button>
+              <span style={{ fontSize: 9, color: '#6e7681' }}>
+                {llmMock ? 'chat() → 定型応答' : 'Ollama に実接続'}
+              </span>
+            </div>
+          </div>
+
+          {/* ドメイン切替 */}
+          <div className="debug-section">
+            <div className="debug-section-title">Domain Switch</div>
+            <div className="debug-actions">
+              {domainList.map(d => (
+                <button
+                  key={d.id}
+                  className="debug-action-btn"
+                  onClick={() => handleSwitchDomain(d.id)}
+                  style={d.id === domainId
+                    ? { borderColor: d.accent, color: d.accent, background: `${d.accent}14` }
+                    : { opacity: 0.7 }}
+                  title={`${d.name} に切替（ターゲットはリセット）`}
+                >
+                  {d.icon} {d.id}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Actions */}

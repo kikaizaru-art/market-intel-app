@@ -16,13 +16,16 @@ export async function loadCollectedData() {
     const raw = await res.json()
     console.log('[loadCollectedData] raw data keys:', Object.keys(raw))
 
+    // ニュースのアプリタグ付けに使うアプリ名リストを構築
+    const appNames = extractAppNames(raw.reviews, raw.trends)
+
     const result = {
       collected_at: raw.collected_at,
       trends: transformTrends(raw.trends),
       reviews: transformReviews(raw.reviews, raw.collected_at),
       ranking: transformRanking(raw.ranking),
       community: transformCommunity(raw.community),
-      news: transformNews(raw.news),
+      news: transformNews(raw.news, appNames),
     }
 
     // 変換結果のサマリーをログ
@@ -137,9 +140,50 @@ function extractTopPhrases(texts) {
 }
 
 /**
+ * 収集データからアプリ名リストを抽出 (ニュースタグ付けに使用)
+ *
+ * reviews.apps[].name と trends.keywords から重複なしで収集。
+ * 短すぎる名前 (2文字以下) はノイズ源になるので除外。
+ */
+function extractAppNames(reviews, trends) {
+  const names = new Map() // name → id (表示名→識別子)
+  if (reviews?.apps?.length) {
+    for (const app of reviews.apps) {
+      if (app.name && app.name.length > 2) {
+        names.set(app.name, app.id || app.name)
+      }
+    }
+  }
+  // Google Trends キーワードも対象に (アプリ名と一致しないものも含む)
+  if (trends?.keywords?.length) {
+    for (const kw of trends.keywords) {
+      if (kw && kw.length > 2 && !names.has(kw)) {
+        names.set(kw, kw)
+      }
+    }
+  }
+  return names
+}
+
+/**
+ * ニュースのタイトル/サマリーにアプリ名が含まれていればタグ付け
+ */
+function tagNewsWithApps(title, summary, appNames) {
+  if (!appNames || appNames.size === 0) return []
+  const text = `${title} ${summary || ''}`.toLowerCase()
+  const matched = []
+  for (const [name] of appNames) {
+    if (text.includes(name.toLowerCase())) {
+      matched.push(name)
+    }
+  }
+  return matched
+}
+
+/**
  * RSS News → MarketFundamentalsView.news / IndustryView.news 形式
  */
-function transformNews(news) {
+function transformNews(news, appNames) {
   if (!Array.isArray(news) || news.length === 0) return null
   return news.map(item => ({
     date: item.pubDate ? new Date(item.pubDate).toISOString().slice(0, 10) : '',
@@ -147,6 +191,7 @@ function transformNews(news) {
     source: item.source || '',
     url: item.link || null,
     tags: guessNewsTags(item.title || ''),
+    appTags: tagNewsWithApps(item.title || '', item.summary || item.contentSnippet || '', appNames),
   }))
 }
 
@@ -193,6 +238,50 @@ function transformCommunity(community) {
       avgScore: h.stats?.avgScore || 0,
     })),
   }
+}
+
+/**
+ * レビュー履歴の月次バージョン変化から自動イベントを生成
+ *
+ * monthlyHistory の連続する月を比較し、version が変わった箇所を
+ * 「アップデート」イベントとして返す。因果エンジンに流し込み、
+ * detectAnomalyEventPatterns() の入力として使う。
+ *
+ * @returns {{ source: string, events: object[] }}
+ */
+export function detectVersionEvents(reviewsData) {
+  const events = []
+  if (!reviewsData?.apps?.length) return { source: 'ストア更新履歴 (自動検出)', events }
+
+  for (const app of reviewsData.apps) {
+    const monthly = app.monthly
+    if (!monthly || monthly.length < 2) continue
+
+    for (let i = 1; i < monthly.length; i++) {
+      const prev = monthly[i - 1]
+      const curr = monthly[i]
+      if (!curr.version || !prev.version) continue
+      if (curr.version === prev.version) continue
+
+      // バージョンが変わった → アップデートイベント
+      const changeText = curr.recentChanges
+        ? curr.recentChanges.replace(/<[^>]*>/g, '').slice(0, 60)
+        : ''
+      const summary = changeText ? `: ${changeText}` : ''
+      events.push({
+        app: app.name,
+        type: 'アップデート',
+        name: `v${curr.version} アップデート${summary}`,
+        start: `${curr.month}-01`,
+        end: null,
+        source: 'ストア更新',
+        auto: true,
+        prevVersion: prev.version,
+        newVersion: curr.version,
+      })
+    }
+  }
+  return { source: 'ストア更新履歴 (自動検出)', events }
 }
 
 /**

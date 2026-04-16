@@ -123,6 +123,7 @@ export default memo(function HistoryView({
   const [compView, setCompView] = useState('score')
   const [reviewView, setReviewView] = useState('score')
   const [selectedNewsWeek, setSelectedNewsWeek] = useState(null)
+  const [selectedAppTag, setSelectedAppTag] = useState(null)
 
   const mainChartData = useMemo(() => {
     if (!mainApp) return []
@@ -259,11 +260,28 @@ export default memo(function HistoryView({
     }))
   }, [newsData])
 
+  // ニュースに含まれるユニークなアプリタグを抽出
+  const uniqueAppTags = useMemo(() => {
+    const tags = new Set()
+    for (const item of newsData) {
+      if (item.appTags?.length) {
+        for (const t of item.appTags) tags.add(t)
+      }
+    }
+    return [...tags].sort()
+  }, [newsData])
+
   const filteredNews = useMemo(() => {
-    if (!selectedNewsWeek) return newsData
-    const bucket = newsTimeseries.find(b => b.week === selectedNewsWeek)
-    return bucket?.items || []
-  }, [newsData, newsTimeseries, selectedNewsWeek])
+    let items = newsData
+    if (selectedNewsWeek) {
+      const bucket = newsTimeseries.find(b => b.week === selectedNewsWeek)
+      items = bucket?.items || []
+    }
+    if (selectedAppTag) {
+      items = items.filter(n => n.appTags?.includes(selectedAppTag))
+    }
+    return items
+  }, [newsData, newsTimeseries, selectedNewsWeek, selectedAppTag])
 
   return (
     <>
@@ -844,6 +862,34 @@ export default memo(function HistoryView({
                 </>
               )}
 
+              {/* アプリ別フィルタ */}
+              {uniqueAppTags.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 4, marginBottom: 4 }}>
+                  <span style={{ fontSize: 10, color: '#6e7681', lineHeight: '20px' }}>アプリ:</span>
+                  {uniqueAppTags.map(tag => (
+                    <button
+                      key={tag}
+                      onClick={() => setSelectedAppTag(prev => prev === tag ? null : tag)}
+                      className="macro-toggle-btn"
+                      style={{
+                        borderColor: selectedAppTag === tag ? '#d2a8ff' : '#30363d',
+                        background: selectedAppTag === tag ? '#d2a8ff18' : 'transparent',
+                        color: selectedAppTag === tag ? '#d2a8ff' : '#8b949e',
+                        fontSize: 10,
+                        padding: '1px 8px',
+                      }}
+                    >{tag}</button>
+                  ))}
+                  {selectedAppTag && (
+                    <button
+                      onClick={() => setSelectedAppTag(null)}
+                      className="macro-toggle-btn"
+                      style={{ borderColor: '#30363d', background: 'transparent', color: '#6e7681', fontSize: 10, padding: '1px 8px' }}
+                    >クリア</button>
+                  )}
+                </div>
+              )}
+
               <div style={{ maxHeight: 400, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4 }}>
                 {filteredNews.length > 0 ? filteredNews.map((item, i) => (
                   <div key={i} className="news-item">
@@ -855,6 +901,9 @@ export default memo(function HistoryView({
                       {item.url ? <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ color: '#e6edf3', textDecoration: 'none' }}>{item.title}</a> : item.title}
                     </div>
                     <div>
+                      {item.appTags?.length > 0 && item.appTags.map(tag => (
+                        <span key={`app-${tag}`} className="news-tag" style={{ background: '#d2a8ff18', color: '#d2a8ff', borderColor: '#d2a8ff33', fontWeight: 600 }}>{tag}</span>
+                      ))}
                       {item.tags.map(tag => (
                         <span key={tag} className="news-tag" style={{ background: `${TAG_COLORS[tag] ?? '#6e7681'}15`, color: TAG_COLORS[tag] ?? '#6e7681', borderColor: `${TAG_COLORS[tag] ?? '#6e7681'}33` }}>{tag}</span>
                       ))}

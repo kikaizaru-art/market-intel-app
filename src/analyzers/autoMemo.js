@@ -200,25 +200,29 @@ function detectNewsCorrelationPatterns(newsData, trendsData, anomalies, patternW
 
   for (const news of newsData.slice(0, 10)) {
     const tags = news.tags || []
+    const appTags = news.appTags || []
     for (const anomaly of anomalies) {
       const tagMatch = tags.some(t => t === anomaly.genre || t === '市場動向' || t === '競合')
       const timeDiff = daysBetween(news.date, anomaly.date)
       if (tagMatch && timeDiff <= 5) {
         const proximity = 1 - timeDiff / 5
-        const rawScore = proximity * 0.15
+        // アプリ名タグがあれば信頼度を高める (特定アプリへの言及 = 相関が強い)
+        const appBoost = appTags.length > 0 ? 0.05 : 0
+        const rawScore = proximity * 0.15 + appBoost
         const confidence = calcConfidence(PATTERN_TYPES.NEWS_CORRELATION, rawScore, patternWeights)
+        const appLabel = appTags.length > 0 ? appTags[0] : '全体'
         memos.push({
           id: makeId(),
           date: news.date,
           event: `ニュース関連: ${news.title.slice(0, 30)}...`,
-          app: '全体',
-          layer: 'マクロ',
+          app: appLabel,
+          layer: appTags.length > 0 ? '競合' : 'マクロ',
           impact: anomaly.type === 'spike' ? 'positive' : 'negative',
           memo: `「${news.title}」(${news.source}) と${anomaly.genre}の${anomaly.type === 'spike' ? '急上昇' : '急下降'}が時間的に近接 (${timeDiff.toFixed(0)}日差)`,
           auto: true,
           patternType: PATTERN_TYPES.NEWS_CORRELATION,
           confidence,
-          signals: [`news_${news.source}`, `anomaly_${anomaly.type}`, `tags_${tags.join(',')}`],
+          signals: [`news_${news.source}`, `anomaly_${anomaly.type}`, `tags_${tags.join(',')}`, ...(appTags.length ? [`app_${appTags[0]}`] : [])],
           _validation: { genre: anomaly.genre, anomalyType: anomaly.type },
         })
       }

@@ -5,6 +5,7 @@ import { loadCollectedData } from '../services/loadCollectedData.js'
 const TargetContext = createContext(null)
 
 const DATA_MODE_STORAGE_KEY = 'market-intel:data-mode'
+const TARGET_STORAGE_KEY = 'market-intel:target'
 const VALID_MODES = ['auto', 'mock']
 
 function loadInitialDataMode() {
@@ -17,8 +18,20 @@ function loadInitialDataMode() {
   }
 }
 
+function loadInitialTarget() {
+  if (typeof window === 'undefined') return null
+  try {
+    const stored = window.localStorage.getItem(TARGET_STORAGE_KEY)
+    if (!stored) return null
+    const parsed = JSON.parse(stored)
+    return parsed && parsed.appName ? parsed : null
+  } catch {
+    return null
+  }
+}
+
 export function TargetProvider({ children }) {
-  const [target, setTarget] = useState(null) // { appName, companyName, genre }
+  const [target, setTargetState] = useState(loadInitialTarget) // { appName, companyName, genre }
   const [collected, setCollected] = useState(null)
   // 'auto': 実データ優先でモックにフォールバック / 'mock': モック固定（テスト用）
   const [dataMode, setDataModeState] = useState(loadInitialDataMode)
@@ -65,7 +78,18 @@ export function TargetProvider({ children }) {
     }
   }, [target?.appName, target?.companyName, target?.genre, collected, dataMode])
 
-  const reset = useCallback(() => setTarget(null), [])
+  const setTarget = useCallback((t) => {
+    setTargetState(t)
+    if (t) {
+      try {
+        window.localStorage.setItem(TARGET_STORAGE_KEY, JSON.stringify(t))
+      } catch {
+        // ignore storage failures
+      }
+    }
+  }, [])
+
+  const reset = useCallback(() => setTargetState(null), [])
 
   // データソース情報を提供（モードを反映）
   const dataSources = useMemo(() => {
@@ -82,7 +106,7 @@ export function TargetProvider({ children }) {
 
   const value = useMemo(
     () => ({ target, data, dataSources, dataMode, setDataMode, hasCollected: !!collected, setTarget, reset }),
-    [target, data, dataSources, dataMode, setDataMode, collected, reset]
+    [target, data, dataSources, dataMode, setDataMode, collected, setTarget, reset]
   )
 
   return (

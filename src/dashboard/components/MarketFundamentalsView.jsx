@@ -186,6 +186,9 @@ export default memo(function MarketFundamentalsView({ data: mfData, eventsData, 
                   {item.url ? <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ color: '#e6edf3', textDecoration: 'none' }}>{item.title}</a> : item.title}
                 </div>
                 <div>
+                  {item.appTags?.length > 0 && item.appTags.map(tag => (
+                    <span key={`app-${tag}`} className="news-tag" style={{ background: '#d2a8ff18', color: '#d2a8ff', borderColor: '#d2a8ff33', fontWeight: 600 }}>{tag}</span>
+                  ))}
                   {item.tags.map(tag => (
                     <span key={tag} className="news-tag" style={{ background: `${TAG_COLORS[tag] ?? '#6e7681'}15`, color: TAG_COLORS[tag] ?? '#6e7681', borderColor: `${TAG_COLORS[tag] ?? '#6e7681'}33` }}>{tag}</span>
                   ))}

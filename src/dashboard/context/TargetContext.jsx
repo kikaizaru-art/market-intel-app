@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react'
 import { generateCompetitorData } from '../services/generateData.js'
-import { loadCollectedData } from '../services/loadCollectedData.js'
+import { loadCollectedData, detectVersionEvents } from '../services/loadCollectedData.js'
 
 const TargetContext = createContext(null)
 
@@ -65,12 +65,26 @@ export function TargetProvider({ children }) {
     if (dataMode === 'mock' || !collected) return generated
 
     // 実データで上書き（存在する場合のみ）
+    const reviews = collected.reviews || generated.reviews
+
+    // アプデ履歴からバージョン変更イベントを自動生成し、既存イベントとマージ
+    const versionEvents = detectVersionEvents(reviews)
+    const baseEvents = generated.events || { source: 'mock', events: [] }
+    const mergedEvents = {
+      ...baseEvents,
+      events: [
+        ...(baseEvents.events || []),
+        ...versionEvents.events,
+      ],
+    }
+
     return {
       ...generated,
       trends: collected.trends || generated.trends,
-      reviews: collected.reviews || generated.reviews,
+      reviews,
       ranking: collected.ranking || null,
       community: collected.community || null,
+      events: mergedEvents,
       industry: {
         ...generated.industry,
         news: collected.news || generated.industry.news,

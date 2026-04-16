@@ -5,11 +5,16 @@
  * 「過去に効いた施策」を現在の状況 (リスク/チャンス) に紐付けて推奨する。
  *
  * 設計:
- *  1. 施策記録の前後でメトリクス (週次トレンドの総和 or 月次レビュー) を比較 → 効果を算出
- *  2. eventType ごとに集計 → 試行回数・好影響率・平均効果・信頼度
- *  3. 現在の状況 (下降トレンド等) と照合して推奨/警告にラベル付け
+ *  1. 施策前後のメトリクス (週次トレンド or 月次レビュー) を比較 → 生の効果 (rawDelta)
+ *  2. 同時期の市場全体の動きを計測 → 外部要因 (baselineDelta)
+ *     - レビュー: 競合アプリの平均スコア変化
+ *     - トレンド: 対象以外のジャンルの平均変化
+ *  3. 純効果 = 生の効果 − 外部要因 → 「市場追い風/逆風を差し引いた施策固有の効果」
+ *  4. eventType ごとに集計 → 試行回数・好影響率・平均純効果・信頼度
+ *  5. 現在の状況 (下降トレンド等) と照合して推奨/警告にラベル付け
  *
- * 入力データが少ない場合は空配列を返す。最低 2 件の計測可能な記録が必要。
+ * ビジョン文脈: 「そのアクションが本当に効いたのか、外部要因だったのか」を分離するのが目的。
+ * 基準値が計測できない場合 (単一アプリ・単一ジャンル) は rawDelta をそのまま純効果として扱う。
  */
 
 const TREND_WINDOW_WEEKS = 4
@@ -29,11 +34,17 @@ function sumTrendAtWeek(weekRow, genres) {
   return sum
 }
 
+function avgDeltaPct(before, after) {
+  if (!Number.isFinite(before) || !Number.isFinite(after) || !(before > 0)) return null
+  return ((after - before) / before) * 100
+}
+
 /**
- * 指定日の前後の週次トレンド平均を取得
+ * 指定日前後の週次トレンドを計測
+ * 対象ジャンルが指定できれば「そのジャンル vs 他ジャンル平均」で市場補正を行う
  */
-function measureTrendEffect(weekly, genres, eventDate) {
-  if (!Array.isArray(weekly) || !weekly.length) return null
+function measureTrendEffect(weekly, allGenres, eventDate, targetGenre) {
+  if (!Array.isArray(weekly) || !weekly.length || !allGenres?.length) return null
   const eventTs = new Date(eventDate).getTime()
   if (!Number.isFinite(eventTs)) return null
 
@@ -45,48 +56,108 @@ function measureTrendEffect(weekly, genres, eventDate) {
   const after  = enriched.filter(w => w._ts >= eventTs).slice(0, TREND_WINDOW_WEEKS)
   if (before.length < 2 || after.length < 2) return null
 
-  const beforeAvg = before.reduce((s, w) => s + sumTrendAtWeek(w, genres), 0) / before.length
-  const afterAvg  = after.reduce((s, w) => s + sumTrendAtWeek(w, genres), 0) / after.length
-  if (!(beforeAvg > 0)) return null
+  const hasTarget = targetGenre && allGenres.includes(targetGenre)
+  const targetGenres = hasTarget ? [targetGenre] : allGenres
 
-  return {
-    metric: 'trend_total',
+  const beforeAvg = before.reduce((s, w) => s + sumTrendAtWeek(w, targetGenres), 0) / before.length
+  const afterAvg  = after.reduce((s, w) => s + sumTrendAtWeek(w, targetGenres), 0) / after.length
+  const rawDelta = avgDeltaPct(beforeAvg, afterAvg)
+  if (rawDelta == null) return null
+
+  // 市場 baseline: 対象以外のジャンル平均変化 (対象ジャンル指定時のみ計測)
+  let baselineDelta = null
+  if (hasTarget) {
+    const otherGenres = allGenres.filter(g => g !== targetGenre)
+    if (otherGenres.length >= 1) {
+      const beforeOther = before.reduce((s, w) => s + sumTrendAtWeek(w, otherGenres), 0) / before.length / otherGenres.length
+      const afterOther  = after.reduce((s, w) => s + sumTrendAtWeek(w, otherGenres), 0) / after.length / otherGenres.length
+      baselineDelta = avgDeltaPct(beforeOther, afterOther)
+    }
+  }
+
+  return buildEffect({
+    metric: hasTarget ? 'trend_genre' : 'trend_total',
     before: beforeAvg,
     after: afterAvg,
-    deltaPct: ((afterAvg - beforeAvg) / beforeAvg) * 100,
+    rawDelta,
+    baselineDelta,
     windowBefore: before.length,
     windowAfter: after.length,
-  }
+  })
 }
 
-/**
- * 指定対象アプリのレビュー平均スコアを前後で比較
- */
-function measureReviewEffect(reviewsData, appName, eventDate) {
-  if (!appName || !reviewsData?.apps?.length) return null
-  const app = reviewsData.apps.find(a => a.name === appName)
+function computeAppReviewDelta(app, eventYm) {
   const monthly = app?.monthly
-  if (!Array.isArray(monthly) || monthly.length < 4) return null
-
-  const eventYm = eventDate.slice(0, 7)
+  if (!Array.isArray(monthly) || monthly.length < 2) return null
   const idx = monthly.findIndex(m => m.month >= eventYm)
   if (idx < 1) return null
   const before = monthly.slice(Math.max(0, idx - REVIEW_WINDOW_MONTHS), idx)
   const after  = monthly.slice(idx, idx + REVIEW_WINDOW_MONTHS)
   if (before.length < 1 || after.length < 1) return null
-
   const beforeScore = before.reduce((s, m) => s + Number(m.score || 0), 0) / before.length
   const afterScore  = after.reduce((s, m) => s + Number(m.score || 0), 0) / after.length
-  if (!(beforeScore > 0)) return null
+  const delta = avgDeltaPct(beforeScore, afterScore)
+  if (delta == null) return null
+  return { before: beforeScore, after: afterScore, delta, windowBefore: before.length, windowAfter: after.length }
+}
 
-  return {
+/**
+ * 指定対象アプリのレビュー平均スコアを前後で比較
+ * 他アプリの同時期変化で市場補正を行う
+ */
+function measureReviewEffect(reviewsData, appName, eventDate) {
+  if (!appName || !reviewsData?.apps?.length) return null
+  const target = reviewsData.apps.find(a => a.name === appName)
+  if (!target) return null
+
+  const eventYm = eventDate.slice(0, 7)
+  const targetMeasure = computeAppReviewDelta(target, eventYm)
+  if (!targetMeasure) return null
+
+  const otherDeltas = reviewsData.apps
+    .filter(a => a.name !== appName)
+    .map(a => computeAppReviewDelta(a, eventYm))
+    .filter(x => x)
+    .map(x => x.delta)
+
+  const baselineDelta = otherDeltas.length
+    ? otherDeltas.reduce((s, d) => s + d, 0) / otherDeltas.length
+    : null
+
+  return buildEffect({
     metric: 'review_score',
-    before: beforeScore,
-    after: afterScore,
-    deltaPct: ((afterScore - beforeScore) / beforeScore) * 100,
-    windowBefore: before.length,
-    windowAfter: after.length,
+    before: targetMeasure.before,
+    after: targetMeasure.after,
+    rawDelta: targetMeasure.delta,
+    baselineDelta,
+    windowBefore: targetMeasure.windowBefore,
+    windowAfter: targetMeasure.windowAfter,
+  })
+}
+
+function buildEffect({ metric, before, after, rawDelta, baselineDelta, windowBefore, windowAfter }) {
+  const netDelta = baselineDelta != null ? rawDelta - baselineDelta : rawDelta
+  // 判定・ランキングに使う主指標は「市場補正後の純効果」
+  const verdict = netDelta > NEUTRAL_THRESHOLD_PCT ? 'positive'
+    : netDelta < -NEUTRAL_THRESHOLD_PCT ? 'negative'
+    : 'neutral'
+  return {
+    metric,
+    before,
+    after,
+    rawDelta: round1(rawDelta),
+    baselineDelta: baselineDelta != null ? round1(baselineDelta) : null,
+    netDelta: round1(netDelta),
+    // 既存 API 互換: deltaPct は純効果を指す
+    deltaPct: round1(netDelta),
+    verdict,
+    windowBefore,
+    windowAfter,
   }
+}
+
+function round1(v) {
+  return Math.round(v * 10) / 10
 }
 
 /**
@@ -97,27 +168,15 @@ export function measureActionEffect(note, { trendsData, reviewsData }) {
   if (!note?.eventType || !note.date) return null
 
   const reviewEffect = measureReviewEffect(reviewsData, note.app, note.date)
-  if (reviewEffect) return withVerdict(reviewEffect)
+  if (reviewEffect) return reviewEffect
 
   const weekly = trendsData?.weekly
   const genres = trendsData?._genres
     || (weekly?.[0] ? Object.keys(weekly[0]).filter(k => k !== 'date') : [])
-  const trendEffect = measureTrendEffect(weekly, genres, note.date)
-  if (trendEffect) return withVerdict(trendEffect)
+  const trendEffect = measureTrendEffect(weekly, genres, note.date, note.app)
+  if (trendEffect) return trendEffect
 
   return null
-}
-
-function withVerdict(effect) {
-  const d = effect.deltaPct
-  const verdict = d > NEUTRAL_THRESHOLD_PCT ? 'positive'
-    : d < -NEUTRAL_THRESHOLD_PCT ? 'negative'
-    : 'neutral'
-  return {
-    ...effect,
-    deltaPct: Math.round(d * 10) / 10,
-    verdict,
-  }
 }
 
 // ─── 集計とランキング ────────────────────────────────────────
@@ -133,7 +192,10 @@ function aggregateByEventType(samples) {
         positive: 0,
         negative: 0,
         neutral: 0,
-        deltaSum: 0,
+        rawDeltaSum: 0,
+        netDeltaSum: 0,
+        baselineDeltaSum: 0,
+        baselineCount: 0,
         latestDate: note.date,
         samples: [],
       }
@@ -141,33 +203,46 @@ function aggregateByEventType(samples) {
     const a = map[key]
     a.trials++
     a[effect.verdict]++
-    a.deltaSum += effect.deltaPct
+    a.rawDeltaSum += effect.rawDelta
+    a.netDeltaSum += effect.netDelta
+    if (effect.baselineDelta != null) {
+      a.baselineDeltaSum += effect.baselineDelta
+      a.baselineCount++
+    }
     if (note.date > a.latestDate) a.latestDate = note.date
     a.samples.push({
       date: note.date,
       event: note.event,
       app: note.app,
       metric: effect.metric,
-      deltaPct: effect.deltaPct,
+      rawDelta: effect.rawDelta,
+      baselineDelta: effect.baselineDelta,
+      netDelta: effect.netDelta,
+      deltaPct: effect.netDelta,
       verdict: effect.verdict,
     })
   }
   return Object.values(map).map(a => ({
     ...a,
-    avgDelta: Math.round((a.deltaSum / a.trials) * 10) / 10,
+    avgRawDelta: round1(a.rawDeltaSum / a.trials),
+    avgNetDelta: round1(a.netDeltaSum / a.trials),
+    avgBaselineDelta: a.baselineCount > 0 ? round1(a.baselineDeltaSum / a.baselineCount) : null,
+    // 既存 API 互換: avgDelta は純効果
+    avgDelta: round1(a.netDeltaSum / a.trials),
     positiveRate: Math.round((a.positive / a.trials) * 100),
+    marketAdjusted: a.baselineCount > 0,
     samples: a.samples.sort((x, y) => y.date.localeCompare(x.date)),
   }))
 }
 
 /**
  * 信頼度スコア (0〜1)
- * 試行数の飽和 × 好影響率 × 効果量 (±20% で正規化)
+ * 試行数の飽和 × 好影響率 × 効果量 (±20% で正規化) — 純効果ベース
  */
 function confidenceScore(agg) {
   const sampleFactor = agg.trials / (agg.trials + 3)
   const rateFactor = Math.max(agg.positiveRate, 100 - agg.positiveRate) / 100
-  const magnitudeFactor = Math.min(1, Math.abs(agg.avgDelta) / 20)
+  const magnitudeFactor = Math.min(1, Math.abs(agg.avgNetDelta) / 20)
   return Math.round(sampleFactor * rateFactor * magnitudeFactor * 100) / 100
 }
 
@@ -202,8 +277,8 @@ export function recommendActions({ notes, trendsData, reviewsData, risks = [], o
     .filter(a => a.trials >= MIN_TRIALS)
     .map(a => {
       const confidence = confidenceScore(a)
-      const isProven = a.positiveRate >= 50 && a.avgDelta > NEUTRAL_THRESHOLD_PCT
-      const isRisky  = a.positiveRate < 40 || a.avgDelta < -NEUTRAL_THRESHOLD_PCT
+      const isProven = a.positiveRate >= 50 && a.avgNetDelta > NEUTRAL_THRESHOLD_PCT
+      const isRisky  = a.positiveRate < 40 || a.avgNetDelta < -NEUTRAL_THRESHOLD_PCT
 
       let match = null
       if (isRisky) {
@@ -223,7 +298,12 @@ export function recommendActions({ notes, trendsData, reviewsData, risks = [], o
         negative: a.negative,
         neutral: a.neutral,
         positiveRate: a.positiveRate,
-        avgDelta: a.avgDelta,
+        avgRawDelta: a.avgRawDelta,
+        avgNetDelta: a.avgNetDelta,
+        avgBaselineDelta: a.avgBaselineDelta,
+        marketAdjusted: a.marketAdjusted,
+        // 既存 API 互換
+        avgDelta: a.avgNetDelta,
         confidence,
         isProven,
         isRisky,

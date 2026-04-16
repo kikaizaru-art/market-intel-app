@@ -16,6 +16,7 @@ import {
   loadRejectedAutoKeys, addRejectedAutoKey, autoMemoStableKey,
 } from '../services/patternStore.js'
 import LearningSettings from './LearningSettings.jsx'
+import EventQuickInput from './EventQuickInput.jsx'
 
 const LAYER_OPTIONS = ['マクロ', '競合', 'ユーザー']
 const IMPACT_OPTIONS = ['positive', 'negative', 'neutral']
@@ -151,6 +152,11 @@ export default memo(function CausationView({
     setAutoConfirmed(prev => prev.filter(m => m.id !== autoNote.id))
   }
 
+  // ─── クイック入力: EventQuickInput からの追加 ──────
+  const handleQuickAdd = useCallback((note) => {
+    setManualNotes(prev => [note, ...prev])
+  }, [])
+
   function handleResetLearning() {
     resetLearning()
     setLearningVersion(v => v + 1)
@@ -251,6 +257,9 @@ export default memo(function CausationView({
       </div>
 
       <div className="panel-body">
+        {/* クイック入力パネル */}
+        <EventQuickInput onAddNote={handleQuickAdd} />
+
         {/* 学習カスタマイズパネル */}
         {showSettings && (
           <LearningSettings onSettingsChange={handleSettingsChange} />
@@ -485,6 +494,12 @@ const NoteCard = memo(function NoteCard({ note, onDelete, onManualReject, onAddC
               </span>
             )}
           </>
+        )}
+
+        {note.quickInput && (
+          <span style={{ fontSize: 8, padding: '1px 5px', borderRadius: 3, fontWeight: 600, background: 'rgba(210,168,255,0.12)', color: '#d2a8ff', border: '1px solid rgba(210,168,255,0.25)' }}>
+            施策記録
+          </span>
         )}
 
         {note.causalContext && (

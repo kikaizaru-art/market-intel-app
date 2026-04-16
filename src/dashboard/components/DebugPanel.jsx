@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { useDomain } from '../context/DomainContext.jsx'
 import { useTarget } from '../context/TargetContext.jsx'
 import { getConnectionStatus, getSettings as getLlmSettings, getAvailableModels, onStatusChange } from '../services/llmService.js'
+import { loadCausalNotes, saveCausalNotes } from '../services/patternStore.js'
+import { QUICK_EVENT_PRESETS } from '../constants.js'
 
 const STORAGE_KEYS = [
   { key: 'market-intel:domain', label: 'Domain' },
@@ -60,6 +62,79 @@ function StorageRow({ keyDef, snapshot, onClear }) {
 
 const LLM_STATUS_COLORS = {
   connected: '#56d364', disconnected: '#f85149', checking: '#e3b341', unknown: '#6e7681',
+}
+
+// ─── クイック入力モックデータ ──────────────────────────────────
+function generateQuickEventMocks(domainId, targetName) {
+  const presets = QUICK_EVENT_PRESETS[domainId] || QUICK_EVENT_PRESETS._default
+  const now = new Date()
+  const app = targetName || ''
+
+  // 過去30日にわたるサンプルイベントを生成
+  const SAMPLE_MEMOS = {
+    'game-market': {
+      update:   ['v3.2.0 バランス調整', 'v3.1.5 緊急バグ修正', 'v3.3.0 新キャラ追加'],
+      gacha:    ['1.5周年記念ガチャ', '限定キャラ復刻', 'コラボ限定ガチャ'],
+      collab:   ['人気アニメコラボ開始', 'VTuberコラボイベント', ''],
+      campaign: ['ログインボーナス強化', 'Twitterフォロワー感謝CP', ''],
+      bug:      ['課金画面クラッシュ', 'マルチプレイ不安定', ''],
+      ad_change:['TikTok広告開始', 'TVCMシリーズ第2弾', ''],
+    },
+    'influencer': {
+      video:    ['検証系動画(100万再生)', 'ショート動画バズ', 'コラボ動画投稿'],
+      live:     ['ゲーム実況配信 5時間', '雑談配信', ''],
+      sponsor:  ['飲料メーカー案件', 'ゲームアプリ案件', ''],
+      collab:   ['人気YouTuberコラボ', '海外クリエイターコラボ', ''],
+      ch_change:['サムネイルデザイン変更', 'アイコン/バナー刷新', ''],
+      trend:    ['バズワード乗り', '急上昇ランキング入り', ''],
+    },
+    'stock': {
+      earnings: ['Q3決算: 営業利益+15%', 'Q2決算: 売上横ばい', ''],
+      guidance: ['通期上方修正', '下方修正(原材料高)', ''],
+      buyback:  ['100億円自社株買い発表', '', ''],
+      dividend: ['増配(年80円→100円)', '', ''],
+      ma:       ['米国企業買収発表', '業務提携リリース', ''],
+      regulation:['新規制案パブコメ', '', ''],
+    },
+    'keiba': {
+      race:     ['G1 1着(2:00.5)', 'G2 3着(ハナ差)', '重賞初勝利'],
+      training: ['坂路52秒台(好時計)', 'CW追い切り馬なり', ''],
+      jockey:   ['主戦→リーディング騎手変更', '', ''],
+      track:    ['稍重→良馬場回復', '不良馬場', ''],
+      draw:     ['大外枠(8枠16番)', '内枠1番', ''],
+      odds:     ['前日1番人気→当日3番人気', '', ''],
+    },
+  }
+
+  const memos = SAMPLE_MEMOS[domainId] || {}
+  const notes = []
+
+  presets.forEach((preset, i) => {
+    const presetMemos = memos[preset.key] || ['', '', '']
+    // 各プリセットから1〜2個のモックを生成
+    const count = i < 3 ? 2 : 1
+    for (let j = 0; j < count; j++) {
+      const daysAgo = Math.floor(Math.random() * 28) + 1
+      const d = new Date(now)
+      d.setDate(d.getDate() - daysAgo)
+      const dateStr = d.toISOString().slice(0, 10)
+      const memo = presetMemos[j] || ''
+
+      notes.push({
+        id: `mock_quick_${Date.now()}_${i}_${j}`,
+        date: dateStr,
+        event: memo ? `${preset.label}: ${memo}` : preset.label,
+        app,
+        layer: preset.layer,
+        impact: preset.impact,
+        memo,
+        quickInput: true,
+        eventType: preset.key,
+      })
+    }
+  })
+
+  return notes.sort((a, b) => b.date.localeCompare(a.date))
 }
 
 export default function DebugPanel() {
@@ -122,6 +197,50 @@ export default function DebugPanel() {
     reset()
     refreshSnapshot()
   }, [reset, refreshSnapshot])
+
+  // ─── Quick Event debug helpers ──────────────────────
+  const [quickEventMsg, setQuickEventMsg] = useState('')
+
+  const getQuickEventStats = useCallback(() => {
+    const notes = loadCausalNotes() || []
+    const quickNotes = notes.filter(n => n.quickInput)
+    return { total: notes.length, quick: quickNotes.length }
+  }, [])
+
+  const [qeStats, setQeStats] = useState(() => getQuickEventStats())
+
+  const refreshQeStats = useCallback(() => {
+    setQeStats(getQuickEventStats())
+  }, [getQuickEventStats])
+
+  useEffect(() => {
+    if (open) refreshQeStats()
+  }, [open, refreshQeStats])
+
+  const handleInjectMocks = useCallback(() => {
+    const mocks = generateQuickEventMocks(domainId, target?.appName)
+    const existing = loadCausalNotes() || []
+    saveCausalNotes([...mocks, ...existing])
+    setQuickEventMsg(`${mocks.length}件 注入 → リロードで反映`)
+    refreshQeStats()
+    refreshSnapshot()
+  }, [domainId, target, refreshQeStats, refreshSnapshot])
+
+  const handleClearQuickMocks = useCallback(() => {
+    const existing = loadCausalNotes() || []
+    const filtered = existing.filter(n => !n.quickInput)
+    saveCausalNotes(filtered)
+    setQuickEventMsg(`施策記録を全削除 (${existing.length - filtered.length}件)`)
+    refreshQeStats()
+    refreshSnapshot()
+  }, [refreshQeStats, refreshSnapshot])
+
+  const handleInjectAndReload = useCallback(() => {
+    const mocks = generateQuickEventMocks(domainId, target?.appName)
+    const existing = loadCausalNotes() || []
+    saveCausalNotes([...mocks, ...existing])
+    window.location.reload()
+  }, [domainId, target])
 
   // Toggle with Ctrl+Shift+D
   useEffect(() => {
@@ -226,6 +345,42 @@ export default function DebugPanel() {
                 onClear={handleClearKey}
               />
             ))}
+          </div>
+
+          {/* Quick Event Debug */}
+          <div className="debug-section">
+            <div className="debug-section-title">Quick Event Input</div>
+            <div className="debug-state-grid" style={{ marginBottom: 8 }}>
+              <span className="debug-state-key">notes</span>
+              <span className="debug-state-val">{qeStats.total}件</span>
+              <span className="debug-state-key">施策記録</span>
+              <span className="debug-state-val">
+                {qeStats.quick > 0
+                  ? <span style={{ color: '#d2a8ff' }}>{qeStats.quick}件</span>
+                  : <span className="debug-null">0件</span>
+                }
+              </span>
+              <span className="debug-state-key">domain</span>
+              <span className="debug-state-val">{domainId}</span>
+            </div>
+            <div className="debug-actions" style={{ marginBottom: quickEventMsg ? 6 : 0 }}>
+              <button className="debug-action-btn" onClick={handleInjectMocks}
+                style={{ borderColor: 'rgba(210,168,255,0.3)', color: '#d2a8ff' }}>
+                Mock 注入
+              </button>
+              <button className="debug-action-btn" onClick={handleInjectAndReload}
+                style={{ borderColor: 'rgba(210,168,255,0.3)', color: '#d2a8ff' }}>
+                注入 + Reload
+              </button>
+              <button className="debug-action-btn danger" onClick={handleClearQuickMocks}>
+                施策記録 Clear
+              </button>
+            </div>
+            {quickEventMsg && (
+              <div style={{ fontSize: 9, color: '#56d364', marginTop: 4 }}>
+                {quickEventMsg}
+              </div>
+            )}
           </div>
 
           {/* Actions */}

@@ -66,6 +66,50 @@ export const PATTERN_TYPE_COLORS = {
 export const AUTO_STATUS_LABELS = { pending: '未確認', confirmed: '承認済', rejected: '却下' }
 export const AUTO_STATUS_COLORS = { pending: '#e3b341', confirmed: '#56d364', rejected: '#f85149' }
 
+// クイックイベント入力 — ドメイン別プリセット
+export const QUICK_EVENT_PRESETS = {
+  'game-market': [
+    { key: 'update',    label: 'アプデ出した',  icon: '📦', layer: 'ユーザー',  impact: 'neutral' },
+    { key: 'gacha',     label: 'ガチャ開催',    icon: '🎰', layer: 'ユーザー',  impact: 'positive' },
+    { key: 'collab',    label: 'コラボ開始',    icon: '🤝', layer: '競合',      impact: 'positive' },
+    { key: 'campaign',  label: 'キャンペーン',  icon: '🎁', layer: 'ユーザー',  impact: 'positive' },
+    { key: 'bug',       label: '不具合発生',    icon: '🐛', layer: 'ユーザー',  impact: 'negative' },
+    { key: 'ad_change', label: '広告変更',      icon: '📢', layer: 'マクロ',    impact: 'neutral' },
+  ],
+  'influencer': [
+    { key: 'video',     label: '動画投稿',      icon: '🎬', layer: 'ユーザー',  impact: 'positive' },
+    { key: 'live',      label: 'ライブ配信',    icon: '📡', layer: 'ユーザー',  impact: 'positive' },
+    { key: 'sponsor',   label: '案件開始',      icon: '💰', layer: 'マクロ',    impact: 'neutral' },
+    { key: 'collab',    label: 'コラボ企画',    icon: '🤝', layer: '競合',      impact: 'positive' },
+    { key: 'ch_change', label: 'チャンネル変更', icon: '⚙',  layer: 'ユーザー',  impact: 'neutral' },
+    { key: 'trend',     label: 'トレンド乗り',  icon: '🔥', layer: 'マクロ',    impact: 'positive' },
+  ],
+  'stock': [
+    { key: 'earnings',  label: '決算発表',      icon: '📊', layer: '競合',      impact: 'neutral' },
+    { key: 'guidance',  label: '業績修正',      icon: '📈', layer: '競合',      impact: 'neutral' },
+    { key: 'buyback',   label: '自社株買い',    icon: '💹', layer: '競合',      impact: 'positive' },
+    { key: 'dividend',  label: '増配/減配',     icon: '💰', layer: '競合',      impact: 'neutral' },
+    { key: 'ma',        label: 'M&A/提携',      icon: '🤝', layer: 'マクロ',    impact: 'neutral' },
+    { key: 'regulation',label: '規制/政策',      icon: '📜', layer: 'マクロ',    impact: 'negative' },
+  ],
+  'keiba': [
+    { key: 'race',      label: 'レース結果',    icon: '🏇', layer: '競合',      impact: 'neutral' },
+    { key: 'training',  label: '調教情報',      icon: '🏋', layer: '競合',      impact: 'neutral' },
+    { key: 'jockey',    label: '騎手変更',      icon: '👤', layer: '競合',      impact: 'neutral' },
+    { key: 'track',     label: '馬場状態',      icon: '🌧', layer: 'マクロ',    impact: 'neutral' },
+    { key: 'draw',      label: '枠順確定',      icon: '🎯', layer: '競合',      impact: 'neutral' },
+    { key: 'odds',      label: 'オッズ変動',    icon: '📉', layer: 'ユーザー',  impact: 'neutral' },
+  ],
+  '_default': [
+    { key: 'action',    label: '施策実行',      icon: '▶',  layer: 'ユーザー',  impact: 'neutral' },
+    { key: 'external',  label: '外部イベント',  icon: '🌐', layer: 'マクロ',    impact: 'neutral' },
+    { key: 'competitor',label: '競合の動き',     icon: '👁',  layer: '競合',      impact: 'neutral' },
+    { key: 'issue',     label: '不具合/問題',    icon: '⚠',  layer: 'ユーザー',  impact: 'negative' },
+    { key: 'positive',  label: '好材料',        icon: '✨', layer: 'マクロ',    impact: 'positive' },
+    { key: 'negative',  label: '悪材料',        icon: '💥', layer: 'マクロ',    impact: 'negative' },
+  ],
+}
+
 // ニュースタグ
 export const TAG_COLORS = {
   '市場動向': '#388bfd', 'RPG': '#d2a8ff', '競合': '#f85149',

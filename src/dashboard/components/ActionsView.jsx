@@ -1,13 +1,19 @@
-import { useMemo, memo } from 'react'
+import { useMemo, useState, useEffect, useCallback, memo } from 'react'
 import CausationView from './CausationView.jsx'
+import LlmSettings from './LlmSettings.jsx'
 import { detectAllAnomalies } from '../../analyzers/anomaly.js'
 import { calcGenreTrends } from '../../analyzers/trend.js'
+import { generateCausationSummary, analyzeSeasonalPatterns } from '../../analyzers/llmAnalyzer.js'
+import { checkConnection, isAvailable, onStatusChange } from '../services/llmService.js'
+import { getLearningStats } from '../services/patternStore.js'
 import { PALETTE, TREND_ICONS, TREND_COLORS } from '../constants.js'
 
 /**
  * 次の一手タブ — 蓄積された因果パターンから行動を導く
  *
+ * - LLM サマリーパネル（Ollama 接続時は AI 生成、未接続時はテンプレート）
  * - リスク/チャンス サマリーカード
+ * - 季節要因分析
  * - 因果関係パネル（CausationView をフル表示）
  */
 export default memo(function ActionsView({
@@ -64,6 +70,61 @@ export default memo(function ActionsView({
       })
       .filter(Boolean)
   }, [reviews?.apps])
+
+  // ─── LLM サマリー ──────────────────────────────────
+  const [summary, setSummary] = useState(null)
+  const [seasonalAnalysis, setSeasonalAnalysis] = useState(null)
+  const [summaryLoading, setSummaryLoading] = useState(false)
+  const [showLlmSettings, setShowLlmSettings] = useState(false)
+  const [llmAvailable, setLlmAvailable] = useState(isAvailable)
+
+  // LLM接続状態を監視
+  useEffect(() => {
+    return onStatusChange(({ status }) => {
+      setLlmAvailable(status === 'connected')
+    })
+  }, [])
+
+  // 初回マウント時に接続チェック
+  useEffect(() => {
+    checkConnection()
+  }, [])
+
+  const allRisks = useMemo(() => [
+    ...risks,
+    ...reviewRisks.map(r => ({ type: 'review', ...r })),
+  ], [risks, reviewRisks])
+
+  // サマリー生成
+  const generateSummary = useCallback(async () => {
+    setSummaryLoading(true)
+    try {
+      const memos = causation?.notes || []
+      const learningStats = getLearningStats()
+
+      const [summaryResult, seasonalResult] = await Promise.all([
+        generateCausationSummary({ memos, risks: allRisks, opportunities, learningStats }),
+        analyzeSeasonalPatterns({
+          weeklyData: weeklyData,
+          metrics: GENRES,
+          seasonalPatterns: [],
+          historicalMemos: memos,
+        }),
+      ])
+
+      setSummary(summaryResult)
+      setSeasonalAnalysis(seasonalResult)
+    } catch (e) {
+      console.warn('[actions] summary generation failed:', e)
+    } finally {
+      setSummaryLoading(false)
+    }
+  }, [causation?.notes, allRisks, opportunities, weeklyData, GENRES])
+
+  // データが揃ったらサマリー生成
+  useEffect(() => {
+    generateSummary()
+  }, [generateSummary])
 
   return (
     <>
@@ -130,6 +191,91 @@ export default memo(function ActionsView({
               )}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* ━━━ AI サマリー ━━━ */}
+      <div className="panel" style={{ gridColumn: '1 / -1' }}>
+        <div className="panel-header">
+          <div className="panel-header-left">
+            <div className="panel-indicator" style={{ background: '#d2a8ff' }} />
+            <span className="panel-title" style={{ color: '#d2a8ff' }}>AI 分析</span>
+            <span className="panel-tag">
+              {summary?.source === 'llm' ? 'Ollama' : 'テンプレート'}
+            </span>
+            {summaryLoading && (
+              <span style={{ fontSize: 9, color: '#e3b341' }}>生成中…</span>
+            )}
+          </div>
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <LlmSettings compact />
+            <button
+              onClick={() => setShowLlmSettings(v => !v)}
+              style={{
+                fontSize: 10, padding: '3px 8px', borderRadius: 4, cursor: 'pointer',
+                border: '1px solid rgba(210,168,255,0.3)',
+                background: showLlmSettings ? 'rgba(210,168,255,0.2)' : 'rgba(210,168,255,0.08)',
+                color: '#d2a8ff',
+              }}
+            >
+              {showLlmSettings ? '\u2715' : '\u2699'}
+            </button>
+            <button
+              onClick={generateSummary}
+              disabled={summaryLoading}
+              style={{
+                fontSize: 10, padding: '3px 8px', borderRadius: 4, cursor: 'pointer',
+                border: '1px solid rgba(210,168,255,0.3)',
+                background: 'rgba(210,168,255,0.08)', color: '#d2a8ff',
+                opacity: summaryLoading ? 0.5 : 1,
+              }}
+            >
+              {'\u21BB'} 再生成
+            </button>
+          </div>
+        </div>
+        <div className="panel-body">
+          {showLlmSettings && <LlmSettings />}
+
+          {/* 因果サマリー */}
+          {summary && (
+            <div style={{
+              background: '#161b22', borderRadius: 8, border: '1px solid #21262d',
+              padding: '10px 12px', marginBottom: seasonalAnalysis ? 8 : 0,
+            }}>
+              <div style={{ fontSize: 10, fontWeight: 600, color: '#d2a8ff', marginBottom: 6 }}>
+                状況サマリー
+              </div>
+              <div style={{
+                fontSize: 11, color: '#c9d1d9', lineHeight: 1.6, whiteSpace: 'pre-wrap',
+              }}>
+                {summary.summary}
+              </div>
+            </div>
+          )}
+
+          {/* 季節分析 */}
+          {seasonalAnalysis && (
+            <div style={{
+              background: '#161b22', borderRadius: 8, border: '1px solid #21262d',
+              padding: '10px 12px',
+            }}>
+              <div style={{ fontSize: 10, fontWeight: 600, color: '#388bfd', marginBottom: 6 }}>
+                季節要因
+              </div>
+              <div style={{
+                fontSize: 11, color: '#c9d1d9', lineHeight: 1.6, whiteSpace: 'pre-wrap',
+              }}>
+                {seasonalAnalysis.analysis}
+              </div>
+            </div>
+          )}
+
+          {!summary && !summaryLoading && (
+            <div style={{ fontSize: 10, color: '#6e7681', textAlign: 'center', padding: 12 }}>
+              データ読み込み中…
+            </div>
+          )}
         </div>
       </div>
 

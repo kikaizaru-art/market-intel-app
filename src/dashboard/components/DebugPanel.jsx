@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useDomain } from '../context/DomainContext.jsx'
 import { useTarget } from '../context/TargetContext.jsx'
+import { getConnectionStatus, getSettings as getLlmSettings, getAvailableModels, onStatusChange } from '../services/llmService.js'
 
 const STORAGE_KEYS = [
   { key: 'market-intel:domain', label: 'Domain' },
@@ -10,6 +11,7 @@ const STORAGE_KEYS = [
   { key: 'market-intel-learning-settings', label: 'Learning' },
   { key: 'market-intel-causal-notes', label: 'CausalNotes' },
   { key: 'market-intel-rejected-auto', label: 'Rejected' },
+  { key: 'market-intel-llm-settings', label: 'LLM' },
 ]
 
 function formatValue(raw) {
@@ -56,11 +58,24 @@ function StorageRow({ keyDef, snapshot, onClear }) {
   )
 }
 
+const LLM_STATUS_COLORS = {
+  connected: '#56d364', disconnected: '#f85149', checking: '#e3b341', unknown: '#6e7681',
+}
+
 export default function DebugPanel() {
   const [open, setOpen] = useState(false)
   const { domainId, domainList } = useDomain()
   const { target, dataMode, hasCollected, dataSources, reset, setTarget } = useTarget()
   const [storageSnapshot, setStorageSnapshot] = useState({})
+  const [llmStatus, setLlmStatus] = useState(getConnectionStatus)
+  const [llmModel, setLlmModel] = useState(() => getLlmSettings().model)
+
+  useEffect(() => {
+    return onStatusChange(({ status, settings }) => {
+      setLlmStatus(status)
+      setLlmModel(settings.model)
+    })
+  }, [])
 
   const refreshSnapshot = useCallback(() => {
     const snap = {}
@@ -185,6 +200,18 @@ export default function DebugPanel() {
                   </span>
                 </>
               )}
+
+              <span className="debug-state-key">llm</span>
+              <span className="debug-state-val">
+                <span style={{ color: LLM_STATUS_COLORS[llmStatus] || '#6e7681' }}>
+                  {llmStatus}
+                </span>
+                {llmModel && llmStatus === 'connected' && (
+                  <span style={{ color: '#6e7681', marginLeft: 4, fontSize: 9 }}>
+                    ({llmModel})
+                  </span>
+                )}
+              </span>
             </div>
           </div>
 

@@ -84,6 +84,7 @@
 15. ~~**ActionsView の UX 再構成 (分析者向け要素の折りたたみ)**~~ — `QuickRecordPanel` をタブ先頭に配置して日常的な施策記録を前面化。CausationView (自動検出・学習統計・手動メモ管理) は「詳細: 因果ログ」としてデフォルト折りたたみに変更
 16. ~~**ドメイン別タブ構成 + ジャンル色テンプレ化**~~ — `config/domains/{domain}.json` の `tabs: [...]` でタブの取捨選択・順序を宣言可能。`genreColors` でジャンル色を上書き可能 (未指定ジャンルは PALETTE から順割り当て)。`layers.macro.sources.news-rss.feeds[].region` と `layers.competitor.sources.ad-intelligence` の schema 枠を追加 (コレクター実装は後続)
 17. ~~**施策記録の一覧 & ワンクリック削除**~~ — `QuickRecordPanel` に直近の手動/クイック記録リストを追加。誤記録を CausationView を開かずに即削除 (2段階クリック)。ラベル/レーン/媒体/地域/影響度を1行コンパクト表示。`patternStore` に `deleteCausalNote` / `updateCausalNote` API を追加
+18. ~~**推奨アクションの根拠トレース (Evidence Drill-Down)**~~ — `RecommendedActions` の各カードに「根拠を見る」トグルを追加。展開するとその推奨の基になった全施策記録がテーブル表示 (日付 / 施策ラベル+メモ / 対象 / タグ / 生変動 / 市場補正 / 純効果 / 計測窓)。`actionRecommender` のサンプル出力を拡張し `id` / `memo` / `impact` / `windowBefore` / `windowAfter` を含める + `allSamples` で全件アクセス可能に
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」
 

@@ -30,6 +30,7 @@ export default memo(function PositionView({
   causation,
   ranking,
   community,
+  twitter,
 }) {
   // ─── 対象アプリの基本指標 ───────────────────────
   const targetReview = useMemo(() =>
@@ -474,6 +475,56 @@ export default memo(function PositionView({
             )}
           </div>
           <div className="panel-footer">Reddit コミュニティ活動</div>
+        </div>
+      )}
+
+      {/* ━━━ X (Twitter) 会話量 (実データ) ━━━ */}
+      {twitter?.stats && (
+        <div className="panel">
+          <div className="panel-header">
+            <div className="panel-header-left">
+              <div className="panel-indicator" style={{ background: '#1da1f2' }} />
+              <span className="panel-title" style={{ color: '#1da1f2' }}>X (Twitter)</span>
+              <span className="panel-tag">{twitter.source}</span>
+            </div>
+          </div>
+          <div className="panel-body">
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              <div className="stat-card">
+                <div style={{ fontSize: 9, color: '#6e7681' }}>ツイート数</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#1da1f2' }}>{twitter.stats.totalTweets ?? 0}</div>
+              </div>
+              <div className="stat-card">
+                <div style={{ fontSize: 9, color: '#6e7681' }}>ユニーク著者</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#56d364' }}>{twitter.stats.uniqueAuthors ?? 0}</div>
+              </div>
+              <div className="stat-card">
+                <div style={{ fontSize: 9, color: '#6e7681' }}>ツイート/日</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#e3b341' }}>{twitter.stats.tweetsPerDay ?? 0}</div>
+              </div>
+              <div className="stat-card">
+                <div style={{ fontSize: 9, color: '#6e7681' }}>平均本文長</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#d2a8ff' }}>{twitter.stats.avgTextLength ?? 0}<span style={{ fontSize: 9, marginLeft: 2 }}>字</span></div>
+              </div>
+            </div>
+            {twitter.tweets?.length > 0 && (
+              <div style={{ marginTop: 8, maxHeight: 140, overflowY: 'auto' }}>
+                {twitter.tweets.slice(0, 6).map((tw, i) => (
+                  <div key={tw.id || i} style={{ padding: '3px 0', borderBottom: '1px solid #21262d', fontSize: 10, lineHeight: 1.4 }}>
+                    {tw.author && (
+                      <span style={{ color: '#1da1f2', marginRight: 4 }}>@{tw.author}</span>
+                    )}
+                    <span style={{ color: '#e6edf3' }}>{tw.text}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="panel-footer">
+            {twitter.history?.length > 0
+              ? `${twitter.history.length} 日分の履歴を蓄積中`
+              : '公開検索 (Nitter) 経由で取得'}
+          </div>
         </div>
       )}
 

@@ -142,6 +142,7 @@ function Dashboard() {
                 causation={data.causation}
                 ranking={data.ranking}
                 community={data.community}
+                twitter={data.twitter}
               />
             </div>
           </section>
@@ -158,6 +159,7 @@ function Dashboard() {
                 events={data.events}
                 ranking={data.ranking}
                 community={data.community}
+                twitter={data.twitter}
               />
             </div>
           </section>

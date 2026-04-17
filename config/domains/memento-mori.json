@@ -35,12 +35,17 @@
     },
     "user": {
       "label": "ユーザー反応",
-      "description": "アプリレビュー・コミュニティ活動",
-      "collectors": ["store-reviews", "community"],
+      "description": "アプリレビュー・コミュニティ活動・X(Twitter)の会話量",
+      "collectors": ["store-reviews", "community", "twitter"],
       "sources": {
         "community": {
           "subreddits": ["gachagaming", "MementoMoriGame"],
           "keywords": ["MementoMori", "Memento Mori game"]
+        },
+        "twitter": {
+          "keywords": ["メメントモリ", "#メメントモリ", "MementoMori"],
+          "lang": "ja",
+          "perKeyword": 25
         }
       }
     },

@@ -20,7 +20,7 @@
 
 - `npm run dev` — ローカル開発サーバー (port 5173)
 - `npm run build` — プロダクションビルド (dist/)
-- `npm run collect` — 実データ収集 (Google Trends, Google Play, Ranking, Reddit, RSS)
+- `npm run collect` — 実データ収集 (Google Trends, Google Play, Ranking, Reddit, RSS, YouTube, Twitter/X)
 - `npm run discover` — アプリ自動探索 & ドメイン設定生成 (新規ドメイン)
 - `npm run discover:refresh` — 競合自動再探索 & 更新 (既存ドメイン)
 
@@ -35,7 +35,7 @@
 - `src/dashboard/components/RecommendedActions.jsx` — 推奨アクションパネル (施策×効果集計, 現状マッチング)
 - `src/dashboard/components/EventQuickInput.jsx` — 施策クイック記録UI (ドメイン別プリセット, ワンタップ+メモ+自由記帳)
 - `src/dashboard/components/LlmSettings.jsx` — LLM設定UI (Ollama接続, モデル選択)
-- `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, youtube-channels, app-discover, competitor-discovery)
+- `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, youtube-channels, twitter, app-discover, competitor-discovery)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation, llmAnalyzer, actionRecommender)
 - `src/analyzers/llmAnalyzer.js` — LLM分析モジュール (因果サマリー生成, 季節要因分析, テンプレートフォールバック)
 - `src/analyzers/actionRecommender.js` — アクション推奨エンジン (施策記録の前後メトリクス変動 → 同時期の市場 baseline を差し引いた純効果で eventType別に集計 → 現状と照合)
@@ -59,7 +59,7 @@
 ## データフロー
 
 1. `npm run collect` → `data/` に個別JSON + `data/history/{domain}.json` に履歴蓄積 + `public/data/collected.json` に統合出力
-2. 履歴蓄積: reviews(月次12ヶ月), trends(週次52週), ranking(日次90日), community(日次30日), youtubeChannels(週次26週, 対象に `youtube_channel_id` がある時のみ)
+2. 履歴蓄積: reviews(月次12ヶ月), trends(週次52週), ranking(日次90日), community(日次30日), youtubeChannels(週次26週, 対象に `youtube_channel_id` がある時のみ), twitter(日次30日, ドメインに `twitter` ソースがある時のみ)
 3. ダッシュボード起動時に `collected.json` を fetch
 4. 実データがあれば上書き、なければ `generateData.js` のモックを使用
 5. GitHub Actions (`collect.yml`) で毎日 JST 7:00 に自動収集・デプロイ
@@ -77,6 +77,7 @@
 9. ~~**推奨アクション (次の一手の本質機能)**~~ — 過去の施策記録 (eventType 付き) の前後でレビュー/トレンド変動を計測し、eventType 別に成功率・平均効果・信頼度を集計。現状 (リスク/チャンス) と照合して推奨/警告をランク表示
 10. ~~**施策効果の市場補正 (外部要因の分離)**~~ — 施策前後の生の変動から同時期の市場平均 (競合アプリのレビュー変化 or 他ジャンルのトレンド変化) を差し引いた「純効果」で集計・ランク付け。「追い風に乗っただけ」を除外して真の施策効果を抽出
 11. ~~**YouTube Data API 統合**~~ — インフルエンサードメインの L2 (競合チャンネル) が実データで動く。`channels.list` + `playlistItems.list` + `videos.list` で登録者数/総再生数/直近30日の投稿頻度・平均再生数を取得し、週次26週で履歴蓄積。`YOUTUBE_API_KEY` 未設定時はモック
+12. ~~**Twitter/X 収集 (Nitter 経由)**~~ — 日本語ユーザーの会話量を L3 ユーザー層に追加。Nitter RSS (`/search/rss?f=tweets&q=...`) を複数インスタンスでフェイルオーバーしつつ取得。ドメイン設定 `layers.user.sources.twitter.keywords` がある場合のみ実行し、日次30日のスナップショット (ツイート数 / ユニーク著者 / 平均本文長) を `data/history/{domain}.json` の `twitter[]` に蓄積。ダッシュボードでは PositionView に統計パネル、HistoryView に「X (会話量)」タブを追加
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」
 
@@ -101,6 +102,17 @@
 - **認証**: `YOUTUBE_API_KEY` 環境変数で APIキーを渡す。未設定時はモックデータで動作継続
 - **クォータ**: 1チャンネルあたり 3 units, 無料枠 10,000/日で 3,000 チャンネル/日まで
 - **履歴**: `data/history/{domain}.json` の `youtubeChannels[channelId][]` に週次26週のスナップショットを保持 (月曜起点)
+
+## Twitter/X 収集 (twitter)
+
+- **用途**: L3 ユーザー層の日本語会話量 — Reddit (英語圏) を補完
+- **経路**: Nitter インスタンス群の RSS (`/search/rss?f=tweets&q=<keyword>`) を順に試行してフェイルオーバー
+- **取得内容**: ツイート本文 / 著者ハンドル / 投稿日時 / 元リンク
+- **集計**: ツイート数 / ユニーク著者 / 日あたりツイート数 / 平均本文長 / 日別バケット
+- **実行条件**: ドメイン設定 `layers.user.sources.twitter.keywords` にキーワードがある場合のみ (7番目のコレクター)
+- **無効化**: `NITTER_DISABLE=1` 環境変数で即座にモックへフォールバック
+- **注意**: Nitter は非公式ミラーで運営者停止リスクあり。将来は X API / snscrape 等への切替を想定した薄いラッパ
+- **履歴**: `data/history/{domain}.json` の `twitter[]` に日次30日分のスナップショットを保持
 
 ## 競合自動探索 (competitor-discovery)
 

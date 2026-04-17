@@ -1,15 +1,19 @@
-import { useState, useMemo, memo } from 'react'
+import { useState, useMemo, useEffect, useCallback, memo } from 'react'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
 } from 'recharts'
 import { ChartTooltip, SentimentBar, ImpactDot } from './shared/index.js'
+import SinceLastVisitPanel from './SinceLastVisitPanel.jsx'
 import {
   PALETTE, IMPACT_LABELS, IMPACT_COLORS,
   TREND_LABELS, TREND_ICONS, TREND_COLORS,
 } from '../constants.js'
 import { formatDate } from '../utils.js'
 import { calcGenreTrends } from '../../analyzers/trend.js'
+import { useDomain } from '../context/DomainContext.jsx'
+import { getLastVisitAt, markVisited, resetVisit } from '../services/visitTracker.js'
+import { computeSinceLastVisit } from '../utils/computeSinceLastVisit.js'
 
 /**
  * 現在地タブ — 対象の今のポジションを一画面で把握
@@ -134,8 +138,38 @@ export default memo(function PositionView({
   const targetCompany = corporate?.companies?.[0]
   const latestQ = targetCompany?.quarterly_financials[targetCompany.quarterly_financials.length - 1]
 
+  // ─── 前回訪問からの変化サマリー ─────────────────────
+  const { domainId } = useDomain()
+  const appName = target?.appName
+  const [lastVisitAt, setLastVisitAt] = useState(() => getLastVisitAt(domainId, appName))
+  useEffect(() => {
+    setLastVisitAt(getLastVisitAt(domainId, appName))
+  }, [domainId, appName])
+
+  const visitSummary = useMemo(() => computeSinceLastVisit(
+    { reviews, fundamentals, trends, ranking, causation, twitter },
+    lastVisitAt,
+  ), [reviews, fundamentals, trends, ranking, causation, twitter, lastVisitAt])
+
+  const handleAcknowledge = useCallback(() => {
+    const now = markVisited(domainId, appName)
+    setLastVisitAt(now)
+  }, [domainId, appName])
+
+  const handleResetVisit = useCallback(() => {
+    resetVisit(domainId, appName)
+    setLastVisitAt(null)
+  }, [domainId, appName])
+
   return (
     <>
+      {/* ━━━ 前回訪問からの変化サマリー ━━━ */}
+      <SinceLastVisitPanel
+        summary={visitSummary}
+        onAcknowledge={handleAcknowledge}
+        onReset={handleResetVisit}
+      />
+
       {/* ━━━ KPI スコアカード ━━━ */}
       <div className="panel position-panel" style={{ gridColumn: '1 / -1' }}>
         <div className="panel-header">

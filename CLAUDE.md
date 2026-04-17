@@ -43,6 +43,9 @@
 - `src/dashboard/services/storageBackend.js` — IndexedDB ストレージバックエンド (インメモリキャッシュ + 非同期永続化)
 - `src/dashboard/services/patternStore.js` — パターン学習ストア (storageBackend 経由で IndexedDB に保存)
 - `src/dashboard/services/llmService.js` — ローカルLLMサービス (Ollama接続, 設定永続化, プロバイダー抽象化)
+- `src/dashboard/services/visitTracker.js` — 訪問追跡 (ドメイン×対象ごとに最終訪問時刻を永続化)
+- `src/dashboard/utils/computeSinceLastVisit.js` — 前回訪問からの変化サマリーを算出 (レビュー/ランク/トレンド/因果メモ/X会話量)
+- `src/dashboard/components/SinceLastVisitPanel.jsx` — PositionView 先頭の変化サマリー表示パネル
 - `src/framework/` — マルチドメインフレームワーク (domain, layers, collector-registry, causal-engine)
 
 ## 4層収集モデル
@@ -85,6 +88,7 @@
 16. ~~**ドメイン別タブ構成 + ジャンル色テンプレ化**~~ — `config/domains/{domain}.json` の `tabs: [...]` でタブの取捨選択・順序を宣言可能。`genreColors` でジャンル色を上書き可能 (未指定ジャンルは PALETTE から順割り当て)。`layers.macro.sources.news-rss.feeds[].region` と `layers.competitor.sources.ad-intelligence` の schema 枠を追加 (コレクター実装は後続)
 17. ~~**施策記録の一覧 & ワンクリック削除**~~ — `QuickRecordPanel` に直近の手動/クイック記録リストを追加。誤記録を CausationView を開かずに即削除 (2段階クリック)。ラベル/レーン/媒体/地域/影響度を1行コンパクト表示。`patternStore` に `deleteCausalNote` / `updateCausalNote` API を追加
 18. ~~**推奨アクションの根拠トレース (Evidence Drill-Down)**~~ — `RecommendedActions` の各カードに「根拠を見る」トグルを追加。展開するとその推奨の基になった全施策記録がテーブル表示 (日付 / 施策ラベル+メモ / 対象 / タグ / 生変動 / 市場補正 / 純効果 / 計測窓)。`actionRecommender` のサンプル出力を拡張し `id` / `memo` / `impact` / `windowBefore` / `windowAfter` を含める + `allSamples` で全件アクセス可能に
+19. ~~**前回訪問からの変化サマリー**~~ — PositionView 先頭に「前回訪問からの変化」パネルを追加。ドメイン×対象ごとに訪問時刻を IndexedDB で永続化し、再訪時にレビュースコア/セールスランク/ジャンルトレンドのシフト/新規因果メモ/X 会話量の変化を閾値フィルタで抽出表示。初回訪問はウェルカム、2時間以内の再訪問は非表示、「確認済みにする」で基準日を更新
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」
 

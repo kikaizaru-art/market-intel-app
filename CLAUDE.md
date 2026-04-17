@@ -83,6 +83,7 @@
 14. ~~**HistoryView 施策マーカー**~~ — 記録した施策 (causal notes) をトレンド週次・レビュー月次・ランキング日次の各チャート上にオーバレイ。影響別の色付きリファレンスライン + preset アイコンで「施策を打った日の前後でどう変動したか」を 1 画面で判定可能
 15. ~~**ActionsView の UX 再構成 (分析者向け要素の折りたたみ)**~~ — `QuickRecordPanel` をタブ先頭に配置して日常的な施策記録を前面化。CausationView (自動検出・学習統計・手動メモ管理) は「詳細: 因果ログ」としてデフォルト折りたたみに変更
 16. ~~**ドメイン別タブ構成 + ジャンル色テンプレ化**~~ — `config/domains/{domain}.json` の `tabs: [...]` でタブの取捨選択・順序を宣言可能。`genreColors` でジャンル色を上書き可能 (未指定ジャンルは PALETTE から順割り当て)。`layers.macro.sources.news-rss.feeds[].region` と `layers.competitor.sources.ad-intelligence` の schema 枠を追加 (コレクター実装は後続)
+17. ~~**施策記録の一覧 & ワンクリック削除**~~ — `QuickRecordPanel` に直近の手動/クイック記録リストを追加。誤記録を CausationView を開かずに即削除 (2段階クリック)。ラベル/レーン/媒体/地域/影響度を1行コンパクト表示。`patternStore` に `deleteCausalNote` / `updateCausalNote` API を追加
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」
 

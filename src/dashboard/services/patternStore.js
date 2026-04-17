@@ -434,6 +434,36 @@ export function saveCausalNotes(notes) {
   }
 }
 
+/**
+ * 指定 id の手動メモを削除 (該当なしなら no-op)
+ * @param {string} id
+ * @returns {object[]} 削除後の notes
+ */
+export function deleteCausalNote(id) {
+  const current = loadCausalNotes() || []
+  const next = current.filter(n => n.id !== id)
+  if (next.length !== current.length) saveCausalNotes(next)
+  return next
+}
+
+/**
+ * 指定 id の手動メモを partial でマージ更新 (該当なしなら no-op)
+ * @param {string} id
+ * @param {object} partial
+ * @returns {object[]} 更新後の notes
+ */
+export function updateCausalNote(id, partial) {
+  const current = loadCausalNotes() || []
+  let changed = false
+  const next = current.map(n => {
+    if (n.id !== id) return n
+    changed = true
+    return { ...n, ...partial }
+  })
+  if (changed) saveCausalNotes(next)
+  return next
+}
+
 const causalNotesListeners = new Set()
 
 /**

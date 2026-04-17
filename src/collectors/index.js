@@ -21,6 +21,7 @@ import { fetchStoreReviews } from './store.js'
 import { fetchStoreRanking } from './store-ranking.js'
 import { fetchCommunity } from './community.js'
 import { fetchNews } from './news.js'
+import { fetchYouTubeChannels } from './youtube-channels.js'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -31,11 +32,19 @@ const PUBLIC_DATA_DIR = path.resolve(__dirname, '../../public/data')
 const CONFIG_DIR = path.resolve(__dirname, '../../config')
 const DOMAINS_DIR = path.resolve(CONFIG_DIR, 'domains')
 const HISTORY_DIR = path.resolve(DATA_DIR, 'history')
-const TOTAL_COLLECTORS = 5
 
 function saveJson(filepath, data) {
   fs.mkdirSync(path.dirname(filepath), { recursive: true })
   fs.writeFileSync(filepath, JSON.stringify(data, null, 2))
+}
+
+/** YYYY-MM-DD から、その日が属する週の月曜日の YYYY-MM-DD を返す (UTC基準) */
+function weekStartDate(isoDate) {
+  const d = new Date(`${isoDate}T00:00:00Z`)
+  const day = d.getUTCDay() // 0=Sun, 1=Mon, ... 6=Sat
+  const diff = day === 0 ? -6 : 1 - day
+  d.setUTCDate(d.getUTCDate() + diff)
+  return d.toISOString().slice(0, 10)
 }
 
 /**
@@ -57,11 +66,14 @@ function loadDomainConfig(domainName) {
       store_id_ios: t.identifiers?.store_id_ios,
       isMain: t.isMain || false,
     })),
+    // identifiers をそのまま保持した対象 (YouTube 等の collector が使う)
+    rawTargets: domain.targets,
     genres: domain.categories || [],
     competitors: domain.competitors || [],
     google_trends: domain.layers?.macro?.sources?.['google-trends'] || { keywords: [], geo: 'JP' },
     news_rss: domain.layers?.macro?.sources?.['news-rss'] || { feeds: [] },
     community: domain.layers?.user?.sources?.community || {},
+    youtube_channels: domain.layers?.competitor?.sources?.['youtube-channels'] || null,
   }
 
   return { domain, config }
@@ -92,8 +104,15 @@ async function run() {
   const results = { collected_at: new Date().toISOString(), domain: domainName }
   const errors = []
 
+  // YouTube コレクターは対象に youtube_channel_id があるかドメイン設定がある場合のみ走らせる
+  const runYoutube = Boolean(
+    config.youtube_channels
+    || (config.rawTargets || []).some(t => t?.identifiers?.youtube_channel_id)
+  )
+  const totalCollectors = 5 + (runYoutube ? 1 : 0)
+
   // 1. Google Trends
-  console.log(`\n[1/${TOTAL_COLLECTORS}] Google Trends...`)
+  console.log(`\n[1/${totalCollectors}] Google Trends...`)
   try {
     results.trends = await fetchTrends(config.google_trends)
     saveJson(path.join(DATA_DIR, `trends_${today}.json`), results.trends)
@@ -105,7 +124,7 @@ async function run() {
   }
 
   // 2. Store Reviews + Detail (ヒストグラム, What's New, バージョン)
-  console.log(`\n[2/${TOTAL_COLLECTORS}] Store Reviews & Detail (Google Play)...`)
+  console.log(`\n[2/${totalCollectors}] Store Reviews & Detail (Google Play)...`)
   try {
     results.reviews = await fetchStoreReviews(config.titles)
     saveJson(path.join(DATA_DIR, `store-reviews_${today}.json`), results.reviews)
@@ -117,7 +136,7 @@ async function run() {
   }
 
   // 3. Store Ranking (カテゴリ別順位)
-  console.log(`\n[3/${TOTAL_COLLECTORS}] Store Ranking...`)
+  console.log(`\n[3/${totalCollectors}] Store Ranking...`)
   try {
     results.ranking = await fetchStoreRanking(config.titles)
     saveJson(path.join(DATA_DIR, `store-ranking_${today}.json`), results.ranking)
@@ -130,7 +149,7 @@ async function run() {
   }
 
   // 4. Community (Reddit)
-  console.log(`\n[4/${TOTAL_COLLECTORS}] Community (Reddit)...`)
+  console.log(`\n[4/${totalCollectors}] Community (Reddit)...`)
   try {
     // ドメイン設定に英語キーワードがあればそちらを優先 (Redditは英語圏)
     const communityKeywords = config.community?.keywords
@@ -147,7 +166,7 @@ async function run() {
   }
 
   // 5. News RSS
-  console.log(`\n[5/${TOTAL_COLLECTORS}] News RSS...`)
+  console.log(`\n[5/${totalCollectors}] News RSS...`)
   try {
     results.news = await fetchNews(config.news_rss?.feeds)
     saveJson(path.join(DATA_DIR, `news_${today}.json`), results.news)
@@ -156,6 +175,23 @@ async function run() {
     console.error(`  FAIL: ${e.message}`)
     errors.push({ collector: 'news', error: e.message })
     results.news = null
+  }
+
+  // 6. YouTube Channels (インフルエンサー L2: 対象に youtube_channel_id がある場合のみ)
+  if (runYoutube) {
+    console.log(`\n[6/${totalCollectors}] YouTube Channels...`)
+    try {
+      results.youtubeChannels = await fetchYouTubeChannels({
+        sources: config.youtube_channels,
+        targets: config.rawTargets,
+      })
+      saveJson(path.join(DATA_DIR, `youtube-channels_${today}.json`), results.youtubeChannels)
+      console.log(`  OK: ${results.youtubeChannels?.channels?.length ?? 0} channels`)
+    } catch (e) {
+      console.error(`  FAIL: ${e.message}`)
+      errors.push({ collector: 'youtube-channels', error: e.message })
+      results.youtubeChannels = null
+    }
   }
 
   // 履歴蓄積: 過去データとマージして推移を追跡できるようにする
@@ -168,8 +204,8 @@ async function run() {
   console.log('  public/data/collected.json saved')
 
   // サマリー
-  const succeeded = TOTAL_COLLECTORS - errors.length
-  console.log(`\n=== Done: ${succeeded}/${TOTAL_COLLECTORS} collectors succeeded (${domainName}) ===`)
+  const succeeded = totalCollectors - errors.length
+  console.log(`\n=== Done: ${succeeded}/${totalCollectors} collectors succeeded (${domainName}) ===`)
   if (errors.length > 0) {
     console.log('Failures:')
     for (const err of errors) {
@@ -190,12 +226,13 @@ function mergeWithHistory(domainName, today, results) {
   fs.mkdirSync(HISTORY_DIR, { recursive: true })
   const historyPath = path.join(HISTORY_DIR, `${domainName}.json`)
 
-  let history = { reviews: {}, reviewTexts: {}, trends: [], ranking: [], community: [] }
+  let history = { reviews: {}, reviewTexts: {}, trends: [], ranking: [], community: [], youtubeChannels: {} }
   if (fs.existsSync(historyPath)) {
     try {
       history = JSON.parse(fs.readFileSync(historyPath, 'utf8'))
       // 後方互換: 既存履歴に reviewTexts が無ければ空で初期化
       if (!history.reviewTexts) history.reviewTexts = {}
+      if (!history.youtubeChannels) history.youtubeChannels = {}
     } catch (e) {
       console.warn('[history] failed to read history, starting fresh:', e.message)
     }
@@ -331,11 +368,57 @@ function mergeWithHistory(domainName, today, results) {
     results.community.history = history.community
   }
 
+  // === YouTube Channels 履歴蓄積 (週次: 同週は最新で上書き, 最大26週保持) ===
+  // 週キーは ISO 週ではなく「その日が属する月曜起点の日付 YYYY-MM-DD」。
+  // subscribers/total_views/video_count は累積値のため週次の差分から成長率を算出できる。
+  if (!history.youtubeChannels || typeof history.youtubeChannels !== 'object') {
+    history.youtubeChannels = {}
+  }
+  if (results.youtubeChannels?.channels?.length) {
+    const weekKey = weekStartDate(today)
+    for (const ch of results.youtubeChannels.channels) {
+      if (!ch.id || ch.error) continue
+      if (!history.youtubeChannels[ch.id]) history.youtubeChannels[ch.id] = []
+      const weekly = history.youtubeChannels[ch.id].filter(w => w.week !== weekKey)
+      weekly.push({
+        week: weekKey,
+        subscribers: ch.subscribers ?? null,
+        total_views: ch.total_views ?? null,
+        video_count: ch.video_count ?? null,
+        posts_30d: ch.posts_30d ?? null,
+        total_views_30d: ch.total_views_30d ?? null,
+        avg_views_30d: ch.avg_views_30d ?? null,
+        engagement_rate_30d: ch.engagement_rate_30d ?? null,
+      })
+      weekly.sort((a, b) => a.week.localeCompare(b.week))
+      history.youtubeChannels[ch.id] = weekly.slice(-26)
+    }
+    // results にも履歴を注入 (ダッシュボードで推移表示)
+    for (const ch of results.youtubeChannels.channels) {
+      if (ch.id && history.youtubeChannels[ch.id]) {
+        ch.weeklyHistory = history.youtubeChannels[ch.id]
+      }
+    }
+  }
+  // フェッチ失敗/空でも蓄積履歴を results に反映
+  const ytHistoryCount = Object.values(history.youtubeChannels).reduce((s, arr) => s + (arr?.length || 0), 0)
+  if (ytHistoryCount > 0 && !results.youtubeChannels) {
+    results.youtubeChannels = {
+      source: 'YouTube Channels (history)',
+      channels: Object.entries(history.youtubeChannels).map(([id, weekly]) => ({
+        id,
+        weeklyHistory: weekly,
+      })),
+    }
+  }
+
   // 履歴を保存
   saveJson(historyPath, history)
   const reviewMonths = Object.values(history.reviews).reduce((max, h) => Math.max(max, Object.keys(h).length), 0)
   const reviewTextsTotal = Object.values(history.reviewTexts || {}).reduce((sum, arr) => sum + arr.length, 0)
-  console.log(`[history] saved: ${history.trends.length} trend weeks, ${reviewMonths} review months, ${reviewTextsTotal} review texts, ${history.ranking.length} ranking days, ${history.community.length} community days`)
+  const ytChannels = Object.keys(history.youtubeChannels).length
+  const ytWeeks = Object.values(history.youtubeChannels).reduce((max, arr) => Math.max(max, arr.length), 0)
+  console.log(`[history] saved: ${history.trends.length} trend weeks, ${reviewMonths} review months, ${reviewTextsTotal} review texts, ${history.ranking.length} ranking days, ${history.community.length} community days, ${ytChannels} yt channels (${ytWeeks} wk max)`)
 
   return results
 }

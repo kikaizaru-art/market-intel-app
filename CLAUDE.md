@@ -35,7 +35,7 @@
 - `src/dashboard/components/RecommendedActions.jsx` — 推奨アクションパネル (施策×効果集計, 現状マッチング)
 - `src/dashboard/components/EventQuickInput.jsx` — 施策クイック記録UI (ドメイン別プリセット, ワンタップ+メモ+自由記帳)
 - `src/dashboard/components/LlmSettings.jsx` — LLM設定UI (Ollama接続, モデル選択)
-- `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, app-discover, competitor-discovery)
+- `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, youtube-channels, app-discover, competitor-discovery)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation, llmAnalyzer, actionRecommender)
 - `src/analyzers/llmAnalyzer.js` — LLM分析モジュール (因果サマリー生成, 季節要因分析, テンプレートフォールバック)
 - `src/analyzers/actionRecommender.js` — アクション推奨エンジン (施策記録の前後メトリクス変動 → 同時期の市場 baseline を差し引いた純効果で eventType別に集計 → 現状と照合)
@@ -59,7 +59,7 @@
 ## データフロー
 
 1. `npm run collect` → `data/` に個別JSON + `data/history/{domain}.json` に履歴蓄積 + `public/data/collected.json` に統合出力
-2. 履歴蓄積: reviews(月次12ヶ月), trends(週次52週), ranking(日次90日), community(日次30日)
+2. 履歴蓄積: reviews(月次12ヶ月), trends(週次52週), ranking(日次90日), community(日次30日), youtubeChannels(週次26週, 対象に `youtube_channel_id` がある時のみ)
 3. ダッシュボード起動時に `collected.json` を fetch
 4. 実データがあれば上書き、なければ `generateData.js` のモックを使用
 5. GitHub Actions (`collect.yml`) で毎日 JST 7:00 に自動収集・デプロイ
@@ -76,6 +76,7 @@
 8. ~~**ローカルLLM統合 (Phase 3)**~~ — Ollama ベースの因果サマリー生成 + 季節要因分析。未接続時はテンプレートフォールバック
 9. ~~**推奨アクション (次の一手の本質機能)**~~ — 過去の施策記録 (eventType 付き) の前後でレビュー/トレンド変動を計測し、eventType 別に成功率・平均効果・信頼度を集計。現状 (リスク/チャンス) と照合して推奨/警告をランク表示
 10. ~~**施策効果の市場補正 (外部要因の分離)**~~ — 施策前後の生の変動から同時期の市場平均 (競合アプリのレビュー変化 or 他ジャンルのトレンド変化) を差し引いた「純効果」で集計・ランク付け。「追い風に乗っただけ」を除外して真の施策効果を抽出
+11. ~~**YouTube Data API 統合**~~ — インフルエンサードメインの L2 (競合チャンネル) が実データで動く。`channels.list` + `playlistItems.list` + `videos.list` で登録者数/総再生数/直近30日の投稿頻度・平均再生数を取得し、週次26週で履歴蓄積。`YOUTUBE_API_KEY` 未設定時はモック
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」
 
@@ -87,6 +88,19 @@
 - **フォールバック**: LLM未接続時はテンプレートベースの分析を表示
 - **設定**: IndexedDB に永続化、UI から接続先・モデル・Temperature を設定可能
 - **起動方法**: `ollama serve` でサーバー起動 → ダッシュボードの「次の一手」タブで自動接続
+
+## YouTube Channels 収集 (youtube-channels)
+
+- **用途**: インフルエンサードメインの L2 競合クリエイター + ゲームドメインの配信先行指標
+- **API**: YouTube Data API v3 (`channels.list` / `playlistItems.list` / `videos.list`)
+- **取得内容**:
+  - 登録者数 / 総再生数 / 投稿本数 (累積)
+  - 直近アップロード最大50本の視聴/いいね/コメント数
+  - 直近30日の投稿数・平均再生数・エンゲージメント率
+- **実行条件**: 対象 (`config/domains/{domain}.json` の `targets[].identifiers.youtube_channel_id`) に YouTube チャンネルIDがある場合のみ 6番目のコレクターとして自動実行
+- **認証**: `YOUTUBE_API_KEY` 環境変数で APIキーを渡す。未設定時はモックデータで動作継続
+- **クォータ**: 1チャンネルあたり 3 units, 無料枠 10,000/日で 3,000 チャンネル/日まで
+- **履歴**: `data/history/{domain}.json` の `youtubeChannels[channelId][]` に週次26週のスナップショットを保持 (月曜起点)
 
 ## 競合自動探索 (competitor-discovery)
 

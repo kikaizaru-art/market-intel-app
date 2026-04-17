@@ -262,6 +262,7 @@ function iconForGroup(groupBy, preset) {
 }
 
 const RecommendationCard = memo(function RecommendationCard({ rec, preset, groupBy }) {
+  const [expanded, setExpanded] = useState(false)
   const accent = rec.isRisky ? '#f85149' : rec.isProven ? '#56d364' : '#8b949e'
   const bg = rec.isRisky
     ? 'rgba(248,81,73,0.05)'
@@ -276,6 +277,8 @@ const RecommendationCard = memo(function RecommendationCard({ rec, preset, group
 
   const title = labelForGroup(groupBy, rec.groupKey, preset)
   const icon  = iconForGroup(groupBy, preset)
+  const fullSamples = rec.allSamples || rec.recentSamples || []
+  const hasMore = fullSamples.length > rec.recentSamples.length
 
   return (
     <div style={{
@@ -321,7 +324,7 @@ const RecommendationCard = memo(function RecommendationCard({ rec, preset, group
           <span style={{ color: '#484f58' }}>(純 = 生 − 市場)</span>
         </div>
       )}
-      <div style={{ display: 'flex', gap: 8, fontSize: 9, color: '#6e7681', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 8, fontSize: 9, color: '#6e7681', flexWrap: 'wrap', alignItems: 'center' }}>
         {rec.recentSamples.map((s, i) => {
           const hasBaseline = s.baselineDelta != null
           const tooltip = hasBaseline
@@ -340,9 +343,101 @@ const RecommendationCard = memo(function RecommendationCard({ rec, preset, group
             </span>
           )
         })}
+        <button
+          onClick={() => setExpanded(v => !v)}
+          className="macro-toggle-btn"
+          style={{
+            borderColor: expanded ? `${accent}66` : '#30363d',
+            background: expanded ? `${accent}15` : 'transparent',
+            color: expanded ? accent : '#8b949e',
+            fontSize: 9,
+            padding: '1px 6px',
+          }}
+          title="この推奨の根拠となった過去の施策記録を一覧表示"
+        >
+          {expanded ? '▲ 根拠を閉じる' : `▼ 根拠を見る (${fullSamples.length}件${hasMore ? '' : ''})`}
+        </button>
         <span style={{ marginLeft: 'auto', color: '#484f58' }}>
           好 {rec.positive} / 悪 {rec.negative} / 中 {rec.neutral}
         </span>
+      </div>
+      {expanded && <EvidenceTable samples={fullSamples} marketAdjusted={rec.marketAdjusted} />}
+    </div>
+  )
+})
+
+const EvidenceTable = memo(function EvidenceTable({ samples, marketAdjusted }) {
+  if (!samples?.length) return null
+  return (
+    <div style={{ marginTop: 8, borderTop: '1px dashed #30363d', paddingTop: 8 }}>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 10 }}>
+          <thead>
+            <tr style={{ color: '#6e7681', textAlign: 'left' }}>
+              <th style={{ padding: '3px 6px', fontWeight: 600 }}>日付</th>
+              <th style={{ padding: '3px 6px', fontWeight: 600 }}>施策</th>
+              <th style={{ padding: '3px 6px', fontWeight: 600 }}>対象</th>
+              <th style={{ padding: '3px 6px', fontWeight: 600 }}>タグ</th>
+              {marketAdjusted && (
+                <>
+                  <th style={{ padding: '3px 6px', fontWeight: 600, textAlign: 'right' }}>生</th>
+                  <th style={{ padding: '3px 6px', fontWeight: 600, textAlign: 'right' }}>市場</th>
+                </>
+              )}
+              <th style={{ padding: '3px 6px', fontWeight: 600, textAlign: 'right' }}>{marketAdjusted ? '純効果' : '効果'}</th>
+              <th style={{ padding: '3px 6px', fontWeight: 600, textAlign: 'right' }}>窓</th>
+            </tr>
+          </thead>
+          <tbody>
+            {samples.map((s, i) => {
+              const deltaColor = s.verdict === 'positive' ? '#56d364' : s.verdict === 'negative' ? '#f85149' : '#e3b341'
+              const tagPills = []
+              if (s.lane) tagPills.push({ label: LANE_LABELS[s.lane] || s.lane, color: LANE_COLORS[s.lane] || '#8b949e' })
+              if (s.region) tagPills.push({ label: REGION_LABEL_MAP[s.region] || s.region, color: '#388bfd' })
+              for (const m of s.media || []) tagPills.push({ label: MEDIA_LABEL_MAP[m] || m, color: '#f0883e' })
+              const metricLabel = s.metric === 'review_score' ? 'レビュー'
+                : s.metric === 'trend_genre' ? 'ジャンルT'
+                : s.metric === 'trend_total' ? 'トレンド' : s.metric
+              return (
+                <tr key={s.id || i} style={{ borderTop: '1px solid #21262d' }}>
+                  <td style={{ padding: '4px 6px', color: '#8b949e', whiteSpace: 'nowrap' }}>{s.date}</td>
+                  <td style={{ padding: '4px 6px', color: '#e6edf3', maxWidth: 240, overflow: 'hidden', textOverflow: 'ellipsis' }} title={s.memo ? `${s.event}\n${s.memo}` : s.event}>
+                    {s.event || '—'}
+                    {s.memo && <span style={{ color: '#6e7681', marginLeft: 4 }}>— {s.memo}</span>}
+                  </td>
+                  <td style={{ padding: '4px 6px', color: '#8b949e', whiteSpace: 'nowrap' }}>{s.app || '—'}</td>
+                  <td style={{ padding: '4px 6px' }}>
+                    <span style={{ display: 'inline-flex', flexWrap: 'wrap', gap: 2 }}>
+                      {tagPills.map((t, idx) => (
+                        <span
+                          key={idx}
+                          style={{
+                            fontSize: 8, padding: '0 4px', borderRadius: 2,
+                            background: `${t.color}22`, color: t.color, border: `1px solid ${t.color}55`,
+                          }}
+                        >{t.label}</span>
+                      ))}
+                      {tagPills.length === 0 && <span style={{ color: '#484f58' }}>—</span>}
+                    </span>
+                  </td>
+                  {marketAdjusted && (
+                    <>
+                      <td style={{ padding: '4px 6px', color: '#8b949e', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{signed(s.rawDelta)}</td>
+                      <td style={{ padding: '4px 6px', color: '#8b949e', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{signed(s.baselineDelta)}</td>
+                    </>
+                  )}
+                  <td style={{ padding: '4px 6px', color: deltaColor, textAlign: 'right', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>{signed(s.netDelta)}</td>
+                  <td style={{ padding: '4px 6px', color: '#484f58', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }} title={`前${s.windowBefore} / 後${s.windowAfter}`}>
+                    {s.windowBefore}/{s.windowAfter}
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div style={{ fontSize: 9, color: '#484f58', marginTop: 6, lineHeight: 1.5 }}>
+        メトリクス: レビュー=前後2ヶ月平均スコア / ジャンルT=対象ジャンル週次トレンド / トレンド=全ジャンル合算。「窓」は計測に使った前後のデータ点数。
       </div>
     </div>
   )

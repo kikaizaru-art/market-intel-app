@@ -219,15 +219,20 @@ function aggregateBy(samples, keyFn, keyField = 'eventType') {
     }
     if (note.date > a.latestDate) a.latestDate = note.date
     a.samples.push({
+      id: note.id || null,
       date: note.date,
       event: note.event,
       app: note.app,
+      memo: note.memo || '',
+      impact: note.impact || null,
       metric: effect.metric,
       rawDelta: effect.rawDelta,
       baselineDelta: effect.baselineDelta,
       netDelta: effect.netDelta,
       deltaPct: effect.netDelta,
       verdict: effect.verdict,
+      windowBefore: effect.windowBefore,
+      windowAfter: effect.windowAfter,
       media: note.media || [],
       region: note.region || null,
       lane: note.lane || null,
@@ -348,6 +353,7 @@ export function recommendActions({
         match,
         latestDate: a.latestDate,
         recentSamples: a.samples.slice(0, 3),
+        allSamples: a.samples,
       }
     })
     .sort((a, b) => {

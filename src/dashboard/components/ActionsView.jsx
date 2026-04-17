@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect, useCallback, memo } from 'react'
 import CausationView from './CausationView.jsx'
 import LlmSettings from './LlmSettings.jsx'
 import RecommendedActions from './RecommendedActions.jsx'
+import QuickRecordPanel from './QuickRecordPanel.jsx'
 import { detectAllAnomalies } from '../../analyzers/anomaly.js'
 import { calcGenreTrends } from '../../analyzers/trend.js'
 import { generateCausationSummary, analyzeSeasonalPatterns } from '../../analyzers/llmAnalyzer.js'
@@ -78,6 +79,7 @@ export default memo(function ActionsView({
   const [summaryLoading, setSummaryLoading] = useState(false)
   const [showLlmSettings, setShowLlmSettings] = useState(false)
   const [llmAvailable, setLlmAvailable] = useState(isAvailable)
+  const [showCausationDetail, setShowCausationDetail] = useState(false)
 
   // LLM接続状態を監視
   useEffect(() => {
@@ -129,6 +131,9 @@ export default memo(function ActionsView({
 
   return (
     <>
+      {/* ━━━ 施策記録 (primary: 毎日使う入力) ━━━ */}
+      <QuickRecordPanel />
+
       {/* ━━━ リスク・チャンス サマリー ━━━ */}
       <div className="panel" style={{ gridColumn: '1 / -1' }}>
         <div className="panel-header">
@@ -289,15 +294,54 @@ export default memo(function ActionsView({
         </div>
       </div>
 
-      {/* ━━━ 因果関係パネル（既存CausationView） ━━━ */}
+      {/* ━━━ 詳細: 因果ログ (分析者向け — 既定で折りたたみ) ━━━ */}
       <div style={{ gridColumn: '1 / -1' }}>
-        <CausationView
-          data={causation}
-          trendsData={trends}
-          reviewsData={reviews}
-          eventsData={events}
-          newsData={industry?.news}
-        />
+        {!showCausationDetail ? (
+          <div className="panel">
+            <div className="panel-header">
+              <div className="panel-header-left">
+                <div className="panel-indicator" style={{ background: '#6e7681' }} />
+                <span className="panel-title" style={{ color: '#8b949e' }}>詳細: 因果ログ</span>
+                <span className="panel-tag">自動検出・手動メモ・学習統計</span>
+              </div>
+              <button
+                onClick={() => setShowCausationDetail(true)}
+                style={{
+                  fontSize: 10, padding: '3px 10px', borderRadius: 4, cursor: 'pointer',
+                  border: '1px solid #30363d',
+                  background: 'transparent', color: '#8b949e',
+                }}
+              >
+                開く
+              </button>
+            </div>
+            <div className="panel-footer" style={{ fontSize: 9, color: '#484f58' }}>
+              施策の積み上がりや自動検出パターンを詳細に確認したい時だけ展開してください。
+            </div>
+          </div>
+        ) : (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 4 }}>
+              <button
+                onClick={() => setShowCausationDetail(false)}
+                style={{
+                  fontSize: 10, padding: '3px 10px', borderRadius: 4, cursor: 'pointer',
+                  border: '1px solid #30363d',
+                  background: 'transparent', color: '#8b949e',
+                }}
+              >
+                詳細を閉じる
+              </button>
+            </div>
+            <CausationView
+              data={causation}
+              trendsData={trends}
+              reviewsData={reviews}
+              eventsData={events}
+              newsData={industry?.news}
+            />
+          </>
+        )}
       </div>
     </>
   )

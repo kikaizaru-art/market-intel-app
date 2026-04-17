@@ -9,8 +9,9 @@ import { detectAllAnomalies } from '../../analyzers/anomaly.js'
 import { ChartTooltip } from './shared/index.js'
 import {
   PALETTE, GENRE_COLORS, TREND_LABELS, TREND_ICONS, TREND_COLORS,
-  CPI_TREND_COLORS,
+  CPI_TREND_COLORS, makeGenreColors,
 } from '../constants.js'
+import { useDomain } from '../context/DomainContext.jsx'
 import { formatDate } from '../utils.js'
 
 const TABS = [
@@ -22,10 +23,18 @@ const TABS = [
 
 export default memo(function IndustryView({ data: indData, trendsData }) {
   const [tab, setTab] = useState('trends')
+  const { config } = useDomain()
 
   /* ---------- Macro / Trends ---------- */
   const GENRES = trendsData?._genres || Object.keys(trendsData?.weekly?.[0] || {}).filter(k => k !== 'date')
-  const GENRE_TREND_COLORS = Object.fromEntries(GENRES.map((g, i) => [g, PALETTE[i % PALETTE.length]]))
+  // ドメイン config の `categories` + `genreColors` から動的に色を解決 (未定義ジャンルは PALETTE)
+  const domainGenres = useMemo(() => config?.categories || [], [config])
+  const domainGenreColors = useMemo(
+    () => makeGenreColors([...domainGenres, ...GENRES], config?.genreColors || {}),
+    [domainGenres, GENRES, config]
+  )
+  const GENRE_TREND_COLORS = Object.fromEntries(GENRES.map((g, i) => [g, domainGenreColors[g] || PALETTE[i % PALETTE.length]]))
+  const resolveGenreColor = (g) => domainGenreColors[g] || GENRE_COLORS[g] || '#484f58'
 
   const [activeGenres, setActiveGenres] = useState(new Set(GENRES))
   const [showMA, setShowMA] = useState(false)
@@ -176,7 +185,7 @@ export default memo(function IndustryView({ data: indData, trendsData }) {
             <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
               {bm.cpi_by_genre.data.map(d => (
                 <div key={d.genre} className="stat-card" style={{ minWidth: 70 }}>
-                  <div style={{ fontSize: 9, color: GENRE_COLORS[d.genre] || '#8b949e' }}>{d.genre}</div>
+                  <div style={{ fontSize: 9, color: resolveGenreColor(d.genre) }}>{d.genre}</div>
                   <div style={{ fontSize: 11, color: '#e6edf3' }}>
                     ${d.ios}
                     <span style={{ fontSize: 9, marginLeft: 4, color: CPI_TREND_COLORS[d.trend] || '#6e7681' }}>{TREND_ICONS[d.trend] || ''}</span>
@@ -216,7 +225,7 @@ export default memo(function IndustryView({ data: indData, trendsData }) {
               <ResponsiveContainer width="50%" height={160}>
                 <PieChart>
                   <Pie data={shareData} cx="50%" cy="50%" innerRadius={35} outerRadius={65} dataKey="value" stroke="#161b22" strokeWidth={2}>
-                    {shareData.map(d => (<Cell key={d.name} fill={GENRE_COLORS[d.name] ?? '#484f58'} />))}
+                    {shareData.map(d => (<Cell key={d.name} fill={resolveGenreColor(d.name)} />))}
                   </Pie>
                   <Tooltip content={<ChartTooltip />} />
                 </PieChart>
@@ -224,7 +233,7 @@ export default memo(function IndustryView({ data: indData, trendsData }) {
               <div style={{ flex: 1 }}>
                 {shareData.map(d => (
                   <div key={d.name} style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: GENRE_COLORS[d.name] ?? '#484f58', flexShrink: 0 }} />
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: resolveGenreColor(d.name), flexShrink: 0 }} />
                     <span style={{ fontSize: 10, color: '#8b949e', flex: 1 }}>{d.name}</span>
                     <span style={{ fontSize: 11, fontWeight: 600, color: '#e6edf3' }}>{d.value}%</span>
                   </div>

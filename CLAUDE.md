@@ -33,12 +33,13 @@
 - `src/dashboard/components/HistoryView.jsx` — 推移タブ (トレンド, ランキング, レビュー, イベント, ニュース)
 - `src/dashboard/components/ActionsView.jsx` — 次の一手タブ (リスク/チャンス, 推奨アクション, AI分析, 因果関係)
 - `src/dashboard/components/RecommendedActions.jsx` — 推奨アクションパネル (施策×効果集計, 現状マッチング)
-- `src/dashboard/components/EventQuickInput.jsx` — 施策クイック記録UI (ドメイン別プリセット, ワンタップ+メモ+自由記帳)
+- `src/dashboard/components/EventQuickInput.jsx` — 施策クイック記録UI (プロダクト/マーケ2レーン切替, 媒体・地域タグ, ワンタップ+メモ+自由記帳)
+- `src/dashboard/components/QuickRecordPanel.jsx` — ActionsView 先頭の施策記録パネル (CausationView を開かなくても記録できる)
 - `src/dashboard/components/LlmSettings.jsx` — LLM設定UI (Ollama接続, モデル選択)
 - `src/collectors/` — データ収集モジュール (trends, store, store-ranking, community, news, youtube-channels, twitter, app-discover, competitor-discovery)
 - `src/analyzers/` — 分析ロジック (trend, anomaly, causation, llmAnalyzer, actionRecommender)
 - `src/analyzers/llmAnalyzer.js` — LLM分析モジュール (因果サマリー生成, 季節要因分析, テンプレートフォールバック)
-- `src/analyzers/actionRecommender.js` — アクション推奨エンジン (施策記録の前後メトリクス変動 → 同時期の市場 baseline を差し引いた純効果で eventType別に集計 → 現状と照合)
+- `src/analyzers/actionRecommender.js` — アクション推奨エンジン (施策記録の前後メトリクス変動 → 同時期の市場 baseline を差し引いた純効果で eventType / 媒体 / 地域 / レーン別に集計 → 現状と照合。`filters`/`groupBy` で多次元切替)
 - `src/dashboard/services/storageBackend.js` — IndexedDB ストレージバックエンド (インメモリキャッシュ + 非同期永続化)
 - `src/dashboard/services/patternStore.js` — パターン学習ストア (storageBackend 経由で IndexedDB に保存)
 - `src/dashboard/services/llmService.js` — ローカルLLMサービス (Ollama接続, 設定永続化, プロバイダー抽象化)
@@ -78,6 +79,10 @@
 10. ~~**施策効果の市場補正 (外部要因の分離)**~~ — 施策前後の生の変動から同時期の市場平均 (競合アプリのレビュー変化 or 他ジャンルのトレンド変化) を差し引いた「純効果」で集計・ランク付け。「追い風に乗っただけ」を除外して真の施策効果を抽出
 11. ~~**YouTube Data API 統合**~~ — インフルエンサードメインの L2 (競合チャンネル) が実データで動く。`channels.list` + `playlistItems.list` + `videos.list` で登録者数/総再生数/直近30日の投稿頻度・平均再生数を取得し、週次26週で履歴蓄積。`YOUTUBE_API_KEY` 未設定時はモック
 12. ~~**Twitter/X 収集 (Nitter 経由)**~~ — 日本語ユーザーの会話量を L3 ユーザー層に追加。Nitter RSS (`/search/rss?f=tweets&q=...`) を複数インスタンスでフェイルオーバーしつつ取得。ドメイン設定 `layers.user.sources.twitter.keywords` がある場合のみ実行し、日次30日のスナップショット (ツイート数 / ユニーク著者 / 平均本文長) を `data/history/{domain}.json` の `twitter[]` に蓄積。ダッシュボードでは PositionView に統計パネル、HistoryView に「X (会話量)」タブを追加
+13. ~~**施策レーン + 媒体/地域タグ (ゲーム運用ペルソナ対応)**~~ — 施策プリセットを「プロダクト(企画/開発)」「マーケ(広告運用)」2レーンに分割し、マーケ施策には媒体 (Meta/Google/TikTok/X/Unity/AppLovin/ASA/YouTube/インフル/TVCM) と地域 (JP/US/Asia/EU/Global) をタグ付け可能に。`actionRecommender` は `filters` と `groupBy` で多次元集計 (施策種別 / 媒体 / 地域 / レーン) に対応、`RecommendedActions` の UI でレーン・媒体・地域のフィルタチップと集計軸切替を提供
+14. ~~**HistoryView 施策マーカー**~~ — 記録した施策 (causal notes) をトレンド週次・レビュー月次・ランキング日次の各チャート上にオーバレイ。影響別の色付きリファレンスライン + preset アイコンで「施策を打った日の前後でどう変動したか」を 1 画面で判定可能
+15. ~~**ActionsView の UX 再構成 (分析者向け要素の折りたたみ)**~~ — `QuickRecordPanel` をタブ先頭に配置して日常的な施策記録を前面化。CausationView (自動検出・学習統計・手動メモ管理) は「詳細: 因果ログ」としてデフォルト折りたたみに変更
+16. ~~**ドメイン別タブ構成 + ジャンル色テンプレ化**~~ — `config/domains/{domain}.json` の `tabs: [...]` でタブの取捨選択・順序を宣言可能。`genreColors` でジャンル色を上書き可能 (未指定ジャンルは PALETTE から順割り当て)。`layers.macro.sources.news-rss.feeds[].region` と `layers.competitor.sources.ad-intelligence` の schema 枠を追加 (コレクター実装は後続)
 
 詳細: `docs/vision.md` の「既知の課題と次のアクション」
 
@@ -113,6 +118,25 @@
 - **無効化**: `NITTER_DISABLE=1` 環境変数で即座にモックへフォールバック
 - **注意**: Nitter は非公式ミラーで運営者停止リスクあり。将来は X API / snscrape 等への切替を想定した薄いラッパ
 - **履歴**: `data/history/{domain}.json` の `twitter[]` に日次30日分のスナップショットを保持
+
+## 施策レーン + 媒体/地域タグ (ゲーム運用向け)
+
+- **目的**: 開発/企画側の施策 (アプデ・ガチャ・コラボ) と広告運用側の施策 (クリエ差替・予算増減・新媒体投入) を分離して記録し、eventType 単独ではなく媒体・地域も軸に効果を計測できるようにする
+- **レーン**: `lane: 'product' | 'marketing'` を各プリセットに付与。EventQuickInput で切替タブ表示 (複数レーンがある時のみ)
+- **媒体タグ**: `media: ['meta', 'google', 'tiktok', ...]` — マーケ施策でのみ表示される複数選択チップ
+- **地域タグ**: `region: 'jp' | 'us' | 'asia' | 'eu' | 'global'` — 全レーン共通の単一選択
+- **集計軸**: `recommendActions({ groupBy })` で `'eventType' | 'media' | 'region' | 'lane'` を切替可能。`filters` でレーン・媒体・地域別に事前絞り込み
+- **UI**: `RecommendedActions` がタグ付き記録があれば集計軸切替ボタンと絞り込みチップを自動表示
+- **HistoryView 連携**: 記録した causal notes が `impact` 色でチャート (トレンド週次・レビュー月次・ランキング日次) 上にオーバレイされる
+
+## ドメイン設定 (config/domains/{domain}.json) 拡張スキーマ
+
+- `tabs: string[]` — 表示タブの順序と取捨選択。既定は `["position", "history", "actions"]`。`TAB_CATALOG` にないキーは無視
+- `categories: string[]` — ジャンル/カテゴリ (業界ベンチマーク・色割り当てに使用)
+- `genreColors: { [genre]: hex }` — ジャンル色の上書き。未指定は `GENRE_COLORS` (ハードコード) → `PALETTE` の順でフォールバック
+- `layers.macro.sources.news-rss.feeds[].region` — ニュース RSS の地域タグ (将来の地域フィルタ UI 用)
+- `layers.macro.sources.google-trends.regions: { [geo]: keywords[] }` — 地域別 Trends キーワード (将来実装)
+- `layers.competitor.sources.ad-intelligence` — 競合広告動向監視コレクターの枠。現状は schema 定義のみで `providers: []`。将来 Meta Ad Library / TikTok Creative Center / SensorTower Ads などを統合予定
 
 ## 競合自動探索 (competitor-discovery)
 

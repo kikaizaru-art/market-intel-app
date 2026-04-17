@@ -90,23 +90,7 @@ export default memo(function HistoryView({
       })
   }, [causalNotes, presetByKey, showActionMarkers])
 
-  // 週次トレンド用: 各施策マーカーを最寄りの週にスナップ
-  const weeklyActionMarkers = useMemo(() => {
-    if (!actionMarkers.length || !weeklyData?.length) return []
-    const weekTs = weeklyData.map(w => ({ date: w.date, t: new Date(w.date).getTime() }))
-    return actionMarkers.map(m => {
-      const t = new Date(m.date).getTime()
-      let best = weekTs[0]
-      let bestDiff = Math.abs(best.t - t)
-      for (const w of weekTs) {
-        const d = Math.abs(w.t - t)
-        if (d < bestDiff) { best = w; bestDiff = d }
-      }
-      return { ...m, weekDate: best.date }
-    })
-  }, [actionMarkers, weeklyData])
-
-  // 月別集計 (同月に複数あれば代表1件 + 件数)
+  // 月別集計 / 日次マーカー (weeklyData 非依存のものは先に計算)
   const monthlyActionMarkers = useMemo(() => {
     if (!actionMarkers.length) return {}
     const byMonth = {}
@@ -118,7 +102,6 @@ export default memo(function HistoryView({
     return byMonth
   }, [actionMarkers])
 
-  // 日次ランキング用: 正確な日付マッチ (なければ最寄り日)
   const dailyActionMarkers = useMemo(() => {
     if (!actionMarkers.length) return []
     return actionMarkers.map(m => ({ ...m, dailyDate: m.date }))
@@ -142,6 +125,22 @@ export default memo(function HistoryView({
   }
 
   const weeklyData = trends?.weekly || []
+
+  // 週次トレンド用: 各施策マーカーを最寄りの週にスナップ (weeklyData に依存)
+  const weeklyActionMarkers = useMemo(() => {
+    if (!actionMarkers.length || !weeklyData?.length) return []
+    const weekTs = weeklyData.map(w => ({ date: w.date, t: new Date(w.date).getTime() }))
+    return actionMarkers.map(m => {
+      const t = new Date(m.date).getTime()
+      let best = weekTs[0]
+      let bestDiff = Math.abs(best.t - t)
+      for (const w of weekTs) {
+        const d = Math.abs(w.t - t)
+        if (d < bestDiff) { best = w; bestDiff = d }
+      }
+      return { ...m, weekDate: best.date }
+    })
+  }, [actionMarkers, weeklyData])
 
   const trendChartData = useMemo(() => {
     if (!weeklyData.length) return []

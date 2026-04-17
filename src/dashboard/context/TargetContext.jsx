@@ -84,6 +84,8 @@ export function TargetProvider({ children }) {
       reviews,
       ranking: collected.ranking || null,
       community: collected.community || null,
+      twitter: collected.twitter || null,
+      youtubeChannels: collected.youtubeChannels || null,
       events: mergedEvents,
       industry: {
         ...generated.industry,
@@ -115,6 +117,8 @@ export function TargetProvider({ children }) {
       ranking: !!collected.ranking,
       community: !!collected.community,
       news: !!collected.news,
+      twitter: !!collected.twitter,
+      youtubeChannels: !!collected.youtubeChannels,
     }
   }, [collected, dataMode])
 

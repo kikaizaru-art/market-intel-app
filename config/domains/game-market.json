@@ -37,12 +37,17 @@
     },
     "user": {
       "label": "ユーザー反応",
-      "description": "アプリレビュー・コミュニティ活動・SNSセンチメント",
-      "collectors": ["store-reviews", "community"],
+      "description": "アプリレビュー・コミュニティ活動・X(Twitter)の会話量",
+      "collectors": ["store-reviews", "community", "twitter"],
       "sources": {
         "community": {
           "subreddits": ["gachagaming", "PuzzleAndDragons"],
           "keywords": ["Monster Strike", "Puzzle and Dragons", "Uma Musume"]
+        },
+        "twitter": {
+          "keywords": ["モンスト", "パズドラ", "ウマ娘"],
+          "lang": "ja",
+          "perKeyword": 20
         }
       }
     },

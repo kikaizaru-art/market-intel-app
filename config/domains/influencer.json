@@ -43,8 +43,8 @@
     },
     "user": {
       "label": "オーディエンス反応",
-      "description": "コメントセンチメント・エンゲージメント率・視聴者の声",
-      "collectors": ["comment-analysis", "engagement-tracker"],
+      "description": "コメントセンチメント・エンゲージメント率・視聴者の声・X(Twitter)の会話",
+      "collectors": ["comment-analysis", "engagement-tracker", "twitter"],
       "sources": {
         "comment-analysis": {
           "provider": "youtube-data-api-v3",
@@ -54,6 +54,11 @@
         "engagement-tracker": {
           "metrics": ["likes", "comments", "shares", "saves"],
           "platforms": ["youtube", "tiktok", "instagram"]
+        },
+        "twitter": {
+          "keywords": ["HIKAKIN", "はじめしゃちょー", "中田敦彦"],
+          "lang": "ja",
+          "perKeyword": 20
         }
       }
     },

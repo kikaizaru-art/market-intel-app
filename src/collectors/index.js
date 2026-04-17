@@ -5,12 +5,14 @@
  *   DOMAIN=memento-mori npm run collect
  *   DOMAIN=game-market npm run collect (デフォルト)
  *
- * 6コレクター体制:
- *   1. Google Trends   — 検索トレンド推移 (マクロ)
- *   2. Store Reviews   — レビュー・評価・ヒストグラム・What's New (ユーザー+アクション)
- *   3. Store Ranking   — カテゴリ別順位 (競合ポジション)
- *   4. Community        — Reddit コミュニティ活動 (先行指標)
- *   5. News RSS        — 業界ニュース (マクロ)
+ * 最大 7 コレクター体制 (ドメインによって 5〜7):
+ *   1. Google Trends     — 検索トレンド推移 (マクロ)
+ *   2. Store Reviews     — レビュー・評価・ヒストグラム・What's New (ユーザー+アクション)
+ *   3. Store Ranking     — カテゴリ別順位 (競合ポジション)
+ *   4. Community          — Reddit コミュニティ活動 (先行指標)
+ *   5. News RSS          — 業界ニュース (マクロ)
+ *   6. YouTube Channels  — 対象に youtube_channel_id がある場合のみ (L2 競合クリエイター)
+ *   7. Twitter/X (Nitter) — ドメインに twitter キーワードがある場合のみ (L3 ユーザー会話量)
  *
  * ドメイン設定 (config/domains/{domain}.json) から
  * targets / sources / keywords を自動解決する。
@@ -22,6 +24,7 @@ import { fetchStoreRanking } from './store-ranking.js'
 import { fetchCommunity } from './community.js'
 import { fetchNews } from './news.js'
 import { fetchYouTubeChannels } from './youtube-channels.js'
+import { fetchTwitter } from './twitter.js'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -36,6 +39,24 @@ const HISTORY_DIR = path.resolve(DATA_DIR, 'history')
 function saveJson(filepath, data) {
   fs.mkdirSync(path.dirname(filepath), { recursive: true })
   fs.writeFileSync(filepath, JSON.stringify(data, null, 2))
+}
+
+/**
+ * Twitter 検索キーワードを解決する
+ *   優先: layers.user.sources.twitter.keywords
+ *   次点: layers.user.sources.community.keywords (Reddit と共用)
+ *   最後: メイン対象 target の name (日本語圏のバズを拾う用途で isMain のみ)
+ */
+function resolveTwitterKeywords(config) {
+  const explicit = config.twitter?.keywords
+  if (Array.isArray(explicit) && explicit.length > 0) return explicit
+  // community.keywords は Reddit 用に英語化されていることが多いので、
+  // twitter ノードに keywords が無い場合のみ日本語のターゲット名にフォールバック
+  const mainNames = (config.titles || []).filter(t => t.isMain).map(t => t.name)
+  if (mainNames.length > 0 && (config.twitter || config.community?.keywords)) {
+    return mainNames
+  }
+  return []
 }
 
 /** YYYY-MM-DD から、その日が属する週の月曜日の YYYY-MM-DD を返す (UTC基準) */
@@ -74,6 +95,7 @@ function loadDomainConfig(domainName) {
     news_rss: domain.layers?.macro?.sources?.['news-rss'] || { feeds: [] },
     community: domain.layers?.user?.sources?.community || {},
     youtube_channels: domain.layers?.competitor?.sources?.['youtube-channels'] || null,
+    twitter: domain.layers?.user?.sources?.twitter || null,
   }
 
   return { domain, config }
@@ -109,7 +131,10 @@ async function run() {
     config.youtube_channels
     || (config.rawTargets || []).some(t => t?.identifiers?.youtube_channel_id)
   )
-  const totalCollectors = 5 + (runYoutube ? 1 : 0)
+  // Twitter コレクターはドメインに twitter ソース or キーワードがある場合のみ
+  const twitterKeywords = resolveTwitterKeywords(config)
+  const runTwitter = twitterKeywords.length > 0
+  const totalCollectors = 5 + (runYoutube ? 1 : 0) + (runTwitter ? 1 : 0)
 
   // 1. Google Trends
   console.log(`\n[1/${totalCollectors}] Google Trends...`)
@@ -178,8 +203,9 @@ async function run() {
   }
 
   // 6. YouTube Channels (インフルエンサー L2: 対象に youtube_channel_id がある場合のみ)
+  let nextSlot = 6
   if (runYoutube) {
-    console.log(`\n[6/${totalCollectors}] YouTube Channels...`)
+    console.log(`\n[${nextSlot}/${totalCollectors}] YouTube Channels...`)
     try {
       results.youtubeChannels = await fetchYouTubeChannels({
         sources: config.youtube_channels,
@@ -191,6 +217,25 @@ async function run() {
       console.error(`  FAIL: ${e.message}`)
       errors.push({ collector: 'youtube-channels', error: e.message })
       results.youtubeChannels = null
+    }
+    nextSlot++
+  }
+
+  // 7. Twitter/X via Nitter (L3 ユーザー層: 日本語ユーザーの会話量と温度)
+  if (runTwitter) {
+    console.log(`\n[${nextSlot}/${totalCollectors}] Twitter/X (Nitter)...`)
+    try {
+      results.twitter = await fetchTwitter(twitterKeywords, {
+        instances: config.twitter?.instances,
+        lang: config.twitter?.lang,
+        perKeyword: config.twitter?.perKeyword,
+      })
+      saveJson(path.join(DATA_DIR, `twitter_${today}.json`), results.twitter)
+      console.log(`  OK: ${results.twitter?.stats?.totalTweets ?? 0} tweets from ${results.twitter?.stats?.uniqueAuthors ?? 0} authors`)
+    } catch (e) {
+      console.error(`  FAIL: ${e.message}`)
+      errors.push({ collector: 'twitter', error: e.message })
+      results.twitter = null
     }
   }
 
@@ -226,13 +271,14 @@ function mergeWithHistory(domainName, today, results) {
   fs.mkdirSync(HISTORY_DIR, { recursive: true })
   const historyPath = path.join(HISTORY_DIR, `${domainName}.json`)
 
-  let history = { reviews: {}, reviewTexts: {}, trends: [], ranking: [], community: [], youtubeChannels: {} }
+  let history = { reviews: {}, reviewTexts: {}, trends: [], ranking: [], community: [], youtubeChannels: {}, twitter: [] }
   if (fs.existsSync(historyPath)) {
     try {
       history = JSON.parse(fs.readFileSync(historyPath, 'utf8'))
-      // 後方互換: 既存履歴に reviewTexts が無ければ空で初期化
+      // 後方互換: 既存履歴に reviewTexts / youtubeChannels / twitter が無ければ初期化
       if (!history.reviewTexts) history.reviewTexts = {}
       if (!history.youtubeChannels) history.youtubeChannels = {}
+      if (!Array.isArray(history.twitter)) history.twitter = []
     } catch (e) {
       console.warn('[history] failed to read history, starting fresh:', e.message)
     }
@@ -412,13 +458,36 @@ function mergeWithHistory(domainName, today, results) {
     }
   }
 
+  // === Twitter/X 履歴蓄積 (日次: 同日は最新で上書き, 最大30日保持) ===
+  if (!Array.isArray(history.twitter)) history.twitter = []
+  if (results.twitter?.stats && results.twitter.stats.totalTweets > 0) {
+    history.twitter = history.twitter.filter(r => r.date !== today)
+    history.twitter.push({
+      date: today,
+      stats: {
+        totalTweets: results.twitter.stats.totalTweets,
+        uniqueAuthors: results.twitter.stats.uniqueAuthors ?? null,
+        tweetsPerDay: results.twitter.stats.tweetsPerDay ?? null,
+        avgTextLength: results.twitter.stats.avgTextLength ?? null,
+      },
+    })
+    history.twitter.sort((a, b) => a.date.localeCompare(b.date))
+    history.twitter = history.twitter.slice(-30)
+  }
+  if (history.twitter.length > 0) {
+    if (!results.twitter) {
+      results.twitter = { source: 'Twitter/X (history)', tweets: [], stats: null }
+    }
+    results.twitter.history = history.twitter
+  }
+
   // 履歴を保存
   saveJson(historyPath, history)
   const reviewMonths = Object.values(history.reviews).reduce((max, h) => Math.max(max, Object.keys(h).length), 0)
   const reviewTextsTotal = Object.values(history.reviewTexts || {}).reduce((sum, arr) => sum + arr.length, 0)
   const ytChannels = Object.keys(history.youtubeChannels).length
   const ytWeeks = Object.values(history.youtubeChannels).reduce((max, arr) => Math.max(max, arr.length), 0)
-  console.log(`[history] saved: ${history.trends.length} trend weeks, ${reviewMonths} review months, ${reviewTextsTotal} review texts, ${history.ranking.length} ranking days, ${history.community.length} community days, ${ytChannels} yt channels (${ytWeeks} wk max)`)
+  console.log(`[history] saved: ${history.trends.length} trend weeks, ${reviewMonths} review months, ${reviewTextsTotal} review texts, ${history.ranking.length} ranking days, ${history.community.length} community days, ${ytChannels} yt channels (${ytWeeks} wk max), ${history.twitter.length} twitter days`)
 
   return results
 }

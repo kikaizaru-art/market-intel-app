@@ -18,6 +18,7 @@ const SECTION_TABS = [
   { key: 'compReviewEvents', label: 'ベンチマーク比較' },
   { key: 'trends', label: 'トレンド' },
   { key: 'news', label: 'ニュース' },
+  { key: 'twitter', label: 'X (会話量)' },
 ]
 
 /**
@@ -34,6 +35,7 @@ export default memo(function HistoryView({
   events,
   ranking,
   community,
+  twitter,
 }) {
   const [section, setSection] = useState('reviewEvents')
   const today = getToday()
@@ -270,6 +272,28 @@ export default memo(function HistoryView({
     }
     return [...tags].sort()
   }, [newsData])
+
+  // ─── Twitter/X timeseries ─────────────────────────
+  // 履歴に日次データがある場合はそれを、無ければ stats.daily を使う
+  const twitterDaily = useMemo(() => {
+    if (twitter?.history?.length) {
+      return twitter.history.map(h => ({
+        date: h.date,
+        label: `${h.date.slice(5, 7)}/${h.date.slice(8, 10)}`,
+        totalTweets: h.stats?.totalTweets ?? 0,
+        uniqueAuthors: h.stats?.uniqueAuthors ?? 0,
+      }))
+    }
+    if (twitter?.stats?.daily?.length) {
+      return twitter.stats.daily.map(d => ({
+        date: d.date,
+        label: `${d.date.slice(5, 7)}/${d.date.slice(8, 10)}`,
+        totalTweets: d.count,
+        uniqueAuthors: null,
+      }))
+    }
+    return []
+  }, [twitter])
 
   const filteredNews = useMemo(() => {
     let items = newsData
@@ -917,6 +941,68 @@ export default memo(function HistoryView({
               </div>
             </>
           )}
+
+          {section === 'twitter' && (
+            <>
+              {twitterDaily.length > 0 ? (
+                <>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <span style={{ fontSize: 10, color: '#6e7681' }}>日次ツイート数</span>
+                    <span style={{ marginLeft: 'auto', fontSize: 9, color: '#6e7681' }}>
+                      直近{twitterDaily.length}日分
+                    </span>
+                  </div>
+                  <ResponsiveContainer width="100%" height={160}>
+                    <ComposedChart data={twitterDaily} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#21262d" />
+                      <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={{ stroke: '#30363d' }} tickLine={false} />
+                      <YAxis allowDecimals={false} tick={{ fontSize: 10, fill: '#6e7681' }} axisLine={false} tickLine={false} />
+                      <Tooltip content={<ChartTooltip />} />
+                      <Bar dataKey="totalTweets" name="ツイート数" fill="#1da1f266" stroke="#1da1f2" />
+                      <Line type="monotone" dataKey="uniqueAuthors" name="ユニーク著者" stroke="#56d364" strokeWidth={1.5} dot={{ r: 2 }} />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                  {twitter?.stats && (
+                    <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                      <div className="stat-card">
+                        <div style={{ fontSize: 9, color: '#6e7681' }}>直近取得</div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#1da1f2' }}>{twitter.stats.totalTweets ?? 0}件</div>
+                      </div>
+                      <div className="stat-card">
+                        <div style={{ fontSize: 9, color: '#6e7681' }}>著者数</div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#56d364' }}>{twitter.stats.uniqueAuthors ?? 0}</div>
+                      </div>
+                      <div className="stat-card">
+                        <div style={{ fontSize: 9, color: '#6e7681' }}>平均本文長</div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#d2a8ff' }}>{twitter.stats.avgTextLength ?? 0}字</div>
+                      </div>
+                    </div>
+                  )}
+                  {twitter?.tweets?.length > 0 && (
+                    <div style={{ marginTop: 10, maxHeight: 260, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                      {twitter.tweets.slice(0, 30).map((tw, i) => (
+                        <div key={tw.id || i} style={{ padding: '4px 6px', borderRadius: 4, background: '#0d1117', border: '1px solid #21262d' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                            {tw.author && <span style={{ fontSize: 10, color: '#1da1f2', fontWeight: 600 }}>@{tw.author}</span>}
+                            {tw.pubDate && (
+                              <span style={{ fontSize: 9, color: '#6e7681', fontFamily: 'monospace' }}>
+                                {String(tw.pubDate).slice(0, 16).replace('T', ' ')}
+                              </span>
+                            )}
+                          </div>
+                          <div style={{ fontSize: 11, color: '#e6edf3', lineHeight: 1.4 }}>{tw.text}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div style={{ fontSize: 11, color: '#6e7681', textAlign: 'center', padding: 20 }}>
+                  X(Twitter) の履歴はまだありません — 収集が 1 日以上蓄積されると日次推移が表示されます
+                </div>
+              )}
+            </>
+          )}
         </div>
         <div className="panel-footer">{
           section === 'trends' ? '出典: Google Trends' :
@@ -924,6 +1010,7 @@ export default memo(function HistoryView({
           section === 'reviewEvents' ? '出典: レビュー + イベントカレンダー' :
           section === 'compReviewEvents' && compView === 'ranking' && ranking?.source ? `出典: ${ranking.source}` :
           section === 'compReviewEvents' && reviews?.source ? `出典: ${reviews.source}` :
+          section === 'twitter' && twitter?.source ? `出典: ${twitter.source}` :
           '過去からの変化を時系列で確認'
         }</div>
       </div>

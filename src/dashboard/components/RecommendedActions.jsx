@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useState, memo } from 'react'
 import { useDomain } from '../context/DomainContext.jsx'
-import { QUICK_EVENT_PRESETS } from '../constants.js'
-import { recommendActions, countActionableSamples } from '../../analyzers/actionRecommender.js'
+import {
+  QUICK_EVENT_PRESETS, MEDIA_OPTIONS, REGION_OPTIONS,
+  LANE_LABELS, LANE_COLORS,
+} from '../constants.js'
+import {
+  recommendActions, countActionableSamples, extractNoteFacets,
+} from '../../analyzers/actionRecommender.js'
 import { loadCausalNotes, subscribeCausalNotes } from '../services/patternStore.js'
 
 /**
@@ -9,9 +14,9 @@ import { loadCausalNotes, subscribeCausalNotes } from '../services/patternStore.
  *
  * 過去の施策 (eventType 付き) の前後でメトリクスを計測し、
  * 「過去に効いた施策」「逆効果だった施策」を現在の状況に紐付けて提示する。
+ * 媒体・地域・レーン別のフィルタと、集計軸切替 (施策種別 / 媒体 / 地域) に対応。
  *
  * データソース: IndexedDB (loadCausalNotes) + causation.notes フォールバック。
- * EventQuickInput で記録が追加されると subscribeCausalNotes 経由で再計算する。
  */
 function resolvePreset(eventType, domainId) {
   const domainPresets = QUICK_EVENT_PRESETS[domainId] || []
@@ -24,6 +29,9 @@ function resolvePreset(eventType, domainId) {
   return { key: eventType, label: eventType, icon: '▶' }
 }
 
+const MEDIA_LABEL_MAP = Object.fromEntries(MEDIA_OPTIONS.map(m => [m.key, m.label]))
+const REGION_LABEL_MAP = Object.fromEntries(REGION_OPTIONS.map(r => [r.key, r.label]))
+
 const MATCH_COLORS = {
   risk:        { bg: 'rgba(86,211,100,0.15)',  fg: '#56d364' },
   opportunity: { bg: 'rgba(56,139,253,0.15)',  fg: '#388bfd' },
@@ -31,10 +39,15 @@ const MATCH_COLORS = {
   warning:     { bg: 'rgba(248,81,73,0.15)',   fg: '#f85149' },
 }
 
+const GROUP_BY_OPTIONS = [
+  { key: 'eventType', label: '施策種別' },
+  { key: 'media',     label: '媒体' },
+  { key: 'region',    label: '地域' },
+]
+
 export default memo(function RecommendedActions({ fallbackNotes, trendsData, reviewsData, risks, opportunities }) {
   const { domainId } = useDomain()
 
-  // IndexedDB が最新 — 購読して差分を拾う
   const [notes, setNotes] = useState(() => {
     const persisted = loadCausalNotes()
     return persisted !== null ? persisted : (fallbackNotes || [])
@@ -44,20 +57,36 @@ export default memo(function RecommendedActions({ fallbackNotes, trendsData, rev
     return subscribeCausalNotes(next => setNotes(next || []))
   }, [])
 
-  // 初期ロード時、IndexedDB が空なら fallback を反映
   useEffect(() => {
     const persisted = loadCausalNotes()
     if (persisted === null && fallbackNotes?.length) setNotes(fallbackNotes)
   }, [fallbackNotes])
 
+  // ─── フィルタ & 集計軸 ──────────────────────────────
+  const [laneFilter, setLaneFilter] = useState(null)     // 'product' | 'marketing' | null
+  const [mediaFilter, setMediaFilter] = useState(null)
+  const [regionFilter, setRegionFilter] = useState(null)
+  const [groupBy, setGroupBy] = useState('eventType')
+
+  const filters = useMemo(
+    () => ({ lane: laneFilter, media: mediaFilter, region: regionFilter }),
+    [laneFilter, mediaFilter, regionFilter]
+  )
+
+  const facets = useMemo(() => extractNoteFacets(notes), [notes])
+  const hasAnyTag = facets.lanes.length > 0 || facets.medias.length > 0 || facets.regions.length > 0
+
   const recommendations = useMemo(
-    () => recommendActions({ notes, trendsData, reviewsData, risks, opportunities }),
-    [notes, trendsData, reviewsData, risks, opportunities]
+    () => recommendActions({
+      notes, trendsData, reviewsData, risks, opportunities,
+      filters, groupBy,
+    }),
+    [notes, trendsData, reviewsData, risks, opportunities, filters, groupBy]
   )
 
   const { actionable, measured } = useMemo(
-    () => countActionableSamples(notes, { trendsData, reviewsData }),
-    [notes, trendsData, reviewsData]
+    () => countActionableSamples(notes, { trendsData, reviewsData, filters }),
+    [notes, trendsData, reviewsData, filters]
   )
 
   return (
@@ -72,21 +101,82 @@ export default memo(function RecommendedActions({ fallbackNotes, trendsData, rev
           )}
           {actionable > 0 && (
             <span className="panel-tag" style={{ color: '#6e7681' }}>
-              施策記録 {measured}/{actionable} 計測可能
+              {actionable > 0 ? `${measured}/${actionable} 計測可能` : ''}
             </span>
           )}
         </div>
+        <div style={{ display: 'flex', gap: 4 }}>
+          {GROUP_BY_OPTIONS.map(opt => {
+            const active = groupBy === opt.key
+            // 媒体/地域軸は該当タグの記録が1件以上ないと無効
+            const disabled =
+              (opt.key === 'media' && facets.medias.length === 0) ||
+              (opt.key === 'region' && facets.regions.length === 0)
+            return (
+              <button
+                key={opt.key}
+                onClick={() => !disabled && setGroupBy(opt.key)}
+                disabled={disabled}
+                className="macro-toggle-btn"
+                style={{
+                  borderColor: active ? 'rgba(86,211,100,0.5)' : '#30363d',
+                  background: active ? 'rgba(86,211,100,0.15)' : 'transparent',
+                  color: active ? '#56d364' : disabled ? '#484f58' : '#8b949e',
+                  fontSize: 10,
+                  padding: '2px 8px',
+                  cursor: disabled ? 'not-allowed' : 'pointer',
+                  opacity: disabled ? 0.4 : 1,
+                }}
+                title={disabled ? 'タグ付き施策記録がないと切替できません' : `集計軸: ${opt.label}`}
+              >
+                {opt.label}
+              </button>
+            )
+          })}
+        </div>
       </div>
+
+      {/* フィルタチップ */}
+      {hasAnyTag && (
+        <div style={{ padding: '4px 12px 0', display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {facets.lanes.length > 1 && (
+            <FilterRow
+              label="レーン"
+              options={facets.lanes.map(k => ({ key: k, label: LANE_LABELS[k] || k, color: LANE_COLORS[k] }))}
+              value={laneFilter}
+              onChange={setLaneFilter}
+            />
+          )}
+          {facets.medias.length > 0 && (
+            <FilterRow
+              label="媒体"
+              options={facets.medias.map(k => ({ key: k, label: MEDIA_LABEL_MAP[k] || k, color: '#f0883e' }))}
+              value={mediaFilter}
+              onChange={setMediaFilter}
+            />
+          )}
+          {facets.regions.length > 0 && (
+            <FilterRow
+              label="地域"
+              options={facets.regions.map(k => ({ key: k, label: REGION_LABEL_MAP[k] || k, color: '#388bfd' }))}
+              value={regionFilter}
+              onChange={setRegionFilter}
+            />
+          )}
+        </div>
+      )}
+
       <div className="panel-body">
         {recommendations.length === 0 ? (
-          <EmptyState actionable={actionable} measured={measured} />
+          <EmptyState actionable={actionable} measured={measured} hasFilters={!!(laneFilter || mediaFilter || regionFilter)} />
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {recommendations.slice(0, 6).map(rec => (
               <RecommendationCard
-                key={rec.eventType}
+                key={`${rec.groupBy}:${rec.groupKey}`}
                 rec={rec}
                 preset={resolvePreset(rec.eventType, domainId)}
+                groupBy={groupBy}
               />
             ))}
           </div>
@@ -99,16 +189,51 @@ export default memo(function RecommendedActions({ fallbackNotes, trendsData, rev
   )
 })
 
-const EmptyState = memo(function EmptyState({ actionable, measured }) {
+const FilterRow = memo(function FilterRow({ label, options, value, onChange }) {
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, alignItems: 'center' }}>
+      <span style={{ fontSize: 9, color: '#6e7681', minWidth: 28 }}>{label}</span>
+      {options.map(opt => {
+        const active = value === opt.key
+        const color = opt.color || '#8b949e'
+        return (
+          <button
+            key={opt.key}
+            onClick={() => onChange(active ? null : opt.key)}
+            className="macro-toggle-btn"
+            style={{
+              borderColor: active ? color : '#30363d',
+              background: active ? `${color}22` : 'transparent',
+              color: active ? color : '#8b949e',
+              fontSize: 10,
+              padding: '1px 8px',
+            }}
+          >{opt.label}</button>
+        )
+      })}
+      {value && (
+        <button
+          onClick={() => onChange(null)}
+          className="macro-toggle-btn"
+          style={{ borderColor: '#30363d', background: 'transparent', color: '#6e7681', fontSize: 10, padding: '1px 6px' }}
+        >✕</button>
+      )}
+    </div>
+  )
+})
+
+const EmptyState = memo(function EmptyState({ actionable, measured, hasFilters }) {
   let msg
-  if (actionable === 0) {
+  if (hasFilters && actionable === 0) {
+    msg = 'フィルタに該当する施策記録がありません。'
+  } else if (actionable === 0) {
     msg = '施策記録がありません。「次の一手」→因果関係パネル上部の「施策を記録」から追加してください。'
   } else if (actionable < 2) {
     msg = `施策記録が ${actionable}件です。2件以上で推奨が表示されます。`
   } else if (measured < 2) {
     msg = `施策記録は ${actionable}件ありますが、計測窓 (前後のデータ) に十分な履歴がまだ揃っていません。`
   } else {
-    msg = '同一施策タイプの記録が 2件以上揃うと推奨が表示されます。'
+    msg = '同一集計軸の記録が 2件以上揃うと推奨が表示されます。'
   }
   return (
     <div style={{ fontSize: 10, color: '#6e7681', padding: 12, textAlign: 'center', lineHeight: 1.6 }}>
@@ -122,7 +247,21 @@ function signed(v) {
   return `${v > 0 ? '+' : ''}${v}%`
 }
 
-const RecommendationCard = memo(function RecommendationCard({ rec, preset }) {
+function labelForGroup(groupBy, key, preset) {
+  if (groupBy === 'media')  return MEDIA_LABEL_MAP[key] || key
+  if (groupBy === 'region') return REGION_LABEL_MAP[key] || key
+  if (groupBy === 'lane')   return LANE_LABELS[key] || key
+  return preset?.label || key
+}
+
+function iconForGroup(groupBy, preset) {
+  if (groupBy === 'media')  return '📢'
+  if (groupBy === 'region') return '🌐'
+  if (groupBy === 'lane')   return '⚙'
+  return preset?.icon || '▶'
+}
+
+const RecommendationCard = memo(function RecommendationCard({ rec, preset, groupBy }) {
   const accent = rec.isRisky ? '#f85149' : rec.isProven ? '#56d364' : '#8b949e'
   const bg = rec.isRisky
     ? 'rgba(248,81,73,0.05)'
@@ -135,6 +274,9 @@ const RecommendationCard = memo(function RecommendationCard({ rec, preset }) {
     rec.positiveRate >= 40 ? '#e3b341' : '#f85149'
   const matchColor = rec.match ? MATCH_COLORS[rec.match.kind] : null
 
+  const title = labelForGroup(groupBy, rec.groupKey, preset)
+  const icon  = iconForGroup(groupBy, preset)
+
   return (
     <div style={{
       background: bg,
@@ -144,8 +286,8 @@ const RecommendationCard = memo(function RecommendationCard({ rec, preset }) {
       padding: '8px 12px',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 16 }}>{preset.icon}</span>
-        <span style={{ fontSize: 12, fontWeight: 700, color: '#e6edf3' }}>{preset.label}</span>
+        <span style={{ fontSize: 16 }}>{icon}</span>
+        <span style={{ fontSize: 12, fontWeight: 700, color: '#e6edf3' }}>{title}</span>
         {rec.match && matchColor && (
           <span style={{
             fontSize: 9, padding: '1px 6px', borderRadius: 3, fontWeight: 600,

@@ -181,13 +181,21 @@ export function measureActionEffect(note, { trendsData, reviewsData }) {
 
 // ─── 集計とランキング ────────────────────────────────────────
 
-function aggregateByEventType(samples) {
+/**
+ * 任意のキー関数で施策サンプルを集計
+ * @param {object[]} samples - { note, effect } の配列
+ * @param {(note) => string} keyFn - 集計キー抽出関数
+ * @param {string} keyField - 集計結果オブジェクトでのキー名 (eventType, media, region, lane 等)
+ */
+function aggregateBy(samples, keyFn, keyField = 'eventType') {
   const map = {}
   for (const { note, effect } of samples) {
-    const key = note.eventType
+    const key = keyFn(note)
+    if (key == null || key === '') continue
     if (!map[key]) {
       map[key] = {
-        eventType: key,
+        [keyField]: key,
+        eventType: key, // 既存 UI 互換 (カード表示で参照)
         trials: 0,
         positive: 0,
         negative: 0,
@@ -220,6 +228,10 @@ function aggregateByEventType(samples) {
       netDelta: effect.netDelta,
       deltaPct: effect.netDelta,
       verdict: effect.verdict,
+      media: note.media || [],
+      region: note.region || null,
+      lane: note.lane || null,
+      eventType: note.eventType,
     })
   }
   return Object.values(map).map(a => ({
@@ -233,6 +245,24 @@ function aggregateByEventType(samples) {
     marketAdjusted: a.baselineCount > 0,
     samples: a.samples.sort((x, y) => y.date.localeCompare(x.date)),
   }))
+}
+
+const GROUP_BY_FNS = {
+  eventType: (n) => n.eventType,
+  media:     (n) => (n.media && n.media.length) ? n.media[0] : null,
+  region:    (n) => n.region || null,
+  lane:      (n) => n.lane || null,
+}
+
+function filterNotes(notes, filters) {
+  if (!filters) return notes
+  const { lane, media, region } = filters
+  return notes.filter(n => {
+    if (lane && (n.lane || 'product') !== lane) return false
+    if (media && !(n.media || []).includes(media)) return false
+    if (region && n.region !== region) return false
+    return true
+  })
 }
 
 /**
@@ -257,18 +287,24 @@ function confidenceScore(agg) {
  * @param {object[]} params.opportunities - { genre, ... }
  * @returns {object[]} 推奨アクションの配列 (信頼度降順)
  */
-export function recommendActions({ notes, trendsData, reviewsData, risks = [], opportunities = [] }) {
+export function recommendActions({
+  notes, trendsData, reviewsData,
+  risks = [], opportunities = [],
+  filters = null,       // { lane, media, region } — サンプルを事前絞り込み
+  groupBy = 'eventType',// 'eventType' | 'media' | 'region' | 'lane'
+}) {
   if (!Array.isArray(notes) || !notes.length) return []
-  const actionable = notes.filter(n => n?.eventType)
-  if (!actionable.length) return []
+  const filtered = filterNotes(notes.filter(n => n?.eventType), filters)
+  if (!filtered.length) return []
 
-  const samples = actionable
+  const samples = filtered
     .map(note => ({ note, effect: measureActionEffect(note, { trendsData, reviewsData }) }))
     .filter(x => x.effect)
 
   if (samples.length < MIN_TRIALS) return []
 
-  const aggregated = aggregateByEventType(samples)
+  const keyFn = GROUP_BY_FNS[groupBy] || GROUP_BY_FNS.eventType
+  const aggregated = aggregateBy(samples, keyFn, groupBy)
 
   const hasRisk = (risks?.length || 0) > 0
   const hasOpp = (opportunities?.length || 0) > 0
@@ -293,6 +329,8 @@ export function recommendActions({ notes, trendsData, reviewsData, risks = [], o
 
       return {
         eventType: a.eventType,
+        groupKey: a[groupBy] ?? a.eventType,
+        groupBy,
         trials: a.trials,
         positive: a.positive,
         negative: a.negative,
@@ -321,8 +359,28 @@ export function recommendActions({ notes, trendsData, reviewsData, risks = [], o
 /**
  * 計測対象の施策件数と計測済み件数を返す (UI の空状態メッセージ用)
  */
-export function countActionableSamples(notes, { trendsData, reviewsData }) {
-  const actionable = (notes || []).filter(n => n?.eventType)
+export function countActionableSamples(notes, { trendsData, reviewsData, filters = null }) {
+  const actionable = filterNotes((notes || []).filter(n => n?.eventType), filters)
   const measured = actionable.filter(n => measureActionEffect(n, { trendsData, reviewsData }))
   return { actionable: actionable.length, measured: measured.length }
+}
+
+/**
+ * 記録済み施策から使われている媒体/地域/レーンのユニーク一覧を抽出 (UIフィルタ用)
+ */
+export function extractNoteFacets(notes) {
+  const lanes = new Set()
+  const medias = new Set()
+  const regions = new Set()
+  for (const n of notes || []) {
+    if (!n?.eventType) continue
+    if (n.lane) lanes.add(n.lane)
+    if (Array.isArray(n.media)) for (const m of n.media) medias.add(m)
+    if (n.region) regions.add(n.region)
+  }
+  return {
+    lanes: [...lanes],
+    medias: [...medias],
+    regions: [...regions],
+  }
 }

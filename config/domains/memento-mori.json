@@ -12,14 +12,18 @@
       "sources": {
         "google-trends": {
           "keywords": ["メメントモリ", "放置少女", "AFK Journey", "オリアカ", "勝利の女神:NIKKE"],
-          "geo": "JP"
+          "geo": "JP",
+          "regions": {
+            "JP": ["メメントモリ", "放置少女"],
+            "US": ["MementoMori AFKRPG", "AFK Journey"]
+          }
         },
         "news-rss": {
           "feeds": [
-            { "name": "4Gamer", "url": "https://www.4gamer.net/rss/index.xml" },
-            { "name": "AUTOMATON", "url": "https://automaton-media.com/feed/" },
-            { "name": "Inside", "url": "https://www.inside-games.jp/rss/index.rdf" },
-            { "name": "GameSpark", "url": "https://www.gamespark.jp/rss/index.rdf" }
+            { "name": "4Gamer", "url": "https://www.4gamer.net/rss/index.xml", "region": "JP" },
+            { "name": "AUTOMATON", "url": "https://automaton-media.com/feed/", "region": "JP" },
+            { "name": "Inside", "url": "https://www.inside-games.jp/rss/index.rdf", "region": "JP" },
+            { "name": "GameSpark", "url": "https://www.gamespark.jp/rss/index.rdf", "region": "JP" }
           ]
         }
       }
@@ -30,7 +34,12 @@
       "collectors": ["store-reviews", "store-ranking"],
       "sources": {
         "store-reviews": { "platform": "google-play" },
-        "store-ranking": { "rankingDepth": 200 }
+        "store-ranking": { "rankingDepth": 200 },
+        "ad-intelligence": {
+          "_note": "競合の広告クリエイティブ動向を監視するコレクター枠 (未実装)。将来的に Meta Ad Library / TikTok Creative Center / SensorTower Ads などの公開ソースを集約予定。運用側が競合のクリエイティブ差替・新規広告投下に気付けるようにする",
+          "enabled": false,
+          "providers": []
+        }
       }
     },
     "user": {
@@ -201,7 +210,16 @@
   ],
 
   "categories": ["RPG", "放置ゲーム", "ファンタジー", "美少女", "ストラテジー"],
+  "genreColors": {
+    "RPG": "#d2a8ff",
+    "放置ゲーム": "#56d364",
+    "ファンタジー": "#79c0ff",
+    "美少女": "#f778ba",
+    "ストラテジー": "#e3b341"
+  },
   "competitors": ["C4 Connect", "Lilith Games", "Gamamobi", "Level Infinite", "Yostar", "WFS"],
+
+  "tabs": ["position", "history", "actions"],
 
   "seasonalPatterns": [
     { "month": 1,  "event": "年末年始特需の終了", "impact": "negative", "layer": "macro" },

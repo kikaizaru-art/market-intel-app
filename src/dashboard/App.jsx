@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useTarget } from './context/TargetContext.jsx'
 import { useDomain } from './context/DomainContext.jsx'
 import SearchView from './components/SearchView.jsx'
@@ -7,11 +7,13 @@ import HistoryView from './components/HistoryView.jsx'
 import ActionsView from './components/ActionsView.jsx'
 import DebugPanel from './components/DebugPanel.jsx'
 
-const TABS = [
-  { key: 'position', label: '現在地',    accent: '#56d364' },
-  { key: 'history',  label: '推移',      accent: '#388bfd' },
-  { key: 'actions',  label: '次の一手',  accent: '#d2a8ff' },
-]
+// ドメインで宣言可能なタブセット (config.tabs で順序・取捨を変更できる)
+const TAB_CATALOG = {
+  position: { key: 'position', label: '現在地',    accent: '#56d364' },
+  history:  { key: 'history',  label: '推移',      accent: '#388bfd' },
+  actions:  { key: 'actions',  label: '次の一手',  accent: '#d2a8ff' },
+}
+const DEFAULT_TABS = ['position', 'history', 'actions']
 
 function Dashboard() {
   const { target, data, dataSources, dataMode, setDataMode, hasCollected, reset } = useTarget()
@@ -21,6 +23,12 @@ function Dashboard() {
   const touchStartY = useRef(null)
   const sliderRef = useRef(null)
 
+  // ドメイン config の tabs を正規化 (不明キーは除外、空なら DEFAULT_TABS)
+  const TABS = useMemo(() => {
+    const list = Array.isArray(config?.tabs) && config.tabs.length ? config.tabs : DEFAULT_TABS
+    return list.map(k => TAB_CATALOG[k]).filter(Boolean)
+  }, [config?.tabs])
+
   const now = new Date().toLocaleString('ja-JP', {
     year: 'numeric', month: '2-digit', day: '2-digit',
     hour: '2-digit', minute: '2-digit',
@@ -28,7 +36,7 @@ function Dashboard() {
 
   const goTo = useCallback((idx) => {
     setActiveTab(Math.max(0, Math.min(TABS.length - 1, idx)))
-  }, [])
+  }, [TABS.length])
 
   const onTouchStart = useCallback((e) => {
     touchStartX.current = e.touches[0].clientX
@@ -108,14 +116,16 @@ function Dashboard() {
             {tab.label}
           </button>
         ))}
-        <div
-          className="tab-indicator"
-          style={{
-            width: `${100 / TABS.length}%`,
-            transform: `translateX(${activeTab * 100}%)`,
-            background: TABS[activeTab].accent,
-          }}
-        />
+        {TABS.length > 0 && (
+          <div
+            className="tab-indicator"
+            style={{
+              width: `${100 / TABS.length}%`,
+              transform: `translateX(${activeTab * 100}%)`,
+              background: (TABS[activeTab] || TABS[0]).accent,
+            }}
+          />
+        )}
       </nav>
 
       <div
@@ -128,54 +138,49 @@ function Dashboard() {
           ref={sliderRef}
           style={{ transform: `translateX(-${activeTab * 100}%)` }}
         >
-          {/* ━━━ 現在地 ━━━ */}
-          <section className="slide-pane">
-            <div className="dashboard">
-              <PositionView
-                target={target}
-                reviews={data.reviews}
-                fundamentals={data.fundamentals}
-                trends={data.trends}
-                industry={data.industry}
-                corporate={data.corporate}
-                events={data.events}
-                causation={data.causation}
-                ranking={data.ranking}
-                community={data.community}
-                twitter={data.twitter}
-              />
-            </div>
-          </section>
-
-          {/* ━━━ 推移 ━━━ */}
-          <section className="slide-pane">
-            <div className="dashboard">
-              <HistoryView
-                target={target}
-                reviews={data.reviews}
-                fundamentals={data.fundamentals}
-                trends={data.trends}
-                industry={data.industry}
-                events={data.events}
-                ranking={data.ranking}
-                community={data.community}
-                twitter={data.twitter}
-              />
-            </div>
-          </section>
-
-          {/* ━━━ 次の一手 ━━━ */}
-          <section className="slide-pane">
-            <div className="dashboard">
-              <ActionsView
-                causation={data.causation}
-                trends={data.trends}
-                reviews={data.reviews}
-                events={data.events}
-                industry={data.industry}
-              />
-            </div>
-          </section>
+          {TABS.map(t => (
+            <section key={t.key} className="slide-pane">
+              <div className="dashboard">
+                {t.key === 'position' && (
+                  <PositionView
+                    target={target}
+                    reviews={data.reviews}
+                    fundamentals={data.fundamentals}
+                    trends={data.trends}
+                    industry={data.industry}
+                    corporate={data.corporate}
+                    events={data.events}
+                    causation={data.causation}
+                    ranking={data.ranking}
+                    community={data.community}
+                    twitter={data.twitter}
+                  />
+                )}
+                {t.key === 'history' && (
+                  <HistoryView
+                    target={target}
+                    reviews={data.reviews}
+                    fundamentals={data.fundamentals}
+                    trends={data.trends}
+                    industry={data.industry}
+                    events={data.events}
+                    ranking={data.ranking}
+                    community={data.community}
+                    twitter={data.twitter}
+                  />
+                )}
+                {t.key === 'actions' && (
+                  <ActionsView
+                    causation={data.causation}
+                    trends={data.trends}
+                    reviews={data.reviews}
+                    events={data.events}
+                    industry={data.industry}
+                  />
+                )}
+              </div>
+            </section>
+          ))}
         </div>
       </div>
     </div>

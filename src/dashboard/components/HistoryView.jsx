@@ -1,4 +1,4 @@
-import { useState, useMemo, memo } from 'react'
+import { useState, useMemo, useEffect, memo } from 'react'
 import {
   LineChart, Line, ComposedChart, Bar,
   XAxis, YAxis, CartesianGrid,
@@ -8,10 +8,13 @@ import { ChartTooltip, SentimentBar } from './shared/index.js'
 import {
   PALETTE, TAG_COLORS, TYPE_COLORS,
   TREND_LABELS, TREND_ICONS, TREND_COLORS,
+  IMPACT_COLORS, QUICK_EVENT_PRESETS, LANE_COLORS,
 } from '../constants.js'
 import { formatDate, isActive, getToday } from '../utils.js'
 import { movingAverage, calcGenreTrends } from '../../analyzers/trend.js'
 import { detectAllAnomalies } from '../../analyzers/anomaly.js'
+import { loadCausalNotes, subscribeCausalNotes } from '../services/patternStore.js'
+import { useDomain } from '../context/DomainContext.jsx'
 
 const SECTION_TABS = [
   { key: 'reviewEvents', label: 'ターゲット' },
@@ -39,6 +42,70 @@ export default memo(function HistoryView({
 }) {
   const [section, setSection] = useState('reviewEvents')
   const today = getToday()
+  const { domainId } = useDomain()
+  const [showActionMarkers, setShowActionMarkers] = useState(true)
+
+  // ─── 施策記録の購読 (HistoryView 全チャートに横串オーバーレイ) ───
+  const [causalNotes, setCausalNotes] = useState(() => loadCausalNotes() || [])
+  useEffect(() => subscribeCausalNotes(next => setCausalNotes(next || [])), [])
+
+  // eventType → preset icon/label の逆引き
+  const presetByKey = useMemo(() => {
+    const list = QUICK_EVENT_PRESETS[domainId] || QUICK_EVENT_PRESETS._default
+    const m = {}
+    for (const p of list) m[p.key] = p
+    for (const arr of Object.values(QUICK_EVENT_PRESETS)) {
+      for (const p of arr) if (!m[p.key]) m[p.key] = p
+    }
+    return m
+  }, [domainId])
+
+  // 施策記録 (note) から表示用マーカーを構築
+  // - date: ISO(YYYY-MM-DD)
+  // - month: 'MM月' (monthly チャート用)
+  // - color: 影響色
+  // - icon: preset icon
+  // - label: preset label
+  const actionMarkers = useMemo(() => {
+    if (!showActionMarkers || !causalNotes?.length) return []
+    return causalNotes
+      .filter(n => n?.date && n?.eventType)
+      .map(n => {
+        const preset = presetByKey[n.eventType] || {}
+        const color = IMPACT_COLORS[n.impact] || LANE_COLORS[n.lane] || '#8b949e'
+        return {
+          id: n.id,
+          date: n.date,
+          month: `${n.date.slice(5, 7)}月`,
+          lane: n.lane,
+          impact: n.impact,
+          media: n.media,
+          region: n.region,
+          color,
+          icon: preset.icon || '▶',
+          label: preset.label || n.eventType,
+          event: n.event,
+          app: n.app,
+        }
+      })
+  }, [causalNotes, presetByKey, showActionMarkers])
+
+  // 月別集計 / 日次マーカー (weeklyData 非依存のものは先に計算)
+  const monthlyActionMarkers = useMemo(() => {
+    if (!actionMarkers.length) return {}
+    const byMonth = {}
+    for (const m of actionMarkers) {
+      if (!byMonth[m.month]) byMonth[m.month] = { count: 0, items: [] }
+      byMonth[m.month].count++
+      byMonth[m.month].items.push(m)
+    }
+    return byMonth
+  }, [actionMarkers])
+
+  const dailyActionMarkers = useMemo(() => {
+    if (!actionMarkers.length) return []
+    return actionMarkers.map(m => ({ ...m, dailyDate: m.date }))
+  }, [actionMarkers])
 
   // ─── Trends ───────────────────────────────────────
   const GENRES = trends?._genres || Object.keys(trends?.weekly?.[0] || {}).filter(k => k !== 'date')
@@ -58,6 +125,22 @@ export default memo(function HistoryView({
   }
 
   const weeklyData = trends?.weekly || []
+
+  // 週次トレンド用: 各施策マーカーを最寄りの週にスナップ (weeklyData に依存)
+  const weeklyActionMarkers = useMemo(() => {
+    if (!actionMarkers.length || !weeklyData?.length) return []
+    const weekTs = weeklyData.map(w => ({ date: w.date, t: new Date(w.date).getTime() }))
+    return actionMarkers.map(m => {
+      const t = new Date(m.date).getTime()
+      let best = weekTs[0]
+      let bestDiff = Math.abs(best.t - t)
+      for (const w of weekTs) {
+        const d = Math.abs(w.t - t)
+        if (d < bestDiff) { best = w; bestDiff = d }
+      }
+      return { ...m, weekDate: best.date }
+    })
+  }, [actionMarkers, weeklyData])
 
   const trendChartData = useMemo(() => {
     if (!weeklyData.length) return []
@@ -362,10 +445,27 @@ export default memo(function HistoryView({
             )
           })()}
 
-          <div className="fundamental-tabs">
+          <div className="fundamental-tabs" style={{ display: 'flex', alignItems: 'center' }}>
             {SECTION_TABS.map(t => (
               <button key={t.key} className={`fundamental-tab history-tab ${section === t.key ? 'active' : ''}`} onClick={() => setSection(t.key)}>{t.label}</button>
             ))}
+            {causalNotes?.length > 0 && (
+              <button
+                onClick={() => setShowActionMarkers(v => !v)}
+                className="macro-toggle-btn"
+                style={{
+                  marginLeft: 'auto',
+                  borderColor: showActionMarkers ? 'rgba(210,168,255,0.5)' : '#30363d',
+                  background: showActionMarkers ? 'rgba(210,168,255,0.15)' : 'transparent',
+                  color: showActionMarkers ? '#d2a8ff' : '#6e7681',
+                  fontSize: 10,
+                  padding: '2px 8px',
+                }}
+                title="記録した施策をチャート上にオーバレイ表示"
+              >
+                施策 {actionMarkers.length}
+              </button>
+            )}
           </div>
 
           {/* ──── トレンド ──── */}
@@ -400,6 +500,16 @@ export default memo(function HistoryView({
                   ))}
                   {anomalies.filter(a => activeGenres.has(a.genre)).map((a, i) => (
                     <ReferenceDot key={`anomaly-${i}`} x={a.date} y={a.value} r={a.severity === 'high' ? 5 : 4} fill={a.type === 'spike' ? '#56d364' : '#f85149'} stroke={a.type === 'spike' ? '#56d364' : '#f85149'} fillOpacity={0.6} strokeWidth={1.5} />
+                  ))}
+                  {weeklyActionMarkers.map(m => (
+                    <ReferenceLine
+                      key={`act-w-${m.id}`}
+                      x={m.weekDate}
+                      stroke={m.color}
+                      strokeDasharray="2 3"
+                      strokeWidth={1}
+                      label={{ value: m.icon, position: 'top', fontSize: 11, fill: m.color }}
+                    />
                   ))}
                 </LineChart>
               </ResponsiveContainer>
@@ -501,6 +611,24 @@ export default memo(function HistoryView({
                             label={{ value: mainAppEventsByMonth[month][0]?.type || '', position: 'top', fill: TYPE_COLORS[mainAppEventsByMonth[month][0]?.type] || '#8b949e', fontSize: 9 }}
                           />
                         ))}
+                        {/* 施策マーカー (記録済み causal notes) — 月単位で集約 */}
+                        {Object.entries(monthlyActionMarkers)
+                          .filter(([month]) => chartMonthSet.has(month))
+                          .map(([month, { items, count }]) => {
+                            const first = items[0]
+                            const label = count > 1 ? `${first.icon}×${count}` : first.icon
+                            return (
+                              <ReferenceLine
+                                key={`act-m-${month}`}
+                                x={month}
+                                yAxisId="left"
+                                stroke={first.color}
+                                strokeDasharray="1 2"
+                                strokeWidth={1}
+                                label={{ value: label, position: 'insideTop', fill: first.color, fontSize: 10 }}
+                              />
+                            )
+                          })}
                       </ComposedChart>
                     </ResponsiveContainer>
 
@@ -676,6 +804,20 @@ export default memo(function HistoryView({
                           {selectedCompMonth && (
                             <ReferenceLine x={selectedCompMonth} stroke="#e6edf3" strokeWidth={1.5} />
                           )}
+                          {Object.entries(monthlyActionMarkers).map(([month, { items, count }]) => {
+                            const first = items[0]
+                            const label = count > 1 ? `${first.icon}×${count}` : first.icon
+                            return (
+                              <ReferenceLine
+                                key={`act-cm-${month}`}
+                                x={month}
+                                stroke={first.color}
+                                strokeDasharray="1 2"
+                                strokeWidth={1}
+                                label={{ value: label, position: 'insideTop', fill: first.color, fontSize: 10 }}
+                              />
+                            )
+                          })}
                         </LineChart>
                       </ResponsiveContainer>
 
@@ -771,6 +913,16 @@ export default memo(function HistoryView({
                                     />
                                   )
                                 })}
+                                {dailyActionMarkers.map(m => (
+                                  <ReferenceLine
+                                    key={`act-d-${m.id}`}
+                                    x={m.dailyDate}
+                                    stroke={m.color}
+                                    strokeDasharray="2 3"
+                                    strokeWidth={1}
+                                    label={{ value: m.icon, position: 'top', fontSize: 11, fill: m.color }}
+                                  />
+                                ))}
                               </LineChart>
                             </ResponsiveContainer>
 

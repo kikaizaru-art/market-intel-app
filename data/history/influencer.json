@@ -1,0 +1,56 @@
+{
+  "reviews": {},
+  "reviewTexts": {},
+  "trends": [],
+  "ranking": [],
+  "community": [],
+  "youtubeChannels": {
+    "hikakin": [
+      {
+        "week": "2026-04-20",
+        "subscribers": 9124661,
+        "total_views": 2727649813,
+        "video_count": 2035,
+        "posts_30d": 23,
+        "total_views_30d": 22702811,
+        "avg_views_30d": 742062,
+        "engagement_rate_30d": 8.71
+      }
+    ],
+    "hajime": [
+      {
+        "week": "2026-04-20",
+        "subscribers": 6612363,
+        "total_views": 7098214147,
+        "video_count": 2068,
+        "posts_30d": 12,
+        "total_views_30d": 19832299,
+        "avg_views_30d": 988651,
+        "engagement_rate_30d": 9.62
+      }
+    ],
+    "nakata-uni": [
+      {
+        "week": "2026-04-20",
+        "subscribers": 3782523,
+        "total_views": 2490300932,
+        "video_count": 1027,
+        "posts_30d": 18,
+        "total_views_30d": 14958612,
+        "avg_views_30d": 285793,
+        "engagement_rate_30d": 3.58
+      }
+    ]
+  },
+  "twitter": [
+    {
+      "date": "2026-04-20",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 6,
+        "avgTextLength": 27
+      }
+    }
+  ]
+}

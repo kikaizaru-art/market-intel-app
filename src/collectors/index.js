@@ -126,6 +126,11 @@ async function run() {
   const results = { collected_at: new Date().toISOString(), domain: domainName }
   const errors = []
 
+  // Store / Ranking は Google Play の対象アプリ (store_id_android) がある場合のみ
+  const runStore = config.titles.some(t => t.store_id_android)
+  const runRanking = runStore
+  // Community (Reddit) はドメイン設定に community ソースが明示されている場合のみ
+  const runCommunity = Boolean(config.community && Object.keys(config.community).length > 0)
   // YouTube コレクターは対象に youtube_channel_id があるかドメイン設定がある場合のみ走らせる
   const runYoutube = Boolean(
     config.youtube_channels
@@ -134,10 +139,18 @@ async function run() {
   // Twitter コレクターはドメインに twitter ソース or キーワードがある場合のみ
   const twitterKeywords = resolveTwitterKeywords(config)
   const runTwitter = twitterKeywords.length > 0
-  const totalCollectors = 5 + (runYoutube ? 1 : 0) + (runTwitter ? 1 : 0)
+  const totalCollectors =
+    1 /* trends */ +
+    (runStore ? 1 : 0) +
+    (runRanking ? 1 : 0) +
+    (runCommunity ? 1 : 0) +
+    1 /* news */ +
+    (runYoutube ? 1 : 0) +
+    (runTwitter ? 1 : 0)
 
+  let slot = 1
   // 1. Google Trends
-  console.log(`\n[1/${totalCollectors}] Google Trends...`)
+  console.log(`\n[${slot++}/${totalCollectors}] Google Trends...`)
   try {
     results.trends = await fetchTrends(config.google_trends)
     saveJson(path.join(DATA_DIR, `trends_${today}.json`), results.trends)
@@ -149,49 +162,54 @@ async function run() {
   }
 
   // 2. Store Reviews + Detail (ヒストグラム, What's New, バージョン)
-  console.log(`\n[2/${totalCollectors}] Store Reviews & Detail (Google Play)...`)
-  try {
-    results.reviews = await fetchStoreReviews(config.titles)
-    saveJson(path.join(DATA_DIR, `store-reviews_${today}.json`), results.reviews)
-    console.log(`  OK: ${results.reviews?.apps?.length ?? 0} apps`)
-  } catch (e) {
-    console.error(`  FAIL: ${e.message}`)
-    errors.push({ collector: 'store', error: e.message })
-    results.reviews = null
+  if (runStore) {
+    console.log(`\n[${slot++}/${totalCollectors}] Store Reviews & Detail (Google Play)...`)
+    try {
+      results.reviews = await fetchStoreReviews(config.titles)
+      saveJson(path.join(DATA_DIR, `store-reviews_${today}.json`), results.reviews)
+      console.log(`  OK: ${results.reviews?.apps?.length ?? 0} apps`)
+    } catch (e) {
+      console.error(`  FAIL: ${e.message}`)
+      errors.push({ collector: 'store', error: e.message })
+      results.reviews = null
+    }
   }
 
   // 3. Store Ranking (カテゴリ別順位)
-  console.log(`\n[3/${totalCollectors}] Store Ranking...`)
-  try {
-    results.ranking = await fetchStoreRanking(config.titles)
-    saveJson(path.join(DATA_DIR, `store-ranking_${today}.json`), results.ranking)
-    const positions = results.ranking?.targetPositions?.length ?? 0
-    console.log(`  OK: ${positions} targets ranked`)
-  } catch (e) {
-    console.error(`  FAIL: ${e.message}`)
-    errors.push({ collector: 'ranking', error: e.message })
-    results.ranking = null
+  if (runRanking) {
+    console.log(`\n[${slot++}/${totalCollectors}] Store Ranking...`)
+    try {
+      results.ranking = await fetchStoreRanking(config.titles)
+      saveJson(path.join(DATA_DIR, `store-ranking_${today}.json`), results.ranking)
+      const positions = results.ranking?.targetPositions?.length ?? 0
+      console.log(`  OK: ${positions} targets ranked`)
+    } catch (e) {
+      console.error(`  FAIL: ${e.message}`)
+      errors.push({ collector: 'ranking', error: e.message })
+      results.ranking = null
+    }
   }
 
   // 4. Community (Reddit)
-  console.log(`\n[4/${totalCollectors}] Community (Reddit)...`)
-  try {
-    // ドメイン設定に英語キーワードがあればそちらを優先 (Redditは英語圏)
-    const communityKeywords = config.community?.keywords
-      || config.titles.filter(t => t.isMain).map(t => t.name)
-    if (communityKeywords.length === 0) communityKeywords.push(config.titles[0]?.name)
-    const subreddits = config.community?.subreddits || []
-    results.community = await fetchCommunity(communityKeywords, { subreddits })
-    saveJson(path.join(DATA_DIR, `community_${today}.json`), results.community)
-    console.log(`  OK: ${results.community?.stats?.totalPosts ?? 0} posts`)
-  } catch (e) {
-    console.error(`  FAIL: ${e.message}`)
-    errors.push({ collector: 'community', error: e.message })
-    results.community = null
+  if (runCommunity) {
+    console.log(`\n[${slot++}/${totalCollectors}] Community (Reddit)...`)
+    try {
+      const communityKeywords = config.community?.keywords
+        || config.titles.filter(t => t.isMain).map(t => t.name)
+      if (communityKeywords.length === 0) communityKeywords.push(config.titles[0]?.name)
+      const subreddits = config.community?.subreddits || []
+      results.community = await fetchCommunity(communityKeywords, { subreddits })
+      saveJson(path.join(DATA_DIR, `community_${today}.json`), results.community)
+      console.log(`  OK: ${results.community?.stats?.totalPosts ?? 0} posts`)
+    } catch (e) {
+      console.error(`  FAIL: ${e.message}`)
+      errors.push({ collector: 'community', error: e.message })
+      results.community = null
+    }
   }
 
   // 5. News RSS
-  console.log(`\n[5/${totalCollectors}] News RSS...`)
+  console.log(`\n[${slot++}/${totalCollectors}] News RSS...`)
   try {
     results.news = await fetchNews(config.news_rss?.feeds)
     saveJson(path.join(DATA_DIR, `news_${today}.json`), results.news)
@@ -203,9 +221,8 @@ async function run() {
   }
 
   // 6. YouTube Channels (インフルエンサー L2: 対象に youtube_channel_id がある場合のみ)
-  let nextSlot = 6
   if (runYoutube) {
-    console.log(`\n[${nextSlot}/${totalCollectors}] YouTube Channels...`)
+    console.log(`\n[${slot++}/${totalCollectors}] YouTube Channels...`)
     try {
       results.youtubeChannels = await fetchYouTubeChannels({
         sources: config.youtube_channels,
@@ -218,12 +235,11 @@ async function run() {
       errors.push({ collector: 'youtube-channels', error: e.message })
       results.youtubeChannels = null
     }
-    nextSlot++
   }
 
   // 7. Twitter/X via Nitter (L3 ユーザー層: 日本語ユーザーの会話量と温度)
   if (runTwitter) {
-    console.log(`\n[${nextSlot}/${totalCollectors}] Twitter/X (Nitter)...`)
+    console.log(`\n[${slot++}/${totalCollectors}] Twitter/X (Nitter)...`)
     try {
       results.twitter = await fetchTwitter(twitterKeywords, {
         instances: config.twitter?.instances,

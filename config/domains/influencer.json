@@ -1,7 +1,7 @@
 {
   "domain": "influencer",
   "name": "インフルエンサー分析",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "YouTube/TikTok/Instagram クリエイターの成長・エンゲージメント・競合環境を多層的に分析し、次の一手を導く",
 
   "layers": {
@@ -11,9 +11,9 @@
       "collectors": ["google-trends", "news-rss"],
       "sources": {
         "google-trends": {
-          "keywords": [],
+          "keywords": ["HIKAKIN", "はじめしゃちょー", "中田敦彦", "YouTuber", "ヒカル"],
           "geo": "JP",
-          "note": "対象のジャンルキーワードを自動設定"
+          "note": "対象クリエイター名 + ジャンル代表語"
         },
         "news-rss": {
           "feeds": [

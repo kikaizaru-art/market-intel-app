@@ -21,6 +21,7 @@ export async function loadCollectedData() {
 
     const result = {
       collected_at: raw.collected_at,
+      domain: raw.domain || null,
       trends: transformTrends(raw.trends),
       reviews: transformReviews(raw.reviews, raw.collected_at),
       ranking: transformRanking(raw.ranking),

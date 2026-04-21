@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useTarget } from './context/TargetContext.jsx'
 import { useDomain } from './context/DomainContext.jsx'
-import SearchView from './components/SearchView.jsx'
 import PositionView from './components/PositionView.jsx'
 import HistoryView from './components/HistoryView.jsx'
 import ActionsView from './components/ActionsView.jsx'
 import DebugPanel from './components/DebugPanel.jsx'
+
+const FIXED_TARGET = { appName: 'メメントモリ', companyName: 'BOI', genre: 'RPG' }
 
 // ドメインで宣言可能なタブセット (config.tabs で順序・取捨を変更できる)
 const TAB_CATALOG = {
@@ -16,8 +17,8 @@ const TAB_CATALOG = {
 const DEFAULT_TABS = ['position', 'history', 'actions']
 
 function Dashboard() {
-  const { target, data, dataSources, dataMode, setDataMode, hasCollected, reset } = useTarget()
-  const { config, ui } = useDomain()
+  const { target, data, dataSources, dataMode, setDataMode, hasCollected } = useTarget()
+  const { config } = useDomain()
   const [activeTab, setActiveTab] = useState(0)
   const touchStartX = useRef(null)
   const touchStartY = useRef(null)
@@ -68,13 +69,7 @@ function Dashboard() {
     <div className="app">
       <header className="app-header">
         <div className="app-header-left">
-          <button className="back-btn" onClick={reset} title="検索に戻る">
-            &larr;
-          </button>
           <span className="app-title">Market Intel</span>
-          <span className="header-badge domain-badge" style={{ background: `${ui.accent}18`, color: ui.accent, border: `1px solid ${ui.accent}44` }}>
-            {ui.icon} {config.name}
-          </span>
           <span className="app-subtitle">{target.appName} の分析</span>
           <span className="header-badge">{target.genre}</span>
         </div>
@@ -190,9 +185,15 @@ function Dashboard() {
 export default function App() {
   const { target, setTarget } = useTarget()
 
+  useEffect(() => {
+    if (!target) setTarget(FIXED_TARGET)
+  }, [target, setTarget])
+
+  if (!target) return null
+
   return (
     <>
-      {!target ? <SearchView onSubmit={setTarget} /> : <Dashboard />}
+      <Dashboard />
       <DebugPanel />
     </>
   )

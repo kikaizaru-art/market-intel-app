@@ -1,126 +1,37 @@
-import { createContext, useContext, useState, useMemo, useCallback } from 'react'
-import gameMarketConfig from '../../../config/domains/game-market.json'
-import keibaConfig from '../../../config/domains/keiba.json'
-import stockConfig from '../../../config/domains/stock.json'
-import influencerConfig from '../../../config/domains/influencer.json'
+import { createContext, useContext, useMemo } from 'react'
+import mementoMoriConfig from '../../../config/domains/memento-mori.json'
 
-const DOMAINS = {
-  'game-market': gameMarketConfig,
-  'keiba': keibaConfig,
-  'stock': stockConfig,
-  'influencer': influencerConfig,
-}
+const DOMAIN_ID = 'memento-mori'
 
-/** ドメインごとのUI設定 */
 const DOMAIN_UI = {
-  'game-market': {
-    icon: '\u{1F3AE}',
-    accent: '#d2a8ff',
-    targetLabel: 'アプリ名',
-    targetPlaceholder: '例: モンスターストライク',
-    subLabel: '企業名',
-    subPlaceholder: '例: MIXI（任意）',
-    categoryLabel: 'ジャンル',
-    presets: [
-      { appName: 'モンスターストライク', companyName: 'MIXI', genre: 'RPG' },
-      { appName: 'パズル&ドラゴンズ', companyName: 'ガンホー', genre: 'パズル' },
-      { appName: 'Clash Royale', companyName: 'Supercell', genre: 'ストラテジー' },
-      { appName: 'ウマ娘', companyName: 'Cygames', genre: 'シミュレーション' },
-    ],
-  },
-  'keiba': {
-    icon: '\u{1F40E}',
-    accent: '#56d364',
-    targetLabel: '分析対象',
-    targetPlaceholder: '例: 有馬記念',
-    subLabel: '条件',
-    subPlaceholder: '例: 芝2500m（任意）',
-    categoryLabel: 'グレード',
-    presets: [
-      { appName: '有馬記念', companyName: '中山・芝2500m', genre: 'GI' },
-      { appName: '日本ダービー', companyName: '東京・芝2400m', genre: 'GI' },
-      { appName: '天皇賞（秋）', companyName: '東京・芝2000m', genre: 'GI' },
-      { appName: 'ジャパンカップ', companyName: '東京・芝2400m', genre: 'GI' },
-    ],
-  },
-  'stock': {
-    icon: '\u{1F4C8}',
-    accent: '#388bfd',
-    targetLabel: '銘柄名',
-    targetPlaceholder: '例: 任天堂',
-    subLabel: '証券コード',
-    subPlaceholder: '例: 7974（任意）',
-    categoryLabel: 'セクター',
-    presets: [
-      { appName: '任天堂', companyName: '7974', genre: 'ゲーム・エンタメ' },
-      { appName: 'スクウェア・エニックス', companyName: '9684', genre: 'ゲーム・エンタメ' },
-      { appName: 'ソニーG', companyName: '6758', genre: 'IT・通信' },
-      { appName: 'サイバーエージェント', companyName: '4751', genre: '広告・メディア' },
-    ],
-  },
-  'influencer': {
-    icon: '\u{1F4F8}',
-    accent: '#f85149',
-    targetLabel: 'クリエイター名',
-    targetPlaceholder: '例: HIKAKIN',
-    subLabel: '事務所 / MCN',
-    subPlaceholder: '例: UUUM（任意）',
-    categoryLabel: 'カテゴリ',
-    presets: [
-      { appName: 'HIKAKIN', companyName: 'UUUM', genre: 'エンタメ' },
-      { appName: 'はじめしゃちょー', companyName: 'UUUM', genre: 'エンタメ' },
-      { appName: '中田敦彦', companyName: 'PROGRESS', genre: '教育・ビジネス' },
-      { appName: 'リュウジ', companyName: '個人', genre: '料理・グルメ' },
-    ],
-  },
+  icon: '\u{2620}\u{FE0F}',
+  accent: '#d2a8ff',
+  targetLabel: 'アプリ名',
+  targetPlaceholder: 'メメントモリ',
+  subLabel: '企業名',
+  subPlaceholder: 'BOI',
+  categoryLabel: 'ジャンル',
+  presets: [],
 }
 
 const DomainContext = createContext(null)
 
-const DOMAIN_STORAGE_KEY = 'market-intel:domain'
-
-function loadInitialDomain() {
-  if (typeof window === 'undefined') return 'game-market'
-  try {
-    const stored = window.localStorage.getItem(DOMAIN_STORAGE_KEY)
-    return stored && DOMAINS[stored] ? stored : 'game-market'
-  } catch {
-    return 'game-market'
-  }
-}
-
 export function DomainProvider({ children }) {
-  const [domainId, setDomainId] = useState(loadInitialDomain)
-
-  const config = useMemo(() => DOMAINS[domainId], [domainId])
-  const ui = useMemo(() => DOMAIN_UI[domainId], [domainId])
-
-  const setDomain = useCallback((id) => {
-    if (DOMAINS[id]) {
-      setDomainId(id)
-      try {
-        window.localStorage.setItem(DOMAIN_STORAGE_KEY, id)
-      } catch {
-        // ignore storage failures
-      }
-    }
-  }, [])
-
   const value = useMemo(() => ({
-    domainId,
-    config,
-    ui,
-    domains: DOMAINS,
-    domainList: Object.entries(DOMAINS).map(([id, cfg]) => ({
-      id,
-      name: cfg.name,
-      icon: DOMAIN_UI[id].icon,
-      accent: DOMAIN_UI[id].accent,
-      version: cfg.version,
-      ready: cfg.version !== '0.1.0', // 0.1.0 = skeleton
-    })),
-    setDomain,
-  }), [domainId, config, ui, setDomain])
+    domainId: DOMAIN_ID,
+    config: mementoMoriConfig,
+    ui: DOMAIN_UI,
+    // 単一ドメイン化したため domainList は 1 件固定、setDomain は no-op
+    domainList: [{
+      id: DOMAIN_ID,
+      name: mementoMoriConfig.name,
+      icon: DOMAIN_UI.icon,
+      accent: DOMAIN_UI.accent,
+      version: mementoMoriConfig.version,
+      ready: mementoMoriConfig.version !== '0.1.0',
+    }],
+    setDomain: () => {},
+  }), [])
 
   return (
     <DomainContext.Provider value={value}>

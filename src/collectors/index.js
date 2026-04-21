@@ -1,21 +1,15 @@
 /**
- * データ収集エントリーポイント
+ * データ収集エントリーポイント (Memento Mori 固定)
  *
- * ドメインフレームワーク対応:
- *   DOMAIN=memento-mori npm run collect
- *   DOMAIN=game-market npm run collect (デフォルト)
+ *   npm run collect                    // memento-mori (デフォルト)
  *
- * 最大 7 コレクター体制 (ドメインによって 5〜7):
+ * 最大 6 コレクター:
  *   1. Google Trends     — 検索トレンド推移 (マクロ)
- *   2. Store Reviews     — レビュー・評価・ヒストグラム・What's New (ユーザー+アクション)
+ *   2. Store Reviews     — レビュー・評価・ヒストグラム・What's New
  *   3. Store Ranking     — カテゴリ別順位 (競合ポジション)
  *   4. Community          — Reddit コミュニティ活動 (先行指標)
- *   5. News RSS          — 業界ニュース (マクロ)
- *   6. YouTube Channels  — 対象に youtube_channel_id がある場合のみ (L2 競合クリエイター)
- *   7. Twitter/X (Nitter) — ドメインに twitter キーワードがある場合のみ (L3 ユーザー会話量)
- *
- * ドメイン設定 (config/domains/{domain}.json) から
- * targets / sources / keywords を自動解決する。
+ *   5. News RSS          — ゲーム業界ニュース (マクロ)
+ *   6. Twitter/X (Nitter) — 日本語ユーザー会話量 (L3)
  */
 
 import { fetchTrends } from './trends.js'
@@ -23,7 +17,6 @@ import { fetchStoreReviews } from './store.js'
 import { fetchStoreRanking } from './store-ranking.js'
 import { fetchCommunity } from './community.js'
 import { fetchNews } from './news.js'
-import { fetchYouTubeChannels } from './youtube-channels.js'
 import { fetchTwitter } from './twitter.js'
 import fs from 'fs'
 import path from 'path'
@@ -102,9 +95,8 @@ function loadDomainConfig(domainName) {
 }
 
 async function run() {
-  // --domain 引数 > 環境変数 DOMAIN > デフォルト game-market
   const domainArg = process.argv.indexOf('--domain')
-  const domainName = (domainArg !== -1 ? process.argv[domainArg + 1] : process.env.DOMAIN || 'game-market').trim()
+  const domainName = (domainArg !== -1 ? process.argv[domainArg + 1] : process.env.DOMAIN || 'memento-mori').trim()
   console.log(`=== Market Intel Collector ===`)
   console.log(`[info] domain: ${domainName}`)
   console.log(`[info] started at ${new Date().toISOString()}`)
@@ -131,11 +123,6 @@ async function run() {
   const runRanking = runStore
   // Community (Reddit) はドメイン設定に community ソースが明示されている場合のみ
   const runCommunity = Boolean(config.community && Object.keys(config.community).length > 0)
-  // YouTube コレクターは対象に youtube_channel_id があるかドメイン設定がある場合のみ走らせる
-  const runYoutube = Boolean(
-    config.youtube_channels
-    || (config.rawTargets || []).some(t => t?.identifiers?.youtube_channel_id)
-  )
   // Twitter コレクターはドメインに twitter ソース or キーワードがある場合のみ
   const twitterKeywords = resolveTwitterKeywords(config)
   const runTwitter = twitterKeywords.length > 0
@@ -145,7 +132,6 @@ async function run() {
     (runRanking ? 1 : 0) +
     (runCommunity ? 1 : 0) +
     1 /* news */ +
-    (runYoutube ? 1 : 0) +
     (runTwitter ? 1 : 0)
 
   let slot = 1
@@ -220,24 +206,7 @@ async function run() {
     results.news = null
   }
 
-  // 6. YouTube Channels (インフルエンサー L2: 対象に youtube_channel_id がある場合のみ)
-  if (runYoutube) {
-    console.log(`\n[${slot++}/${totalCollectors}] YouTube Channels...`)
-    try {
-      results.youtubeChannels = await fetchYouTubeChannels({
-        sources: config.youtube_channels,
-        targets: config.rawTargets,
-      })
-      saveJson(path.join(DATA_DIR, `youtube-channels_${today}.json`), results.youtubeChannels)
-      console.log(`  OK: ${results.youtubeChannels?.channels?.length ?? 0} channels`)
-    } catch (e) {
-      console.error(`  FAIL: ${e.message}`)
-      errors.push({ collector: 'youtube-channels', error: e.message })
-      results.youtubeChannels = null
-    }
-  }
-
-  // 7. Twitter/X via Nitter (L3 ユーザー層: 日本語ユーザーの会話量と温度)
+  // 6. Twitter/X via Nitter (L3 ユーザー層: 日本語ユーザーの会話量と温度)
   if (runTwitter) {
     console.log(`\n[${slot++}/${totalCollectors}] Twitter/X (Nitter)...`)
     try {

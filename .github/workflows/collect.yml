@@ -6,17 +6,6 @@ on:
     - cron: '0 22 * * *'
   workflow_dispatch:
     inputs:
-      domain:
-        description: "対象ドメイン"
-        required: true
-        default: "game-market"
-        type: choice
-        options:
-          - game-market
-          - memento-mori
-          - influencer
-          - keiba
-          - stock
       deploy:
         description: "収集後に GitHub Pages へデプロイする"
         required: false
@@ -35,10 +24,6 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # スケジュール実行時は全ドメインを収集、手動時は指定ドメインのみ
-        domain: ${{ github.event_name == 'schedule' && fromJSON('["game-market","memento-mori"]') || fromJSON(format('["{0}"]', inputs.domain || 'game-market')) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -56,13 +41,13 @@ jobs:
 
       - name: Run collectors
         env:
-          DOMAIN: ${{ matrix.domain }}
+          DOMAIN: memento-mori
         run: npm run collect
 
       - name: Upload collected data as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: collected-${{ matrix.domain }}-${{ github.run_number }}
+          name: collected-memento-mori-${{ github.run_number }}
           path: |
             public/data/collected.json
             data/
@@ -78,7 +63,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No data changes to commit"
           else
-            git commit -m "data(${{ matrix.domain }}): collect $(date -u +%Y-%m-%d)"
+            git commit -m "data(memento-mori): collect $(date -u +%Y-%m-%d)"
             git push
           fi
 

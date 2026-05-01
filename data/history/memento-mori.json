@@ -18,6 +18,24 @@
         },
         "version": "4.13.0",
         "recentChanges": "【v4.13.0】<br>====================================<br>・不具合の修正<br>===================================="
+      },
+      "2026-05": {
+        "score": 4.524112,
+        "ratings": 90818,
+        "reviews": 9038,
+        "histogram": {
+          "1": 4324,
+          "2": 1546,
+          "3": 4195,
+          "4": 12874,
+          "5": 67870
+        },
+        "reviewVelocity": {
+          "perDay": 5.1,
+          "span": 6
+        },
+        "version": "4.13.0",
+        "recentChanges": "【v4.13.0】<br>====================================<br>・不具合の修正<br>===================================="
       }
     },
     "houchi-shoujo": {
@@ -35,6 +53,24 @@
         "reviewVelocity": {
           "perDay": 0.6,
           "span": 46
+        },
+        "version": "2.3.160",
+        "recentChanges": "パフォーマンス最適化"
+      },
+      "2026-05": {
+        "score": 3.9962482,
+        "ratings": 100042,
+        "reviews": 29155,
+        "histogram": {
+          "1": 13460,
+          "2": 4128,
+          "3": 7232,
+          "4": 19719,
+          "5": 55498
+        },
+        "reviewVelocity": {
+          "perDay": 0.6,
+          "span": 49
         },
         "version": "2.3.160",
         "recentChanges": "パフォーマンス最適化"
@@ -58,10 +94,46 @@
         },
         "version": "1.6.31",
         "recentChanges": "【アップデート内容】<br>1．カタストロフ英雄の追加：「深淵の法典」カーディスが星占いとギルドショップで獲得できるようになります。<br>2．メインストーリーに間章ミッション「無言の劇」を追加。この間章ミッションは「暗雲晴れて群星現る」終了後に開放されます。 <br>3．レヒラム魔法学院勢力の名声シリーズミッションを追加。メインストーリーの間章ミッション「無言の劇」達成後に、名声ミッションが解放されます。<br>4．「星夜の逸話」にアウロラの専用ストーリー「夢境の夜明け」を追加。<br>5．下記英雄の覚醒の力Lv.2効果を実装：ルカ、ダミアン。<br>6．「シーズンショップ」の交換アイテムにガラハッドのソウルマークを追加。<br>7．バージョン更新後、リアルタイム・バン/ピック対戦「魔法競技」が開催されます。頂点を目指して、力を競い合いましょう。<br>8．バージョン1.6.3の期間中に、新たなコラボイベントが開催されます。"
+      },
+      "2026-05": {
+        "score": 4.2237444,
+        "ratings": 293378,
+        "reviews": 1412,
+        "histogram": {
+          "1": 25003,
+          "2": 13373,
+          "3": 14268,
+          "4": 58908,
+          "5": 181734
+        },
+        "reviewVelocity": {
+          "perDay": 0.3,
+          "span": 115
+        },
+        "version": "1.6.32",
+        "recentChanges": "バグを修正しました"
       }
     },
     "ori-aka": {
       "2026-04": {
+        "score": 3.1454546,
+        "ratings": 133,
+        "reviews": 46,
+        "histogram": {
+          "1": 40,
+          "2": 8,
+          "3": 18,
+          "4": 17,
+          "5": 45
+        },
+        "reviewVelocity": {
+          "perDay": 1.5,
+          "span": 20
+        },
+        "version": "1.0.7",
+        "recentChanges": null
+      },
+      "2026-05": {
         "score": 3.1454546,
         "ratings": 133,
         "reviews": 46,
@@ -98,6 +170,24 @@
         },
         "version": "145.10.4",
         "recentChanges": "『勝利の女神：NIKKE』3.5周年記念イベント「STAR ANIS」リリース！<br><br>【新ニケ】<br>SSR アニス：スター<br>SSR ネオン：ビジョン・アイ<br>SSR アビスタ<br><br>【新イベント】<br>3.5周年記念大型イベント「STAR ANIS」<br>ミニゲーム「TRACING THE STARS」<br>5X5 SUPPLIES<br><br>【新コスチューム】<br>リバーレリオ - ドリーミングレイク<br>アニス：スター - スターライト<br>アニス：スター - T.T. STAR<br>ドロシー - ルナーライト<br>ラピ：レッドフード - シャインライト<br><br>【その他】<br>メインチャプター45、46公開<br>迎撃戦（異常個体）報酬強化<br>「スキルリセット」機能が期間限定で解放<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご覧ください。"
+      },
+      "2026-05": {
+        "score": 4.5849977,
+        "ratings": 594903,
+        "reviews": 13608,
+        "histogram": {
+          "1": 21828,
+          "2": 6240,
+          "3": 23708,
+          "4": 93410,
+          "5": 449704
+        },
+        "reviewVelocity": {
+          "perDay": 5.6,
+          "span": 5
+        },
+        "version": "145.10.4",
+        "recentChanges": "『勝利の女神：NIKKE』3.5周年記念イベント「STAR ANIS」リリース！<br><br>【新ニケ】<br>SSR アニス：スター<br>SSR ネオン：ビジョン・アイ<br>SSR アビスタ<br><br>【新イベント】<br>3.5周年記念大型イベント「STAR ANIS」<br>ミニゲーム「TRACING THE STARS」<br>5X5 SUPPLIES<br><br>【新コスチューム】<br>リバーレリオ - ドリーミングレイク<br>アニス：スター - スターライト<br>アニス：スター - T.T. STAR<br>ドロシー - ルナーライト<br>ラピ：レッドフード - シャインライト<br><br>【その他】<br>メインチャプター45、46公開<br>迎撃戦（異常個体）報酬強化<br>「スキルリセット」機能が期間限定で解放<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご覧ください。"
       }
     },
     "bluearchive": {
@@ -115,6 +205,24 @@
         "reviewVelocity": {
           "perDay": 3.9,
           "span": 8
+        },
+        "version": "1.68.421271",
+        "recentChanges": "・表示ミス及び軽微な不具合の修正"
+      },
+      "2026-05": {
+        "score": 4.089588,
+        "ratings": 38137,
+        "reviews": 11742,
+        "histogram": {
+          "1": 5898,
+          "2": 1363,
+          "3": 2030,
+          "4": 2964,
+          "5": 25875
+        },
+        "reviewVelocity": {
+          "perDay": 3.4,
+          "span": 9
         },
         "version": "1.68.421271",
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
@@ -741,6 +849,81 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-05-01",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 8,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 6,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 142,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 1,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 10,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 14,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 69,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_free",
+          "rank": 74,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 11,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 27,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
@@ -860,10 +1043,68 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-05-01",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "42cc2210-605e-4ef4-bcc2-f9a89b4b13ea",
+        "score": 5,
+        "text": "面白い",
+        "date": "2026-04-30T18:44:09.652Z",
+        "thumbsUp": 0,
+        "appVersion": "4.13.0",
+        "capturedAt": "2026-05-01T22:40:59.920Z"
+      },
+      {
+        "id": "0d4cfbcc-3ecd-4e11-85f5-6738242b42ba",
+        "score": 5,
+        "text": "世界観が独特で良き",
+        "date": "2026-04-30T15:38:48.745Z",
+        "thumbsUp": 0,
+        "appVersion": "4.13.0",
+        "capturedAt": "2026-05-01T22:40:59.920Z"
+      },
+      {
+        "id": "897eb68a-ee19-48af-840f-2510bb1c9932",
+        "score": 5,
+        "text": "とても良いゲームと思います。",
+        "date": "2026-04-30T10:05:51.465Z",
+        "thumbsUp": 0,
+        "appVersion": "4.13.0",
+        "capturedAt": "2026-05-01T22:40:59.920Z"
+      },
+      {
+        "id": "8e907d80-0c96-480f-9406-301d8bafa088",
+        "score": 5,
+        "text": "キャラ可愛いけど最初は時間を置かないと勝てなくなってくる",
+        "date": "2026-04-30T08:43:50.274Z",
+        "thumbsUp": 0,
+        "appVersion": "4.13.0",
+        "capturedAt": "2026-05-01T22:40:59.920Z"
+      },
+      {
+        "id": "cae4f513-8eda-48b2-b297-bc86ae2aa161",
+        "score": 5,
+        "text": "自分のペースでコツコツ強くできて楽しいです😊絵が美しくてキャラすごく可愛い✨️音楽最高♪",
+        "date": "2026-04-30T00:04:27.497Z",
+        "thumbsUp": 0,
+        "appVersion": "4.13.0",
+        "capturedAt": "2026-05-01T22:40:59.920Z"
+      },
       {
         "id": "6498b475-a62d-4fb7-884e-1ca7be1e4687",
         "score": 2,
@@ -2808,6 +3049,33 @@
     ],
     "nikke": [
       {
+        "id": "d337c31d-d036-4d58-92df-6f17b6f5c15c",
+        "score": 1,
+        "text": "コスチュームガチャが終わってます",
+        "date": "2026-04-30T13:33:02.109Z",
+        "thumbsUp": 0,
+        "appVersion": "145.10.4",
+        "capturedAt": "2026-05-01T22:40:59.920Z"
+      },
+      {
+        "id": "9a87a097-5169-4cac-b5ca-33638faf5b33",
+        "score": 5,
+        "text": "リゼロコラボから始め、それこら毎日ログインしています。最初のストーリーから引き込まれてその後も面白くワクワクさせるような内容が続き遊んでいて飽きません。最近追加されたミニゲームである音ゲーも好きな曲がありとても楽しです。重い内容が多いですがパッピーエンドもしっかりあり、ギャルからシリアスまで幅広く楽しめるところも魅了的です。まぁ何よりキャラがエr",
+        "date": "2026-04-30T11:37:40.795Z",
+        "thumbsUp": 0,
+        "appVersion": "145.10.4",
+        "capturedAt": "2026-05-01T22:40:59.920Z"
+      },
+      {
+        "id": "5c610c6a-502a-41ec-9733-ee5523b47ce1",
+        "score": 3,
+        "text": "今日が特に多いが、個人レイド戦で倒す度に強制ログアウトさせられちゃたまらんのだが？",
+        "date": "2026-04-30T05:57:37.783Z",
+        "thumbsUp": 19,
+        "appVersion": "145.10.4",
+        "capturedAt": "2026-05-01T22:40:59.920Z"
+      },
+      {
         "id": "623aaa45-742e-4819-8bd8-76d1237568b6",
         "score": 1,
         "text": "ミニゲームやストーリー等はよく出来てて面白いですがアリーナのグループ分けが後発組有利に出来てたりガチャ確率がSSR4%なのに300連で0だったりいくつか怪しいところはありますが無課金でのんびりやるならアリだと思います",
@@ -3755,6 +4023,24 @@
     ],
     "bluearchive": [
       {
+        "id": "3b2c4886-a675-40e4-b342-0cef9a322157",
+        "score": 5,
+        "text": "俺の青春やね",
+        "date": "2026-04-30T12:42:20.150Z",
+        "thumbsUp": 0,
+        "appVersion": "1.68.421271",
+        "capturedAt": "2026-05-01T22:40:59.920Z"
+      },
+      {
+        "id": "5fc299cd-0075-440e-b20e-0dbb35aad961",
+        "score": 5,
+        "text": "神",
+        "date": "2026-04-30T10:53:56.491Z",
+        "thumbsUp": 0,
+        "appVersion": "1.68.421271",
+        "capturedAt": "2026-05-01T22:40:59.920Z"
+      },
+      {
         "id": "a00f8b7b-570d-4c03-8805-7e97ef9d6574",
         "score": 1,
         "text": "キャラクターは良いが、ゲームがつまらん。",
@@ -4525,6 +4811,15 @@
     },
     {
       "date": "2026-04-30",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 12,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-05-01",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

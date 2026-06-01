@@ -36,6 +36,24 @@
         },
         "version": "4.15.0",
         "recentChanges": "【v4.15.0】<br>====================================<br>・不具合の修正<br>===================================="
+      },
+      "2026-06": {
+        "score": 4.513467,
+        "ratings": 91601,
+        "reviews": 9125,
+        "histogram": {
+          "1": 4540,
+          "2": 1653,
+          "3": 4172,
+          "4": 13095,
+          "5": 68133
+        },
+        "reviewVelocity": {
+          "perDay": 2.9,
+          "span": 10
+        },
+        "version": "4.15.0",
+        "recentChanges": "【v4.15.0】<br>====================================<br>・不具合の修正<br>===================================="
       }
     },
     "houchi-shoujo": {
@@ -74,6 +92,24 @@
         },
         "version": "2.3.160",
         "recentChanges": "パフォーマンス最適化"
+      },
+      "2026-06": {
+        "score": 3.995121,
+        "ratings": 100034,
+        "reviews": 29152,
+        "histogram": {
+          "1": 13482,
+          "2": 4148,
+          "3": 7228,
+          "4": 19685,
+          "5": 55487
+        },
+        "reviewVelocity": {
+          "perDay": 0.5,
+          "span": 58
+        },
+        "version": "2.3.160",
+        "recentChanges": "パフォーマンス最適化"
       }
     },
     "afk-journey": {
@@ -105,6 +141,24 @@
           "3": 16011,
           "4": 56577,
           "5": 184850
+        },
+        "reviewVelocity": {
+          "perDay": 0.3,
+          "span": 110
+        },
+        "version": "1.6.42",
+        "recentChanges": "いくつかの不具合を修正しました。"
+      },
+      "2026-06": {
+        "score": 4.225564,
+        "ratings": 295920,
+        "reviews": 1420,
+        "histogram": {
+          "1": 24917,
+          "2": 13330,
+          "3": 16462,
+          "4": 56499,
+          "5": 184664
         },
         "reviewVelocity": {
           "perDay": 0.3,
@@ -150,6 +204,24 @@
         },
         "version": "1.0.8",
         "recentChanges": "1. 新SP英雄登場：「鳳翎彩華」×「流虹暁知」<br>2. 新ミニゲーム「飛行船防衛戦」が実装。あなたは一体どこまで耐えられるか！"
+      },
+      "2026-06": {
+        "score": 3.2843137,
+        "ratings": 162,
+        "reviews": 53,
+        "histogram": {
+          "1": 44,
+          "2": 7,
+          "3": 20,
+          "4": 28,
+          "5": 57
+        },
+        "reviewVelocity": {
+          "perDay": 0.5,
+          "span": 57
+        },
+        "version": "1.0.9",
+        "recentChanges": null
       }
     },
     "nikke": {
@@ -188,6 +260,24 @@
         },
         "version": "146.6.9",
         "recentChanges": "『勝利の女神：NIKKE』B-SIDE IDOL Ver.リリース！<br><br>【新ニケ】<br>SSR ミント<br><br>【新イベント】<br>新ストーリーイベント：B-SIDE IDOL<br>7日間ログインイベント：BACK STAGE GIFT<br><br>【新コスチューム】<br>ミント - フレッシュミント<br><br>【その他】<br>新プロフィールカードオブジェクト<br>新称号<br>TRACING THE STARSのミニゲームショップ追加<br><br>【改善事項】<br>※改善事項と不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
+      },
+      "2026-06": {
+        "score": 4.5849905,
+        "ratings": 598494,
+        "reviews": 13648,
+        "histogram": {
+          "1": 21567,
+          "2": 6177,
+          "3": 24150,
+          "4": 95250,
+          "5": 451337
+        },
+        "reviewVelocity": {
+          "perDay": 2.2,
+          "span": 14
+        },
+        "version": "146.6.9",
+        "recentChanges": "『勝利の女神：NIKKE』B-SIDE IDOL Ver.リリース！<br><br>【新ニケ】<br>SSR ミント<br><br>【新イベント】<br>新ストーリーイベント：B-SIDE IDOL<br>7日間ログインイベント：BACK STAGE GIFT<br><br>【新コスチューム】<br>ミント - フレッシュミント<br><br>【その他】<br>新プロフィールカードオブジェクト<br>新称号<br>TRACING THE STARSのミニゲームショップ追加<br><br>【改善事項】<br>※改善事項と不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       }
     },
     "bluearchive": {
@@ -223,6 +313,24 @@
         "reviewVelocity": {
           "perDay": 2.7,
           "span": 11
+        },
+        "version": "1.69.428359",
+        "recentChanges": "・表示ミス及び軽微な不具合の修正"
+      },
+      "2026-06": {
+        "score": 4.082092,
+        "ratings": 38213,
+        "reviews": 11733,
+        "histogram": {
+          "1": 5942,
+          "2": 1407,
+          "3": 2038,
+          "4": 3001,
+          "5": 25819
+        },
+        "reviewVelocity": {
+          "perDay": 2.9,
+          "span": 10
         },
         "version": "1.69.428359",
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
@@ -1899,6 +2007,74 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-06-01",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 5,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 7,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 89,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 2,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 4,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 19,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 77,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 51,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 32,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
@@ -2200,10 +2376,50 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-06-01",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "df2e7414-d2e4-4601-9f13-33baf95ec24e",
+        "score": 5,
+        "text": "なんか星5ばっかでサクラじゃねぇのって思うけどガチ評価でこんだけ高いのおもろいな マジで神ゲー 絵もめっちゃいいし何よりキャラ一人一人にとんでもないクオリティの固有曲がついてたり、声優ほとんど知らない自分でも聞いたことある人ばっかってレベルで声優豪華だし。 ゲーム性が合うかは個人個人の問題だけど、曲とかだけでもYouTubeに上がってるから1回聞いてみて欲しい 興味あったらやってみて欲しいよん",
+        "date": "2026-05-31T18:42:02.903Z",
+        "thumbsUp": 0,
+        "appVersion": "4.15.0",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
+        "id": "f7536daa-3b8b-43a6-9248-fffe6c0a91c1",
+        "score": 5,
+        "text": "サクサク遊べてとても面白いです。",
+        "date": "2026-05-31T14:41:27.331Z",
+        "thumbsUp": 0,
+        "appVersion": "4.15.0",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
+        "id": "5b611eca-e5db-4703-b143-c1ad0700a6cc",
+        "score": 5,
+        "text": "ナターシャちゃんがわゔぃいぃ",
+        "date": "2026-05-31T06:43:02.281Z",
+        "thumbsUp": 0,
+        "appVersion": "4.15.0",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
       {
         "id": "8eba42ca-c1f1-433f-87d0-1ec5e6eeee2e",
         "score": 5,
@@ -4250,6 +4466,15 @@
     ],
     "houchi-shoujo": [
       {
+        "id": "56bb88a2-7964-42db-b2ad-9f9c93a35fbd",
+        "score": 5,
+        "text": "花嫁衣裳だけは自分が持ってないとタッチボイスを確認出来ないので、頑張って元宝を集めましょう。射幸感を与えてくれます。戦力も何だかんだで少しずつ上がっていけるし、月２回の願い返しで元宝もかなり増えてくれます。戦力も、果てしないですが、何だかんだで少しずつ上げて行けます。特に強いキャラを一人でも持ってると全然違いますよ。",
+        "date": "2026-05-30T23:57:22.999Z",
+        "thumbsUp": 4,
+        "appVersion": "2.3.160",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
         "id": "1cdadbd6-e34a-4f53-9ddd-48659d0953b0",
         "score": 1,
         "text": "私は課金ユーザーですが…早くサービス終了したらいいのにな…と思うゲームです。今から始めますか？始めるなら無課金でお楽しみください。と…以前書き込みましたが…最近、更にそう思うゲームです…。もはや…インストールする価値すらないかもです。参考になれば…",
@@ -5100,6 +5325,24 @@
     ],
     "ori-aka": [
       {
+        "id": "336b9d3f-637e-4d13-97f6-ee4a9c8434d0",
+        "score": 1,
+        "text": "チャイナゲー",
+        "date": "2026-05-31T06:59:24.307Z",
+        "thumbsUp": 0,
+        "appVersion": "1.0.9",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
+        "id": "df42d8e8-0f46-4b23-83d1-01dedd7ac339",
+        "score": 1,
+        "text": "良くある放置ゲー キャラは可愛いけどイマイチ",
+        "date": "2026-05-31T04:20:44.373Z",
+        "thumbsUp": 0,
+        "appVersion": "1.0.9",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
         "id": "83f907bd-597b-42fb-aff4-53df532a5983",
         "score": 2,
         "text": "ごちゃごちゃしててわかりにくい！",
@@ -5533,6 +5776,33 @@
       }
     ],
     "nikke": [
+      {
+        "id": "a27db412-c2ee-4d87-a1a4-c185ac446c64",
+        "score": 1,
+        "text": "音ゲーはいいとしてエキスパート？ピアノスタイル前提？ガチャ絞り酷すぎもあるけど誰がクリアできる？",
+        "date": "2026-05-31T21:44:06.861Z",
+        "thumbsUp": 15,
+        "appVersion": "146.6.9",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
+        "id": "22435132-053c-41a4-a01e-f428c3918eec",
+        "score": 4,
+        "text": "ゲームの割にデータ容量が大きい気がします。でも、とてもいいゲームです。",
+        "date": "2026-05-31T10:23:48.784Z",
+        "thumbsUp": 1,
+        "appVersion": "146.6.9",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
+        "id": "63f1e02d-74c1-402e-93f7-901961b42f54",
+        "score": 4,
+        "text": "私は好き💕 楽しい💕",
+        "date": "2026-05-31T10:18:03.960Z",
+        "thumbsUp": 0,
+        "appVersion": "146.6.9",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
       {
         "id": "f2b8bcb0-36cb-4379-897c-68a87692db5d",
         "score": 5,
@@ -7372,6 +7642,42 @@
     ],
     "bluearchive": [
       {
+        "id": "61f9c14a-f7a6-4baa-87bf-e016d5e04d61",
+        "score": 5,
+        "text": "ストーリーに興味を持ったので始めましたが丁寧に作り込まれてて読んでて飽きません。1つの物語として非常に完成度が高いと思います。世界観は全体的に明るく悲壮感が漂ってないので曇らせが苦手な人でも問題なくプレイできます。キャラとしての魅力が引き立っていて安易なデレは感じなかったです。 運営としても虚無期間が発生しないように努力していると見受けられるので好感が持てます。エンドコンテンツに手を出さなければ課金圧も強くないので好きなキャラを引いてまったり楽しめます。ゲーム部分はボスや対抗戦でもテンプレ編成が存在しますが実際に試さないとうまくいくか分からないので試行錯誤するのが面白いと思います。配布も多いの",
+        "date": "2026-05-31T17:32:35.957Z",
+        "thumbsUp": 1803,
+        "appVersion": "1.69.428359",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
+        "id": "aaae5f61-3ca6-40f1-bbc5-6eb64126a2d4",
+        "score": 5,
+        "text": "頼むからこれだけはほんとにサ終しないで",
+        "date": "2026-05-31T10:39:54.726Z",
+        "thumbsUp": 0,
+        "appVersion": "1.69.428359",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
+        "id": "6c1059f3-773c-4c55-989b-87dba6fe40b4",
+        "score": 1,
+        "text": "シナリオは良いけど、ガチャとPVPは酷い。ガチャは配布石は多い方だがピックアップはすり抜けまくる(星3生徒15人引いてピックアップ0なんてザラにある)し、PVPはほぼ運ゲー。毎回毎回30秒待たされるのも意味がわからん。昔より半減したとは言えじゃあ0にしてくれ、と。",
+        "date": "2026-05-31T08:04:04.900Z",
+        "thumbsUp": 0,
+        "appVersion": "1.69.428359",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
+        "id": "5a64c5c4-0d23-43ef-a830-ca8a3b659933",
+        "score": 5,
+        "text": "容量が大きい分最高",
+        "date": "2026-05-31T04:47:53.497Z",
+        "thumbsUp": 0,
+        "appVersion": "1.69.428359",
+        "capturedAt": "2026-06-01T23:21:44.965Z"
+      },
+      {
         "id": "89277380-5131-4cac-89b2-aa6b720a8510",
         "score": 5,
         "text": "真っ直ぐ制御ミサイルですね。",
@@ -8790,6 +9096,15 @@
     },
     {
       "date": "2026-05-31",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 12,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-06-01",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

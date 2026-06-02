@@ -1,5 +1,5 @@
 {
-  "collected_at": "2026-06-01T23:21:32.998Z",
+  "collected_at": "2026-06-02T23:27:39.956Z",
   "domain": "memento-mori",
   "trends": {
     "source": "Google Trends (empty)",
@@ -15,7 +15,7 @@
   },
   "reviews": {
     "source": "Google Play",
-    "fetched_at": "2026-06-01T23:21:36.077Z",
+    "fetched_at": "2026-06-02T23:27:43.044Z",
     "apps": [
       {
         "id": "memento-mori",
@@ -25,23 +25,31 @@
         "store_id": "jp.boi.mementomori.android",
         "appInfo": {
           "title": "メメントモリ",
-          "score": 4.513467,
-          "ratings": 91601,
-          "reviews": 9125,
+          "score": 4.5124464,
+          "ratings": 91614,
+          "reviews": 9129,
           "installs": "1,000,000+",
           "developer": "Bank of Innovation, Inc.",
           "updated": 1779353460000,
           "version": "4.15.0",
           "recentChanges": "【v4.15.0】<br>====================================<br>・不具合の修正<br>====================================",
           "histogram": {
-            "1": 4540,
-            "2": 1653,
-            "3": 4172,
-            "4": 13095,
-            "5": 68133
+            "1": 4558,
+            "2": 1650,
+            "3": 4165,
+            "4": 13130,
+            "5": 68100
           }
         },
         "recentReviews": [
+          {
+            "id": "09fa6090-71eb-4392-8801-df4727994c8d",
+            "userName": "silvergreen",
+            "score": 5,
+            "text": "難易度も高くなく、楽しい。ビジュアルも綺麗でいいなと思います。",
+            "date": "2026-06-01T06:38:04.464Z",
+            "thumbsUp": 0
+          },
           {
             "id": "df2e7414-d2e4-4601-9f13-33baf95ec24e",
             "userName": "てぃーくり",
@@ -212,7 +220,7 @@
           },
           {
             "id": "ff8c3733-e5f3-458f-a936-9af837e73c3d",
-            "userName": "悪人",
+            "userName": "no name",
             "score": 4,
             "text": "理解していない部分がいっぱいですが少し楽しくなってきました",
             "date": "2026-05-24T10:42:17.957Z",
@@ -273,18 +281,10 @@
             "text": "とても可愛い子達が出てきてとても面白いです",
             "date": "2026-05-22T04:29:33.127Z",
             "thumbsUp": 1
-          },
-          {
-            "id": "09604c81-6986-47ca-9df5-7705a3d47e90",
-            "userName": "三川修二",
-            "score": 4,
-            "text": "音楽とキャラが良い！不思議な世界感！",
-            "date": "2026-05-21T09:13:48.391Z",
-            "thumbsUp": 1
           }
         ],
         "reviewVelocity": {
-          "perDay": 2.9,
+          "perDay": 3,
           "span": 10
         },
         "monthlyHistory": [
@@ -328,18 +328,18 @@
           },
           {
             "month": "2026-06",
-            "score": 4.513467,
-            "ratings": 91601,
-            "reviews": 9125,
+            "score": 4.5124464,
+            "ratings": 91614,
+            "reviews": 9129,
             "histogram": {
-              "1": 4540,
-              "2": 1653,
-              "3": 4172,
-              "4": 13095,
-              "5": 68133
+              "1": 4558,
+              "2": 1650,
+              "3": 4165,
+              "4": 13130,
+              "5": 68100
             },
             "reviewVelocity": {
-              "perDay": 2.9,
+              "perDay": 3,
               "span": 10
             },
             "version": "4.15.0",
@@ -347,6 +347,15 @@
           }
         ],
         "reviewTextsHistory": [
+          {
+            "id": "09fa6090-71eb-4392-8801-df4727994c8d",
+            "score": 5,
+            "text": "難易度も高くなく、楽しい。ビジュアルも綺麗でいいなと思います。",
+            "date": "2026-06-01T06:38:04.464Z",
+            "thumbsUp": 0,
+            "appVersion": "4.15.0",
+            "capturedAt": "2026-06-02T23:27:52.915Z"
+          },
           {
             "id": "df2e7414-d2e4-4601-9f13-33baf95ec24e",
             "score": 5,
@@ -2427,8 +2436,8 @@
         "store_id": "jp.glee.girl",
         "appInfo": {
           "title": "放置少女 - 百花繚乱の萌姫たち",
-          "score": 3.995121,
-          "ratings": 100034,
+          "score": 3.99502,
+          "ratings": 100035,
           "reviews": 29152,
           "installs": "5,000,000+",
           "developer": "C4 Connect Inc.",
@@ -2436,14 +2445,30 @@
           "version": "2.3.160",
           "recentChanges": "パフォーマンス最適化",
           "histogram": {
-            "1": 13482,
+            "1": 13481,
             "2": 4148,
-            "3": 7228,
-            "4": 19685,
-            "5": 55487
+            "3": 7238,
+            "4": 19682,
+            "5": 55481
           }
         },
         "recentReviews": [
+          {
+            "id": "92df2a93-2c80-4538-b2b4-3a7005ebceaa",
+            "userName": "只野猫好",
+            "score": 1,
+            "text": "放置とは名ばかりの拘束ゲームに成り下がった。 新コンテンツは報酬のため仕方なくやる全くつまらないもの。 毎日やるべきことが山のように増え、元々複数のアカウントを持っていたら寝る時間を削ってまでやるしかない。 リアルに影響が出るので新規の方は要注意。（6/2追記）鯖合併とEX実装が完全に悪手、引退者が一気に増えたし対人の順位が落ちてモチベが最底辺に。天下のマッチングもさらに悪化し不参加になるように同盟を分割して勢力値調整。こんなのに金使うのもアホらしくなったので課金はもう辞めます。それでも仲間のためゲームは続けるので今後はユーザーの意思にそぐわないことは辞めて頂きたい",
+            "date": "2026-06-01T22:29:24.225Z",
+            "thumbsUp": 108
+          },
+          {
+            "id": "1d468186-9398-4050-a15d-6b605cfca16b",
+            "userName": "水瀬柚葉（ゆず）",
+            "score": 3,
+            "text": "ゲーム自体はとてもいいですし、女の子たちも可愛いです❣ ただ、バッテリーの減りが少し加速しがちなのとそもそも開けなかったりすることが時折あります。 でもでも！本当に毎回イベントも楽しくて！どんどん新しい子も出てきてコラボも多くて、私はアプリとしてすごく好きです❣ 楽しいのにできない…というのがちょっと寂しいです。",
+            "date": "2026-06-01T13:59:19.880Z",
+            "thumbsUp": 0
+          },
           {
             "id": "56bb88a2-7964-42db-b2ad-9f9c93a35fbd",
             "userName": "a a",
@@ -2667,27 +2692,11 @@
             "text": "全て上回っていても課金者には勝てない。課金すればもちろん強くなるだろうし、ある程度優遇するのは良いとしても、やり方が違うと思う。長くプレイしてたユーザーも離れていくのも納得です。",
             "date": "2026-04-06T12:38:13.644Z",
             "thumbsUp": 5
-          },
-          {
-            "id": "8945a675-3041-4e77-9b3c-03f439705e06",
-            "userName": "ポチ",
-            "score": 1,
-            "text": "私以外のユーザーも投稿しているが、暫く放置していたら全てリセットされていてせっかく長い年月掛けて集めたMR等のキャラ含め消されてゼロからのスタートにされた！ ふざけるな!! 全て戻せ!!! こんなフザケたアプリはオススメ出来ない！ データ更新してデータが消えるってふざける!! メールしたが送れないか返事無い",
-            "date": "2026-04-04T07:37:18.180Z",
-            "thumbsUp": 13
-          },
-          {
-            "id": "d272adbf-fe3c-4f80-8bcf-0801028869a7",
-            "userName": "hiro hiro",
-            "score": 3,
-            "text": "基本的には面白いけど、かなり課金しないと強いキャラが集まらないし強いキャラが沢山居ないと勝てない。どんどん装備などの追加要素が出てきてそこも課金しないと素が強くても負けるし、追加キャラはどんどん出てきて強さのインフレが激しいし、スキルがもうホントにかなり複雑で研究必須。デッキの他キャラとの連携スキルがあったり、連携で輝く場合もあるからその辺も考えないといけない(この辺はインフルエンサーの動画でかなり研究し考えた)。放置と言いながらやることも多い。 勝ち負けにそこまではこだわらず、欲しいキャラが居ても我慢でき、地道に育成できる忍耐力があるならいいけど(キャラによるけど無課金でも育成したら強くはな",
-            "date": "2026-04-02T14:48:53.666Z",
-            "thumbsUp": 0
           }
         ],
         "reviewVelocity": {
           "perDay": 0.5,
-          "span": 58
+          "span": 56
         },
         "monthlyHistory": [
           {
@@ -2730,25 +2739,43 @@
           },
           {
             "month": "2026-06",
-            "score": 3.995121,
-            "ratings": 100034,
+            "score": 3.99502,
+            "ratings": 100035,
             "reviews": 29152,
             "histogram": {
-              "1": 13482,
+              "1": 13481,
               "2": 4148,
-              "3": 7228,
-              "4": 19685,
-              "5": 55487
+              "3": 7238,
+              "4": 19682,
+              "5": 55481
             },
             "reviewVelocity": {
               "perDay": 0.5,
-              "span": 58
+              "span": 56
             },
             "version": "2.3.160",
             "recentChanges": "パフォーマンス最適化"
           }
         ],
         "reviewTextsHistory": [
+          {
+            "id": "92df2a93-2c80-4538-b2b4-3a7005ebceaa",
+            "score": 1,
+            "text": "放置とは名ばかりの拘束ゲームに成り下がった。 新コンテンツは報酬のため仕方なくやる全くつまらないもの。 毎日やるべきことが山のように増え、元々複数のアカウントを持っていたら寝る時間を削ってまでやるしかない。 リアルに影響が出るので新規の方は要注意。（6/2追記）鯖合併とEX実装が完全に悪手、引退者が一気に増えたし対人の順位が落ちてモチベが最底辺に。天下のマッチングもさらに悪化し不参加になるように同盟を分割して勢力値調整。こんなのに金使うのもアホらしくなったので課金はもう辞めます。それでも仲間のためゲームは続けるので今後はユーザーの意思にそぐわないことは辞めて頂きたい",
+            "date": "2026-06-01T22:29:24.225Z",
+            "thumbsUp": 108,
+            "appVersion": "2.3.160",
+            "capturedAt": "2026-06-02T23:27:52.915Z"
+          },
+          {
+            "id": "1d468186-9398-4050-a15d-6b605cfca16b",
+            "score": 3,
+            "text": "ゲーム自体はとてもいいですし、女の子たちも可愛いです❣ ただ、バッテリーの減りが少し加速しがちなのとそもそも開けなかったりすることが時折あります。 でもでも！本当に毎回イベントも楽しくて！どんどん新しい子も出てきてコラボも多くて、私はアプリとしてすごく好きです❣ 楽しいのにできない…というのがちょっと寂しいです。",
+            "date": "2026-06-01T13:59:19.880Z",
+            "thumbsUp": 0,
+            "appVersion": "2.3.160",
+            "capturedAt": "2026-06-02T23:27:52.915Z"
+          },
           {
             "id": "56bb88a2-7964-42db-b2ad-9f9c93a35fbd",
             "score": 5,
@@ -3245,8 +3272,8 @@
         "store_id": "com.farlightgames.igame.gp",
         "appInfo": {
           "title": "AFK：ジャーニー",
-          "score": 4.225564,
-          "ratings": 295920,
+          "score": 4.223903,
+          "ratings": 296004,
           "reviews": 1420,
           "installs": "5,000,000+",
           "developer": "FARLIGHT",
@@ -3254,11 +3281,11 @@
           "version": "1.6.42",
           "recentChanges": "いくつかの不具合を修正しました。",
           "histogram": {
-            "1": 24917,
-            "2": 13330,
-            "3": 16462,
-            "4": 56499,
-            "5": 184664
+            "1": 25054,
+            "2": 13422,
+            "3": 16106,
+            "4": 56865,
+            "5": 184465
           }
         },
         "recentReviews": [
@@ -3548,15 +3575,15 @@
           },
           {
             "month": "2026-06",
-            "score": 4.225564,
-            "ratings": 295920,
+            "score": 4.223903,
+            "ratings": 296004,
             "reviews": 1420,
             "histogram": {
-              "1": 24917,
-              "2": 13330,
-              "3": 16462,
-              "4": 56499,
-              "5": 184664
+              "1": 25054,
+              "2": 13422,
+              "3": 16106,
+              "4": 56865,
+              "5": 184465
             },
             "reviewVelocity": {
               "perDay": 0.3,
@@ -3946,8 +3973,8 @@
         "store_id": "com.qookkagames.starg2.gp.global",
         "appInfo": {
           "title": "オリアカ：ライト",
-          "score": 3.2843137,
-          "ratings": 162,
+          "score": 3.2884614,
+          "ratings": 164,
           "reviews": 53,
           "installs": "10,000+",
           "developer": "Qookka Games",
@@ -3956,20 +3983,28 @@
           "recentChanges": null,
           "histogram": {
             "1": 44,
-            "2": 7,
+            "2": 9,
             "3": 20,
             "4": 28,
-            "5": 57
+            "5": 58
           }
         },
         "recentReviews": [
+          {
+            "id": "af028a17-95a2-4319-a09d-14c04b83a6f2",
+            "userName": "イッキ5",
+            "score": 2,
+            "text": "引けもしない召喚に赤マークが付きっぱなしなので、早く消えるようにしてほしい",
+            "date": "2026-06-01T14:22:08.968Z",
+            "thumbsUp": 0
+          },
           {
             "id": "336b9d3f-637e-4d13-97f6-ee4a9c8434d0",
             "userName": "一時使用",
             "score": 1,
             "text": "チャイナゲー",
             "date": "2026-05-31T06:59:24.307Z",
-            "thumbsUp": 0
+            "thumbsUp": 1
           },
           {
             "id": "df42d8e8-0f46-4b23-83d1-01dedd7ac339",
@@ -3977,7 +4012,7 @@
             "score": 1,
             "text": "良くある放置ゲー キャラは可愛いけどイマイチ",
             "date": "2026-05-31T04:20:44.373Z",
-            "thumbsUp": 0
+            "thumbsUp": 1
           },
           {
             "id": "9b5e6ba4-d483-4a2a-b1cc-834ef7ccac8e",
@@ -3993,7 +4028,7 @@
             "score": 1,
             "text": "課金要素満載",
             "date": "2026-05-14T06:14:17.660Z",
-            "thumbsUp": 1
+            "thumbsUp": 2
           },
           {
             "id": "57a36701-9e93-4d34-9043-d8e414bce6d1",
@@ -4025,7 +4060,7 @@
             "score": 1,
             "text": "塵も積もれば山となる。少額といえどとにかく課金課金煩い。普通のオリアカと大して変わらないし無料スキンも目標達成まで期限付きとか本当に搾取することしか考えてないアプリ。この運営のアプリ二度とやらない。",
             "date": "2026-04-23T23:52:17.333Z",
-            "thumbsUp": 2
+            "thumbsUp": 3
           },
           {
             "id": "6d48a142-bf22-442c-ac3e-5c5569f2af0f",
@@ -4033,7 +4068,7 @@
             "score": 1,
             "text": "オリ○カよりドS仕様、キャラレベル上がらなすぎでは？？課金せずに強くなれる印象がかなり薄い無課金に優しくないバージョンだねぇガチャ排出率は本家よりいいしダイヤ配布率もいい序盤あれだけサクサク進むのに董卓っぽいの倒したらレベル上げ鈍化凄まじぃバランス調整した方がいい",
             "date": "2026-04-19T08:52:47.553Z",
-            "thumbsUp": 11
+            "thumbsUp": 12
           },
           {
             "id": "f5906cc1-dd1f-48d1-8b43-f02e3f13327f",
@@ -4065,7 +4100,7 @@
             "score": 3,
             "text": "純粋に獲得できたキャラクターを、育成して編成して装備して突き進んでいきたいのに、あーだこうだと、アレもコレもと、やる事が多過ぎるんだよ！ 面倒くさくて　マジでムカつくんだけど、キャラデザが良いから続けているだけです。 ゲームの展開、進行は初期から変わらずいい感じで糞いです。 こういう面倒くさいシナリオ展開は、結局ユーザーやプレイヤーが離れていくんです。 キャラデザが良いのに勿体ないです。 運営は何も分かっていない。",
             "date": "2026-04-15T13:36:33.880Z",
-            "thumbsUp": 8
+            "thumbsUp": 9
           },
           {
             "id": "94a511b1-d0c6-4030-bcd0-7eb86e62792a",
@@ -4081,7 +4116,7 @@
             "score": 2,
             "text": "基礎の課金価格がバカ高いので90%OFFと言われても別に安くないのよね､無料石が貰える月パスだけは2つ買っても160円だけど限定ガチャは有料石が必要で有料石が貰える月パスは1600円というオチ。",
             "date": "2026-04-15T04:45:59.390Z",
-            "thumbsUp": 10
+            "thumbsUp": 11
           },
           {
             "id": "259f5555-f8ab-441e-8143-00f77fd82c50",
@@ -4097,7 +4132,7 @@
             "score": 1,
             "text": "主人公の設定が転生者に何故か変更&転生しても勝てないからシステム(90%オフ)をくれ。とか開幕言う 武将の名前も全員変更 オリアカが手頃に遊べる。と思っていたらなにもかも設定変えました。な感じすぎてチュートリアルで辞めてしまった",
             "date": "2026-04-13T13:57:38.147Z",
-            "thumbsUp": 4
+            "thumbsUp": 5
           },
           {
             "id": "9d3948c0-8344-4676-b913-5d4f329eb0ba",
@@ -4113,7 +4148,7 @@
             "score": 1,
             "text": "悪質を通り越して害悪",
             "date": "2026-04-11T05:49:09.713Z",
-            "thumbsUp": 5
+            "thumbsUp": 6
           },
           {
             "id": "afda3df1-5650-4e26-889f-ad163646954d",
@@ -4121,7 +4156,7 @@
             "score": 1,
             "text": "二重価格表示による有利誤認　極めて悪質　消費者庁とgoogleに通報します",
             "date": "2026-04-09T18:41:08.821Z",
-            "thumbsUp": 5
+            "thumbsUp": 6
           },
           {
             "id": "4d3bf259-5d44-407c-92b3-ea642998c2cb",
@@ -4129,7 +4164,7 @@
             "score": 1,
             "text": "チュートリアル終わったら完全データ入れさせようとするからアンインストールした。",
             "date": "2026-04-06T18:12:48.828Z",
-            "thumbsUp": 6
+            "thumbsUp": 7
           },
           {
             "id": "2308d704-c355-4a01-ba0b-086bd0b32c41",
@@ -4137,7 +4172,7 @@
             "score": 1,
             "text": "出遅れアプリ",
             "date": "2026-04-06T17:21:56.321Z",
-            "thumbsUp": 5
+            "thumbsUp": 6
           },
           {
             "id": "d1d04ff4-8823-48ec-8d99-4a57e5ed7ed6",
@@ -4145,7 +4180,7 @@
             "score": 1,
             "text": "課金しないとストーリーが進まない、つまらない",
             "date": "2026-04-06T11:44:38.924Z",
-            "thumbsUp": 4
+            "thumbsUp": 5
           },
           {
             "id": "33425c56-58df-4550-bb93-2556a46f18b2",
@@ -4161,7 +4196,7 @@
             "score": 1,
             "text": "ゲーム本編において生成AIによって作られたものが多用されている点が個人的に好きになれませんでした。アプリダウンロード後のムービーや要所要所に使用されている背景、会話中のキャラアイコンなど一目で生成AIが使用されていると分かるものが多くゲームをプレイしていて違和感を感じる部分が多くありました。ゲーム性自体はシンプルなもので不満点などもないのですがただひとつ生成AIによるものが多く使用されている事だけ引っかかりました、私のように生成AIの有無が気になるユーザーもいる事に加え、ゲーツ外でのリスクや誤解を防ぐ為にも分かりやすい生成AIが使用されているかの有無を記載しておくと良いかと感じました。",
             "date": "2026-04-06T09:14:29.342Z",
-            "thumbsUp": 8
+            "thumbsUp": 9
           },
           {
             "id": "b6ddfee2-ebe3-4ab8-9b9c-6bed8b9c27da",
@@ -4193,20 +4228,12 @@
             "score": 1,
             "text": "90%off、確かにそう。しかしもはや課金前提のゲームになってるから結果安くもないと思う。簡単に集金するために作ったオリアカといったイメージ。何一つ面白くはないかな",
             "date": "2026-04-04T13:31:28.491Z",
-            "thumbsUp": 9
-          },
-          {
-            "id": "191607fd-c224-4ea2-b5cd-4845b92cb45a",
-            "userName": "みっツイひサッシ",
-            "score": 1,
-            "text": "これ、景品表示法違反なのでは・・・？他の人も書いている通り、｢90%OFF｣というには｢元の価格｣が高く、今の｢割引価格｣が妥当。｢元の価格での運営実績が無い｣・｢今後も元の価格では運営しない｣のであれば、不当な割引価格（割引という根拠が無い）の広告とみなされてアウトでしょ。",
-            "date": "2026-04-04T12:30:51.765Z",
-            "thumbsUp": 22
+            "thumbsUp": 10
           }
         ],
         "reviewVelocity": {
           "perDay": 0.5,
-          "span": 57
+          "span": 58
         },
         "monthlyHistory": [
           {
@@ -4249,25 +4276,34 @@
           },
           {
             "month": "2026-06",
-            "score": 3.2843137,
-            "ratings": 162,
+            "score": 3.2884614,
+            "ratings": 164,
             "reviews": 53,
             "histogram": {
               "1": 44,
-              "2": 7,
+              "2": 9,
               "3": 20,
               "4": 28,
-              "5": 57
+              "5": 58
             },
             "reviewVelocity": {
               "perDay": 0.5,
-              "span": 57
+              "span": 58
             },
             "version": "1.0.9",
             "recentChanges": null
           }
         ],
         "reviewTextsHistory": [
+          {
+            "id": "af028a17-95a2-4319-a09d-14c04b83a6f2",
+            "score": 2,
+            "text": "引けもしない召喚に赤マークが付きっぱなしなので、早く消えるようにしてほしい",
+            "date": "2026-06-01T14:22:08.968Z",
+            "thumbsUp": 0,
+            "appVersion": "1.0.9",
+            "capturedAt": "2026-06-02T23:27:52.915Z"
+          },
           {
             "id": "336b9d3f-637e-4d13-97f6-ee4a9c8434d0",
             "score": 1,
@@ -4728,30 +4764,38 @@
         "store_id": "com.proximabeta.nikke",
         "appInfo": {
           "title": "勝利の女神：NIKKE",
-          "score": 4.5849905,
-          "ratings": 598494,
-          "reviews": 13648,
+          "score": 4.584896,
+          "ratings": 598567,
+          "reviews": 13650,
           "installs": "10,000,000+",
           "developer": "Level Infinite",
           "updated": 1777533840000,
           "version": "146.6.9",
           "recentChanges": "『勝利の女神：NIKKE』B-SIDE IDOL Ver.リリース！<br><br>【新ニケ】<br>SSR ミント<br><br>【新イベント】<br>新ストーリーイベント：B-SIDE IDOL<br>7日間ログインイベント：BACK STAGE GIFT<br><br>【新コスチューム】<br>ミント - フレッシュミント<br><br>【その他】<br>新プロフィールカードオブジェクト<br>新称号<br>TRACING THE STARSのミニゲームショップ追加<br><br>【改善事項】<br>※改善事項と不具合の修正内容については、ゲーム内のお知らせをご確認ください。",
           "histogram": {
-            "1": 21567,
-            "2": 6177,
-            "3": 24150,
-            "4": 95250,
-            "5": 451337
+            "1": 21587,
+            "2": 6167,
+            "3": 24114,
+            "4": 95359,
+            "5": 451323
           }
         },
         "recentReviews": [
+          {
+            "id": "1c8867a0-4bff-4db2-872f-63cef27c3715",
+            "userName": "ひさし",
+            "score": 5,
+            "text": "２重発射は。スプリングと。炸薬ですね。",
+            "date": "2026-06-01T12:37:36.743Z",
+            "thumbsUp": 1
+          },
           {
             "id": "a27db412-c2ee-4d87-a1a4-c185ac446c64",
             "userName": "破壊神シヴァ",
             "score": 1,
             "text": "音ゲーはいいとしてエキスパート？ピアノスタイル前提？ガチャ絞り酷すぎもあるけど誰がクリアできる？",
             "date": "2026-05-31T21:44:06.861Z",
-            "thumbsUp": 15
+            "thumbsUp": 16
           },
           {
             "id": "22435132-053c-41a4-a01e-f428c3918eec",
@@ -4976,14 +5020,6 @@
             "text": "問題解決に向け…とメッセージをいただきましたが、特に何をしてくれるわけでもなく放置されたままです。 大幅なアップデートをすると、こんな事になりますので注意してゲームをして下さい。 ---------------------------------- アカウント消えたが、何のフォローもありませんでした。やり込んでいたのに、残念です。 やめます。",
             "date": "2026-05-18T23:59:25.964Z",
             "thumbsUp": 6
-          },
-          {
-            "id": "89661285-d74c-485a-a0a3-7b82a677c858",
-            "userName": "前島耕造",
-            "score": 4,
-            "text": "バイオコラボから始めました ミニゲームが充実しすぎています",
-            "date": "2026-05-18T08:04:40.528Z",
-            "thumbsUp": 0
           }
         ],
         "reviewVelocity": {
@@ -5031,15 +5067,15 @@
           },
           {
             "month": "2026-06",
-            "score": 4.5849905,
-            "ratings": 598494,
-            "reviews": 13648,
+            "score": 4.584896,
+            "ratings": 598567,
+            "reviews": 13650,
             "histogram": {
-              "1": 21567,
-              "2": 6177,
-              "3": 24150,
-              "4": 95250,
-              "5": 451337
+              "1": 21587,
+              "2": 6167,
+              "3": 24114,
+              "4": 95359,
+              "5": 451323
             },
             "reviewVelocity": {
               "perDay": 2.2,
@@ -5050,6 +5086,15 @@
           }
         ],
         "reviewTextsHistory": [
+          {
+            "id": "1c8867a0-4bff-4db2-872f-63cef27c3715",
+            "score": 5,
+            "text": "２重発射は。スプリングと。炸薬ですね。",
+            "date": "2026-06-01T12:37:36.743Z",
+            "thumbsUp": 1,
+            "appVersion": "146.6.9",
+            "capturedAt": "2026-06-02T23:27:52.915Z"
+          },
           {
             "id": "a27db412-c2ee-4d87-a1a4-c185ac446c64",
             "score": 1,
@@ -6923,7 +6968,7 @@
         "store_id": "com.YostarJP.BlueArchive",
         "appInfo": {
           "title": "ブルーアーカイブ",
-          "score": 4.082092,
+          "score": 4.081257,
           "ratings": 38213,
           "reviews": 11733,
           "installs": "1,000,000+",
@@ -6932,11 +6977,11 @@
           "version": "1.69.428359",
           "recentChanges": "・表示ミス及び軽微な不具合の修正",
           "histogram": {
-            "1": 5942,
+            "1": 5950,
             "2": 1407,
             "3": 2038,
-            "4": 3001,
-            "5": 25819
+            "4": 3000,
+            "5": 25813
           }
         },
         "recentReviews": [
@@ -6946,7 +6991,7 @@
             "score": 1,
             "text": "　　　　　",
             "date": "2026-05-31T23:21:14.951Z",
-            "thumbsUp": 21
+            "thumbsUp": 22
           },
           {
             "id": "61f9c14a-f7a6-4baa-87bf-e016d5e04d61",
@@ -6970,7 +7015,7 @@
             "score": 1,
             "text": "シナリオは良いけど、ガチャとPVPは酷い。ガチャは配布石は多い方だがピックアップはすり抜けまくる(星3生徒15人引いてピックアップ0なんてザラにある)し、PVPはほぼ運ゲー。毎回毎回30秒待たされるのも意味がわからん。昔より半減したとは言えじゃあ0にしてくれ、と。",
             "date": "2026-05-31T08:04:04.900Z",
-            "thumbsUp": 0
+            "thumbsUp": 1
           },
           {
             "id": "5a64c5c4-0d23-43ef-a830-ca8a3b659933",
@@ -6994,7 +7039,7 @@
             "score": 1,
             "text": "今に始まったことではないが、自分たちが起こした不具合なのに大した責任を取らず不具合にあったユーザーを不利な状況に陥れる運営方針は大変遺憾。せめて今後同様の事象が起きないようにどう体制を整えていくのか声明を出してほしい。",
             "date": "2026-05-29T15:40:15.321Z",
-            "thumbsUp": 1
+            "thumbsUp": 2
           },
           {
             "id": "c5d3e20c-7d01-43aa-a34f-25d7ec368d63",
@@ -7010,7 +7055,7 @@
             "score": 1,
             "text": "確率渋すぎ",
             "date": "2026-05-29T15:34:04.534Z",
-            "thumbsUp": 1
+            "thumbsUp": 2
           },
           {
             "id": "e33104d6-1706-4b8e-9dc3-a2a076892483",
@@ -7050,7 +7095,7 @@
             "score": 1,
             "text": "現在評価☆-185 　メンテ延長してまでUIの改悪するとかマジで運営あり得ないでしょw 3周年も目新しいコンテンツの追加なし&アホみたいなログイン待機列でゲームが出来ないとかリアルイベに力入れる前にマトモにゲームが出来るように、もっとゲーム内に還元しろよw 開発もガチャの確率詐欺で裁判で敗訴してるし、色々ヤバいゲームだなw ヨースターは反日で海外では石を大量配布等の優遇措置、日本は少量配布等の冷遇措置をするのやめろよ　3.5周年でゲーム出来ないユーザー多数の中、サーバー攻撃を分析するためにわざと1時間鯖開け続けましたとか誰が信じるんだよwもっとマシな嘘つけよwメインストーリーも全然面白くない　",
             "date": "2026-05-27T20:01:57.822Z",
-            "thumbsUp": 154
+            "thumbsUp": 155
           },
           {
             "id": "b76c3fdd-3ee3-4071-a07d-3652221ccbeb",
@@ -7226,15 +7271,15 @@
           },
           {
             "month": "2026-06",
-            "score": 4.082092,
+            "score": 4.081257,
             "ratings": 38213,
             "reviews": 11733,
             "histogram": {
-              "1": 5942,
+              "1": 5950,
               "2": 1407,
               "3": 2038,
-              "4": 3001,
-              "5": 25819
+              "4": 3000,
+              "5": 25813
             },
             "reviewVelocity": {
               "perDay": 2.9,
@@ -8537,133 +8582,133 @@
           "appId": "com.square_enix.android_googleplay.dqwalkj",
           "title": "ドラゴンクエストウォーク",
           "developer": "SQUARE ENIX Co.,Ltd.",
-          "score": 3.4740999
+          "score": 3.4746926
         },
         {
           "rank": 2,
           "appId": "com.proximabeta.nikke",
           "title": "勝利の女神：NIKKE",
           "developer": "Level Infinite",
-          "score": 4.5849905
+          "score": 4.584896
         },
         {
           "rank": 3,
           "appId": "com.aniplex.fategrandorder",
           "title": "Fate/Grand Order",
           "developer": "Aniplex Inc.",
-          "score": 3.6718967
+          "score": 3.67157
         },
         {
           "rank": 4,
           "appId": "com.YostarJP.BlueArchive",
           "title": "ブルーアーカイブ",
           "developer": "Yostar, Inc.",
-          "score": 4.082092
+          "score": 4.081257
         },
         {
           "rank": 5,
-          "appId": "jp.boi.mementomori.android",
-          "title": "メメントモリ",
-          "developer": "Bank of Innovation, Inc.",
-          "score": 4.513467
-        },
-        {
-          "rank": 6,
           "appId": "jp.co.sumzap.pj0014",
           "title": "呪術廻戦 ファントムパレード（ファンパレ）",
           "developer": "Sumzap, Inc.",
-          "score": 4.6274185
+          "score": 4.623405
         },
         {
-          "rank": 7,
+          "rank": 6,
           "appId": "jp.glee.girl",
           "title": "放置少女 - 百花繚乱の萌姫たち",
           "developer": "C4 Connect Inc.",
-          "score": 3.995121
+          "score": 3.99502
+        },
+        {
+          "rank": 7,
+          "appId": "jp.boi.mementomori.android",
+          "title": "メメントモリ",
+          "developer": "Bank of Innovation, Inc.",
+          "score": 4.5124464
         },
         {
           "rank": 8,
-          "appId": "com.square_enix.android_googleplay.dqtactj",
-          "title": "ドラゴンクエストタクト",
-          "developer": "SQUARE ENIX Co.,Ltd.",
-          "score": 3.8705115
-        },
-        {
-          "rank": 9,
           "appId": "com.square_enix.android_googleplay.RSRS",
           "title": "ロマンシング サガ リ･ユニバース",
           "developer": "SQUARE ENIX Co.,Ltd.",
-          "score": 3.438625
+          "score": 3.4376173
         },
         {
-          "rank": 10,
+          "rank": 9,
           "appId": "com.hottagames.nte",
           "title": "NTE: Neverness to Everness",
           "developer": "N2E",
-          "score": 4.4054985
+          "score": 4.4036145
+        },
+        {
+          "rank": 10,
+          "appId": "com.square_enix.android_googleplay.dqtactj",
+          "title": "ドラゴンクエストタクト",
+          "developer": "SQUARE ENIX Co.,Ltd.",
+          "score": 3.8702695
         },
         {
           "rank": 11,
           "appId": "com.square_enix.android_googleplay.dqsgj",
           "title": "ドラゴンクエストスマッシュグロウ ドラクエローグライトRPG",
           "developer": "SQUARE ENIX Co.,Ltd.",
-          "score": 4.3562403
+          "score": 4.3619833
         },
         {
           "rank": 12,
           "appId": "jp.mbga.a12016007.lite",
           "title": "グランブルーファンタジー",
           "developer": "mobage",
-          "score": 3.9136536
+          "score": 3.913507
         },
         {
           "rank": 13,
-          "appId": "com.HoYoverse.Nap",
-          "title": "ゼンレスゾーンゼロ",
-          "developer": "COGNOSPHERE PTE. LTD.",
-          "score": 3.4716158
-        },
-        {
-          "rank": 14,
           "appId": "com.bilibili.trickcal",
           "title": "トリッカル・もちもちほっペ大作戦",
           "developer": "BILIBILI",
-          "score": 4.6967854
+          "score": 4.6960278
+        },
+        {
+          "rank": 14,
+          "appId": "com.HoYoverse.Nap",
+          "title": "ゼンレスゾーンゼロ",
+          "developer": "COGNOSPHERE PTE. LTD.",
+          "score": 3.4711642
         },
         {
           "rank": 15,
-          "appId": "com.smilegate.chaoszero.stove.google",
-          "title": "カオスゼロナイトメア",
-          "developer": "Smilegate, Inc.",
-          "score": 4.247573
+          "appId": "com.namcobandaigames.spmoja010",
+          "title": "ONE PIECE トレジャークルーズ",
+          "developer": "Bandai Namco Entertainment Inc.",
+          "score": 4.3245773
         },
         {
           "rank": 16,
           "appId": "jp.co.drecom.wizardry.daphne",
           "title": "Wizardry Variants Daphne",
           "developer": "株式会社ドリコム",
-          "score": 4.0323796
+          "score": 4.0330167
         },
         {
           "rank": 17,
-          "appId": "com.netmarble.nanatsunotaizai",
-          "title": "七つの大罪 光と闇の交戦 : グラクロ",
-          "developer": "Netmarble",
-          "score": 4.2030363
+          "appId": "com.smilegate.chaoszero.stove.google",
+          "title": "カオスゼロナイトメア",
+          "developer": "Smilegate, Inc.",
+          "score": 4.254265
         },
         {
           "rank": 18,
-          "appId": "com.namcobandaigames.spmoja010",
-          "title": "ONE PIECE トレジャークルーズ",
-          "developer": "Bandai Namco Entertainment Inc.",
-          "score": 4.324764
-        },
-        {
-          "rank": 19,
           "appId": "com.aniplex.magia.exedra.jp",
           "title": "魔法少女まどかマギカ Magia Exedra",
           "developer": "Aniplex Inc.",
-          "score": 3.5886524
+          "score": 3.5884433
+        },
+        {
+          "rank": 19,
+          "appId": "com.netmarble.nanatsunotaizai",
+          "title": "七つの大罪 光と闇の交戦 : グラクロ",
+          "developer": "Netmarble",
+          "score": 4.2021985
         },
         {
           "rank": 20,
@@ -8679,140 +8724,140 @@
           "appId": "com.smilegate.outerplane.stove.google",
           "title": "アウタープレーン",
           "developer": "Major9",
-          "score": 4.103503
+          "score": 4.1194267
         },
         {
           "rank": 2,
           "appId": "com.qvsone.gpjp",
           "title": "風と竜の歌",
           "developer": "Stellarlight",
-          "score": 3.6435645
+          "score": 3.7934783
         },
         {
           "rank": 3,
-          "appId": "com.girlsconnect.and",
-          "title": "ルミナアビス：光と闇を紡ぐ少女たち",
-          "developer": "9RING",
-          "score": 3.9486165
-        },
-        {
-          "rank": 4,
           "appId": "com.zigzagame.paranoize",
           "title": "パラノイズ",
           "developer": "ZigZaGame Inc.",
-          "score": 4.502439
+          "score": 4.4987407
+        },
+        {
+          "rank": 4,
+          "appId": "com.girlsconnect.and",
+          "title": "ルミナアビス：光と闇を紡ぐ少女たち",
+          "developer": "9RING",
+          "score": 3.972826
         },
         {
           "rank": 5,
           "appId": "jp.co.drecom.wizardry.daphne",
           "title": "Wizardry Variants Daphne",
           "developer": "株式会社ドリコム",
-          "score": 4.0323796
+          "score": 4.0327744
         },
         {
           "rank": 6,
-          "appId": "com.square_enix.android_googleplay.dqsgj",
-          "title": "ドラゴンクエストスマッシュグロウ ドラクエローグライトRPG",
-          "developer": "SQUARE ENIX Co.,Ltd.",
-          "score": 4.35787
-        },
-        {
-          "rank": 7,
           "appId": "io.supercent.weaponrpg",
           "title": "XP Hero (XP ヒーロー)",
           "developer": "Supercent, Inc.",
-          "score": 4.0611763
+          "score": 4.0784316
+        },
+        {
+          "rank": 7,
+          "appId": "com.square_enix.android_googleplay.dqsgj",
+          "title": "ドラゴンクエストスマッシュグロウ ドラクエローグライトRPG",
+          "developer": "SQUARE ENIX Co.,Ltd.",
+          "score": 4.3626556
         },
         {
           "rank": 8,
-          "appId": "com.hottagames.nte",
-          "title": "NTE: Neverness to Everness",
-          "developer": "N2E",
-          "score": 4.4054985
-        },
-        {
-          "rank": 9,
           "appId": "jp.scbf",
           "title": "BRAVE FRONTIER LEGION",
           "developer": "GrandSoft-inc",
-          "score": 3.9603524
+          "score": 3.9320176
+        },
+        {
+          "rank": 9,
+          "appId": "com.hottagames.nte",
+          "title": "NTE: Neverness to Everness",
+          "developer": "N2E",
+          "score": 4.4036145
         },
         {
           "rank": 10,
           "appId": "jp.co.sumzap.pj0014",
           "title": "呪術廻戦 ファントムパレード（ファンパレ）",
           "developer": "Sumzap, Inc.",
-          "score": 4.6271186
+          "score": 4.623405
         },
         {
           "rank": 11,
           "appId": "defense.roguelike.cell.shoot.survivor",
           "title": "セルサバイバー",
           "developer": "Snap Brain Games",
-          "score": 3.7571943
+          "score": 3.7477148
         },
         {
           "rank": 12,
-          "appId": "com.daerigame.rellion",
-          "title": "レリオン：NPCたちの生存記",
-          "developer": "DAERI SOFT Inc",
-          "score": 3.7837837
-        },
-        {
-          "rank": 13,
           "appId": "xyz.lightgame.tuantuan",
           "title": "ピクセルブレイブ：伝説の勇者たち",
           "developer": "HZ Game",
-          "score": 4.473913
+          "score": 4.454167
+        },
+        {
+          "rank": 13,
+          "appId": "com.daerigame.rellion",
+          "title": "レリオン：NPCたちの生存記",
+          "developer": "DAERI SOFT Inc",
+          "score": 3.8118813
         },
         {
           "rank": 14,
           "appId": "com.mxdzz.jp.and",
           "title": "キノコ伝説：勇者と魔法のランプ",
           "developer": "Joy Nice Games",
-          "score": 4.2783504
+          "score": 4.2803574
         },
         {
           "rank": 15,
           "appId": "com.studiobside.starMain",
           "title": "スターセイヴァー",
           "developer": "STUDIOBSIDE",
-          "score": 4.5390625
+          "score": 4.6030536
         },
         {
           "rank": 16,
           "appId": "com.square_enix.android_googleplay.dqwalkj",
           "title": "ドラゴンクエストウォーク",
           "developer": "SQUARE ENIX Co.,Ltd.",
-          "score": 3.4740999
+          "score": 3.4746926
         },
         {
           "rank": 17,
-          "appId": "com.merge.shooter",
-          "title": "AmaZeus: Merge & Shoot",
-          "developer": "Geisha Tokyo, Inc.",
-          "score": 4.104762
+          "appId": "com.panstudio.gplay.duetnightabyss.arpg.global",
+          "title": "デュエットナイトアビス",
+          "developer": "Hong Kong Spiral Rising Technology Co., Limited",
+          "score": 3.439759
         },
         {
           "rank": 18,
-          "appId": "com.h8games.littlefarmstory",
-          "title": "リトルファームストーリー",
-          "developer": "SayGames Ltd",
-          "score": 3.717742
-        },
-        {
-          "rank": 19,
           "appId": "jp.boi.mementomori.android",
           "title": "メメントモリ",
           "developer": "Bank of Innovation, Inc.",
-          "score": 4.513467
+          "score": 4.5124464
+        },
+        {
+          "rank": 19,
+          "appId": "com.h8games.littlefarmstory",
+          "title": "リトルファームストーリー",
+          "developer": "SayGames Ltd",
+          "score": 3.7154472
         },
         {
           "rank": 20,
-          "appId": "work.ponix.onceworld",
-          "title": "OnceWorld あの頃のMMO風ソロRPG",
-          "developer": "PONIX",
-          "score": 4.364985
+          "appId": "com.merge.shooter",
+          "title": "AmaZeus: Merge & Shoot",
+          "developer": "Geisha Tokyo, Inc.",
+          "score": 4.1262136
         }
       ]
     },
@@ -8821,21 +8866,21 @@
         "id": "memento-mori",
         "name": "メメントモリ",
         "collection": "top_grossing",
-        "rank": 5,
+        "rank": 7,
         "totalInList": 200
       },
       {
         "id": "houchi-shoujo",
         "name": "放置少女",
         "collection": "top_grossing",
-        "rank": 7,
+        "rank": 6,
         "totalInList": 200
       },
       {
         "id": "afk-journey",
         "name": "AFK Journey",
         "collection": "top_grossing",
-        "rank": 89,
+        "rank": 91,
         "totalInList": 200
       },
       {
@@ -8856,32 +8901,32 @@
         "id": "memento-mori",
         "name": "メメントモリ",
         "collection": "top_free",
-        "rank": 19,
+        "rank": 18,
         "totalInList": 200
       },
       {
         "id": "houchi-shoujo",
         "name": "放置少女",
         "collection": "top_free",
-        "rank": 77,
+        "rank": 76,
         "totalInList": 200
       },
       {
         "id": "nikke",
         "name": "勝利の女神:NIKKE",
         "collection": "top_free",
-        "rank": 51,
+        "rank": 47,
         "totalInList": 200
       },
       {
         "id": "bluearchive",
         "name": "ブルーアーカイブ",
         "collection": "top_free",
-        "rank": 32,
+        "rank": 33,
         "totalInList": 200
       }
     ],
-    "fetched_at": "2026-06-01T23:21:36.078Z",
+    "fetched_at": "2026-06-02T23:27:43.046Z",
     "history": [
       {
         "date": "2026-04-15",
@@ -10619,29 +10664,97 @@
             "totalInList": 200
           }
         ]
+      },
+      {
+        "date": "2026-06-02",
+        "positions": [
+          {
+            "id": "memento-mori",
+            "name": "メメントモリ",
+            "collection": "top_grossing",
+            "rank": 7,
+            "totalInList": 200
+          },
+          {
+            "id": "houchi-shoujo",
+            "name": "放置少女",
+            "collection": "top_grossing",
+            "rank": 6,
+            "totalInList": 200
+          },
+          {
+            "id": "afk-journey",
+            "name": "AFK Journey",
+            "collection": "top_grossing",
+            "rank": 91,
+            "totalInList": 200
+          },
+          {
+            "id": "nikke",
+            "name": "勝利の女神:NIKKE",
+            "collection": "top_grossing",
+            "rank": 2,
+            "totalInList": 200
+          },
+          {
+            "id": "bluearchive",
+            "name": "ブルーアーカイブ",
+            "collection": "top_grossing",
+            "rank": 4,
+            "totalInList": 200
+          },
+          {
+            "id": "memento-mori",
+            "name": "メメントモリ",
+            "collection": "top_free",
+            "rank": 18,
+            "totalInList": 200
+          },
+          {
+            "id": "houchi-shoujo",
+            "name": "放置少女",
+            "collection": "top_free",
+            "rank": 76,
+            "totalInList": 200
+          },
+          {
+            "id": "nikke",
+            "name": "勝利の女神:NIKKE",
+            "collection": "top_free",
+            "rank": 47,
+            "totalInList": 200
+          },
+          {
+            "id": "bluearchive",
+            "name": "ブルーアーカイブ",
+            "collection": "top_free",
+            "rank": 33,
+            "totalInList": 200
+          }
+        ]
       }
     ]
   },
   "community": {
     "source": "Reddit (mock)",
-    "fetched_at": "2026-06-01T23:21:37.353Z",
+    "fetched_at": "2026-06-02T23:27:44.270Z",
     "posts": [
       {
         "id": "mock-0",
         "subreddit": "gachagaming",
         "title": "MementoMori の最新イベントについて",
-        "score": 55,
-        "numComments": 42,
-        "created": "2026-06-01T23:21:37.353Z",
+        "score": 51,
+        "numComments": 23,
+        "created": "2026-06-02T23:27:44.270Z",
         "keyword": "MementoMori"
       },
       {
         "id": "mock-1",
         "subreddit": "gachagaming",
         "title": "Memento Mori game の最新イベントについて",
-        "score": 69,
-        "numComments": 29,
-        "created": "2026-06-01T23:21:37.353Z",
+        "score": 63,
+        "numComments": 12,
+        "created": "2026-06-02T23:27:44.270Z",
         "keyword": "Memento Mori game"
       }
     ],
@@ -10967,300 +11080,313 @@
             "gachagaming": 2
           }
         }
+      },
+      {
+        "date": "2026-06-02",
+        "stats": {
+          "totalPosts": 2,
+          "postsPerDay": 1.2,
+          "avgScore": 75,
+          "avgComments": 25,
+          "maxScore": 120,
+          "bySubreddit": {
+            "gachagaming": 2
+          }
+        }
       }
     ]
   },
   "news": [
     {
+      "source": "4Gamer",
+      "title": "抜群のコスパで注目集める「AMZFAST」が，未発表の5Kウルトラワイド液晶や有機ELディスプレイをCOMPUTEX 2026で披露",
+      "link": "https://www.4gamer.net/games/011/G101195/20260602063/",
+      "pubDate": "2026-06-02T23:00:00.000Z",
+      "summary": "コストパフォーマンスの高さで密かな人気の「AMZFAST」が，COMPUTEX2026でいくつもの未発表新製品を披露した。来場者の注目を集めた49インチウルトラワイド液晶から，4K湾曲ディスプレイや新しい有機EL製品まで，まとめて紹介しよう。"
+    },
+    {
+      "source": "4Gamer",
+      "title": "サバイバルホラー「ILL」の最新トレイラーが公開に。不気味でグロテスクなモンスターとの戦いは，ゴア表現たっぷり",
+      "link": "https://www.4gamer.net/games/917/G091776/20260603020/",
+      "pubDate": "2026-06-02T22:58:29.000Z",
+      "summary": "TeamCloutは本日，PlayStationの最新情報を発信する番組「StateofPlay」にて，「ILL」の最新トレイラーを発表した。公開されたトレイラーは，グロテスクなクリーチャーとの戦いや，ゴア表現たっぷりの欠損描写などが収録されており，本作が売りにしているリアルな恐怖体験の一端を垣間見ることができる。"
+    },
+    {
+      "source": "4Gamer",
+      "title": "「Marathon」のシーズン2“NIGHTFALL”が本日より配信開始。6月10日までのオープンプレイウィークもスタート",
+      "link": "https://www.4gamer.net/games/709/G070952/20260603021/",
+      "pubDate": "2026-06-02T22:57:11.000Z",
+      "summary": "ソニー・インタラクティブエンタテインメントは本日（6月3日），PlayStationの情報番組「StateofPlay」で，PvPvE脱出シューター「Marathon」のシーズン2「NIGHTFALL」の最新映像を公開し，本日の配信開始を改めて告知した。また，6月10日まで誰でも無料でプレイできる「オープンプレイウィーク」も開催中だ。"
+    },
+    {
+      "source": "4Gamer",
+      "title": "「No Rest for the Wicked」のPC版とPS5版が10月に正式リリース。見下ろし型視点を採用した歯ごたえのあるアクションRPG",
+      "link": "https://www.4gamer.net/games/759/G075962/20260603018/",
+      "pubDate": "2026-06-02T22:48:41.000Z",
+      "summary": "SIEは本日（2026年6月3日），PlayStation関連の最新情報を発信する番組「StateofPlay」を通じて，「NoRestfortheWicked」（ノーレストフォーザウィケッド）のPC版とPS5版を，10月に正式リリースすると発表した。"
+    },
+    {
+      "source": "4Gamer",
+      "title": "「Rayman Legends Retold」が8月27日に発売決定。2013年の「レイマン レジェンド」を大胆に再構築したリビルド版",
+      "link": "https://www.4gamer.net/games/011/G101198/20260603015/",
+      "pubDate": "2026-06-02T22:47:01.000Z",
+      "summary": "2013年に発売された「レイマンレジェンド」のリビルド版「RaymanLegendsRetold」が，2026年8月27日にリリースされることが本日（2026年6月3日），発表された。最大4人までのローカル協力プレイに対応し，まったく新しいストーリーとステージでの冒険が楽しめるという。"
+    },
+    {
+      "source": "4Gamer",
+      "title": "あのデロリアンも登場!? 「Stuntman: Hollywood」発表。映画などをモチーフにしたスタントに挑むカーアクションゲーム",
+      "link": "https://www.4gamer.net/games/012/G101203/20260603019/",
+      "pubDate": "2026-06-02T22:46:56.000Z",
+      "summary": "SIEは本日配信した「StateofPlay|June2,2026」にて，新作カーアクション「Stuntman:Hollywood」を発表した。本作はその名のとおり，スタントマンを題材にしたゲーム。プレイヤーは名作映画などをモチーフにしたスタントをこなし，スターの道を駆け上がっていく。"
+    },
+    {
+      "source": "4Gamer",
+      "title": "サバイバルクラフト「RuneScape: Dragonwilds」がPS5で2026年秋発売。PS Plus Extra/Premium加入者は発売初日からプレイ可能",
+      "link": "https://www.4gamer.net/games/902/G090243/20260603017/",
+      "pubDate": "2026-06-02T22:44:51.000Z",
+      "summary": "SIEは本日，PlayStation関連の最新情報を発信する番組「StateofPlay」で，「RuneScape:Dragonwilds」がPlayStation5に登場することを発表した。発売は2026年秋を予定している。"
+    },
+    {
       "source": "GameSpark",
-      "title": "メキシコの「人形島」にインスパイアされたサイコサバイバルホラー『Where Dolls Hang』発表！",
-      "link": "http://www.gamespark.jp/article/2026/06/02/167246.html",
-      "pubDate": "2026-06-01T23:00:04.000Z",
+      "title": "『ゴッド・オブ・ウォー』クレイトスの妻・フェイが主人公のスピンオフ『God of War Laufay』発表【State of Play】",
+      "link": "http://www.gamespark.jp/article/2026/06/03/167326.html",
+      "pubDate": "2026-06-02T22:32:46.000Z",
       "summary": ""
     },
     {
       "source": "4Gamer",
-      "title": "「Summer Game Fest」の模様は6月6日に配信。忘れずに見たい「今週の公式配信番組」ピックアップ",
-      "link": "https://www.4gamer.net/games/421/G042182/20260601049/",
-      "pubDate": "2026-06-01T23:00:00.000Z",
-      "summary": "ゲームイベント「SummerGameFest」が6月6日に開催となる。ニコニコ生放送では，その模様を日本語字幕付きで6：00より配信する予定だ。今回もこの1週間で予定されている，ゲームに関連した公式配信番組を中心に，いくつかをピックアップして紹介しよう。"
+      "title": "恐竜サバイバルホラー「The Lost Wild」が2027年に発売決定。食物連鎖の底辺で生き残りを図る",
+      "link": "https://www.4gamer.net/games/011/G101197/20260603016/",
+      "pubDate": "2026-06-02T22:28:50.000Z",
+      "summary": "ソニー・インタラクティブエンタテインメントは本日（2026年6月3日），配信番組「StateofPlay」にて，一人称視点サバイバルホラー「TheLostWild」を2027年に発売すると発表し，最新トレイラーを公開した。対応機種はPlayStation5，およびPCとなっている。"
     },
     {
-      "source": "Inside",
-      "title": "ころんとした「ちいかわ」が可愛い！うさぎやモモンガなど全8種ソフビミニフィギュアがアミューズメント施設にて展開",
-      "link": "https://www.inside-games.jp/article/2026/06/02/182263.html",
-      "pubDate": "2026-06-01T22:20:03.000Z",
+      "source": "4Gamer",
+      "title": "PS Plusの「クラシックスカタログ」に「ギタルマン」「サイオプス サイキック・オペレーション」「新 鬼武者 DAWN OF DREAMS」の3タイトルが登場",
+      "link": "https://www.4gamer.net/games/129/G012999/20260602058/",
+      "pubDate": "2026-06-02T22:28:09.000Z",
+      "summary": "ソニー・インタラクティブエンタテインメントは，本日（2026年6月3日）配信した「StateofPlay2026.6.3」で，PSPlus向けサービス「クラシックスカタログ」に「ギタルマン」「サイオプスサイキック・オペレーション」「新鬼武者DAWNOFDREAMS」が登場することを発表した。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "映画スタントアクション『Stuntman: Hollywood』発表。19年ぶりに蘇るシリーズ最新作、「デロリアン」で映画再現カーアクション",
+      "link": "https://automaton-media.com/articles/newsjp/stuntman-hollywood-20260603-446737/",
+      "pubDate": "Tue, 02 Jun 2026 22:27:02 +0000",
+      "summary": "デベロッパーのSaber Interactiveは6月3日、「State of Play | June 2, 2026」にて『Stuntman: Hollywood』を発表した。"
+    },
+    {
+      "source": "4Gamer",
+      "title": "ゴッド・オブ・ウォーの最新作「God of War LAUFEY」が発表。20分ロングトレイラーでゲーム導入シーンをたっぷり紹介",
+      "link": "https://www.4gamer.net/games/999/G999905/20260603008/",
+      "pubDate": "2026-06-02T22:23:11.000Z",
+      "summary": "StateofPlay2026.6.3で，ソニー・インタラクティブエンタテインメントは，SantaMonicaStudioの新作アクションゲーム「GodofWarLAUFEY」を発表した。約20分ものロングトレイラーでは，ゲーム導入シーンの一部始終がたっぷりと見られた。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "『鬼武者 Way of the Sword』、いきなり体験版配信開始。宿敵「佐々木巌流」とも戦える",
+      "link": "https://automaton-media.com/articles/newsjp/20260603-446726/",
+      "pubDate": "Tue, 02 Jun 2026 22:20:16 +0000",
+      "summary": "カプコンは6月3日、『鬼武者 Way of the Sword』の体験版を配信開始した。"
+    },
+    {
+      "source": "GameSpark",
+      "title": "シリーズ最新作『Until Dawn2』発表！2027年リリース予定―美しい無人島で直面する本当の恐怖…【State of play】",
+      "link": "http://www.gamespark.jp/article/2026/06/03/167325.html",
+      "pubDate": "2026-06-02T22:17:59.000Z",
       "summary": ""
     },
     {
-      "source": "Inside",
-      "title": "【コスプレ】人気レイヤーの伊織もえ＆あかせあかりも参戦！ 2万人が集結した第2回台北「acosta!」の美麗フォトレポ【35枚】",
-      "link": "https://www.inside-games.jp/article/2026/06/02/182262.html",
-      "pubDate": "2026-06-01T22:00:04.000Z",
+      "source": "AUTOMATON",
+      "title": "『ゴッド・オブ・ウォー』新作『GOD OF WAR ラウフェイ』発表、クレイトスの妻「フェイ」が主人公に。いきなり20分以上の大ボリューム映像とともに堂々お披露目",
+      "link": "https://automaton-media.com/articles/newsjp/20260603-446724/",
+      "pubDate": "Tue, 02 Jun 2026 22:16:25 +0000",
+      "summary": "ソニー・インタラクティブエンタテインメントは6月3日、『GOD OF WAR LAUFEY』を発表した。現在開発中。"
+    },
+    {
+      "source": "GameSpark",
+      "title": "宇宙的脅威と変形武器で空中格闘！名作アクションRPG続編『CONTROL Resonant』9月24日発売【State of Play】",
+      "link": "http://www.gamespark.jp/article/2026/06/03/167324.html",
+      "pubDate": "2026-06-02T22:16:10.000Z",
       "summary": ""
     },
     {
       "source": "GameSpark",
-      "title": "『まのさば』開発元新作『魔法少女ノ因習村』Steamストアページ公開！視点が変わるたびに真実が反転する“魔法少女×因習”ADV",
-      "link": "http://www.gamespark.jp/article/2026/06/02/167245.html",
-      "pubDate": "2026-06-01T22:00:04.000Z",
-      "summary": ""
-    },
-    {
-      "source": "Inside",
-      "title": "ポケモンがスーツケースブランド「RIMOWA」とコラボ！モンスターボール型のホイールが最高にオシャレ",
-      "link": "https://www.inside-games.jp/article/2026/06/02/182261.html",
-      "pubDate": "2026-06-01T21:30:04.000Z",
+      "title": "『Marathon』6月3日開幕のシーズン2「夜の訪れ」トレイラー公開―無料プレイウィークも実施【State of Play】",
+      "link": "http://www.gamespark.jp/article/2026/06/03/167323.html",
+      "pubDate": "2026-06-02T22:11:21.000Z",
       "summary": ""
     },
     {
       "source": "GameSpark",
-      "title": "ASUS「ROG XBOX Ally X20」発表！ディスプレイがOLEDになりサイズが7.4インチにアップなど多彩な進化",
-      "link": "http://www.gamespark.jp/article/2026/06/02/167244.html",
-      "pubDate": "2026-06-01T21:30:04.000Z",
-      "summary": ""
-    },
-    {
-      "source": "Inside",
-      "title": "6月2日13時より、「ボンボンドロップシール POP UP STORE」渋谷モディ、大宮マルイ会場の入場抽選が開始！約200種類ほぼ全てのシールをラインナップ",
-      "link": "https://www.inside-games.jp/article/2026/06/02/182260.html",
-      "pubDate": "2026-06-01T21:20:03.000Z",
-      "summary": ""
-    },
-    {
-      "source": "Inside",
-      "title": "『星のカービィ』新作一番くじがオンライン販売！炊飯器、トースター風タイマーなど“グルメテーマ”のグッズがズラリ",
-      "link": "https://www.inside-games.jp/article/2026/06/02/182259.html",
-      "pubDate": "2026-06-01T21:00:04.000Z",
+      "title": "凄惨な描写な際立つサバイバルホラーACT『ILL』最新ストーリー映像公開！不気味なクリーチャーだらけの研究施設で生き残れ【State of Play】",
+      "link": "http://www.gamespark.jp/article/2026/06/03/167322.html",
+      "pubDate": "2026-06-02T22:08:45.000Z",
       "summary": ""
     },
     {
       "source": "GameSpark",
-      "title": "人気ホラーゲーム『Fears to Fathom』シリーズの開発者が手がける新作『Farsight』発表。視力検査機の中に閉じ込められる！？",
-      "link": "http://www.gamespark.jp/article/2026/06/02/167243.html",
-      "pubDate": "2026-06-01T21:00:04.000Z",
+      "title": "「PS Plus」今後の更新内容が判明！クラシックスカタログでは『ギタルマン』『新 鬼武者 DAWN OF DREAMS』などが6月より順次追加【State of Play】",
+      "link": "http://www.gamespark.jp/article/2026/06/03/167321.html",
+      "pubDate": "2026-06-02T22:07:31.000Z",
       "summary": ""
     },
     {
       "source": "GameSpark",
-      "title": "『零』影響の心霊サバイバルホラー『Echograph』デモ版2026年末リリース― 日本語にもローカライズ予定",
-      "link": "http://www.gamespark.jp/article/2026/06/02/167242.html",
-      "pubDate": "2026-06-01T19:00:04.000Z",
+      "title": "『ゴッド・オブ・ウォー』新作はクレイトスの妻が主人公！？【State of Play】",
+      "link": "http://www.gamespark.jp/article/2026/06/03/167320.html",
+      "pubDate": "2026-06-02T22:04:50.000Z",
+      "summary": ""
+    },
+    {
+      "source": "GameSpark",
+      "title": "あの「ナイト2000」や「デロリアン」の姿も！ ド派手なカーアクションで街中を駆け巡る『Stuntman: Hollywood』発表【State of Play】",
+      "link": "http://www.gamespark.jp/article/2026/06/03/167319.html",
+      "pubDate": "2026-06-02T22:03:25.000Z",
       "summary": ""
     },
     {
       "source": "Inside",
-      "title": "ホロライブ初のスマホゲーム『hololive Dreams』シール付きスナックが発売！華やかなライブ衣装のタレント50名以上がラインナップ",
-      "link": "https://www.inside-games.jp/article/2026/06/02/182258.html",
-      "pubDate": "2026-06-01T15:20:03.000Z",
+      "title": "【コスプレ】「鳴潮・崩壊スタ・ゼンゼロ」の人気キャラが台湾に降臨！まるで実写版のようなスタイルで魅せる美女レイヤー10選【全41枚】",
+      "link": "https://www.inside-games.jp/article/2026/06/03/182319.html",
+      "pubDate": "2026-06-02T22:00:04.000Z",
+      "summary": ""
+    },
+    {
+      "source": "GameSpark",
+      "title": "シリーズ最新作『SILENT HILL: Townfall』9月24日発売決定！アクションシーンなど含む最新トレイラー公開【State of Play】",
+      "link": "http://www.gamespark.jp/article/2026/06/03/167318.html",
+      "pubDate": "2026-06-02T21:58:49.000Z",
+      "summary": ""
+    },
+    {
+      "source": "GameSpark",
+      "title": "20年ぶり新作『鬼武者 Way of the Sword』は9月25日発売！体験版も本日配信開始【State of Play】",
+      "link": "http://www.gamespark.jp/article/2026/06/03/167317.html",
+      "pubDate": "2026-06-02T21:58:09.000Z",
+      "summary": ""
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "『Until Dawn 2』発表、2027年発売へ。南国の無人島を舞台にした「ゴーストハンター」たちの悲劇",
+      "link": "https://automaton-media.com/articles/newsjp/20260603-446708/",
+      "pubDate": "Tue, 02 Jun 2026 21:54:41 +0000",
+      "summary": "ソニー・インタラクティブエンタテインメントは6月3日、『Until Dawn 2』を発表した。2027年に発売予定。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "最大4人マルチ対応アクション『レイマン レジェンド リトールド』発表、10月1日発売へ。『レイマン レジェンド』を現代向けに再構築",
+      "link": "https://automaton-media.com/articles/newsjp/20260603-446705/",
+      "pubDate": "Tue, 02 Jun 2026 21:53:32 +0000",
+      "summary": "Ubisoftは6月3日、アクションゲーム『レイマン レジェンド リトールド』を発表した。10月1日発売予定。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "大作超常アクション『CONTROL Resonant』9月24日発売へ。人気作『CONTROL』の「ガチ近接戦闘」特化新作",
+      "link": "https://automaton-media.com/articles/newsjp/20260603-446697/",
+      "pubDate": "Tue, 02 Jun 2026 21:50:39 +0000",
+      "summary": "Remedy Entertainmentは6月3日、『CONTROL Resonant』を9月24日に発売すると発表した。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "『SILENT HILL: Townfall』9月24日発売へ。謎多き『サイレントヒル』最新作",
+      "link": "https://automaton-media.com/articles/newsjp/20260603-446690/",
+      "pubDate": "Tue, 02 Jun 2026 21:44:09 +0000",
+      "summary": "コナミは9月24日、『SILENT HILL: Townfall』を9月24日に発売すると発表した。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "『エースコンバット8 WINGS OF THEVE』10月2日発売へ。なんと『ゼロ』移植版が予約特典に",
+      "link": "https://automaton-media.com/articles/newsjp/20260603-446684/",
+      "pubDate": "Tue, 02 Jun 2026 21:42:39 +0000",
+      "summary": "バンダイナムコエンターテインメントは6月3日、『エースコンバット8 WINGS OF THEVE』を10月2日発売すると発表した。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "『真・三國無双２ with 猛将伝 Remastered』10月1日発売へ。延期を経てついに出る、「シリーズ初のリマスター」",
+      "link": "https://automaton-media.com/articles/newsjp/20260603-446671/",
+      "pubDate": "Tue, 02 Jun 2026 21:35:19 +0000",
+      "summary": "コーエーテクモゲームスは6月3日、『真・三國無双２ with 猛将伝 Remastered』を10月1日に発売すると発表した。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "『鬼武者 Way of the Sword』9月25日発売へ。『鬼武者』シリーズ約20年ぶり新作がついに来る",
+      "link": "https://automaton-media.com/articles/newsjp/20260603-446676/",
+      "pubDate": "Tue, 02 Jun 2026 21:34:57 +0000",
+      "summary": "カプコンは6月3日、『鬼武者: Way of the Sword』を9月25日に発売すると発表。体験版は本日から配信開始。"
+    },
+    {
+      "source": "Inside",
+      "title": "しまむらで「ズートピア」「トイ・ストーリー」のカーアイテムが販売！サンシェードやカーテンなどがズラリ",
+      "link": "https://www.inside-games.jp/article/2026/06/03/182318.html",
+      "pubDate": "2026-06-02T15:35:03.000Z",
       "summary": ""
     },
     {
       "source": "Inside",
-      "title": "グラニフ×アニメ「HUNTER×HUNTER」コラボ、いよいよ発売！ゴン、キルア、ヒソカのドッジボール共闘パーカーなど全20種",
-      "link": "https://www.inside-games.jp/article/2026/06/02/182257.html",
-      "pubDate": "2026-06-01T15:10:03.000Z",
-      "summary": ""
-    },
-    {
-      "source": "GameSpark",
-      "title": "【SIE純正アクセサリーを先行試用】PS初のアーケードスティックは、カーブした板面が実に馴染むぜ！PS5がますます楽しくなる3つの周辺機器を一挙体験",
-      "link": "http://www.gamespark.jp/article/2026/06/02/167241.html",
-      "pubDate": "2026-06-01T15:00:05.000Z",
-      "summary": ""
-    },
-    {
-      "source": "4Gamer",
-      "title": "PSブランド初のワイヤレスアケコン「FlexStrike」が8月6日発売決定。27インチディスプレイやワイヤレススピーカーも同時発表",
-      "link": "https://www.4gamer.net/games/999/G999902/20260528053/",
-      "pubDate": "2026-06-01T15:00:00.000Z",
-      "summary": "2026年6月2日，ソニー・インタラクティブエンタテインメントは，PSブランド初のアーケードスティック「FlexStrikeWirelessFightStick」や，27インチ液晶ディスプレイ「27\"ゲーミングモニターDualSense充電フック付き」，ワイヤレススピーカー「PULSEElevateワイヤレススピーカー」の3製品を発表した。"
-    },
-    {
-      "source": "GameSpark",
-      "title": "『マインクラフト』スイッチ2ネイティブ版が来る！？ESRBにレーティング情報が掲載",
-      "link": "http://www.gamespark.jp/article/2026/06/01/167240.html",
-      "pubDate": "2026-06-01T14:42:30.000Z",
-      "summary": ""
-    },
-    {
-      "source": "GameSpark",
-      "title": "レゴ公式「ポケモンカード」風作品コンテスト・ファイナリスト発表―グランプリ受賞作は製品化へ",
-      "link": "http://www.gamespark.jp/article/2026/06/01/167239.html",
-      "pubDate": "2026-06-01T14:30:42.000Z",
+      "title": "もうすぐドナルドの誕生日！しまむらで「ドナルドダック」記念グッズが発売",
+      "link": "https://www.inside-games.jp/article/2026/06/03/182317.html",
+      "pubDate": "2026-06-02T15:20:03.000Z",
       "summary": ""
     },
     {
       "source": "Inside",
-      "title": "サンリオのステッキ型フィギュアがビジュ良すぎ！「マイメロディ&クロミ Magic Wand Collection」など新作グッズが4種発表",
-      "link": "https://www.inside-games.jp/article/2026/06/01/182256.html",
-      "pubDate": "2026-06-01T14:00:04.000Z",
-      "summary": ""
-    },
-    {
-      "source": "GameSpark",
-      "title": "GB『ポケットカメラ』で撮影のサイコロジカルホラー『You Are Family』発表―低画素数で描かれるPC＆コンソール向けADV",
-      "link": "http://www.gamespark.jp/article/2026/06/01/167238.html",
-      "pubDate": "2026-06-01T13:45:04.000Z",
+      "title": "夏にぴったりのラインナップ！しまむらで「スティッチ」新作グッズが多数発売",
+      "link": "https://www.inside-games.jp/article/2026/06/03/182316.html",
+      "pubDate": "2026-06-02T15:10:04.000Z",
       "summary": ""
     },
     {
       "source": "Inside",
-      "title": "『刀剣乱舞』が人気の「めじるしアクセサリー＃ハッシュタグつけるver.」で発売！三日月宗近やへし切長谷部など全10種類",
-      "link": "https://www.inside-games.jp/article/2026/06/01/182255.html",
-      "pubDate": "2026-06-01T13:40:03.000Z",
+      "title": "ドンキで「ポケモン」接触冷感アパレルが6月6日発売！総柄が可愛いUVカットパーカー、半袖シャツなど豊富なデザイン",
+      "link": "https://www.inside-games.jp/article/2026/06/02/182315.html",
+      "pubDate": "2026-06-02T11:15:03.000Z",
       "summary": ""
     },
     {
       "source": "Inside",
-      "title": "「キングダム」天下の大将軍「王騎」あそーとガシャポンが6月第3週発売！目玉は胸像フィギュア、名言付ラバーマスコット全8種にも注目",
-      "link": "https://www.inside-games.jp/article/2026/06/01/182254.html",
-      "pubDate": "2026-06-01T13:30:04.000Z",
+      "title": "【コスプレ】「鳴潮 2nd Anniversary Fes.」開催！豪華すぎる公式コスプレイヤーが集結したフォトレポ第1弾【写真52枚】",
+      "link": "https://www.inside-games.jp/article/2026/06/02/182314.html",
+      "pubDate": "2026-06-02T11:00:03.000Z",
       "summary": ""
     },
     {
-      "source": "GameSpark",
-      "title": "ソーダを飲んで強くなるヴァンサバライクな弾幕ACTが正式リリース！正式版ではさらなるフレーバーも新登場―採れたて！本日のSteam注目ゲーム15選【2026年6月1日】",
-      "link": "http://www.gamespark.jp/article/2026/06/01/167237.html",
-      "pubDate": "2026-06-01T13:30:04.000Z",
+      "source": "Inside",
+      "title": "良い意味で”動きがウザい！可愛い！コメディ！ギャップ！にじ3D適性が高いにじさんじライバー3選",
+      "link": "https://www.inside-games.jp/article/2026/06/02/182313.html",
+      "pubDate": "2026-06-02T10:30:04.000Z",
       "summary": ""
     },
     {
-      "source": "4Gamer",
-      "title": "携帯型ゲームPC「ROG Xbox ALLY X20」が発表。7.4型有機ELディスプレイやTMRスティックを新たに採用",
-      "link": "https://www.4gamer.net/games/047/G004755/20260601059/",
-      "pubDate": "2026-06-01T13:15:27.000Z",
-      "summary": "2026年6月1日，ASUSは，携帯型ゲームPCの新モデル「ROGXboxALLYX20」を発表した。7.4インチサイズの有機ELディスプレイに，ゲームパッドのアナログスティックにTMRスティックを採用するのが見どころだ。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "“永久無料化”された人気協力アクションゲーム『PICO PARK:Classic Edition』、近いうちに配信停止へ。今なら無料で入手できる",
-      "link": "https://automaton-media.com/articles/newsjp/20260601-446443/",
-      "pubDate": "Mon, 01 Jun 2026 12:45:15 +0000",
-      "summary": "TECOPARKは6月1日、『PICO PARK:Classic Edition』の配信停止決定を告知した。"
-    },
-    {
-      "source": "4Gamer",
-      "title": "「Soulframe」，最新アップデート「プレリュード15：Gods & Ghosts」を6月配信。トレード機能やゲーム内メール，新たな敵・武器などを実装",
-      "link": "https://www.4gamer.net/games/645/G064501/20260601056/",
-      "pubDate": "2026-06-01T12:19:27.000Z",
-      "summary": "DigitalExtremesは，「Soulframe」の最新情報を紹介する番組「SoulframeDevstream15」で，6月に無料配信予定のアップデート「プレリュード15：Gods&Ghosts」の詳細をを公開した。クラフトおよび戦利品システムの刷新をはじめ，トレード機能やゲーム内メール機能，新たな敵や武器の追加などが実装される予定だ。"
-    },
-    {
-      "source": "4Gamer",
-      "title": "「Wizardry」45周年特設サイトが公開。RPG史に名を残すシリーズの節目に向け，カウントダウンがスタート",
-      "link": "https://www.4gamer.net/games/999/G999905/20260601055/",
-      "pubDate": "2026-06-01T11:55:13.000Z",
-      "summary": "「Wizardry」シリーズの公式Xアカウントは本日（2026年6月1日），45周年特設サイトを公開したと発表した。特設サイトでは“COMINGSOON”の文字とカウントダウンが表示されており，日本時間6月4日18時ごろに何らかの情報が公開されるものとみられる。"
-    },
-    {
-      "source": "4Gamer",
-      "title": "ROGの20周年を記念した製品シリーズ「ROG Edition 20」が発表に。日本でも12製品を販売予定",
-      "link": "https://www.4gamer.net/games/047/G004755/20260601054/",
-      "pubDate": "2026-06-01T11:47:00.000Z",
-      "summary": "2026年6月1日，ASUSは，ゲーマー向け製品ブランド「RepublicofGamers」の20周年を記念した製品シリーズ「ROGEdition20」を発表した。日本国内でもマザーボードやグラフィックスカードなど，計12製品の販売を予定するという。"
-    },
-    {
-      "source": "4Gamer",
-      "title": "絵画を新聞の切り抜きで再現し，目の悪い美術収集家をごまかすパズルゲーム「Your Painting， Sir」が2026年第3四半期にリリース",
-      "link": "https://www.4gamer.net/games/011/G101150/20260601052/",
-      "pubDate": "2026-06-01T11:25:46.000Z",
-      "summary": "Voskipは，PCゲーム「YourPainting,Sir」を2026年第3四半期にSteamでリリースする。本作は，新聞の中から似ている画像を探し出し，絵画を再現するパズルゲームだ。"
-    },
-    {
-      "source": "4Gamer",
-      "title": "「プロセカ」，プロポーズをリズムゲーム楽曲に追加",
-      "link": "https://www.4gamer.net/games/476/G047609/20260601051/",
-      "pubDate": "2026-06-01T11:11:34.000Z",
+      "source": "Inside",
+      "title": "ホロ/にじだけじゃない！最古参のバーチャルアイドルグループ「えのぐ」はなぜ、愚直に“世界一のVRアイドル”を目指し続けるのか",
+      "link": "https://www.inside-games.jp/article/2026/06/02/182312.html",
+      "pubDate": "2026-06-02T10:00:05.000Z",
       "summary": ""
     },
     {
-      "source": "4Gamer",
-      "title": "「銀魂 すまほ ばとるくろにくる」，ストーリーイベント第5弾「特別衣装」を開催中。新機能「バイト」も実装",
-      "link": "https://www.4gamer.net/games/960/G096075/20260601050/",
-      "pubDate": "2026-06-01T11:03:35.000Z",
+      "source": "Inside",
+      "title": "「ちいかわ」たちが2WAYミニトートバッグになった！大きなお顔が可愛いハチワレ、うさぎなど全4種を6月中旬より展開",
+      "link": "https://www.inside-games.jp/article/2026/06/02/182311.html",
+      "pubDate": "2026-06-02T09:15:07.000Z",
       "summary": ""
     },
     {
-      "source": "4Gamer",
-      "title": "わしゃがなTVの最新動画では，中村悠一さんが持参した懐かしのゲームグッズやエアガンを紹介する様子をお届け",
-      "link": "https://www.4gamer.net/games/991/G999106/20260601033/",
-      "pubDate": "2026-06-01T11:00:00.000Z",
-      "summary": "本日（2026年6月1日），中村悠一さんとマフィア梶田さんによるWeb番組「わしゃがなTV」の最新動画が公開された。今回は，中村悠一さんが持参した懐かしのゲームグッズやエアガンを紹介する様子をお届け。家の掃除をしていたら見つけたという，かなり年季の入ったグッズが登場する。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "基本プレイ無料戦車シューター『World of Tanks: HEAT』は、チーム制ながら個人の責任が薄く気楽に遊べるTPSだった。ヒーラーなしの戦車ヒーローシューター",
-      "link": "https://automaton-media.com/articles/columnjp/woth-20260601-446421/",
-      "pubDate": "Mon, 01 Jun 2026 10:59:22 +0000",
-      "summary": "ウォーゲーミングは5月26日、戦車系ヒーローシューター『World of Tanks: HEAT』の配信を開始した。対応プラットフォームはPC（Steam/Wargaming Game Center）/PS5/Xbox Series X|Sで、基本プレイ無料にて提供されている。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "“ズル”もできるスクラッチくじゲーム『Scratch the Ticket』発表。どんどん削って運試し、怪しい道具で運をも制する",
-      "link": "https://automaton-media.com/articles/newsjp/20260601-446431/",
-      "pubDate": "Mon, 01 Jun 2026 10:51:44 +0000",
-      "summary": "Spaghetti Catは5月31日、Shilenokが手がける宝くじインクリメンタルゲーム『Scratch the Ticket』を発表した。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "『コーヒートーク トーキョー』で味わう“里帰り感と都会の孤独感”のブレンド。ひと夏の夜の東京でふれる、あたたかな時間",
-      "link": "https://automaton-media.com/articles/columnjp/20260601-446408/",
-      "pubDate": "Mon, 01 Jun 2026 10:15:02 +0000",
-      "summary": "『コーヒートーク トーキョー』では東京の夜風と新しい出会いに触れることになった。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "精神崩壊デッキ構築ローグライク『カオスゼロナイトメア』は、“ビルドは深く、プレイは短く”を頑張ったらしい。今後は「1プレイの質」を重視",
-      "link": "https://automaton-media.com/articles/interviewsjp/chaos-zero-nightmare-20260601-446296/",
-      "pubDate": "Mon, 01 Jun 2026 09:22:57 +0000",
-      "summary": "『カオスゼロナイトメア』の「ハーフアニバーサリー」アップデートを機に、今後どう調整していくのか、本作プロデューサーを務めるキム・ヒョンソク氏にうかがった。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "『怪獣８号 THE GAME』は、「怪獣８号」の世界を拡張していて面白い。独自ストーリーと“ライブ感”で描き出す物語",
-      "link": "https://automaton-media.com/articles/columnjp/kaijuu8-20260601-446391/",
-      "pubDate": "Mon, 01 Jun 2026 09:16:04 +0000",
-      "summary": "『怪獣８号 THE GAME』の良さを、本稿では主にキャラクターとストーリー面について言葉にしてお伝えしたい。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "ティーン向け人気雑誌「nicola」監修ゲーム『モデルデビュー4 ニコラ』、Steam/Switch 2版が8月27日発売へ。No.1モデルを目指す少女の、“仕事＆恋愛両立”おしゃれライフ",
-      "link": "https://automaton-media.com/articles/newsjp/20260601-446384/",
-      "pubDate": "Mon, 01 Jun 2026 09:00:04 +0000",
-      "summary": "フリューは6月1日、『モデルデビュー4 ニコラ』をPC（Steam）/Nintento Switch2向けに2026年8月27日に発売すると発表した。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "“奇妙な生き物大好き”ゲーム開発者が手がける食物連鎖サバイバルSTG『Nomnomia』6月30日発売へ。目指すはヘンな生き物の頂点、過酷惑星で弱肉強食ゲーム",
-      "link": "https://automaton-media.com/articles/newsjp/20260601-446376/",
-      "pubDate": "Mon, 01 Jun 2026 08:32:40 +0000",
-      "summary": "個人ゲーム開発者の桃田福禄氏は5月30日、食物連鎖シューティング『Nomnomia』を6月30日に発売すると発表した。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "『Fate/Grand Order』開発元ラセングル、2028年卒向け採用イベント「オープン・カンパニー」を6月27日実施へ。本社で開催、社員のリアルな声を聞ける",
-      "link": "https://automaton-media.com/articles/newsjp/20260601-446369/",
-      "pubDate": "Mon, 01 Jun 2026 07:28:20 +0000",
-      "summary": "ラセングルは6月1日、2028年卒の学生を対象とした「オープン・カンパニー」を、2026年6月27日に開催すると発表した。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "2人協力・お絵かきパズルアクション『Linebound』Steamで無料配布中。1か月間限定",
-      "link": "https://automaton-media.com/articles/newsjp/20260601-446360/",
-      "pubDate": "Mon, 01 Jun 2026 06:44:53 +0000",
-      "summary": "FutureBoundは5月31日、『Linebound』をリリースした。現在無料配布中。"
+      "source": "Inside",
+      "title": "『シニガミ姫と異書館ノ怪物』で実感した「絵本シリーズ」の進化！ 痛みを伴う優しい物語を“新たな立場”と“関係性”で描く【プレイレポ】",
+      "link": "https://www.inside-games.jp/article/2026/06/02/182310.html",
+      "pubDate": "2026-06-02T09:00:04.000Z",
+      "summary": ""
     }
   ],
   "twitter": {
     "source": "Twitter/X (mock)",
-    "fetched_at": "2026-06-01T23:21:44.954Z",
+    "fetched_at": "2026-06-02T23:27:52.903Z",
     "tweets": [
       {
         "id": "mock-0-0",
         "author": "user_00",
         "text": "メメントモリ についての感想ツイート (mock 1)",
-        "pubDate": "2026-06-01T23:21:44.954Z",
+        "pubDate": "2026-06-02T23:27:52.903Z",
         "link": null,
         "keyword": "メメントモリ"
       },
@@ -11268,7 +11394,7 @@
         "id": "mock-0-1",
         "author": "user_01",
         "text": "メメントモリ についての感想ツイート (mock 2)",
-        "pubDate": "2026-06-01T17:21:44.954Z",
+        "pubDate": "2026-06-02T17:27:52.903Z",
         "link": null,
         "keyword": "メメントモリ"
       },
@@ -11276,7 +11402,7 @@
         "id": "mock-0-2",
         "author": "user_02",
         "text": "メメントモリ についての感想ツイート (mock 3)",
-        "pubDate": "2026-06-01T11:21:44.954Z",
+        "pubDate": "2026-06-02T11:27:52.903Z",
         "link": null,
         "keyword": "メメントモリ"
       },
@@ -11284,7 +11410,7 @@
         "id": "mock-0-3",
         "author": "user_03",
         "text": "メメントモリ についての感想ツイート (mock 4)",
-        "pubDate": "2026-06-01T05:21:44.954Z",
+        "pubDate": "2026-06-02T05:27:52.903Z",
         "link": null,
         "keyword": "メメントモリ"
       },
@@ -11292,7 +11418,7 @@
         "id": "mock-1-0",
         "author": "user_10",
         "text": "#メメントモリ についての感想ツイート (mock 1)",
-        "pubDate": "2026-06-01T22:21:44.954Z",
+        "pubDate": "2026-06-02T22:27:52.903Z",
         "link": null,
         "keyword": "#メメントモリ"
       },
@@ -11300,7 +11426,7 @@
         "id": "mock-1-1",
         "author": "user_11",
         "text": "#メメントモリ についての感想ツイート (mock 2)",
-        "pubDate": "2026-06-01T16:21:44.954Z",
+        "pubDate": "2026-06-02T16:27:52.903Z",
         "link": null,
         "keyword": "#メメントモリ"
       },
@@ -11308,7 +11434,7 @@
         "id": "mock-1-2",
         "author": "user_12",
         "text": "#メメントモリ についての感想ツイート (mock 3)",
-        "pubDate": "2026-06-01T10:21:44.954Z",
+        "pubDate": "2026-06-02T10:27:52.903Z",
         "link": null,
         "keyword": "#メメントモリ"
       },
@@ -11316,7 +11442,7 @@
         "id": "mock-1-3",
         "author": "user_13",
         "text": "#メメントモリ についての感想ツイート (mock 4)",
-        "pubDate": "2026-06-01T04:21:44.954Z",
+        "pubDate": "2026-06-02T04:27:52.903Z",
         "link": null,
         "keyword": "#メメントモリ"
       },
@@ -11324,7 +11450,7 @@
         "id": "mock-2-0",
         "author": "user_20",
         "text": "MementoMori についての感想ツイート (mock 1)",
-        "pubDate": "2026-06-01T21:21:44.954Z",
+        "pubDate": "2026-06-02T21:27:52.903Z",
         "link": null,
         "keyword": "MementoMori"
       },
@@ -11332,7 +11458,7 @@
         "id": "mock-2-1",
         "author": "user_21",
         "text": "MementoMori についての感想ツイート (mock 2)",
-        "pubDate": "2026-06-01T15:21:44.954Z",
+        "pubDate": "2026-06-02T15:27:52.903Z",
         "link": null,
         "keyword": "MementoMori"
       },
@@ -11340,7 +11466,7 @@
         "id": "mock-2-2",
         "author": "user_22",
         "text": "MementoMori についての感想ツイート (mock 3)",
-        "pubDate": "2026-06-01T09:21:44.954Z",
+        "pubDate": "2026-06-02T09:27:52.903Z",
         "link": null,
         "keyword": "MementoMori"
       },
@@ -11348,7 +11474,7 @@
         "id": "mock-2-3",
         "author": "user_23",
         "text": "MementoMori についての感想ツイート (mock 4)",
-        "pubDate": "2026-06-01T03:21:44.954Z",
+        "pubDate": "2026-06-02T03:27:52.903Z",
         "link": null,
         "keyword": "MementoMori"
       }
@@ -11360,7 +11486,7 @@
       "avgTextLength": 29,
       "daily": [
         {
-          "date": "2026-06-01",
+          "date": "2026-06-02",
           "count": 12
         }
       ]
@@ -11548,6 +11674,15 @@
       },
       {
         "date": "2026-06-01",
+        "stats": {
+          "totalTweets": 12,
+          "uniqueAuthors": 12,
+          "tweetsPerDay": 12,
+          "avgTextLength": 29
+        }
+      },
+      {
+        "date": "2026-06-02",
         "stats": {
           "totalTweets": 12,
           "uniqueAuthors": 12,

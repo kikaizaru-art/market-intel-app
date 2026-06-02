@@ -38,18 +38,18 @@
         "recentChanges": "【v4.15.0】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-06": {
-        "score": 4.513467,
-        "ratings": 91601,
-        "reviews": 9125,
+        "score": 4.5124464,
+        "ratings": 91614,
+        "reviews": 9129,
         "histogram": {
-          "1": 4540,
-          "2": 1653,
-          "3": 4172,
-          "4": 13095,
-          "5": 68133
+          "1": 4558,
+          "2": 1650,
+          "3": 4165,
+          "4": 13130,
+          "5": 68100
         },
         "reviewVelocity": {
-          "perDay": 2.9,
+          "perDay": 3,
           "span": 10
         },
         "version": "4.15.0",
@@ -94,19 +94,19 @@
         "recentChanges": "パフォーマンス最適化"
       },
       "2026-06": {
-        "score": 3.995121,
-        "ratings": 100034,
+        "score": 3.99502,
+        "ratings": 100035,
         "reviews": 29152,
         "histogram": {
-          "1": 13482,
+          "1": 13481,
           "2": 4148,
-          "3": 7228,
-          "4": 19685,
-          "5": 55487
+          "3": 7238,
+          "4": 19682,
+          "5": 55481
         },
         "reviewVelocity": {
           "perDay": 0.5,
-          "span": 58
+          "span": 56
         },
         "version": "2.3.160",
         "recentChanges": "パフォーマンス最適化"
@@ -150,15 +150,15 @@
         "recentChanges": "いくつかの不具合を修正しました。"
       },
       "2026-06": {
-        "score": 4.225564,
-        "ratings": 295920,
+        "score": 4.223903,
+        "ratings": 296004,
         "reviews": 1420,
         "histogram": {
-          "1": 24917,
-          "2": 13330,
-          "3": 16462,
-          "4": 56499,
-          "5": 184664
+          "1": 25054,
+          "2": 13422,
+          "3": 16106,
+          "4": 56865,
+          "5": 184465
         },
         "reviewVelocity": {
           "perDay": 0.3,
@@ -206,19 +206,19 @@
         "recentChanges": "1. 新SP英雄登場：「鳳翎彩華」×「流虹暁知」<br>2. 新ミニゲーム「飛行船防衛戦」が実装。あなたは一体どこまで耐えられるか！"
       },
       "2026-06": {
-        "score": 3.2843137,
-        "ratings": 162,
+        "score": 3.2884614,
+        "ratings": 164,
         "reviews": 53,
         "histogram": {
           "1": 44,
-          "2": 7,
+          "2": 9,
           "3": 20,
           "4": 28,
-          "5": 57
+          "5": 58
         },
         "reviewVelocity": {
           "perDay": 0.5,
-          "span": 57
+          "span": 58
         },
         "version": "1.0.9",
         "recentChanges": null
@@ -262,15 +262,15 @@
         "recentChanges": "『勝利の女神：NIKKE』B-SIDE IDOL Ver.リリース！<br><br>【新ニケ】<br>SSR ミント<br><br>【新イベント】<br>新ストーリーイベント：B-SIDE IDOL<br>7日間ログインイベント：BACK STAGE GIFT<br><br>【新コスチューム】<br>ミント - フレッシュミント<br><br>【その他】<br>新プロフィールカードオブジェクト<br>新称号<br>TRACING THE STARSのミニゲームショップ追加<br><br>【改善事項】<br>※改善事項と不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       },
       "2026-06": {
-        "score": 4.5849905,
-        "ratings": 598494,
-        "reviews": 13648,
+        "score": 4.584896,
+        "ratings": 598567,
+        "reviews": 13650,
         "histogram": {
-          "1": 21567,
-          "2": 6177,
-          "3": 24150,
-          "4": 95250,
-          "5": 451337
+          "1": 21587,
+          "2": 6167,
+          "3": 24114,
+          "4": 95359,
+          "5": 451323
         },
         "reviewVelocity": {
           "perDay": 2.2,
@@ -318,15 +318,15 @@
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
       },
       "2026-06": {
-        "score": 4.082092,
+        "score": 4.081257,
         "ratings": 38213,
         "reviews": 11733,
         "histogram": {
-          "1": 5942,
+          "1": 5950,
           "2": 1407,
           "3": 2038,
-          "4": 3001,
-          "5": 25819
+          "4": 3000,
+          "5": 25813
         },
         "reviewVelocity": {
           "perDay": 2.9,
@@ -2075,6 +2075,74 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-06-02",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 7,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 6,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 91,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 2,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 4,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 18,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 76,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 47,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 33,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
@@ -2389,10 +2457,32 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-06-02",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "09fa6090-71eb-4392-8801-df4727994c8d",
+        "score": 5,
+        "text": "難易度も高くなく、楽しい。ビジュアルも綺麗でいいなと思います。",
+        "date": "2026-06-01T06:38:04.464Z",
+        "thumbsUp": 0,
+        "appVersion": "4.15.0",
+        "capturedAt": "2026-06-02T23:27:52.915Z"
+      },
       {
         "id": "df2e7414-d2e4-4601-9f13-33baf95ec24e",
         "score": 5,
@@ -4466,6 +4556,24 @@
     ],
     "houchi-shoujo": [
       {
+        "id": "92df2a93-2c80-4538-b2b4-3a7005ebceaa",
+        "score": 1,
+        "text": "放置とは名ばかりの拘束ゲームに成り下がった。 新コンテンツは報酬のため仕方なくやる全くつまらないもの。 毎日やるべきことが山のように増え、元々複数のアカウントを持っていたら寝る時間を削ってまでやるしかない。 リアルに影響が出るので新規の方は要注意。（6/2追記）鯖合併とEX実装が完全に悪手、引退者が一気に増えたし対人の順位が落ちてモチベが最底辺に。天下のマッチングもさらに悪化し不参加になるように同盟を分割して勢力値調整。こんなのに金使うのもアホらしくなったので課金はもう辞めます。それでも仲間のためゲームは続けるので今後はユーザーの意思にそぐわないことは辞めて頂きたい",
+        "date": "2026-06-01T22:29:24.225Z",
+        "thumbsUp": 108,
+        "appVersion": "2.3.160",
+        "capturedAt": "2026-06-02T23:27:52.915Z"
+      },
+      {
+        "id": "1d468186-9398-4050-a15d-6b605cfca16b",
+        "score": 3,
+        "text": "ゲーム自体はとてもいいですし、女の子たちも可愛いです❣ ただ、バッテリーの減りが少し加速しがちなのとそもそも開けなかったりすることが時折あります。 でもでも！本当に毎回イベントも楽しくて！どんどん新しい子も出てきてコラボも多くて、私はアプリとしてすごく好きです❣ 楽しいのにできない…というのがちょっと寂しいです。",
+        "date": "2026-06-01T13:59:19.880Z",
+        "thumbsUp": 0,
+        "appVersion": "2.3.160",
+        "capturedAt": "2026-06-02T23:27:52.915Z"
+      },
+      {
         "id": "56bb88a2-7964-42db-b2ad-9f9c93a35fbd",
         "score": 5,
         "text": "花嫁衣裳だけは自分が持ってないとタッチボイスを確認出来ないので、頑張って元宝を集めましょう。射幸感を与えてくれます。戦力も何だかんだで少しずつ上がっていけるし、月２回の願い返しで元宝もかなり増えてくれます。戦力も、果てしないですが、何だかんだで少しずつ上げて行けます。特に強いキャラを一人でも持ってると全然違いますよ。",
@@ -5325,6 +5433,15 @@
     ],
     "ori-aka": [
       {
+        "id": "af028a17-95a2-4319-a09d-14c04b83a6f2",
+        "score": 2,
+        "text": "引けもしない召喚に赤マークが付きっぱなしなので、早く消えるようにしてほしい",
+        "date": "2026-06-01T14:22:08.968Z",
+        "thumbsUp": 0,
+        "appVersion": "1.0.9",
+        "capturedAt": "2026-06-02T23:27:52.915Z"
+      },
+      {
         "id": "336b9d3f-637e-4d13-97f6-ee4a9c8434d0",
         "score": 1,
         "text": "チャイナゲー",
@@ -5776,6 +5893,15 @@
       }
     ],
     "nikke": [
+      {
+        "id": "1c8867a0-4bff-4db2-872f-63cef27c3715",
+        "score": 5,
+        "text": "２重発射は。スプリングと。炸薬ですね。",
+        "date": "2026-06-01T12:37:36.743Z",
+        "thumbsUp": 1,
+        "appVersion": "146.6.9",
+        "capturedAt": "2026-06-02T23:27:52.915Z"
+      },
       {
         "id": "a27db412-c2ee-4d87-a1a4-c185ac446c64",
         "score": 1,
@@ -9105,6 +9231,15 @@
     },
     {
       "date": "2026-06-01",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 12,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-06-02",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

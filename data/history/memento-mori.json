@@ -38,22 +38,22 @@
         "recentChanges": "【v4.15.0】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-06": {
-        "score": 4.507846,
-        "ratings": 91779,
+        "score": 4.508122,
+        "ratings": 91791,
         "reviews": 9153,
         "histogram": {
-          "1": 4686,
-          "2": 1649,
-          "3": 4135,
-          "4": 13196,
-          "5": 68105
+          "1": 4681,
+          "2": 1647,
+          "3": 4130,
+          "4": 13208,
+          "5": 68115
         },
         "reviewVelocity": {
-          "perDay": 4.9,
-          "span": 6
+          "perDay": 4.1,
+          "span": 7
         },
-        "version": "4.15.0",
-        "recentChanges": "【v4.15.0】<br>====================================<br>・不具合の修正<br>===================================="
+        "version": "4.16.1",
+        "recentChanges": "【v4.16.1】<br>====================================<br>・不具合の修正<br>===================================="
       }
     },
     "houchi-shoujo": {
@@ -94,15 +94,15 @@
         "recentChanges": "パフォーマンス最適化"
       },
       "2026-06": {
-        "score": 3.9945138,
-        "ratings": 100037,
+        "score": 3.9945145,
+        "ratings": 100038,
         "reviews": 29153,
         "histogram": {
-          "1": 13496,
+          "1": 13495,
           "2": 4146,
-          "3": 7235,
-          "4": 19686,
-          "5": 55470
+          "3": 7234,
+          "4": 19694,
+          "5": 55465
         },
         "reviewVelocity": {
           "perDay": 0.5,
@@ -151,14 +151,14 @@
       },
       "2026-06": {
         "score": 4.2297297,
-        "ratings": 296378,
+        "ratings": 296430,
         "reviews": 1421,
         "histogram": {
-          "1": 24892,
-          "2": 13341,
-          "3": 15982,
-          "4": 56499,
-          "5": 185527
+          "1": 24896,
+          "2": 13343,
+          "3": 15985,
+          "4": 56509,
+          "5": 185559
         },
         "reviewVelocity": {
           "perDay": 0.3,
@@ -208,7 +208,7 @@
       "2026-06": {
         "score": 3.4660194,
         "ratings": 173,
-        "reviews": 54,
+        "reviews": 55,
         "histogram": {
           "1": 40,
           "2": 9,
@@ -262,22 +262,22 @@
         "recentChanges": "『勝利の女神：NIKKE』B-SIDE IDOL Ver.リリース！<br><br>【新ニケ】<br>SSR ミント<br><br>【新イベント】<br>新ストーリーイベント：B-SIDE IDOL<br>7日間ログインイベント：BACK STAGE GIFT<br><br>【新コスチューム】<br>ミント - フレッシュミント<br><br>【その他】<br>新プロフィールカードオブジェクト<br>新称号<br>TRACING THE STARSのミニゲームショップ追加<br><br>【改善事項】<br>※改善事項と不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       },
       "2026-06": {
-        "score": 4.587111,
-        "ratings": 599360,
-        "reviews": 13654,
+        "score": 4.587554,
+        "ratings": 599345,
+        "reviews": 13657,
         "histogram": {
-          "1": 21339,
-          "2": 5928,
-          "3": 24227,
-          "4": 95853,
-          "5": 451999
+          "1": 21283,
+          "2": 5979,
+          "3": 24171,
+          "4": 95776,
+          "5": 452128
         },
         "reviewVelocity": {
-          "perDay": 2.3,
-          "span": 13
+          "perDay": 2.1,
+          "span": 14
         },
-        "version": "146.6.9",
-        "recentChanges": "『勝利の女神：NIKKE』B-SIDE IDOL Ver.リリース！<br><br>【新ニケ】<br>SSR ミント<br><br>【新イベント】<br>新ストーリーイベント：B-SIDE IDOL<br>7日間ログインイベント：BACK STAGE GIFT<br><br>【新コスチューム】<br>ミント - フレッシュミント<br><br>【その他】<br>新プロフィールカードオブジェクト<br>新称号<br>TRACING THE STARSのミニゲームショップ追加<br><br>【改善事項】<br>※改善事項と不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
+        "version": "147.6.9",
+        "recentChanges": "『勝利の女神：NIKKE』ARK RANGER Ver.リリース！<br><br>【新ニケ】<br>SSR アークレンジャー・ブラック<br><br>【新イベント】<br>新フルボイスストーリーイベント：ARK RANGER<br>ミニゲーム：FIGHT! ARK RANGER!<br>14日間ログインイベント<br><br>【新コスチューム】<br>モラン - キング・オブ・フラワーズ<br>E.H. - ジャンクヤード・ヴァンガード<br>ナガ - リング・アンサンブル<br><br>【その他】<br>スキル一括レベルアップ機能追加<br>消費アイテムのタップ利便性改善<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       }
     },
     "bluearchive": {
@@ -318,15 +318,15 @@
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
       },
       "2026-06": {
-        "score": 4.0740643,
-        "ratings": 38242,
-        "reviews": 11749,
+        "score": 4.072417,
+        "ratings": 38249,
+        "reviews": 11753,
         "histogram": {
-          "1": 6016,
-          "2": 1399,
+          "1": 6027,
+          "2": 1410,
           "3": 2084,
           "4": 2966,
-          "5": 25770
+          "5": 25757
         },
         "reviewVelocity": {
           "perDay": 2.5,
@@ -2415,6 +2415,74 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-06-11",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 11,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 8,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 139,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 9,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 6,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 15,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 61,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 45,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 53,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
@@ -2794,10 +2862,41 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-06-11",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "f336be3e-7567-4518-89fd-1da52725e64d",
+        "score": 5,
+        "text": "絵が綺麗",
+        "date": "2026-06-10T17:41:52.945Z",
+        "thumbsUp": 0,
+        "appVersion": "4.16.1",
+        "capturedAt": "2026-06-11T23:14:35.605Z"
+      },
+      {
+        "id": "c12350a5-3e3a-4d37-8b12-8869eefb50d2",
+        "score": 5,
+        "text": "ポイ活でプレーしてた。いきなりデータ消えた。戻ってこない。",
+        "date": "2026-06-10T13:12:15.437Z",
+        "thumbsUp": 3,
+        "appVersion": "4.16.1",
+        "capturedAt": "2026-06-11T23:14:35.605Z"
+      },
       {
         "id": "a4cd1d44-afae-42ab-b213-3b93147da612",
         "score": 4,
@@ -6569,6 +6668,15 @@
     ],
     "nikke": [
       {
+        "id": "7cace11b-0549-4e7f-a37c-d15fa9e028f0",
+        "score": 2,
+        "text": "装備の能力づけが本当に苦痛。カスモ2桁、ロックキー3桁でも徒労に終わるのは当たり前。たとえカスモ200個以上使用しても中途半端に終わることもある。月に2キャラ以上実装してくるくせに、強化が間に合わず倉庫番が増えるだけ。アンケートで、なぜ引退したのですかという愚問、そういうことだぞ",
+        "date": "2026-06-10T07:00:23.495Z",
+        "thumbsUp": 21,
+        "appVersion": "147.6.9",
+        "capturedAt": "2026-06-11T23:14:35.605Z"
+      },
+      {
         "id": "03e13643-678c-424f-a8b4-4bd12e00266c",
         "score": 5,
         "text": "ゲーム自体は楽しめているのですが 先週からX側の不具合にて 携帯端末からのログインが不可となり アプリを入れ直してみても サーバー接続の確認辺りで 弾かれます 詳細は公式お知らせよりと表記が ありますが 公式には何もアナウンスが無く 個人で設定を見直す等しても プレイ再開に辿り着けないのですが 改善の余地はあるのでしょうか? という疑問の投げ掛けです ゲームレビューとしては 最近本編よりもミニゲーム特化してるので メインシナリオを楽しみつつ 違う事もゲーム内で楽しみたいという ユーザーにはおすすめ てところですね",
@@ -8578,6 +8686,33 @@
     ],
     "bluearchive": [
       {
+        "id": "29a72ac3-2de2-4738-aa0b-604df4a00a44",
+        "score": 2,
+        "text": "自分だけなのかはわからないのだが、カフェで生徒を呼び出したらクラッシュした。 前の総力戦の時もなぜかクラッシュした これは流石にオーマイグンネス",
+        "date": "2026-06-10T13:18:46.111Z",
+        "thumbsUp": 0,
+        "appVersion": "1.69.428359",
+        "capturedAt": "2026-06-11T23:14:35.605Z"
+      },
+      {
+        "id": "112715ef-f00f-4de1-a113-30ba491155fb",
+        "score": 1,
+        "text": "ガチャはキツいけどキャラは良い。メインもイベントも基本的にはボイス無しなので少し物足りなく感じる。育成素材も不足しがちになるので考えて使う必要有。のんびりやる分にはおすすめ。追記とりあえずガチャがキツ過ぎ。ガチャポイントの期限有もキツい(そのピックアップ期間のみで大体1~2週間)、他のゲームだと持ち越し出来るのも有るしせめて1ヶ月は貯めさせて欲しい。",
+        "date": "2026-06-10T13:04:54.728Z",
+        "thumbsUp": 20,
+        "appVersion": "1.69.428359",
+        "capturedAt": "2026-06-11T23:14:35.605Z"
+      },
+      {
+        "id": "9c8b75f8-254c-4179-a0af-3f810ade4b0f",
+        "score": 5,
+        "text": "僕はブルアカを続けるぞ！ネクソン！",
+        "date": "2026-06-10T07:40:09.759Z",
+        "thumbsUp": 0,
+        "appVersion": "1.69.428359",
+        "capturedAt": "2026-06-11T23:14:35.605Z"
+      },
+      {
         "id": "29f57cb3-4db0-4ac3-9cde-63ff6da8a2ef",
         "score": 5,
         "text": "ゲーム開発部編の第二章13話の戦闘、編成に入った途端にゲームが落ちるお。助けてほしいお。",
@@ -10203,6 +10338,15 @@
     },
     {
       "date": "2026-06-10",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 12,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-06-11",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

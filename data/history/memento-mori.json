@@ -38,15 +38,15 @@
         "recentChanges": "【v4.15.0】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-06": {
-        "score": 4.504382,
-        "ratings": 92155,
-        "reviews": 9200,
+        "score": 4.505105,
+        "ratings": 92179,
+        "reviews": 9202,
         "histogram": {
-          "1": 4663,
-          "2": 1795,
-          "3": 4116,
-          "4": 13390,
-          "5": 68183
+          "1": 4678,
+          "2": 1776,
+          "3": 4102,
+          "4": 13357,
+          "5": 68257
         },
         "reviewVelocity": {
           "perDay": 3.3,
@@ -94,15 +94,15 @@
         "recentChanges": "パフォーマンス最適化"
       },
       "2026-06": {
-        "score": 3.9946177,
-        "ratings": 100025,
+        "score": 3.9947197,
+        "ratings": 100026,
         "reviews": 29147,
         "histogram": {
-          "1": 13499,
+          "1": 13498,
           "2": 4133,
           "3": 7231,
-          "4": 19695,
-          "5": 55461
+          "4": 19694,
+          "5": 55466
         },
         "reviewVelocity": {
           "perDay": 0.4,
@@ -151,14 +151,14 @@
       },
       "2026-06": {
         "score": 4.2262444,
-        "ratings": 297047,
+        "ratings": 297091,
         "reviews": 1423,
         "histogram": {
-          "1": 25516,
-          "2": 13408,
-          "3": 15650,
-          "4": 55965,
-          "5": 186371
+          "1": 25520,
+          "2": 13410,
+          "3": 15652,
+          "4": 55973,
+          "5": 186399
         },
         "reviewVelocity": {
           "perDay": 0.2,
@@ -206,19 +206,19 @@
         "recentChanges": "1. 新SP英雄登場：「鳳翎彩華」×「流虹暁知」<br>2. 新ミニゲーム「飛行船防衛戦」が実装。あなたは一体どこまで耐えられるか！"
       },
       "2026-06": {
-        "score": 3.514563,
-        "ratings": 183,
+        "score": 3.495238,
+        "ratings": 187,
         "reviews": 56,
         "histogram": {
           "1": 42,
-          "2": 6,
-          "3": 24,
-          "4": 30,
+          "2": 8,
+          "3": 26,
+          "4": 29,
           "5": 77
         },
         "reviewVelocity": {
           "perDay": 0.4,
-          "span": 71
+          "span": 83
         },
         "version": "1.0.9",
         "recentChanges": null
@@ -262,15 +262,15 @@
         "recentChanges": "『勝利の女神：NIKKE』B-SIDE IDOL Ver.リリース！<br><br>【新ニケ】<br>SSR ミント<br><br>【新イベント】<br>新ストーリーイベント：B-SIDE IDOL<br>7日間ログインイベント：BACK STAGE GIFT<br><br>【新コスチューム】<br>ミント - フレッシュミント<br><br>【その他】<br>新プロフィールカードオブジェクト<br>新称号<br>TRACING THE STARSのミニゲームショップ追加<br><br>【改善事項】<br>※改善事項と不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       },
       "2026-06": {
-        "score": 4.5908055,
-        "ratings": 601327,
+        "score": 4.591337,
+        "ratings": 601464,
         "reviews": 13675,
         "histogram": {
-          "1": 21454,
-          "2": 5778,
-          "3": 23885,
-          "4": 95105,
-          "5": 455087
+          "1": 21397,
+          "2": 5762,
+          "3": 23925,
+          "4": 95049,
+          "5": 455319
         },
         "reviewVelocity": {
           "perDay": 2,
@@ -318,19 +318,19 @@
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
       },
       "2026-06": {
-        "score": 4.069692,
-        "ratings": 38278,
-        "reviews": 11742,
+        "score": 4.0670977,
+        "ratings": 38286,
+        "reviews": 11743,
         "histogram": {
-          "1": 6058,
-          "2": 1436,
-          "3": 2046,
-          "4": 2966,
-          "5": 25766
+          "1": 6086,
+          "2": 1433,
+          "3": 2052,
+          "4": 2960,
+          "5": 25750
         },
         "reviewVelocity": {
-          "perDay": 8.9,
-          "span": 3
+          "perDay": 7.2,
+          "span": 4
         },
         "version": "1.70.436321",
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
@@ -2952,22 +2952,77 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-06-29",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 17,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 9,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 198,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 6,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 1,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 15,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 45,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 32,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 22,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
-    {
-      "date": "2026-04-27",
-      "stats": {
-        "totalPosts": 2,
-        "postsPerDay": 1.2,
-        "avgScore": 75,
-        "avgComments": 25,
-        "maxScore": 120,
-        "bySubreddit": {
-          "gachagaming": 2
-        }
-      }
-    },
     {
       "date": "2026-04-30",
       "stats": {
@@ -3344,10 +3399,50 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-06-29",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "172fae0d-b376-44b1-a480-89729be0f580",
+        "score": 4,
+        "text": "歌かいい",
+        "date": "2026-06-28T14:18:20.130Z",
+        "thumbsUp": 0,
+        "appVersion": "4.17.0",
+        "capturedAt": "2026-06-29T22:46:28.468Z"
+      },
+      {
+        "id": "69652834-1e85-4e57-b40a-8aae99ab7fc7",
+        "score": 5,
+        "text": "面白い",
+        "date": "2026-06-28T12:42:43.588Z",
+        "thumbsUp": 0,
+        "appVersion": "4.17.0",
+        "capturedAt": "2026-06-29T22:46:28.468Z"
+      },
+      {
+        "id": "36c97907-3ff7-45bc-80cc-18986b39874d",
+        "score": 5,
+        "text": "始めたばかりですがキャラ&声が良き！！",
+        "date": "2026-06-28T08:58:39.961Z",
+        "thumbsUp": 0,
+        "appVersion": "4.17.0",
+        "capturedAt": "2026-06-29T22:46:28.468Z"
+      },
       {
         "id": "66d1c1fa-daca-47d1-b92d-dee3300463b8",
         "score": 5,
@@ -7198,6 +7293,15 @@
     ],
     "ori-aka": [
       {
+        "id": "b9356b1b-6ec9-4811-a7d4-d4bbd243ec79",
+        "score": 2,
+        "text": "縛りが多すぎてつまらない",
+        "date": "2026-06-28T13:18:13.935Z",
+        "thumbsUp": 0,
+        "appVersion": "1.0.9",
+        "capturedAt": "2026-06-29T22:46:28.468Z"
+      },
+      {
         "id": "57eeab7d-752b-459d-9a25-a392a3971e9b",
         "score": 4,
         "text": "楽しくなってきました。無課金でもじゅうぶん遊ぶ事ができるので、おすすめです👌",
@@ -7685,6 +7789,24 @@
       }
     ],
     "nikke": [
+      {
+        "id": "1f7b62b5-576c-4623-bb00-7279f744829b",
+        "score": 3,
+        "text": "アニススターみたいにリロード時間（ゲージ）が長いキャラは、ゲージの端が右側のキャラスキルボタンに隠れてしまい視認性が悪いです。そのせいでリロードが終わった瞬間に撃つみたいな操作が難しいです（一瞬早く撃ち始めてしまってリロードが無効になる）。",
+        "date": "2026-06-28T14:18:17.588Z",
+        "thumbsUp": 0,
+        "appVersion": "147.6.9",
+        "capturedAt": "2026-06-29T22:46:28.468Z"
+      },
+      {
+        "id": "753633cf-5605-4564-920b-efea002d868c",
+        "score": 5,
+        "text": "機能改善やストーリーの進行難易度緩和など、古参にも新参にも耳を傾けてくれる運営には脱帽です。",
+        "date": "2026-06-28T08:33:18.121Z",
+        "thumbsUp": 1,
+        "appVersion": "147.6.9",
+        "capturedAt": "2026-06-29T22:46:28.468Z"
+      },
       {
         "id": "bec4468c-2301-4a73-ae6e-c2634e4bb633",
         "score": 5,
@@ -10064,6 +10186,33 @@
     ],
     "bluearchive": [
       {
+        "id": "512c3363-0f12-412e-89bd-415b129d0d1f",
+        "score": 1,
+        "text": "運営にデータを消された 星をつけたくない",
+        "date": "2026-06-28T13:58:13.436Z",
+        "thumbsUp": 0,
+        "appVersion": "1.70.436321",
+        "capturedAt": "2026-06-29T22:46:28.468Z"
+      },
+      {
+        "id": "a5af9f6c-5918-4e92-b529-b33e71ad2a09",
+        "score": 5,
+        "text": "もう、最高 言葉がでてこないけどこれだけは言う。 ブルアカの運営、ありがとう、最高",
+        "date": "2026-06-28T13:24:56.928Z",
+        "thumbsUp": 0,
+        "appVersion": "1.70.436321",
+        "capturedAt": "2026-06-29T22:46:28.468Z"
+      },
+      {
+        "id": "627e993b-e190-4c0f-a92d-f34b647b2fae",
+        "score": 1,
+        "text": "そもそもできない",
+        "date": "2026-06-28T01:41:41.943Z",
+        "thumbsUp": 1,
+        "appVersion": "1.70.436321",
+        "capturedAt": "2026-06-29T22:46:28.468Z"
+      },
+      {
         "id": "7b588757-ce6f-4b37-9228-a7192e32d5c3",
         "score": 5,
         "text": "ふつーに面白い。",
@@ -11949,15 +12098,6 @@
   "youtubeChannels": {},
   "twitter": [
     {
-      "date": "2026-04-27",
-      "stats": {
-        "totalTweets": 12,
-        "uniqueAuthors": 12,
-        "tweetsPerDay": 12,
-        "avgTextLength": 29
-      }
-    },
-    {
       "date": "2026-04-30",
       "stats": {
         "totalTweets": 12,
@@ -12211,6 +12351,15 @@
     },
     {
       "date": "2026-06-28",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 12,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-06-29",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

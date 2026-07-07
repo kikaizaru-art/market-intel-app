@@ -56,15 +56,15 @@
         "recentChanges": "【v4.17.0】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-07": {
-        "score": 4.5067797,
-        "ratings": 92311,
+        "score": 4.508035,
+        "ratings": 92329,
         "reviews": 9222,
         "histogram": {
-          "1": 4691,
-          "2": 1850,
-          "3": 3910,
-          "4": 13375,
-          "5": 68475
+          "1": 4684,
+          "2": 1821,
+          "3": 3902,
+          "4": 13403,
+          "5": 68508
         },
         "reviewVelocity": {
           "perDay": 4.2,
@@ -130,15 +130,15 @@
         "recentChanges": "パフォーマンス最適化"
       },
       "2026-07": {
-        "score": 3.9950147,
-        "ratings": 100026,
+        "score": 3.9950168,
+        "ratings": 100030,
         "reviews": 29147,
         "histogram": {
-          "1": 13483,
-          "2": 4151,
-          "3": 7234,
-          "4": 19660,
-          "5": 55492
+          "1": 13488,
+          "2": 4150,
+          "3": 7232,
+          "4": 19653,
+          "5": 55502
         },
         "reviewVelocity": {
           "perDay": 0.4,
@@ -205,14 +205,14 @@
       },
       "2026-07": {
         "score": 4.22741,
-        "ratings": 297297,
+        "ratings": 297338,
         "reviews": 1423,
         "histogram": {
-          "1": 25489,
-          "2": 13417,
-          "3": 15661,
-          "4": 55959,
-          "5": 186680
+          "1": 25492,
+          "2": 13419,
+          "3": 15663,
+          "4": 55966,
+          "5": 186705
         },
         "reviewVelocity": {
           "perDay": 0.2,
@@ -278,15 +278,15 @@
         "recentChanges": null
       },
       "2026-07": {
-        "score": 3.4336283,
-        "ratings": 208,
+        "score": 3.4298246,
+        "ratings": 210,
         "reviews": 58,
         "histogram": {
           "1": 47,
           "2": 10,
-          "3": 32,
+          "3": 34,
           "4": 34,
-          "5": 80
+          "5": 79
         },
         "reviewVelocity": {
           "perDay": 0.3,
@@ -352,19 +352,19 @@
         "recentChanges": "『勝利の女神：NIKKE』ARK RANGER Ver.リリース！<br><br>【新ニケ】<br>SSR アークレンジャー・ブラック<br><br>【新イベント】<br>新フルボイスストーリーイベント：ARK RANGER<br>ミニゲーム：FIGHT! ARK RANGER!<br>14日間ログインイベント<br><br>【新コスチューム】<br>モラン - キング・オブ・フラワーズ<br>E.H. - ジャンクヤード・ヴァンガード<br>ナガ - リング・アンサンブル<br><br>【その他】<br>スキル一括レベルアップ機能追加<br>消費アイテムのタップ利便性改善<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       },
       "2026-07": {
-        "score": 4.594708,
-        "ratings": 602754,
+        "score": 4.5946083,
+        "ratings": 602936,
         "reviews": 13686,
         "histogram": {
-          "1": 21007,
-          "2": 5817,
-          "3": 24099,
-          "4": 94572,
-          "5": 457241
+          "1": 21079,
+          "2": 5889,
+          "3": 23820,
+          "4": 94779,
+          "5": 457357
         },
         "reviewVelocity": {
-          "perDay": 8,
-          "span": 4
+          "perDay": 6.5,
+          "span": 5
         },
         "version": "148.10.5",
         "recentChanges": "『勝利の女神：NIKKE』WAVE TO YOU Ver.リリース！<br><br>【新ニケ】<br>SSR シンデレラ：クリスタルウェーブ<br>SSR マルチャーナ：マリンスタディ<br><br>【新イベント】<br>新フルボイスストーリーイベント「WAVE TO YOU」<br>ミニゲーム「ISLAND BREAKER」<br>14日間ログインイベント<br><br>【新コスチューム】<br>リトルマーメイド - シェルプリンセス<br>ティア - シー・リジー<br><br>【その他】<br>リズムゲーム「TRACING THE STARS」のステージを飾れる機能が追加<br>新しいユニオンエンブレム<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
@@ -426,19 +426,19 @@
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
       },
       "2026-07": {
-        "score": 4.065937,
-        "ratings": 38298,
+        "score": 4.054698,
+        "ratings": 38305,
         "reviews": 11736,
         "histogram": {
-          "1": 6102,
-          "2": 1430,
-          "3": 2054,
-          "4": 2954,
-          "5": 25753
+          "1": 6181,
+          "2": 1451,
+          "3": 2084,
+          "4": 2955,
+          "5": 25629
         },
         "reviewVelocity": {
-          "perDay": 3.2,
-          "span": 9
+          "perDay": 3,
+          "span": 10
         },
         "version": "1.70.436321",
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
@@ -3393,22 +3393,77 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-07-07",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 12,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 3,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 104,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 1,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 6,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 20,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 52,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 7,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 34,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
-    {
-      "date": "2026-05-06",
-      "stats": {
-        "totalPosts": 2,
-        "postsPerDay": 1.2,
-        "avgScore": 75,
-        "avgComments": 25,
-        "maxScore": 120,
-        "bySubreddit": {
-          "gachagaming": 2
-        }
-      }
-    },
     {
       "date": "2026-05-08",
       "stats": {
@@ -3785,10 +3840,41 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-07-07",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "bfeaf923-a29a-41b6-af71-bb7908313e60",
+        "score": 4,
+        "text": "アプデしてからエラーが出るようになった｡無課金でやってますが数分プレイしてるとエラー表示され､OP画面になります｡このままエラー続きだったらアンインストールも考えてます｡音楽や絵はとても良いです",
+        "date": "2026-07-06T16:48:04.650Z",
+        "thumbsUp": 0,
+        "appVersion": "4.17.0",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
+      {
+        "id": "5acc0720-6504-4903-91d8-dcfa0e09f547",
+        "score": 4,
+        "text": "今日はエラー203 が出て起動しないや",
+        "date": "2026-07-06T10:55:37.290Z",
+        "thumbsUp": 0,
+        "appVersion": "4.17.0",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
       {
         "id": "dc71f449-e256-43cb-b998-02c57ef5f3bd",
         "score": 5,
@@ -6951,6 +7037,15 @@
     ],
     "houchi-shoujo": [
       {
+        "id": "9b9eaa2b-7d15-48d7-8091-28051aa4374c",
+        "score": 5,
+        "text": "楽しい",
+        "date": "2026-07-06T21:40:26.970Z",
+        "thumbsUp": 0,
+        "appVersion": "2.3.160",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
+      {
         "id": "44bb04ad-cee9-4079-ba1e-b1490722cb21",
         "score": 2,
         "text": "VPNアプリ入れたら使えなくなった⁉️ WiFiだけでは使いにくいな❓HUAWEIの端末はみんなこうんかな⁉️お陰様で宣戦と調教やり損ねたわww",
@@ -8459,6 +8554,60 @@
       }
     ],
     "nikke": [
+      {
+        "id": "9aa7220d-e3d5-46a4-a4cf-9808a185ad6c",
+        "score": 5,
+        "text": "令和の時代に爆誕したシナリオ最強のアプリ",
+        "date": "2026-07-06T22:29:19.501Z",
+        "thumbsUp": 0,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
+      {
+        "id": "dc192064-6a33-4915-b466-529718928b06",
+        "score": 5,
+        "text": "空軍は。ホバークラフトですね。",
+        "date": "2026-07-06T14:31:09.204Z",
+        "thumbsUp": 2,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
+      {
+        "id": "cb3a7a90-45a3-44d3-90c2-fd8db0e1daaa",
+        "score": 3,
+        "text": "魅力的なキャラクター。多彩な戦闘システム。かっこいい戦闘BGM。ゲーム自体はどれも素晴らしい。…のだけれど、ゲームの容量がでかすぎる。アップデートの度にでかくなって、続けたいのに続けられないプレイヤーが続出している。ゲーム容量が17GBさすがにヤバすぎる。また、アンインストールして再インストールでアップデートをすることもできるが、回を増すごとにデータ容量が大きくなるので大変な上に、ゲームを立ち上げてゲームに必須なデータのダウンロードに最大で数時間かかるのはなんとかしてほしい。おそらくゲームのデータ容量て悩んでる人は多いのではないでせうか。この容量問題と長時間のダウンロードの問題が解決出来たら星",
+        "date": "2026-07-06T09:57:55.154Z",
+        "thumbsUp": 0,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
+      {
+        "id": "c4709cab-53f4-4045-a16b-d9cf2db93b05",
+        "score": 1,
+        "text": "ダンロードがおそすぎる",
+        "date": "2026-07-06T03:18:33.955Z",
+        "thumbsUp": 0,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
+      {
+        "id": "7694e996-9628-434d-bda3-aab6c24ca07f",
+        "score": 2,
+        "text": "操作がダルい（中でもフィールド移動）ので、それが苦にならないなら楽しみを見出だせるような気はします。 デイリーをこなそうとするだけでも2～30分は取られるのでガッツリハマる人は続くと思いますね。 あとイベントがダルすぎたのも辞める切っ掛けになりました。",
+        "date": "2026-07-06T03:11:39.547Z",
+        "thumbsUp": 0,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
+      {
+        "id": "f2fed4fa-3089-4bbf-bdd0-9d8dc6be292b",
+        "score": 5,
+        "text": "ゲーム事態は全く問題なく楽しくプレイさせてもらってます！ ただ不具合としてWi-Fi環境だと通信エラーが起こるようになっているので、修正の程宜しくお願いします",
+        "date": "2026-07-06T02:56:55.663Z",
+        "thumbsUp": 0,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
       {
         "id": "3f59bb00-d729-4991-8634-2b4c9a9866ed",
         "score": 5,
@@ -11171,6 +11320,24 @@
     ],
     "bluearchive": [
       {
+        "id": "c62bef7b-d3a7-408c-9a36-2e558297098d",
+        "score": 3,
+        "text": "3連続天井したらやる気なくなっちゃった… 2年半楽しませてくれてありがとうございました。",
+        "date": "2026-07-06T15:43:34.960Z",
+        "thumbsUp": 1,
+        "appVersion": "1.70.436321",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
+      {
+        "id": "e43ee0d8-9a32-4aea-a94e-af7605b89656",
+        "score": 4,
+        "text": "際限蒸の旨と違って初期キャラが別枠ガチャにまとめられてる→新規ガチャで排出対象外になる→PU率は変わらずもすり抜けから最近のキャラが当たりやすい！ その上初期キャラにも多少なりとも活躍の機会があるのも嬉しい！ 今後のアーカイブ枠への追加も期待！ 旨の方はカードもキャラも初期の物が産廃化してるからほんとにすごい！！　　 PU率に関してはそもそもソシャゲ全般終わってるから問題無し",
+        "date": "2026-07-06T11:08:28.867Z",
+        "thumbsUp": 0,
+        "appVersion": "1.70.436321",
+        "capturedAt": "2026-07-07T22:51:54.885Z"
+      },
+      {
         "id": "3ea5f076-c583-4a9b-8327-73db440e8356",
         "score": 5,
         "text": "最近の考慮は。戦車は。橋の中央部が。マイナス温度ですね。",
@@ -13236,15 +13403,6 @@
   "youtubeChannels": {},
   "twitter": [
     {
-      "date": "2026-05-06",
-      "stats": {
-        "totalTweets": 12,
-        "uniqueAuthors": 12,
-        "tweetsPerDay": 12,
-        "avgTextLength": 29
-      }
-    },
-    {
       "date": "2026-05-08",
       "stats": {
         "totalTweets": 12,
@@ -13498,6 +13656,15 @@
     },
     {
       "date": "2026-07-06",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 12,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-07-07",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

@@ -56,19 +56,19 @@
         "recentChanges": "【v4.17.0】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-07": {
-        "score": 4.508035,
-        "ratings": 92329,
-        "reviews": 9222,
+        "score": 4.511306,
+        "ratings": 92365,
+        "reviews": 9226,
         "histogram": {
-          "1": 4684,
-          "2": 1821,
-          "3": 3902,
-          "4": 13403,
-          "5": 68508
+          "1": 4568,
+          "2": 1826,
+          "3": 3993,
+          "4": 13390,
+          "5": 68581
         },
         "reviewVelocity": {
-          "perDay": 4.2,
-          "span": 7
+          "perDay": 3.6,
+          "span": 8
         },
         "version": "4.17.0",
         "recentChanges": "【v4.17.0】<br>====================================<br>・不具合の修正<br>===================================="
@@ -142,7 +142,7 @@
         },
         "reviewVelocity": {
           "perDay": 0.4,
-          "span": 75
+          "span": 76
         },
         "version": "2.3.160",
         "recentChanges": "パフォーマンス最適化"
@@ -205,21 +205,21 @@
       },
       "2026-07": {
         "score": 4.22741,
-        "ratings": 297338,
+        "ratings": 297384,
         "reviews": 1423,
         "histogram": {
-          "1": 25492,
-          "2": 13419,
-          "3": 15663,
-          "4": 55966,
-          "5": 186705
+          "1": 25496,
+          "2": 13421,
+          "3": 15665,
+          "4": 55975,
+          "5": 186734
         },
         "reviewVelocity": {
           "perDay": 0.2,
           "span": 126
         },
-        "version": "1.7.11",
-        "recentChanges": "【アップデート内容】<br>アップデート後、「王都の終幕」シーズンが始まります。ガイドが完了している場合、そのまま新シーズンストーリー「王者の剣」を体験できます。所属サーバーがサーバー開放から21日以上経過している、かつプレイヤーの共鳴の手のレベルがLv.240に到達し、メインミッション「新たな旅」を達成している場合、シーズン関連コンテンツが解放されます。"
+        "version": "1.7.21",
+        "recentChanges": "【アップデート内容】<br>1．カタストロフ英雄の追加：「星雲の悪童」ラメンティスが星占いとギルドショップで獲得できるようになります。<br>2．サブミッション「カードの裏面」と「人世の悲喜劇」を追加。メインミッション「王者の剣」をクリアすると開放されます。<br>3．「星夜の逸話」にレトゥムの専用ストーリー「火力至上」を追加。"
       }
     },
     "ori-aka": {
@@ -278,19 +278,19 @@
         "recentChanges": null
       },
       "2026-07": {
-        "score": 3.4298246,
-        "ratings": 210,
-        "reviews": 58,
+        "score": 3.4086957,
+        "ratings": 212,
+        "reviews": 59,
         "histogram": {
-          "1": 47,
+          "1": 49,
           "2": 10,
           "3": 34,
           "4": 34,
-          "5": 79
+          "5": 80
         },
         "reviewVelocity": {
           "perDay": 0.3,
-          "span": 90
+          "span": 93
         },
         "version": "1.0.9",
         "recentChanges": null
@@ -352,19 +352,19 @@
         "recentChanges": "『勝利の女神：NIKKE』ARK RANGER Ver.リリース！<br><br>【新ニケ】<br>SSR アークレンジャー・ブラック<br><br>【新イベント】<br>新フルボイスストーリーイベント：ARK RANGER<br>ミニゲーム：FIGHT! ARK RANGER!<br>14日間ログインイベント<br><br>【新コスチューム】<br>モラン - キング・オブ・フラワーズ<br>E.H. - ジャンクヤード・ヴァンガード<br>ナガ - リング・アンサンブル<br><br>【その他】<br>スキル一括レベルアップ機能追加<br>消費アイテムのタップ利便性改善<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       },
       "2026-07": {
-        "score": 4.5946083,
-        "ratings": 602936,
-        "reviews": 13686,
+        "score": 4.59507,
+        "ratings": 603294,
+        "reviews": 13692,
         "histogram": {
-          "1": 21079,
-          "2": 5889,
-          "3": 23820,
-          "4": 94779,
-          "5": 457357
+          "1": 21163,
+          "2": 5833,
+          "3": 23701,
+          "4": 94710,
+          "5": 457874
         },
         "reviewVelocity": {
-          "perDay": 6.5,
-          "span": 5
+          "perDay": 4.6,
+          "span": 7
         },
         "version": "148.10.5",
         "recentChanges": "『勝利の女神：NIKKE』WAVE TO YOU Ver.リリース！<br><br>【新ニケ】<br>SSR シンデレラ：クリスタルウェーブ<br>SSR マルチャーナ：マリンスタディ<br><br>【新イベント】<br>新フルボイスストーリーイベント「WAVE TO YOU」<br>ミニゲーム「ISLAND BREAKER」<br>14日間ログインイベント<br><br>【新コスチューム】<br>リトルマーメイド - シェルプリンセス<br>ティア - シー・リジー<br><br>【その他】<br>リズムゲーム「TRACING THE STARS」のステージを飾れる機能が追加<br>新しいユニオンエンブレム<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
@@ -426,19 +426,19 @@
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
       },
       "2026-07": {
-        "score": 4.054698,
-        "ratings": 38305,
-        "reviews": 11736,
+        "score": 4.0525603,
+        "ratings": 38313,
+        "reviews": 11739,
         "histogram": {
-          "1": 6181,
-          "2": 1451,
-          "3": 2084,
-          "4": 2955,
-          "5": 25629
+          "1": 6206,
+          "2": 1452,
+          "3": 2085,
+          "4": 2936,
+          "5": 25627
         },
         "reviewVelocity": {
-          "perDay": 3,
-          "span": 10
+          "perDay": 2.8,
+          "span": 11
         },
         "version": "1.70.436321",
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
@@ -3461,22 +3461,77 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-07-09",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 13,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 6,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 102,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 1,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 7,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 22,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 47,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 9,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 35,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
-    {
-      "date": "2026-05-08",
-      "stats": {
-        "totalPosts": 2,
-        "postsPerDay": 1.2,
-        "avgScore": 75,
-        "avgComments": 25,
-        "maxScore": 120,
-        "bySubreddit": {
-          "gachagaming": 2
-        }
-      }
-    },
     {
       "date": "2026-05-09",
       "stats": {
@@ -3853,10 +3908,68 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-07-09",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "b20f5c31-ee71-435d-9135-340f05290468",
+        "score": 5,
+        "text": "ポイ活で始めたけどハマってしまった",
+        "date": "2026-07-08T22:17:26.891Z",
+        "thumbsUp": 0,
+        "appVersion": "4.17.0",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
+        "id": "3407f6de-534a-48b0-9f58-182ddca8abb1",
+        "score": 5,
+        "text": "たのしい おケツ最高！",
+        "date": "2026-07-08T09:03:11.847Z",
+        "thumbsUp": 0,
+        "appVersion": "4.17.0",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
+        "id": "d952ab7e-4def-4c52-b395-bbd34e3a8e8a",
+        "score": 5,
+        "text": "楽しいすぎるガチャが豊富",
+        "date": "2026-07-08T05:11:19.911Z",
+        "thumbsUp": 0,
+        "appVersion": "4.17.0",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
+        "id": "ee35f04f-1677-4e1b-bd72-a21afd0a2adb",
+        "score": 5,
+        "text": "ちょっと遊ぶのに丁度いい！",
+        "date": "2026-07-08T03:39:38.831Z",
+        "thumbsUp": 0,
+        "appVersion": "4.17.0",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
+        "id": "7fdb64d0-485d-4a37-a63c-2d183104a9f8",
+        "score": 5,
+        "text": "やり始めたばかりですが楽しいです。今の所は",
+        "date": "2026-07-07T02:08:27.673Z",
+        "thumbsUp": 0,
+        "appVersion": "4.17.0",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
       {
         "id": "bfeaf923-a29a-41b6-af71-bb7908313e60",
         "score": 4,
@@ -7037,6 +7150,15 @@
     ],
     "houchi-shoujo": [
       {
+        "id": "16c9cdee-3ed1-440f-a887-9e89e69af63e",
+        "score": 2,
+        "text": "あいかわらずVPNアプリ入れても外してもつながらんけど⁉️デイリー、調教の時は特に⁉️どうなっとん❓とにかくよくフリーズする放置できない放置アプリww",
+        "date": "2026-07-08T13:44:11.721Z",
+        "thumbsUp": 0,
+        "appVersion": "2.3.160",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
         "id": "9b9eaa2b-7d15-48d7-8091-28051aa4374c",
         "score": 5,
         "text": "楽しい",
@@ -8040,6 +8162,15 @@
     ],
     "ori-aka": [
       {
+        "id": "2ba67edf-5f6d-4ae1-a2ff-0e9a8378019c",
+        "score": 1,
+        "text": "サーバー開放され、課金したら、一つ前のサーバーと統合状態で嫌になった。最初から統合するならサーバー開放日は一緒ですよ？",
+        "date": "2026-07-08T17:11:36.236Z",
+        "thumbsUp": 0,
+        "appVersion": "1.0.9",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
         "id": "71aeda6b-f15f-43ad-8fea-18c2db28b038",
         "score": 3,
         "text": "三国志がテーマのゲーム。 内容は可もなく不可もなく、ただ、強くなるにはギルドと課金必須。 コツコツやれはするけど、上位コンテンツを楽しむには何年かかるやら…",
@@ -8554,6 +8685,42 @@
       }
     ],
     "nikke": [
+      {
+        "id": "91fb8d9d-6c53-4dfb-9528-45f32f3dcff1",
+        "score": 1,
+        "text": "カス",
+        "date": "2026-07-08T22:59:24.696Z",
+        "thumbsUp": 23,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
+        "id": "42e95b5c-d500-41ad-83ad-af0f450490ba",
+        "score": 5,
+        "text": "いいね",
+        "date": "2026-07-08T19:31:42.311Z",
+        "thumbsUp": 0,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
+        "id": "6f83bd3f-d927-4a29-9203-100c98d05a18",
+        "score": 5,
+        "text": "気軽に始めたけど気づいたらやめられないとまらない。涙あり笑いありちょっぴり鬱ありそんな素晴らしいストーリーを読むことができる。素晴らしい",
+        "date": "2026-07-07T10:05:48.544Z",
+        "thumbsUp": 0,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
+        "id": "253cd418-0177-474c-bc77-8670eeb2fc62",
+        "score": 3,
+        "text": "シンプルに飽きる…無課金でやる分にはかなりいいゲームだと思うが、ロード長い割にロード入る場面が多くて地味にストレス　ランク350くらいたがそろそろかな〜",
+        "date": "2026-07-07T03:06:47.387Z",
+        "thumbsUp": 16,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
       {
         "id": "9aa7220d-e3d5-46a4-a4cf-9808a185ad6c",
         "score": 5,
@@ -11320,6 +11487,33 @@
     ],
     "bluearchive": [
       {
+        "id": "6cf95a62-8227-4c53-a1a2-10f1207545b2",
+        "score": 4,
+        "text": "5周年で始め、約半年経ったレビュー。良い点:ストーリーが良く、キャラクターが魅力的。公式と二次創作が活発で、界隈に活気がある。 悪い点:ガチャ圧がエグい。フェス以外の限定、恒常にも必須級が多い。ノーピック天井も結構発生するので、石計画を立てないと人権やインフラが揃わず、モチベ崩壊に繋がる。 総評:推しを愛でつつ、情報収集をして、自分なりのプレイスタイルを模索する事が長く楽しむコツだと思う。ピックアップがもう少し仕事してくれれば満点。",
+        "date": "2026-07-08T10:10:27.502Z",
+        "thumbsUp": 0,
+        "appVersion": "1.70.436321",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
+        "id": "cd0d4fee-e3c7-458c-bc03-7917561478d3",
+        "score": 5,
+        "text": "F-４ファントム２は。💗サイドワインダー×２発射迄で。スパルーとマンタンの位置は。水素袋軽量化ですね。更に。外装◯白ゲプラー×１と。🟪Ti 装甲骨組みと。内装◯白ゲプラー×100+ですね。空は。❄️寒いですね。",
+        "date": "2026-07-08T08:28:13.713Z",
+        "thumbsUp": 10,
+        "appVersion": "1.70.436321",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
+        "id": "3308993b-d7a9-4c17-ac95-4d7b393f191d",
+        "score": 3,
+        "text": "メタ情報のダウンロードに失敗しましたで何もできない",
+        "date": "2026-07-07T23:42:30.799Z",
+        "thumbsUp": 1,
+        "appVersion": "1.70.436321",
+        "capturedAt": "2026-07-09T23:02:53.253Z"
+      },
+      {
         "id": "c62bef7b-d3a7-408c-9a36-2e558297098d",
         "score": 3,
         "text": "3連続天井したらやる気なくなっちゃった… 2年半楽しませてくれてありがとうございました。",
@@ -13403,15 +13597,6 @@
   "youtubeChannels": {},
   "twitter": [
     {
-      "date": "2026-05-08",
-      "stats": {
-        "totalTweets": 12,
-        "uniqueAuthors": 12,
-        "tweetsPerDay": 12,
-        "avgTextLength": 29
-      }
-    },
-    {
       "date": "2026-05-09",
       "stats": {
         "totalTweets": 12,
@@ -13665,6 +13850,15 @@
     },
     {
       "date": "2026-07-07",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 12,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-07-09",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

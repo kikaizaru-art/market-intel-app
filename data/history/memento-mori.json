@@ -56,19 +56,19 @@
         "recentChanges": "【v4.17.0】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-07": {
-        "score": 4.509887,
-        "ratings": 92440,
-        "reviews": 9237,
+        "score": 4.5101466,
+        "ratings": 92454,
+        "reviews": 9240,
         "histogram": {
-          "1": 4594,
-          "2": 1825,
-          "3": 4046,
-          "4": 13343,
-          "5": 68624
+          "1": 4584,
+          "2": 1823,
+          "3": 4064,
+          "4": 13340,
+          "5": 68636
         },
         "reviewVelocity": {
-          "perDay": 2.6,
-          "span": 11
+          "perDay": 2.4,
+          "span": 12
         },
         "version": "4.18.0",
         "recentChanges": "【v4.18.0】<br>====================================<br>・不具合の修正<br>===================================="
@@ -130,19 +130,19 @@
         "recentChanges": "パフォーマンス最適化"
       },
       "2026-07": {
-        "score": 3.9947133,
+        "score": 3.9944088,
         "ratings": 100028,
         "reviews": 29145,
         "histogram": {
-          "1": 13494,
-          "2": 4149,
-          "3": 7240,
-          "4": 19647,
-          "5": 55494
+          "1": 13503,
+          "2": 4148,
+          "3": 7239,
+          "4": 19645,
+          "5": 55489
         },
         "reviewVelocity": {
           "perDay": 0.4,
-          "span": 79
+          "span": 81
         },
         "version": "2.3.160",
         "recentChanges": "パフォーマンス最適化"
@@ -205,14 +205,14 @@
       },
       "2026-07": {
         "score": 4.238671,
-        "ratings": 297532,
+        "ratings": 297559,
         "reviews": 1423,
         "histogram": {
-          "1": 25602,
-          "2": 12576,
-          "3": 15271,
-          "4": 55697,
-          "5": 188293
+          "1": 25605,
+          "2": 12577,
+          "3": 15273,
+          "4": 55702,
+          "5": 188310
         },
         "reviewVelocity": {
           "perDay": 0.2,
@@ -352,19 +352,19 @@
         "recentChanges": "『勝利の女神：NIKKE』ARK RANGER Ver.リリース！<br><br>【新ニケ】<br>SSR アークレンジャー・ブラック<br><br>【新イベント】<br>新フルボイスストーリーイベント：ARK RANGER<br>ミニゲーム：FIGHT! ARK RANGER!<br>14日間ログインイベント<br><br>【新コスチューム】<br>モラン - キング・オブ・フラワーズ<br>E.H. - ジャンクヤード・ヴァンガード<br>ナガ - リング・アンサンブル<br><br>【その他】<br>スキル一括レベルアップ機能追加<br>消費アイテムのタップ利便性改善<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       },
       "2026-07": {
-        "score": 4.594926,
-        "ratings": 604049,
-        "reviews": 13702,
+        "score": 4.5938444,
+        "ratings": 604186,
+        "reviews": 13705,
         "histogram": {
-          "1": 21360,
-          "2": 5833,
-          "3": 23541,
-          "4": 94635,
-          "5": 458667
+          "1": 21386,
+          "2": 5889,
+          "3": 23619,
+          "4": 94901,
+          "5": 458367
         },
         "reviewVelocity": {
-          "perDay": 4.6,
-          "span": 6
+          "perDay": 3.9,
+          "span": 8
         },
         "version": "148.10.5",
         "recentChanges": "『勝利の女神：NIKKE』WAVE TO YOU Ver.リリース！<br><br>【新ニケ】<br>SSR シンデレラ：クリスタルウェーブ<br>SSR マルチャーナ：マリンスタディ<br><br>【新イベント】<br>新フルボイスストーリーイベント「WAVE TO YOU」<br>ミニゲーム「ISLAND BREAKER」<br>14日間ログインイベント<br><br>【新コスチューム】<br>リトルマーメイド - シェルプリンセス<br>ティア - シー・リジー<br><br>【その他】<br>リズムゲーム「TRACING THE STARS」のステージを飾れる機能が追加<br>新しいユニオンエンブレム<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
@@ -426,18 +426,18 @@
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
       },
       "2026-07": {
-        "score": 4.047825,
-        "ratings": 38331,
-        "reviews": 11741,
+        "score": 4.0444083,
+        "ratings": 38333,
+        "reviews": 11745,
         "histogram": {
-          "1": 6254,
-          "2": 1459,
-          "3": 2081,
-          "4": 2930,
-          "5": 25602
+          "1": 6279,
+          "2": 1462,
+          "3": 2085,
+          "4": 2947,
+          "5": 25555
         },
         "reviewVelocity": {
-          "perDay": 2.4,
+          "perDay": 2.2,
           "span": 13
         },
         "version": "1.70.436321",
@@ -3679,22 +3679,84 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-07-14",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 15,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 5,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 145,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 1,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 7,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 21,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 44,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_free",
+          "rank": 185,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 15,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 43,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
-    {
-      "date": "2026-05-15",
-      "stats": {
-        "totalPosts": 2,
-        "postsPerDay": 1.2,
-        "avgScore": 75,
-        "avgComments": 25,
-        "maxScore": 120,
-        "bySubreddit": {
-          "gachagaming": 2
-        }
-      }
-    },
     {
       "date": "2026-05-16",
       "stats": {
@@ -4071,10 +4133,50 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-07-14",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "1ba6f675-d063-4b9e-a4bf-3a19513b992e",
+        "score": 5,
+        "text": "毎日楽しんでます",
+        "date": "2026-07-13T22:09:38.787Z",
+        "thumbsUp": 0,
+        "appVersion": "4.18.0",
+        "capturedAt": "2026-07-14T22:47:24.147Z"
+      },
+      {
+        "id": "91a9f151-f648-4d86-a27e-c66a280c0d90",
+        "score": 5,
+        "text": "世界観と音楽とキャラ、私に合ってます!!",
+        "date": "2026-07-13T09:57:01.393Z",
+        "thumbsUp": 0,
+        "appVersion": "4.18.0",
+        "capturedAt": "2026-07-14T22:47:24.147Z"
+      },
+      {
+        "id": "adb9a969-adcc-4a03-bdcf-78e939bb0874",
+        "score": 3,
+        "text": "Rキャラも任意でリリース出来る設定が欲しいです、",
+        "date": "2026-07-13T08:43:52.550Z",
+        "thumbsUp": 1,
+        "appVersion": "4.18.0",
+        "capturedAt": "2026-07-14T22:47:24.147Z"
+      },
       {
         "id": "14176618-46cf-42ec-9bb5-85969e068efd",
         "score": 5,
@@ -8917,6 +9019,15 @@
     ],
     "nikke": [
       {
+        "id": "790ef151-04a9-4465-8ecf-bfb4fdee9d98",
+        "score": 2,
+        "text": "古参ですが最近壊れたんか？てくらいガチャの目玉キャラが出なくなりました！普通のキャラならいつか出るかと思って半年くらい出なくても気にせずプレイしていましたが、夏限定の水着キャラ欲しくて課金につぐ課金しましたが100回くらい回しましたが当たり2回で期間限定水着キャラの水着着てない昔の奴が出ました！全く課金しがいの無いカスゲーです!やり始めた最初のうちは適当にキャラを出してくれますがある日途端にパチンコの回収台のごとく課金強制の目玉キャラを出さなくなります。短期で楽しみたい人はオススメです!途中で目玉キャラは微課金程度では絶対に出なくなりますがそれで良ければプレイして下さい。配布ダイヤをひと月貯め",
+        "date": "2026-07-13T07:25:47.439Z",
+        "thumbsUp": 0,
+        "appVersion": "148.10.5",
+        "capturedAt": "2026-07-14T22:47:24.147Z"
+      },
+      {
         "id": "deebc850-79bf-4c66-bc13-0f9d1684ea55",
         "score": 1,
         "text": "あっちこっちでセンシティブな広告を宣伝するの止めてくれ。意図せず目に映って不愉快でならん。他のゲーム広告と比べてクドい程流れてくる。ゲームとは無縁のサイト迄にもポップアップ広告がで出てくる程ですよ。流石に鬱陶しい。てかコンテンツ表現と倫理規定の違反してないか？中華やコリア製のゲームって日本以上にアウトなシーンや悪影響なシーンが多く含まれてる事多いですよね。こうしたRコンテンツを日本で商売するなら日本作品同様 日本の規制に基づいて販売しろよ（有料にするとかアダルトショップで売るとか）中華もコリアも日本の規制掻い潜って日本市場でやりたい放題なのが目立つ。てかフェミニストは日本の作品にはガーガーギー",
@@ -11862,6 +11973,15 @@
     ],
     "bluearchive": [
       {
+        "id": "8e5e2a13-c6de-42e5-b1c8-a723890a0d0a",
+        "score": 4,
+        "text": "UIの改悪で、サークル参加報酬の受け取りがめんどくさくなった。 1200連引いて星3が17人　確率は1.4％ 流石に課金辞めます。周年は天井7人pu無し終わってる。",
+        "date": "2026-07-13T03:41:07.250Z",
+        "thumbsUp": 28,
+        "appVersion": "1.70.436321",
+        "capturedAt": "2026-07-14T22:47:24.147Z"
+      },
+      {
         "id": "a3aef6e0-cdcf-4a17-bbb6-c43a32e66a26",
         "score": 2,
         "text": "3連続ノーピック天井でトドメ刺された感あるけど、そもそも毎日毎日同じことの繰り返しで飽きてたんだなぁと。 毎月の総力戦大決戦もキャラ強化してYouTubeのTLなぞるだけ、特定のキャラ居なけりゃ参加権すらない、会心ガチャの酷いTLだとやり直しの連続で時間の無駄だしイライラ… こんなこと2年もやってりゃそら飽きるわな。 ただまぁ半年ごとの周年に合わせたストーリーは毎回楽しませてもらった。そこだけはありがとう。",
@@ -14026,15 +14146,6 @@
   "youtubeChannels": {},
   "twitter": [
     {
-      "date": "2026-05-15",
-      "stats": {
-        "totalTweets": 12,
-        "uniqueAuthors": 12,
-        "tweetsPerDay": 12,
-        "avgTextLength": 29
-      }
-    },
-    {
       "date": "2026-05-16",
       "stats": {
         "totalTweets": 12,
@@ -14288,6 +14399,15 @@
     },
     {
       "date": "2026-07-13",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 12,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-07-14",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

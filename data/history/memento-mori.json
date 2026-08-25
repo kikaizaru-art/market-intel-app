@@ -74,18 +74,18 @@
         "recentChanges": "【v4.19.2】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-08": {
-        "score": 4.493892,
-        "ratings": 93171,
-        "reviews": 9400,
+        "score": 4.4977765,
+        "ratings": 93187,
+        "reviews": 9401,
         "histogram": {
-          "1": 4835,
-          "2": 1885,
-          "3": 4448,
-          "4": 13243,
-          "5": 68752
+          "1": 4764,
+          "2": 1888,
+          "3": 4401,
+          "4": 13259,
+          "5": 68865
         },
         "reviewVelocity": {
-          "perDay": 4,
+          "perDay": 4.2,
           "span": 7
         },
         "version": "4.20.0",
@@ -166,15 +166,15 @@
         "recentChanges": "パフォーマンス最適化"
       },
       "2026-08": {
-        "score": 3.9928775,
-        "ratings": 100022,
+        "score": 3.992573,
+        "ratings": 100023,
         "reviews": 29148,
         "histogram": {
-          "1": 13514,
-          "2": 4162,
-          "3": 7276,
-          "4": 19631,
-          "5": 55435
+          "1": 13523,
+          "2": 4161,
+          "3": 7275,
+          "4": 19630,
+          "5": 55430
         },
         "reviewVelocity": {
           "perDay": 0.6,
@@ -258,15 +258,15 @@
         "recentChanges": "【アップデート内容】<br>1．カタストロフ英雄の追加：「星雲の悪童」ラメンティスが星占いとギルドショップで獲得できるようになります。<br>2．サブミッション「カードの裏面」と「人世の悲喜劇」を追加。メインミッション「王者の剣」をクリアすると開放されます。<br>3．「星夜の逸話」にレトゥムの専用ストーリー「火力至上」を追加。"
       },
       "2026-08": {
-        "score": 4.2443776,
-        "ratings": 299337,
+        "score": 4.244012,
+        "ratings": 299434,
         "reviews": 1436,
         "histogram": {
-          "1": 26474,
-          "2": 12115,
-          "3": 15704,
-          "4": 52499,
-          "5": 192498
+          "1": 26433,
+          "2": 12072,
+          "3": 15662,
+          "4": 52867,
+          "5": 192262
         },
         "reviewVelocity": {
           "perDay": 0.2,
@@ -442,18 +442,18 @@
         "recentChanges": "『勝利の女神：NIKKE』PROJECT MATIS Ver.リリース！<br><br>【新ニケ】<br>SSR ラプラス：アルティメットヒーロー<br>SSR マクスウェル：オーディナリーメカニック<br><br>【新イベント】<br>新フルボイスストーリーイベント「PROJECT MATIS」<br>14日間ログインイベント<br><br>【新コスチューム】<br>ラプラス：アルティメットヒーロー - プロトタイプヒーロー<br>マクスウェル：オーディナリーメカニック - チーフリサーチャー<br><br>【その他】<br>宝ものの追加<br>ソロレイドミュージアムアップデート<br>ロビーアイコンフォルダ分類機能の追加<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       },
       "2026-08": {
-        "score": 4.5921283,
-        "ratings": 609320,
-        "reviews": 13740,
+        "score": 4.591876,
+        "ratings": 609415,
+        "reviews": 13742,
         "histogram": {
-          "1": 21992,
-          "2": 5802,
-          "3": 23826,
-          "4": 95464,
-          "5": 462218
+          "1": 22007,
+          "2": 5843,
+          "3": 23785,
+          "4": 95559,
+          "5": 462203
         },
         "reviewVelocity": {
-          "perDay": 3.8,
+          "perDay": 3.6,
           "span": 8
         },
         "version": "150.6.9",
@@ -534,18 +534,18 @@
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
       },
       "2026-08": {
-        "score": 3.1399372,
+        "score": 3.1350996,
         "ratings": 39589,
-        "reviews": 12339,
+        "reviews": 12343,
         "histogram": {
-          "1": 15686,
-          "2": 1856,
-          "3": 1721,
-          "4": 1877,
-          "5": 18445
+          "1": 15732,
+          "2": 1858,
+          "3": 1723,
+          "4": 1869,
+          "5": 18401
         },
         "reviewVelocity": {
-          "perDay": 5.2,
+          "perDay": 4.6,
           "span": 6
         },
         "version": "1.71.449178",
@@ -5149,22 +5149,84 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-08-25",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 13,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 10,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 129,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 3,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 19,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 14,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 36,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_free",
+          "rank": 84,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 35,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 41,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
-    {
-      "date": "2026-06-27",
-      "stats": {
-        "totalPosts": 2,
-        "postsPerDay": 1.2,
-        "avgScore": 75,
-        "avgComments": 25,
-        "maxScore": 120,
-        "bySubreddit": {
-          "gachagaming": 2
-        }
-      }
-    },
     {
       "date": "2026-06-28",
       "stats": {
@@ -5541,10 +5603,59 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-08-25",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "a1a51cff-5cc9-4f33-b929-c704d906ae79",
+        "score": 5,
+        "text": "ゲーム性はともかく、キャラクターと音楽は悪くない",
+        "date": "2026-08-24T16:39:12.765Z",
+        "thumbsUp": 0,
+        "appVersion": "4.20.0",
+        "capturedAt": "2026-08-25T22:16:16.331Z"
+      },
+      {
+        "id": "76ba85c3-ff0c-4870-b85c-bf7dd0f3641f",
+        "score": 5,
+        "text": "よい",
+        "date": "2026-08-24T14:41:32.929Z",
+        "thumbsUp": 0,
+        "appVersion": "4.20.0",
+        "capturedAt": "2026-08-25T22:16:16.331Z"
+      },
+      {
+        "id": "e230c4a0-316c-47f7-86f2-0a820b6b6881",
+        "score": 5,
+        "text": "音楽が良いので、ハマります！",
+        "date": "2026-08-24T11:33:31.821Z",
+        "thumbsUp": 0,
+        "appVersion": "4.20.0",
+        "capturedAt": "2026-08-25T22:16:16.331Z"
+      },
+      {
+        "id": "d43e3bf5-7345-4c3f-b075-55e51d53ee0e",
+        "score": 5,
+        "text": "楽しいし、キャラクター可愛い(*^^*)",
+        "date": "2026-08-23T23:39:51.846Z",
+        "thumbsUp": 0,
+        "appVersion": "4.20.0",
+        "capturedAt": "2026-08-25T22:16:16.331Z"
+      },
       {
         "id": "40547de3-4d62-44cb-9fbf-daa515c934b4",
         "score": 5,
@@ -10543,6 +10654,15 @@
     ],
     "houchi-shoujo": [
       {
+        "id": "03b872c4-8946-4c0f-bc7f-28fb339ebaf7",
+        "score": 1,
+        "text": "引退しました。闘技場で同じ人に何度も叩かれたりギリアタされたりやっててイライラするし民度悪すぎるしね。元宝も全て処分したしもう戻るつもりはありません。",
+        "date": "2026-08-24T06:55:26.310Z",
+        "thumbsUp": 1,
+        "appVersion": "2.3.168",
+        "capturedAt": "2026-08-25T22:16:16.331Z"
+      },
+      {
         "id": "ca20ac14-7265-4ce9-959c-db4e2e605bc1",
         "score": 5,
         "text": "キャラが可愛い",
@@ -12429,6 +12549,24 @@
       }
     ],
     "nikke": [
+      {
+        "id": "450932a8-b326-48da-8c86-4688ad14679e",
+        "score": 4,
+        "text": "イベント画面から戦闘画面に移る際、今迄はイベント画面が縦表示でも戦闘画面は強制的に横表示になって便利でしたが、PERSONAコラボのストーリー2 が、はじまってから画面表示が縦か横表示のみになってしまい、ボス戦等の時横表示にして置かないといけなくなりました。かと言って、イベントは縦表示にして置かないとスマホでは字が細かくて、見れません。 画面表示を前の様に戦闘画面は横表示に強制的になる様にして下さい。 お願いします。",
+        "date": "2026-08-24T17:59:41.350Z",
+        "thumbsUp": 29,
+        "appVersion": "150.6.9",
+        "capturedAt": "2026-08-25T22:16:16.331Z"
+      },
+      {
+        "id": "16023065-0d1a-467b-b0a2-ca6ad5f0186f",
+        "score": 1,
+        "text": "システムエラーです　との表示が出てタイトルより進まなくなった。最悪。",
+        "date": "2026-08-24T12:40:37.402Z",
+        "thumbsUp": 0,
+        "appVersion": "150.6.9",
+        "capturedAt": "2026-08-25T22:16:16.331Z"
+      },
       {
         "id": "51e61d12-3c4d-4af1-b12d-c02e6ab0d6bb",
         "score": 5,
@@ -16418,6 +16556,24 @@
       }
     ],
     "bluearchive": [
+      {
+        "id": "9ab97f7e-d621-42d1-a40c-0159376b2846",
+        "score": 5,
+        "text": "散々ガチャ改悪ガチャ改悪と言われている割にはガチャ石も全然貯まりやすいし、ガチャシステムも比較的良心的なのでソシャゲ全体で見たら全然良い部類に入る。新規で始めたいって方々には全く問題ナシ。 むしろガチャ改悪だけでここまで評価下げられるのがおかしい。",
+        "date": "2026-08-24T16:53:07.297Z",
+        "thumbsUp": 0,
+        "appVersion": "1.71.449178",
+        "capturedAt": "2026-08-25T22:16:16.331Z"
+      },
+      {
+        "id": "20db3c17-5862-4338-bf50-06ce695bf73c",
+        "score": 1,
+        "text": "キャラがかなり良くてゲーム部分はつまらない。ガチャのピックアップでやはり辛い目にあった…キャラは好きなので続けますが…",
+        "date": "2026-08-23T23:25:27.153Z",
+        "thumbsUp": 0,
+        "appVersion": "1.71.449178",
+        "capturedAt": "2026-08-25T22:16:16.331Z"
+      },
       {
         "id": "1e726129-be52-4306-a986-4978ce4abc27",
         "score": 1,
@@ -21247,15 +21403,6 @@
   "youtubeChannels": {},
   "twitter": [
     {
-      "date": "2026-06-27",
-      "stats": {
-        "totalTweets": 12,
-        "uniqueAuthors": 12,
-        "tweetsPerDay": 12,
-        "avgTextLength": 29
-      }
-    },
-    {
       "date": "2026-06-28",
       "stats": {
         "totalTweets": 12,
@@ -21509,6 +21656,15 @@
     },
     {
       "date": "2026-08-24",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 12,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-08-25",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

@@ -92,19 +92,19 @@
         "recentChanges": "【v4.21.0】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-09": {
-        "score": 4.4959755,
-        "ratings": 93331,
-        "reviews": 9419,
+        "score": 4.4971004,
+        "ratings": 93360,
+        "reviews": 9422,
         "histogram": {
-          "1": 4843,
-          "2": 1890,
-          "3": 4274,
-          "4": 13444,
-          "5": 68877
+          "1": 4819,
+          "2": 1880,
+          "3": 4278,
+          "4": 13457,
+          "5": 68916
         },
         "reviewVelocity": {
-          "perDay": 3,
-          "span": 10
+          "perDay": 3.6,
+          "span": 8
         },
         "version": "4.21.0",
         "recentChanges": "【v4.21.0】<br>====================================<br>・不具合の修正<br>===================================="
@@ -202,15 +202,15 @@
         "recentChanges": "パフォーマンス最適化"
       },
       "2026-09": {
-        "score": 3.991566,
-        "ratings": 100025,
+        "score": 3.9922764,
+        "ratings": 100023,
         "reviews": 29146,
         "histogram": {
-          "1": 13538,
-          "2": 4186,
+          "1": 13518,
+          "2": 4187,
           "3": 7267,
-          "4": 19615,
-          "5": 55413
+          "4": 19617,
+          "5": 55429
         },
         "reviewVelocity": {
           "perDay": 0.6,
@@ -313,14 +313,14 @@
       },
       "2026-09": {
         "score": 4.235382,
-        "ratings": 299854,
+        "ratings": 299876,
         "reviews": 1436,
         "histogram": {
-          "1": 26932,
-          "2": 12094,
-          "3": 15691,
-          "4": 53460,
-          "5": 191494
+          "1": 26934,
+          "2": 12095,
+          "3": 15693,
+          "4": 53464,
+          "5": 191508
         },
         "reviewVelocity": {
           "perDay": 0.2,
@@ -532,19 +532,19 @@
         "recentChanges": "『勝利の女神：NIKKE』×『P3R』『P4G』『P5R』コラボVer.「PERSONA ON FRONTLINE」リリース！<br><br>【新キャラ】<br>SSR クイーン（新島真）<br>SSR 天城雪子<br>SR アイギス<br><br>【新イベント】<br>コラボ大型イベント「PERSONA ON FRONTLINE」<br>コラボミニゲーム「MIDNIGHT PHANTOM RUNNER」<br>14日間ログインイベント<br><br>【新コスチューム】<br>ファントム - セイントシーフ<br>フローラ - フェアリーラビット<br>クイーン（新島真） - 秀尽学園生徒会長<br>天城雪子 - 天城屋旅館の着物<br>クイーン（新島真） - クイーンズパジャマ（Ver. NIKKE Collabo）<br>天城雪子 - ウィンターレディルームウェア（Ver. NIKKE Collabo）<br><br>【その他】<br>メインチャプター47、48公開<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご覧ください。"
       },
       "2026-09": {
-        "score": 4.592215,
-        "ratings": 609351,
-        "reviews": 13730,
+        "score": 4.5935054,
+        "ratings": 609318,
+        "reviews": 13727,
         "histogram": {
-          "1": 21987,
-          "2": 5696,
-          "3": 23921,
-          "4": 95584,
-          "5": 462151
+          "1": 21813,
+          "2": 5681,
+          "3": 23946,
+          "4": 95480,
+          "5": 462390
         },
         "reviewVelocity": {
-          "perDay": 2.7,
-          "span": 11
+          "perDay": 2.6,
+          "span": 12
         },
         "version": "151.8.5",
         "recentChanges": "『勝利の女神：NIKKE』GREAT VILLAIN UNION Ver.リリース！<br><br>【新ニケ】<br>SSR ドレイク：グレイトヴィラン<br><br>【新イベント】<br>新ストーリーイベント：GREAT VILLAIN UNION<br>7日間ログインイベント<br><br>【その他】<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項と不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
@@ -642,19 +642,19 @@
         "recentChanges": null
       },
       "2026-09": {
-        "score": 3.1169546,
-        "ratings": 39704,
-        "reviews": 12374,
+        "score": 3.1144798,
+        "ratings": 39717,
+        "reviews": 12376,
         "histogram": {
-          "1": 15956,
-          "2": 1828,
-          "3": 1745,
-          "4": 1963,
-          "5": 18210
+          "1": 16007,
+          "2": 1805,
+          "3": 1743,
+          "4": 1950,
+          "5": 18207
         },
         "reviewVelocity": {
-          "perDay": 4.5,
-          "span": 7
+          "perDay": 5.5,
+          "span": 5
         },
         "version": "1.72.452186",
         "recentChanges": null
@@ -5611,22 +5611,77 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-09-07",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 12,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 8,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 115,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 3,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 9,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 13,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 24,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 44,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 41,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
-    {
-      "date": "2026-07-03",
-      "stats": {
-        "totalPosts": 2,
-        "postsPerDay": 1.2,
-        "avgScore": 75,
-        "avgComments": 25,
-        "maxScore": 120,
-        "bySubreddit": {
-          "gachagaming": 2
-        }
-      }
-    },
     {
       "date": "2026-07-06",
       "stats": {
@@ -6003,10 +6058,77 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-09-07",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "cd18edaf-31eb-4224-8d6c-a231017606c1",
+        "score": 5,
+        "text": "たのしい",
+        "date": "2026-09-06T13:34:53.817Z",
+        "thumbsUp": 0,
+        "appVersion": "4.21.0",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "5bcbbb7b-b0c8-46b5-9bf2-f6677feb771b",
+        "score": 5,
+        "text": "一日にやれることは少ないけれど、そこがいいまである。毎日10分くらいのデイリーをこなすと、作り込まれた世界観などを見ることができるし、キャラも着実に強くなっていくので楽しいです。文句なしの星5ですね",
+        "date": "2026-09-06T09:33:43.780Z",
+        "thumbsUp": 0,
+        "appVersion": "4.21.0",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "8be98e2a-3928-46b0-9a1a-9a5285e746c7",
+        "score": 5,
+        "text": "やりやすくて、わかりやすい",
+        "date": "2026-09-06T07:51:33.429Z",
+        "thumbsUp": 0,
+        "appVersion": "4.21.0",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "3738b012-8073-431a-9227-749c37d03611",
+        "score": 5,
+        "text": "楽しい",
+        "date": "2026-09-06T05:04:31.824Z",
+        "thumbsUp": 0,
+        "appVersion": "4.21.0",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "6ff00051-ddaf-4661-a4f5-edc0717014aa",
+        "score": 5,
+        "text": "試しにやってみたら凄く満足しています。昔やっていたゲームと違って時間を拘束される事も少なく、かといってただ眺めているだけでもありません。普段は放置したままで、少し時間がある時にキャラクターを成長させたり装備を更新させたりするのがちょうど良いバランスで出来ています。当分は毎日遊ぶ予定です。",
+        "date": "2026-09-06T04:11:01.320Z",
+        "thumbsUp": 0,
+        "appVersion": "4.21.0",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "28558d44-3933-4505-a419-004b3cb802a6",
+        "score": 5,
+        "text": "全然勝てないから、勝ったときが最高に快感",
+        "date": "2026-09-06T02:36:46.260Z",
+        "thumbsUp": 0,
+        "appVersion": "4.21.0",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
       {
         "id": "a4d67f71-7bbb-4528-b462-d1e5d6dcda50",
         "score": 5,
@@ -17421,6 +17543,78 @@
     ],
     "bluearchive": [
       {
+        "id": "3bdcfedf-1e72-4227-9678-ce0620e58274",
+        "score": 5,
+        "text": "面白い",
+        "date": "2026-09-06T23:48:24.579Z",
+        "thumbsUp": 0,
+        "appVersion": "1.72.452186",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "b79437d5-bff3-40d2-9517-7a59bb9e7fd3",
+        "score": 5,
+        "text": "「ガチャがゴミだ」とか「改悪だ〜」とか騒いでる大人気のない人がいるってこと以外は神ゲーです。",
+        "date": "2026-09-06T15:35:19.164Z",
+        "thumbsUp": 0,
+        "appVersion": "1.72.452186",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "b4cada18-111a-4bde-952f-f37fe061ce53",
+        "score": 1,
+        "text": "8月下旬のアップデートからログインできなくなった ログイン後のダウンロード中にフリーズする、アプリが落ちる、通信が止まるの連続でどうにもならない キャッシュの削除、整合性チェック、本体再起動、再インストールと試したが改善しない 古いスマホで試しに入れてみたら動いたので、スマホとの相性の可能性もあるが、他のアプリは動くし、アプデ前まではプレイできていたのでどうにかなることを願っている",
+        "date": "2026-09-06T15:22:00.172Z",
+        "thumbsUp": 1,
+        "appVersion": "1.72.452186",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "5245751d-2d41-4532-b6a9-9785d2c49009",
+        "score": 1,
+        "text": "つい先日まで遊べたものがメタ情報ダウンロードで弾かれ続けプレイ出来なくなったので引退となりました。 別に残念とも思ってはいませんが残られた方は頑張ってください",
+        "date": "2026-09-06T14:39:23.841Z",
+        "thumbsUp": 1,
+        "appVersion": "1.72.452186",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "aa24104a-ed48-4627-b9ea-a3f8c20e836b",
+        "score": 1,
+        "text": "全てが酷い(ガチャ、ゲーム､シナリオ)。 もうサービス終了ですね!",
+        "date": "2026-09-06T10:21:33.780Z",
+        "thumbsUp": 6,
+        "appVersion": "1.72.452186",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "c6186b5b-c396-4011-94ad-063d9871a4fc",
+        "score": 5,
+        "text": "人それぞれですけど僕は神ゲーでした…でも足りないと言えば戦闘が物足りないです、このゲームはキャラが目的です…最近はキャラですね…ストーリーは最終まで良かった…今はキャラの為にあるストーリー感があって悲しいです…ブルアカと言う世界を描く物語じゃなくてキャラを描くストーリーになってます……いい点はキャラがとにかく可愛い…推しを見つける事ができるゲーム…人によれば居場所を作ってくれるゲームですありがとうブルアカ",
+        "date": "2026-09-06T08:03:35.176Z",
+        "thumbsUp": 0,
+        "appVersion": "1.72.452186",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "480817c5-baf8-4594-b971-df2e6833ed8f",
+        "score": 5,
+        "text": "クロームでもできるようにして！！！",
+        "date": "2026-09-06T06:43:14.933Z",
+        "thumbsUp": 1,
+        "appVersion": "1.72.452186",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
+        "id": "5b1646b9-0629-4922-934c-5e39b1ce962b",
+        "score": 1,
+        "text": "ガチャの改悪＆明らかに排出操作してるとしか言えない排出率で天井叩かんと新キャラ取れなくなった。天井までのすり抜けも☆３が2枚あればいい方、こりゃアンスト行きかな",
+        "date": "2026-09-06T05:29:59.250Z",
+        "thumbsUp": 54,
+        "appVersion": "1.72.452186",
+        "capturedAt": "2026-09-07T23:51:47.974Z"
+      },
+      {
         "id": "0bd3dec9-5bf2-4176-bcc9-1c22471e90e0",
         "score": 4,
         "text": "あのーゲームの容量が大きすぎてインストールできてもできないんですけど何とかして欲しいです",
@@ -22798,15 +22992,6 @@
   "youtubeChannels": {},
   "twitter": [
     {
-      "date": "2026-07-03",
-      "stats": {
-        "totalTweets": 12,
-        "uniqueAuthors": 12,
-        "tweetsPerDay": 12,
-        "avgTextLength": 29
-      }
-    },
-    {
       "date": "2026-07-06",
       "stats": {
         "totalTweets": 12,
@@ -23060,6 +23245,15 @@
     },
     {
       "date": "2026-09-06",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 12,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-09-07",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

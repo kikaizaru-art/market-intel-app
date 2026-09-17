@@ -1,5 +1,5 @@
 {
-  "collected_at": "2026-09-16T23:58:20.530Z",
+  "collected_at": "2026-09-17T23:47:51.577Z",
   "domain": "game-market",
   "trends": {
     "source": "Google Trends (empty)",
@@ -14,7 +14,7 @@
   },
   "reviews": {
     "source": "Google Play",
-    "fetched_at": "2026-09-16T23:58:23.285Z",
+    "fetched_at": "2026-09-17T23:47:53.655Z",
     "apps": [
       {
         "id": "monster-strike",
@@ -24,23 +24,63 @@
         "store_id": "jp.co.mixi.monsterstrike",
         "appInfo": {
           "title": "モンスターストライク",
-          "score": 4.2869325,
-          "ratings": 845657,
-          "reviews": 268290,
+          "score": 4.2868037,
+          "ratings": 845655,
+          "reviews": 268294,
           "installs": "10,000,000+",
           "developer": "XFLAG, Inc.",
           "updated": 1789027231000,
           "version": "32.1.1",
           "recentChanges": "【更新】ボタンが表示されない方へ<br>アプリのアップデートが出来ない場合は、以下公式サイトに記載の手順をお試しください。<br>https://www.monster-strike.com/news/20211112_3.html<br><br>【更新情報】<br>※アップデートの詳細については公式サイトをご確認ください。<br>=========================<br>◎一部ゲームシステムの改修<br>◎各種UIの調整<br>◎不具合の修正<br>=========================",
           "histogram": {
-            "1": 87376,
-            "2": 17556,
-            "3": 55302,
-            "4": 90221,
-            "5": 595196
+            "1": 87392,
+            "2": 17575,
+            "3": 55279,
+            "4": 90256,
+            "5": 595147
           }
         },
         "recentReviews": [
+          {
+            "id": "7fe41aed-214a-4191-b769-04e2466e5505",
+            "userName": "佐藤和彦",
+            "score": 1,
+            "text": "4時にログインしたらオーブとトク玉もらえなかった。",
+            "date": "2026-09-16T23:23:06.671Z",
+            "thumbsUp": 18
+          },
+          {
+            "id": "e9dcac6e-4690-4a9f-8012-c9cf22759f20",
+            "userName": "sora",
+            "score": 1,
+            "text": "まともなアイテムあげたくないのは、わかるけど…こんなイベントしないでもらえます？左オンリーでやって…全部右やし　50％でも選んだ反対…あげる気ないなら右のだけ最初から配ればいいやん。戦書やコネ書も見せんなよ　",
+            "date": "2026-09-16T21:29:14.627Z",
+            "thumbsUp": 24
+          },
+          {
+            "id": "3fef44c9-d190-49d3-8109-d2b64095e1e9",
+            "userName": "貝崎寛斗",
+            "score": 2,
+            "text": "コラボ中に何度メンテする気だ。ほんといい加減な仕事してるな",
+            "date": "2026-09-16T17:04:47.844Z",
+            "thumbsUp": 15
+          },
+          {
+            "id": "e62f9427-3294-43f5-98d2-be0fa1712b94",
+            "userName": "ずっしー",
+            "score": 1,
+            "text": "ラブライブ!コラボきっかけで始めるのは本当にやめた方がいいです ガチャは当たらない、超究極のμ'sは運営が勝たせる気ないので",
+            "date": "2026-09-16T12:01:45.653Z",
+            "thumbsUp": 1
+          },
+          {
+            "id": "f49ecceb-247e-4a0e-93aa-7270484933de",
+            "userName": "伊沢神詩",
+            "score": 4,
+            "text": "友達に勧められて始めましたが、面白いです。 正直始めの頃はあまり楽しさが理解出来ませんでした。 何故なら仕組みが複雑で覚える事だらけで面倒に思えたからです。 しかもなかなか難しいクエストはクリア出来なくて萎えてた時期もありました。 しかしながら自分で手探りで調べながら少しずつ知識を蓄えて来ました。 だから理解出来る事や知識が増える度に楽しくなって来たんです。 ただ一つ不満点があります。 野良マルチに入ろうとすると、よくホストに退場させられます。 かなりの頻度です。 まあそれは自由なので仕方ないのですが、こちらは一体何が気に入らなくて退場させられてるのかが解らない事も多いので正直イライラします。",
+            "date": "2026-09-16T10:56:02.581Z",
+            "thumbsUp": 0
+          },
           {
             "id": "114e2ef1-52c5-4e27-a019-fdd6a002932f",
             "userName": "maa",
@@ -79,7 +119,7 @@
             "score": 1,
             "text": "本当に運営は金稼ぎしか考えてない なぜ楽しませようとしないの プレイヤーのこと舐めんじゃねーよ",
             "date": "2026-09-15T15:51:02.591Z",
-            "thumbsUp": 71
+            "thumbsUp": 72
           },
           {
             "id": "3c6336cc-fac8-4a96-afc2-c8a6ca117f3c",
@@ -87,7 +127,7 @@
             "score": 2,
             "text": "おもんないクエストばっか作んなアイテム無しじゃ到底クリアが見えてこないクエストってどこに需要あるんですか？",
             "date": "2026-09-15T15:22:40.440Z",
-            "thumbsUp": 0
+            "thumbsUp": 1
           },
           {
             "id": "a4ad38e0-9dfd-4e17-af16-205099c40419",
@@ -103,7 +143,7 @@
             "score": 1,
             "text": "つまらない、時間の無駄。 これやるなら他のゲームやったほうがいい。 他のアプリでモンストの広告出てくるのも本当にうざい。",
             "date": "2026-09-15T08:16:07.189Z",
-            "thumbsUp": 0
+            "thumbsUp": 1
           },
           {
             "id": "eecf7227-7ea9-4308-a33e-14c4b41c05bb",
@@ -122,28 +162,12 @@
             "thumbsUp": 8
           },
           {
-            "id": "f546a047-4130-4a16-be78-ede804bb061d",
-            "userName": "かあ",
-            "score": 1,
-            "text": "正直言うとちょっと運営とユーザーの感覚がズレてて少し残念な感じ モンパスプレミアムは2000円の価値があるかと言うと気持ち少し足りないって思う 売却周りも改悪したっきりそのままだしセンスを疑う モンストやってない人が作ったんじゃないの？ 固く痛くしてれば手抜きでも高難易度なんだから楽な仕事しかしないのな",
-            "date": "2026-09-15T01:33:04.810Z",
-            "thumbsUp": 273
-          },
-          {
             "id": "f84396ae-2077-4bce-a328-b74eac663cf8",
             "userName": "登録用",
             "score": 2,
             "text": "女性キャラクターの比率が高すぎる。通常キャラといい、今回追加された激獣限定もそうだし、彩・獣神祭も女性キャラクター。新キャラ追加されるたびに「ああっ…また女か」ってなるわ。モンソニとか言うオタクコンテンツもそう。最近のモンストは一体『どこに』向かってるの『なにを』目指してるの。美少女ゲーじゃあるまいしいい加減にしてくれ。昔はこんなオタク交じりなゲームじゃなかっただろ。ルシファーで味を占めてマナ辺りからか本格的に変な方向性に向かい始めておかしくなった。",
             "date": "2026-09-15T00:11:32.320Z",
-            "thumbsUp": 0
-          },
-          {
-            "id": "8de37fe4-3ec4-4e83-a60e-393105e85eb9",
-            "userName": "よしみ",
-            "score": 5,
-            "text": "マルチの時にクエストの最中に抜ける奴、本当に許せない。やるならクエストの最中で抜けるんじゃなくて、最後までやって欲しいといつも思います。無料ガチャも時々開催してくれるし、コラボも毎月のように開催してくれるので嬉しいのですが、今年は無料オーブ配布が無かったり、新規で始めて7日間限定でオーブ25個で回せるキャンペーンが無かったり初心者にはちとキツいところがあります。ラブライブコラボで1年生が全くと言って良い程出てこないのはなんで？確率おかしいでしょ！",
-            "date": "2026-09-14T23:13:18.154Z",
-            "thumbsUp": 0
+            "thumbsUp": 1
           },
           {
             "id": "f2f9955f-a28e-438f-8d2f-97da5f2fa917",
@@ -231,7 +255,7 @@
             "score": 1,
             "text": "かなり複雑でできる人はできるんだろうなって感じのゲームです。 私は適当にやるタイプなので厳しいところばかりです。 ギミックがホント嫌い。 あと、時間かければクリアできそうなやつほど一撃必殺で殺してくるのも嫌い。 頑張りを全て無駄にするという鬼畜の所業。気になるイベントが来たので久々にやったけど、相変わらずギミックがゴミ 全部ギミックのせいでクリアできない、運要素ばかり。どこがパズルゲームだよ 評価をマイナスにしたいレベル せめてコンティニューはさせろよ 何個ためのコンティニューだよほんと",
             "date": "2026-09-13T03:19:05.352Z",
-            "thumbsUp": 9
+            "thumbsUp": 10
           },
           {
             "id": "83dac019-9e8c-432e-868c-4db82d42e49d",
@@ -247,7 +271,7 @@
             "score": 2,
             "text": "もう皆にもバレ始めてるでしょうし言いますが、最近は変に改悪とかしてから改善して「さすが！ユーザーの声聞いてる！」っての、狙いすぎなの本当にうんざりです。 そもそもそういう仕様にするなよ、っての目立ちすぎ。",
             "date": "2026-09-13T01:46:32.350Z",
-            "thumbsUp": 1
+            "thumbsUp": 2
           },
           {
             "id": "5d0234a5-32e2-4e22-9812-d07c1e97ec73",
@@ -256,35 +280,11 @@
             "text": "髙難易度と理不尽を履き違えた頭おかしいギミックを作ることと最新のUI以外は及第点なゲーム",
             "date": "2026-09-13T00:51:46.416Z",
             "thumbsUp": 1
-          },
-          {
-            "id": "f3bea32d-7134-4142-b3c8-c9a380205f6a",
-            "userName": "ぬこ被ったねこ",
-            "score": 2,
-            "text": "ゲーム自体は面白いけど、ガチャは酷い。コラボガチャは平気で恒常☆4〜5キャラを出すし救済措置すらも信用ならない。俺が課金をやめる1つの要因となっている。課金をやめたいと思っている人には勧めようと思う",
-            "date": "2026-09-12T22:39:49.684Z",
-            "thumbsUp": 1
-          },
-          {
-            "id": "3e443407-16f5-4188-96b6-5f9c10cc707a",
-            "userName": "クロキマサオ",
-            "score": 4,
-            "text": "あいかき",
-            "date": "2026-09-12T21:43:56.829Z",
-            "thumbsUp": 0
-          },
-          {
-            "id": "515b7abe-5ed8-4ea1-b4fa-50a168d728df",
-            "userName": "てつやまま",
-            "score": 1,
-            "text": "ガチャがさすがにひどい、いらつく",
-            "date": "2026-09-12T20:28:03.123Z",
-            "thumbsUp": 87
           }
         ],
         "reviewVelocity": {
-          "perDay": 9.5,
-          "span": 3
+          "perDay": 7.6,
+          "span": 4
         },
         "monthlyHistory": [
           {
@@ -384,25 +384,61 @@
           },
           {
             "month": "2026-09",
-            "score": 4.2869325,
-            "ratings": 845657,
-            "reviews": 268290,
+            "score": 4.2868037,
+            "ratings": 845655,
+            "reviews": 268294,
             "histogram": {
-              "1": 87376,
-              "2": 17556,
-              "3": 55302,
-              "4": 90221,
-              "5": 595196
+              "1": 87392,
+              "2": 17575,
+              "3": 55279,
+              "4": 90256,
+              "5": 595147
             },
             "reviewVelocity": {
-              "perDay": 9.5,
-              "span": 3
+              "perDay": 7.6,
+              "span": 4
             },
             "version": "32.1.1",
             "recentChanges": "【更新】ボタンが表示されない方へ<br>アプリのアップデートが出来ない場合は、以下公式サイトに記載の手順をお試しください。<br>https://www.monster-strike.com/news/20211112_3.html<br><br>【更新情報】<br>※アップデートの詳細については公式サイトをご確認ください。<br>=========================<br>◎一部ゲームシステムの改修<br>◎各種UIの調整<br>◎不具合の修正<br>========================="
           }
         ],
         "reviewTextsHistory": [
+          {
+            "id": "7fe41aed-214a-4191-b769-04e2466e5505",
+            "score": 1,
+            "text": "4時にログインしたらオーブとトク玉もらえなかった。",
+            "date": "2026-09-16T23:23:06.671Z",
+            "thumbsUp": 18,
+            "appVersion": "32.1.1",
+            "capturedAt": "2026-09-17T23:48:00.102Z"
+          },
+          {
+            "id": "3fef44c9-d190-49d3-8109-d2b64095e1e9",
+            "score": 2,
+            "text": "コラボ中に何度メンテする気だ。ほんといい加減な仕事してるな",
+            "date": "2026-09-16T17:04:47.844Z",
+            "thumbsUp": 15,
+            "appVersion": "32.1.1",
+            "capturedAt": "2026-09-17T23:48:00.102Z"
+          },
+          {
+            "id": "e62f9427-3294-43f5-98d2-be0fa1712b94",
+            "score": 1,
+            "text": "ラブライブ!コラボきっかけで始めるのは本当にやめた方がいいです ガチャは当たらない、超究極のμ'sは運営が勝たせる気ないので",
+            "date": "2026-09-16T12:01:45.653Z",
+            "thumbsUp": 1,
+            "appVersion": "32.1.1",
+            "capturedAt": "2026-09-17T23:48:00.102Z"
+          },
+          {
+            "id": "f49ecceb-247e-4a0e-93aa-7270484933de",
+            "score": 4,
+            "text": "友達に勧められて始めましたが、面白いです。 正直始めの頃はあまり楽しさが理解出来ませんでした。 何故なら仕組みが複雑で覚える事だらけで面倒に思えたからです。 しかもなかなか難しいクエストはクリア出来なくて萎えてた時期もありました。 しかしながら自分で手探りで調べながら少しずつ知識を蓄えて来ました。 だから理解出来る事や知識が増える度に楽しくなって来たんです。 ただ一つ不満点があります。 野良マルチに入ろうとすると、よくホストに退場させられます。 かなりの頻度です。 まあそれは自由なので仕方ないのですが、こちらは一体何が気に入らなくて退場させられてるのかが解らない事も多いので正直イライラします。",
+            "date": "2026-09-16T10:56:02.581Z",
+            "thumbsUp": 0,
+            "appVersion": "32.1.1",
+            "capturedAt": "2026-09-17T23:48:00.102Z"
+          },
           {
             "id": "114e2ef1-52c5-4e27-a019-fdd6a002932f",
             "score": 5,
@@ -8063,23 +8099,55 @@
         "store_id": "jp.gungho.pad",
         "appInfo": {
           "title": "パズル＆ドラゴンズ",
-          "score": 3.1783912,
-          "ratings": 595804,
-          "reviews": 212649,
+          "score": 3.1782548,
+          "ratings": 595798,
+          "reviews": 212644,
           "installs": "10,000,000+",
           "developer": "GungHo Online Entertainment, Inc.",
           "updated": 1788164114000,
           "version": "23.4.1",
           "recentChanges": "◇◆Ver23.4.1アップデート情報◆◇<br><br>[23.4.1]アップデート内容<br>◆軽微な修正<br><br>[23.4.0]アップデート内容<br>◆バトルスピードがアップ。また「高速モード」を追加しました。<br>◆「超絶コンボ強化」などの新たな覚醒スキルを追加しました。<br>◆一部の覚醒スキル、潜在覚醒スキルの効果を調整しました。<br>◆ダンジョンのBGM変更に「ランダム」を追加しました。<br><br>◆不具合の修正や、ブラッシュアップを行いました。<br><br>※詳細は、アプリ内「その他」より「イベント/アップデート情報」をご確認ください。",
           "histogram": {
-            "1": 188528,
-            "2": 44552,
-            "3": 66037,
-            "4": 65469,
-            "5": 231213
+            "1": 188526,
+            "2": 44593,
+            "3": 66036,
+            "4": 65427,
+            "5": 231211
           }
         },
         "recentReviews": [
+          {
+            "id": "155dec69-8af5-45b1-bafb-4440a8755c49",
+            "userName": "なとーしーふた",
+            "score": 3,
+            "text": "パズルゲームではありません。編成パズルゲームです。 フレームレートは多くの端末が最大30fpsになっており、その影響からいわゆる「ドロップが飛ぶ」現象が発生するので高速パズルをやりたいならiPhoneを使いましょう。",
+            "date": "2026-09-16T22:10:48.484Z",
+            "thumbsUp": 0
+          },
+          {
+            "id": "ee6e1bc0-edca-47af-8fe5-d922696dca80",
+            "userName": "タッキナルディ",
+            "score": 1,
+            "text": "今始めるなら強キャラが落ちるコラボの時じゃないと話しにならない。ランクは強キャラが落ちるコラボの時に強メインキャラと強アシストキャラを数体入手できれば簡単に1000超えるけど…新しいコラボが来て新しい強キャラが登場したら　今までの強キャラが強キャラじゃなくなって終了。新しいコラボで強キャラが引けるまで課金できる人だったらずっと楽しめると思う。私はランク1000超えたけど新コラボで爆死して課金したくなかったからやめた。",
+            "date": "2026-09-16T18:20:25.243Z",
+            "thumbsUp": 36
+          },
+          {
+            "id": "dc46b9dc-c659-4ce2-a507-47ffea87eff3",
+            "userName": "晴耕雨読一期一会",
+            "score": 1,
+            "text": "くだらない、とにかくアホ。最新ダンジョンをクリア可能なキャラがどれで、攻撃力いくつ出せればクリア出来るのか予想も出来なくなってるけど、もうさ、クリア出来ないの明白ならダンジョン入場させずに「クリア不可です」メッセージでも出す様にしたら。スタミナ、コンティニュー、魔法石、プレイヤーの時間、無駄にさせるなよ。",
+            "date": "2026-09-16T15:17:34.709Z",
+            "thumbsUp": 410
+          },
+          {
+            "id": "3517288e-fe81-4514-8321-f184ae0bfbb5",
+            "userName": "翔機械",
+            "score": 2,
+            "text": "ずっと好きなゲームです。 ○○記念、コラボ、の時にちょいちょい復帰してプレイしています。結構配布もあるため、そこそこできる人ならガチャを楽しめます。好きな作品がコラボ来た！！で触ってみるのがオススメです。 しかし、初心者バイバイな現状です。 ギミックは訳分からんし、1回のミスで平気で死んじゃうダンジョンも多く、今から始めても意味が分かりません。 しかし、youtubeなんかで、有志の人達が初心者向けの動画を作ってくれています。そういう所も利用して、苦痛に身を浸したい人におすすめです。 強いて言うと、時間制限をやめて欲しいです。ちょこちょこプレイしたいのにできません。 また、最強キャラを更新する",
+            "date": "2026-09-16T06:12:30.711Z",
+            "thumbsUp": 14
+          },
           {
             "id": "61e64de9-ae4f-4221-8f19-f668661e5301",
             "userName": "Googleユーザー",
@@ -8287,43 +8355,11 @@
             "text": "ハイキューコラボゴミはよ当たりキャラだせゴミゴミクエ作る暇あったら石配れよ評価します最近のガチャ全部ゴミはよ当たりキャラ出せやゴミお前ができるのそれだけやろ？マジで当たり出せやかすまどマギうぜぇなんも無いわごめん石返せカスあまりゴミを出すなよイライラするだろ石田と夜一出せやカス",
             "date": "2026-09-07T06:03:47.782Z",
             "thumbsUp": 42
-          },
-          {
-            "id": "59624be8-e5c5-49a1-9230-da7ad47f692c",
-            "userName": "さめたふかひれ",
-            "score": 1,
-            "text": "いちいち運営サイトとかに飛ばさずにお知らせでみせてくれません？",
-            "date": "2026-09-07T00:15:20.733Z",
-            "thumbsUp": 4
-          },
-          {
-            "id": "9d906fec-d8d9-4b47-bfcc-19fdd52a2daf",
-            "userName": "佐藤駿",
-            "score": 1,
-            "text": "無課金は遊べないのでインストールしないほうがいいよ",
-            "date": "2026-09-06T23:33:12.137Z",
-            "thumbsUp": 154
-          },
-          {
-            "id": "3e79bd0d-9c6d-44e2-9a6e-f0c9ed10c479",
-            "userName": "がくひろ",
-            "score": 1,
-            "text": "いい加減、わざと必要な色のドロップを落とさない、回復ドロップ落とさないとか幼稚な調整やめたほうがいいと思いました。",
-            "date": "2026-09-06T15:45:40.385Z",
-            "thumbsUp": 1
-          },
-          {
-            "id": "b30ea2dd-eab9-4180-abb2-201892a682a6",
-            "userName": "NECO rhythm",
-            "score": 2,
-            "text": "BLEACHコラボが始まってからよく落ちるようになった。それまで落ちたことなかったけど。",
-            "date": "2026-09-06T11:15:07.308Z",
-            "thumbsUp": 1
           }
         ],
         "reviewVelocity": {
-          "perDay": 3.2,
-          "span": 9
+          "perDay": 3.1,
+          "span": 10
         },
         "monthlyHistory": [
           {
@@ -8423,25 +8459,52 @@
           },
           {
             "month": "2026-09",
-            "score": 3.1783912,
-            "ratings": 595804,
-            "reviews": 212649,
+            "score": 3.1782548,
+            "ratings": 595798,
+            "reviews": 212644,
             "histogram": {
-              "1": 188528,
-              "2": 44552,
-              "3": 66037,
-              "4": 65469,
-              "5": 231213
+              "1": 188526,
+              "2": 44593,
+              "3": 66036,
+              "4": 65427,
+              "5": 231211
             },
             "reviewVelocity": {
-              "perDay": 3.2,
-              "span": 9
+              "perDay": 3.1,
+              "span": 10
             },
             "version": "23.4.1",
             "recentChanges": "◇◆Ver23.4.1アップデート情報◆◇<br><br>[23.4.1]アップデート内容<br>◆軽微な修正<br><br>[23.4.0]アップデート内容<br>◆バトルスピードがアップ。また「高速モード」を追加しました。<br>◆「超絶コンボ強化」などの新たな覚醒スキルを追加しました。<br>◆一部の覚醒スキル、潜在覚醒スキルの効果を調整しました。<br>◆ダンジョンのBGM変更に「ランダム」を追加しました。<br><br>◆不具合の修正や、ブラッシュアップを行いました。<br><br>※詳細は、アプリ内「その他」より「イベント/アップデート情報」をご確認ください。"
           }
         ],
         "reviewTextsHistory": [
+          {
+            "id": "155dec69-8af5-45b1-bafb-4440a8755c49",
+            "score": 3,
+            "text": "パズルゲームではありません。編成パズルゲームです。 フレームレートは多くの端末が最大30fpsになっており、その影響からいわゆる「ドロップが飛ぶ」現象が発生するので高速パズルをやりたいならiPhoneを使いましょう。",
+            "date": "2026-09-16T22:10:48.484Z",
+            "thumbsUp": 0,
+            "appVersion": "23.4.1",
+            "capturedAt": "2026-09-17T23:48:00.102Z"
+          },
+          {
+            "id": "ee6e1bc0-edca-47af-8fe5-d922696dca80",
+            "score": 1,
+            "text": "今始めるなら強キャラが落ちるコラボの時じゃないと話しにならない。ランクは強キャラが落ちるコラボの時に強メインキャラと強アシストキャラを数体入手できれば簡単に1000超えるけど…新しいコラボが来て新しい強キャラが登場したら　今までの強キャラが強キャラじゃなくなって終了。新しいコラボで強キャラが引けるまで課金できる人だったらずっと楽しめると思う。私はランク1000超えたけど新コラボで爆死して課金したくなかったからやめた。",
+            "date": "2026-09-16T18:20:25.243Z",
+            "thumbsUp": 36,
+            "appVersion": "23.4.1",
+            "capturedAt": "2026-09-17T23:48:00.102Z"
+          },
+          {
+            "id": "3517288e-fe81-4514-8321-f184ae0bfbb5",
+            "score": 2,
+            "text": "ずっと好きなゲームです。 ○○記念、コラボ、の時にちょいちょい復帰してプレイしています。結構配布もあるため、そこそこできる人ならガチャを楽しめます。好きな作品がコラボ来た！！で触ってみるのがオススメです。 しかし、初心者バイバイな現状です。 ギミックは訳分からんし、1回のミスで平気で死んじゃうダンジョンも多く、今から始めても意味が分かりません。 しかし、youtubeなんかで、有志の人達が初心者向けの動画を作ってくれています。そういう所も利用して、苦痛に身を浸したい人におすすめです。 強いて言うと、時間制限をやめて欲しいです。ちょこちょこプレイしたいのにできません。 また、最強キャラを更新する",
+            "date": "2026-09-16T06:12:30.711Z",
+            "thumbsUp": 14,
+            "appVersion": "23.4.1",
+            "capturedAt": "2026-09-17T23:48:00.102Z"
+          },
           {
             "id": "6eb015f2-9f14-48e1-942a-dd1cc58108fb",
             "score": 1,
@@ -11773,23 +11836,55 @@
         "store_id": "jp.co.cygames.umamusume",
         "appInfo": {
           "title": "ウマ娘 プリティーダービー",
-          "score": 3.5817144,
-          "ratings": 106329,
-          "reviews": 32489,
+          "score": 3.5825953,
+          "ratings": 106326,
+          "reviews": 32490,
           "installs": "1,000,000+",
           "developer": "Cygames, Inc.",
           "updated": 1788941880000,
           "version": "2.31.0",
           "recentChanges": "軽微な不具合の修正",
           "histogram": {
-            "1": 23928,
-            "2": 7674,
-            "3": 9366,
-            "4": 13326,
-            "5": 52030
+            "1": 23911,
+            "2": 7683,
+            "3": 9343,
+            "4": 13322,
+            "5": 52064
           }
         },
         "recentReviews": [
+          {
+            "id": "b87b3bd0-74db-4922-914c-38803b63cd2c",
+            "userName": "亀星王子",
+            "score": 2,
+            "text": "クオリティは高く良い出来のアプリだと思います。育成の繰り返しなのに1回の育成に時間がかかるのとガチャの渋さで暫く辞めていますので☆2。",
+            "date": "2026-09-16T14:37:16.860Z",
+            "thumbsUp": 1
+          },
+          {
+            "id": "75eb27b9-654f-4c75-9f78-14d32fc30492",
+            "userName": "Satoru Aihara",
+            "score": 5,
+            "text": "楽しくプレイさせてもらってます。懐かしい馬が出てくると、嬉しくなります。 個人的にレジェンドレースの復刻をしてもらえるとありがたいです。2024年9月のアストンマーチャン、2024年１０月のエアシャカール。この２頭だけ出来てなくて、コンプリートしたいので。機会があれば、よろしくお願いします。",
+            "date": "2026-09-16T13:42:01.300Z",
+            "thumbsUp": 0
+          },
+          {
+            "id": "64fe087f-8f0d-4cff-8d1a-1e6d3e989053",
+            "userName": "モツニ",
+            "score": 1,
+            "text": "グラブルと同じでサプチケだけ課金したら良いよ。ガチでやろう思ったら、運ゲーで育成とガチャでとてもストレス。キャラガチャ（1.5倍ガチャ含）通算4530連ピックアップ27すり抜け105回（ピックアップ排出率0.59%）（星3排出2.9%）（すり抜け率79%）。オルフェ230連ピックアップ0すり抜け11連続。レッドデザイアピックアップ200連ピックアップ0、すり抜け7連続（内セイウンスカイ2）。シングレオグリ、スティル、アモアイ天井。天井あるからバレないと思って確率アンチラってんの？頭サイゲ？サービス終了してもいいからPCやらCSやらで遊べるようにして。",
+            "date": "2026-09-16T05:14:07.488Z",
+            "thumbsUp": 503
+          },
+          {
+            "id": "7d858137-bb4a-49fa-b3b2-2afcdcc152f2",
+            "userName": "T I",
+            "score": 5,
+            "text": "以前ガチャが渋いと書いたが学マスよりは遥かにまし。 スキップ機能も拡充しかなり遊びやすいゲームに。 交換チケットなどあるので無課金でもある程度のサポカは組めるでしょう。 CSと区別したソシャゲとしては一つの到達点でしょう。 どこぞの企業にはイキったゲーム作りたきゃCSで勝負しろ、と言っておきます。",
+            "date": "2026-09-16T02:23:19.693Z",
+            "thumbsUp": 2
+          },
           {
             "id": "fdebc87c-53b7-4b1c-b461-9c32ace31056",
             "userName": "い・ろ・は・すもも",
@@ -11812,7 +11907,7 @@
             "score": 1,
             "text": "二次創作のガイドラインでは、元ネタの競走馬や馬主さんに迷惑がかからないように規制をしてるけど、最も迷惑をかけてるのが実はサイゲ運営という皮肉。 解りやすく言えば、どうしてディープインパクトなどの名馬が実装されていないのか、それで答えが判る。 自分の大切な馬たちが美少女にされたり水着を着せられたり、挙げ句にはユーザーに馬鹿にされるなんて許せるはずがない。",
             "date": "2026-09-14T18:48:31.803Z",
-            "thumbsUp": 8
+            "thumbsUp": 9
           },
           {
             "id": "14c0a591-31df-48de-92b8-dec49b248146",
@@ -11884,7 +11979,7 @@
             "score": 2,
             "text": "オート周回でかなり楽になった！",
             "date": "2026-09-11T13:15:03.870Z",
-            "thumbsUp": 53
+            "thumbsUp": 54
           },
           {
             "id": "622f2e4e-3302-4427-851d-7d506826b214",
@@ -11924,7 +12019,7 @@
             "score": 3,
             "text": "ゲーム自体は面白い。ただしスマホの容量を圧迫しすぎ…",
             "date": "2026-09-09T23:23:19.458Z",
-            "thumbsUp": 0
+            "thumbsUp": 1
           },
           {
             "id": "2cfe17d1-2da2-4617-bde2-65580d7dc7e2",
@@ -11956,7 +12051,7 @@
             "score": 5,
             "text": "かわいい",
             "date": "2026-09-09T07:23:14.117Z",
-            "thumbsUp": 0
+            "thumbsUp": 1
           },
           {
             "id": "85ea307e-c410-40a0-9765-13ac9a3a1b6c",
@@ -11997,43 +12092,11 @@
             "text": "新しく追加された機能が分かりにくい。イベント絡みで使わせて反応を見るとか、考えなかった運営は無能だと思う。掴みを得ず通知で知らせて、消費アイテムの入手方法で愕然とする時点で上げて落とすという悪いイメージが印象的です。ガチャは出ません。ピックアップは無意味です。3回もすり抜けました。別のアカウントはピックアップだけ3枚出て、偏りました。今現在やってるピックアップは、既に持ってる水着来た別のキャラ出てプレイを止めました。あと、運営は有名な配信者のアカウントに良い結果が出るように細工するのは止めたほうが良いですよ。目立ち過ぎです。",
             "date": "2026-09-07T02:30:16.359Z",
             "thumbsUp": 19
-          },
-          {
-            "id": "4da46e10-fc41-4b7d-80a8-bab9ad77db27",
-            "userName": "かいすき",
-            "score": 2,
-            "text": "グラフィックはきれいですごい良いと思う。ストーリーも良い。ただ、物凄く落ちるしフリーズする。課金圧は割と強めでチャンミ等しっかりやるならサポカは完凸前提で性能がいいウマ娘を使う感じになる。推しで勝ちたいなら普通の娘より因子をガチらなきゃキツイ（推しウマの性能によるけど）から愛と時間と金がある人向け。ライブでわくわくキャッキャッしてゆるゆる楽しむくらいがこのゲームちょうどいいと思います",
-            "date": "2026-09-06T14:51:40.317Z",
-            "thumbsUp": 0
-          },
-          {
-            "id": "bae8970a-e786-44e9-ba06-ed7e26aad402",
-            "userName": "o o",
-            "score": 1,
-            "text": "配信最初期からのプレイです。 5.5周年でPay to win要素がますます加速し、とても残念です。 推しを気持ちよく推せるゲームではなくなり、5.5周年でこんなにがっかりすることあるのか、と思います。 ウマ娘というコンテンツが好きなだけに本当に悲しいです。",
-            "date": "2026-09-06T09:22:10.346Z",
-            "thumbsUp": 68
-          },
-          {
-            "id": "af243eb5-ca9b-461f-8567-03efe36d571d",
-            "userName": "原田正己",
-            "score": 4,
-            "text": "楽しみ",
-            "date": "2026-09-06T08:03:43.424Z",
-            "thumbsUp": 0
-          },
-          {
-            "id": "b678e8e8-6178-4b2d-85cc-642ddf93654a",
-            "userName": "臼井哲",
-            "score": 5,
-            "text": "※先月からゲームが開かなくなった😰約4年間の努力が😢 画面が白くなり、操作が出来ない😰 どうすれば………😿",
-            "date": "2026-09-06T05:27:49.584Z",
-            "thumbsUp": 0
           }
         ],
         "reviewVelocity": {
-          "perDay": 3.3,
-          "span": 9
+          "perDay": 3.2,
+          "span": 10
         },
         "monthlyHistory": [
           {
@@ -12133,25 +12196,52 @@
           },
           {
             "month": "2026-09",
-            "score": 3.5817144,
-            "ratings": 106329,
-            "reviews": 32489,
+            "score": 3.5825953,
+            "ratings": 106326,
+            "reviews": 32490,
             "histogram": {
-              "1": 23928,
-              "2": 7674,
-              "3": 9366,
-              "4": 13326,
-              "5": 52030
+              "1": 23911,
+              "2": 7683,
+              "3": 9343,
+              "4": 13322,
+              "5": 52064
             },
             "reviewVelocity": {
-              "perDay": 3.3,
-              "span": 9
+              "perDay": 3.2,
+              "span": 10
             },
             "version": "2.31.0",
             "recentChanges": "軽微な不具合の修正"
           }
         ],
         "reviewTextsHistory": [
+          {
+            "id": "b87b3bd0-74db-4922-914c-38803b63cd2c",
+            "score": 2,
+            "text": "クオリティは高く良い出来のアプリだと思います。育成の繰り返しなのに1回の育成に時間がかかるのとガチャの渋さで暫く辞めていますので☆2。",
+            "date": "2026-09-16T14:37:16.860Z",
+            "thumbsUp": 1,
+            "appVersion": "2.31.0",
+            "capturedAt": "2026-09-17T23:48:00.102Z"
+          },
+          {
+            "id": "75eb27b9-654f-4c75-9f78-14d32fc30492",
+            "score": 5,
+            "text": "楽しくプレイさせてもらってます。懐かしい馬が出てくると、嬉しくなります。 個人的にレジェンドレースの復刻をしてもらえるとありがたいです。2024年9月のアストンマーチャン、2024年１０月のエアシャカール。この２頭だけ出来てなくて、コンプリートしたいので。機会があれば、よろしくお願いします。",
+            "date": "2026-09-16T13:42:01.300Z",
+            "thumbsUp": 0,
+            "appVersion": "2.31.0",
+            "capturedAt": "2026-09-17T23:48:00.102Z"
+          },
+          {
+            "id": "7d858137-bb4a-49fa-b3b2-2afcdcc152f2",
+            "score": 5,
+            "text": "以前ガチャが渋いと書いたが学マスよりは遥かにまし。 スキップ機能も拡充しかなり遊びやすいゲームに。 交換チケットなどあるので無課金でもある程度のサポカは組めるでしょう。 CSと区別したソシャゲとしては一つの到達点でしょう。 どこぞの企業にはイキったゲーム作りたきゃCSで勝負しろ、と言っておきます。",
+            "date": "2026-09-16T02:23:19.693Z",
+            "thumbsUp": 2,
+            "appVersion": "2.31.0",
+            "capturedAt": "2026-09-17T23:48:00.102Z"
+          },
           {
             "id": "fdebc87c-53b7-4b1c-b461-9c32ace31056",
             "score": 1,
@@ -15793,140 +15883,140 @@
           "appId": "com.square_enix.android_googleplay.dqwalkj",
           "title": "ドラゴンクエストウォーク",
           "developer": "SQUARE ENIX Co.,Ltd.",
-          "score": 3.5561006
+          "score": 3.5559855
         },
         {
           "rank": 2,
           "appId": "com.aniplex.fategrandorder",
           "title": "Fate/Grand Order",
           "developer": "Aniplex Inc.",
-          "score": 3.6877701
+          "score": 3.6908672
         },
         {
           "rank": 3,
-          "appId": "jp.glee.girl",
-          "title": "放置少女 - 百花繚乱の萌姫たち",
-          "developer": "C4 Connect Inc.",
-          "score": 3.9895494
+          "appId": "com.proximabeta.nikke",
+          "title": "勝利の女神：NIKKE",
+          "developer": "Level Infinite",
+          "score": 4.5863385
         },
         {
           "rank": 4,
           "appId": "jp.konami.suikoden.starleap",
           "title": "幻想水滸伝 STAR LEAP",
           "developer": "KONAMI",
-          "score": 4.1549954
+          "score": 4.145349
         },
         {
           "rank": 5,
-          "appId": "com.dena.a12026418",
-          "title": "Pokémon Masters EX",
-          "developer": "DeNA Co., Ltd.",
-          "score": 4.0776176
+          "appId": "jp.glee.girl",
+          "title": "放置少女 - 百花繚乱の萌姫たち",
+          "developer": "C4 Connect Inc.",
+          "score": 3.9891481
         },
         {
           "rank": 6,
-          "appId": "com.zigzagame.paranoize",
-          "title": "パラノイズ",
-          "developer": "ZigZaGame Inc.",
-          "score": 4.517127
+          "appId": "com.dena.a12026418",
+          "title": "Pokémon Masters EX",
+          "developer": "DeNA Co., Ltd.",
+          "score": 4.078087
         },
         {
           "rank": 7,
-          "appId": "com.proximabeta.nikke",
-          "title": "勝利の女神：NIKKE",
-          "developer": "Level Infinite",
-          "score": 4.586313
+          "appId": "com.zigzagame.paranoize",
+          "title": "パラノイズ",
+          "developer": "ZigZaGame Inc.",
+          "score": 4.4826427
         },
         {
           "rank": 8,
-          "appId": "com.HoYoverse.Nap",
-          "title": "ゼンレスゾーンゼロ",
-          "developer": "COGNOSPHERE PTE. LTD.",
-          "score": 3.346114
+          "appId": "jp.co.drecom.wizardry.daphne",
+          "title": "Wizardry Variants Daphne",
+          "developer": "株式会社ドリコム",
+          "score": 4.1190133
         },
         {
           "rank": 9,
-          "appId": "com.hottagames.nte",
-          "title": "NTE: Neverness to Everness",
-          "developer": "N2E",
-          "score": 4.582718
-        },
-        {
-          "rank": 10,
           "appId": "jp.boi.mementomori.android",
           "title": "メメントモリ",
           "developer": "Bank of Innovation, Inc.",
-          "score": 4.493098
+          "score": 4.492818
         },
         {
-          "rank": 11,
+          "rank": 10,
           "appId": "defense.roguelike.cell.shoot.survivor",
           "title": "セルサバイバー",
           "developer": "Snap Brain Games",
-          "score": 3.983645
+          "score": 3.985214
+        },
+        {
+          "rank": 11,
+          "appId": "com.HoYoverse.Nap",
+          "title": "ゼンレスゾーンゼロ",
+          "developer": "COGNOSPHERE PTE. LTD.",
+          "score": 3.337137
         },
         {
           "rank": 12,
+          "appId": "com.hottagames.nte",
+          "title": "NTE: Neverness to Everness",
+          "developer": "N2E",
+          "score": 4.5782514
+        },
+        {
+          "rank": 13,
           "appId": "com.jp.beauty",
           "title": "旦那様の一発逆転人生",
           "developer": "37Games-Oversea",
           "score": 2.8121738
         },
         {
-          "rank": 13,
-          "appId": "com.YostarJP.BlueArchive",
-          "title": "ブルーアーカイブ",
-          "developer": "Yostar, Inc.",
-          "score": 3.109876
-        },
-        {
           "rank": 14,
-          "appId": "jp.co.drecom.wizardry.daphne",
-          "title": "Wizardry Variants Daphne",
-          "developer": "株式会社ドリコム",
-          "score": 4.1141148
+          "appId": "com.zjcs.android.jp",
+          "title": "杖と剣の伝説",
+          "developer": "BOLTRAY GAMES",
+          "score": 4.408039
         },
         {
           "rank": 15,
-          "appId": "jp.mbga.a12016007.lite",
-          "title": "グランブルーファンタジー",
-          "developer": "mobage",
-          "score": 3.8893287
+          "appId": "com.YostarJP.BlueArchive",
+          "title": "ブルーアーカイブ",
+          "developer": "Yostar, Inc.",
+          "score": 3.1097908
         },
         {
           "rank": 16,
           "appId": "com.bilibili.trickcal",
           "title": "トリッカル・もちもちほっペ大作戦",
           "developer": "BILIBILI",
-          "score": 4.6625714
+          "score": 4.6633825
         },
         {
           "rank": 17,
-          "appId": "com.zjcs.android.jp",
-          "title": "杖と剣の伝説",
-          "developer": "BOLTRAY GAMES",
-          "score": 4.410303
-        },
-        {
-          "rank": 18,
           "appId": "jp.co.sumzap.pj0014",
           "title": "呪術廻戦 ファントムパレード（ファンパレ）",
           "developer": "Sumzap, Inc.",
-          "score": 4.5762496
+          "score": 4.5760145
         },
         {
-          "rank": 19,
+          "rank": 18,
           "appId": "com.gryphline.endfield.gp",
           "title": "アークナイツ：エンドフィールド",
           "developer": "GRYPHLINE",
-          "score": 4.5140185
+          "score": 4.504619
+        },
+        {
+          "rank": 19,
+          "appId": "jp.mbga.a12016007.lite",
+          "title": "グランブルーファンタジー",
+          "developer": "mobage",
+          "score": 3.8886936
         },
         {
           "rank": 20,
-          "appId": "com.neowizgames.game.browndust2",
-          "title": "ブラウンダスト２ 胸いっぱいのRPG",
-          "developer": "NEOWIZ",
-          "score": 3.4569757
+          "appId": "com.zigzagame.evertalefree",
+          "title": "エバーテイル",
+          "developer": "ZigZaGame Inc.",
+          "score": 4.3178325
         }
       ],
       "top_free": [
@@ -15935,166 +16025,166 @@
           "appId": "jp.co.applibot.chiikawapocket",
           "title": "ちいかわぽけっと",
           "developer": "Applibot, Inc.",
-          "score": 4.6610246
+          "score": 4.647492
         },
         {
           "rank": 2,
-          "appId": "com.zigzagame.paranoize",
-          "title": "パラノイズ",
-          "developer": "ZigZaGame Inc.",
-          "score": 4.517127
+          "appId": "com.yongyejp.az",
+          "title": "エバーナイト：リバース",
+          "developer": "Hong Kong Longsin Co., Ltd.",
+          "score": 4.0184875
         },
         {
           "rank": 3,
-          "appId": "com.square_enix.android_googleplay.dqwalkj",
-          "title": "ドラゴンクエストウォーク",
-          "developer": "SQUARE ENIX Co.,Ltd.",
-          "score": 3.5561006
+          "appId": "com.zigzagame.paranoize",
+          "title": "パラノイズ",
+          "developer": "ZigZaGame Inc.",
+          "score": 4.4826427
         },
         {
           "rank": 4,
-          "appId": "jp.konami.suikoden.starleap",
-          "title": "幻想水滸伝 STAR LEAP",
-          "developer": "KONAMI",
-          "score": 4.1549954
+          "appId": "com.square_enix.android_googleplay.dqwalkj",
+          "title": "ドラゴンクエストウォーク",
+          "developer": "SQUARE ENIX Co.,Ltd.",
+          "score": 3.5559855
         },
         {
           "rank": 5,
-          "appId": "defense.roguelike.cell.shoot.survivor",
-          "title": "セルサバイバー",
-          "developer": "Snap Brain Games",
-          "score": 3.983645
+          "appId": "com.com2usholdings.agwiv.android.google.global.normal",
+          "title": "ARES: THE IRON VANGUARD",
+          "developer": "Com2uS Holdings",
+          "score": 3.9591837
         },
         {
           "rank": 6,
-          "appId": "com.nexters.herowars",
-          "title": "ヒーローウォーズ：アライアンス — 放置系ロールプレイング",
-          "developer": "NEXTERS GLOBAL LTD",
-          "score": 4.2647524
+          "appId": "jp.konami.suikoden.starleap",
+          "title": "幻想水滸伝 STAR LEAP",
+          "developer": "KONAMI",
+          "score": 4.145349
         },
         {
           "rank": 7,
-          "appId": "com.bandainamcoent.dgup_jp",
-          "title": "デジモンUP",
-          "developer": "Bandai Namco Entertainment Inc.",
-          "score": 3.196129
+          "appId": "com.nexters.herowars",
+          "title": "ヒーローウォーズ：アライアンス — 放置系ロールプレイング",
+          "developer": "NEXTERS GLOBAL LTD",
+          "score": 4.2636566
         },
         {
           "rank": 8,
-          "appId": "jp.scbf",
-          "title": "BRAVE FRONTIER LEGION",
-          "developer": "GrandSoft-inc",
-          "score": 3.7715232
+          "appId": "defense.roguelike.cell.shoot.survivor",
+          "title": "セルサバイバー",
+          "developer": "Snap Brain Games",
+          "score": 3.985214
         },
         {
           "rank": 9,
-          "appId": "jp.glee.girl",
-          "title": "放置少女 - 百花繚乱の萌姫たち",
-          "developer": "C4 Connect Inc.",
-          "score": 3.9895494
+          "appId": "com.bandainamcoent.dgup_jp",
+          "title": "デジモンUP",
+          "developer": "Bandai Namco Entertainment Inc.",
+          "score": 3.2409973
         },
         {
           "rank": 10,
-          "appId": "com.studiobside.starMain",
-          "title": "スターセイヴァー",
-          "developer": "STUDIOBSIDE",
-          "score": 4.620879
+          "appId": "jp.scbf",
+          "title": "BRAVE FRONTIER LEGION",
+          "developer": "GrandSoft-inc",
+          "score": 3.772277
         },
         {
           "rank": 11,
-          "appId": "com.h8games.littlefarmstory",
-          "title": "リトルファームストーリー",
-          "developer": "SayGames Ltd",
-          "score": 3.7548544
-        },
-        {
-          "rank": 12,
-          "appId": "com.neowizgames.game.browndust2",
-          "title": "ブラウンダスト２ 胸いっぱいのRPG",
-          "developer": "NEOWIZ",
-          "score": 3.4569757
-        },
-        {
-          "rank": 13,
-          "appId": "jp.boi.mementomori.android",
-          "title": "メメントモリ",
-          "developer": "Bank of Innovation, Inc.",
-          "score": 4.493098
-        },
-        {
-          "rank": 14,
-          "appId": "com.mxdzz.jp.and",
-          "title": "キノコ伝説：勇者と魔法のランプ",
-          "developer": "Joy Nice Games",
-          "score": 4.3164177
-        },
-        {
-          "rank": 15,
           "appId": "xyz.lightgame.tuantuan",
           "title": "ピクセルブレイブ：伝説の勇者たち",
           "developer": "HZ Game",
-          "score": 4.3040295
+          "score": 4.2945457
+        },
+        {
+          "rank": 12,
+          "appId": "com.h8games.littlefarmstory",
+          "title": "リトルファームストーリー",
+          "developer": "SayGames Ltd",
+          "score": 3.7173913
+        },
+        {
+          "rank": 13,
+          "appId": "com.sega.persona5.the.phantomx.jp",
+          "title": "P5X ペルソナ５: The Phantom X",
+          "developer": "SEGA CORPORATION",
+          "score": 3.6661017
+        },
+        {
+          "rank": 14,
+          "appId": "com.neowizgames.game.browndust2",
+          "title": "ブラウンダスト２ 胸いっぱいのRPG",
+          "developer": "NEOWIZ",
+          "score": 3.453634
+        },
+        {
+          "rank": 15,
+          "appId": "com.studiobside.starMain",
+          "title": "スターセイヴァー",
+          "developer": "STUDIOBSIDE",
+          "score": 4.5698924
         },
         {
           "rank": 16,
-          "appId": "com.goddessgloss.tcg.rpg.gp",
-          "title": "Goddess Gloss: Anime TCG",
-          "developer": "SickBay",
-          "score": 4.5346537
+          "appId": "jp.glee.girl",
+          "title": "放置少女 - 百花繚乱の萌姫たち",
+          "developer": "C4 Connect Inc.",
+          "score": 3.9891481
         },
         {
           "rank": 17,
-          "appId": "io.supercent.weaponrpg",
-          "title": "XP Hero(ヒーロー)): まずは世界観をのぞいてみて",
-          "developer": "Supercent, Inc.",
-          "score": 3.9861112
+          "appId": "com.mxdzz.jp.and",
+          "title": "キノコ伝説：勇者と魔法のランプ",
+          "developer": "Joy Nice Games",
+          "score": 4.3151155
         },
         {
           "rank": 18,
-          "appId": "com.zigzagame.evertalefree",
-          "title": "エバーテイル",
-          "developer": "ZigZaGame Inc.",
-          "score": 4.319433
+          "appId": "jp.boi.mementomori.android",
+          "title": "メメントモリ",
+          "developer": "Bank of Innovation, Inc.",
+          "score": 4.492818
         },
         {
           "rank": 19,
-          "appId": "com.and1games.xzyx",
-          "title": "修練の遊侠",
-          "developer": "Play Land Limited",
-          "score": 4.680851
+          "appId": "io.supercent.weaponrpg",
+          "title": "XP Hero(ヒーロー)): まずは世界観をのぞいてみて",
+          "developer": "Supercent, Inc.",
+          "score": 3.9620035
         },
         {
           "rank": 20,
-          "appId": "com.supernova.sobtk.jp.google",
-          "title": "モンスターループ：獣神転生",
-          "developer": "SuperNova Game",
-          "score": 4.1061945
+          "appId": "com.and1games.xzyx",
+          "title": "修練の遊侠",
+          "developer": "Play Land Limited",
+          "score": 4.5789475
         }
       ]
     },
     "targetPositions": [],
-    "fetched_at": "2026-09-16T23:58:23.286Z"
+    "fetched_at": "2026-09-17T23:47:53.656Z"
   },
   "community": {
     "source": "Reddit (mock)",
-    "fetched_at": "2026-09-16T23:58:24.671Z",
+    "fetched_at": "2026-09-17T23:47:55.368Z",
     "posts": [
       {
         "id": "mock-0",
         "subreddit": "gachagaming",
         "title": "Monster Strike の最新イベントについて",
         "score": 56,
-        "numComments": 18,
-        "created": "2026-09-16T23:58:24.671Z",
+        "numComments": 28,
+        "created": "2026-09-17T23:47:55.368Z",
         "keyword": "Monster Strike"
       },
       {
         "id": "mock-1",
         "subreddit": "gachagaming",
         "title": "Puzzle and Dragons の最新イベントについて",
-        "score": 62,
-        "numComments": 27,
-        "created": "2026-09-16T23:58:24.671Z",
+        "score": 80,
+        "numComments": 47,
+        "created": "2026-09-17T23:47:55.368Z",
         "keyword": "Puzzle and Dragons"
       }
     ],
@@ -16110,19 +16200,6 @@
     },
     "history": [
       {
-        "date": "2026-07-20",
-        "stats": {
-          "totalPosts": 2,
-          "postsPerDay": 1.2,
-          "avgScore": 75,
-          "avgComments": 25,
-          "maxScore": 120,
-          "bySubreddit": {
-            "gachagaming": 2
-          }
-        }
-      },
-      {
         "date": "2026-07-21",
         "stats": {
           "totalPosts": 2,
@@ -16488,6 +16565,19 @@
       },
       {
         "date": "2026-09-16",
+        "stats": {
+          "totalPosts": 2,
+          "postsPerDay": 1.2,
+          "avgScore": 75,
+          "avgComments": 25,
+          "maxScore": 120,
+          "bySubreddit": {
+            "gachagaming": 2
+          }
+        }
+      },
+      {
+        "date": "2026-09-17",
         "stats": {
           "totalPosts": 2,
           "postsPerDay": 1.2,
@@ -16503,155 +16593,155 @@
   },
   "news": [
     {
-      "source": "4Gamer",
-      "title": "そうだ アニメ，見よう：第268回はシンエイ動画制作の「これ描いて死ね」。漫画の楽しさと厳しさを描く，伊豆王島の少女たちの青春グラフィティ",
-      "link": "https://www.4gamer.net/games/338/G033856/20260915030/",
-      "pubDate": "2026-09-16T23:00:00.000Z",
-      "summary": "「そうだアニメ，見よう」第268回はとよ田みのる氏が月刊「ゲッサン」で連載中の青春漫画をアニメ化した「これ描いて死ね」。制作はシンエイ動画，シリーズ構成は福田裕子氏が担当。監督は「からかい上手の高木さん」の赤城博昭氏が務めている。"
-    },
-    {
-      "source": "4Gamer",
-      "title": "「BanG Dream! Our Notes（アワーノーツ）」メディア向け体験会レポート。“明るい闇”を描く「millsage」と，苦難を爆音でかき消す「一家Dumb Rock!」が登場",
-      "link": "https://www.4gamer.net/games/974/G097456/20260915003/",
-      "pubDate": "2026-09-16T22:00:00.000Z",
-      "summary": "「BanGDream!」シリーズの最新リズムゲーム「BanGDream!OurNotes」のメディア向け先行体験会が開催された。本作には，「MyGO!!!!!」「AveMujica」「夢限大みゅーたいぷ」に加え，新バンドの「millsage」「一家DumbRock!」も登場する。最大5人で競い合う新たな対戦プレイ「撃奏ライブ」の詳細や，実際に試遊して分かった手触りとともに，会場の様子をレポートしよ"
-    },
-    {
       "source": "AUTOMATON",
-      "title": "『モンスターハンターワイルズ』のキャラクリやり直し課金「身だしなみチケット」撤廃へ。『アセンダンス』発売にあわせ、無料でキャラの見た目を直し放題に",
-      "link": "https://automaton-media.com/articles/newsjp/20260917-468131/",
-      "pubDate": "Wed, 16 Sep 2026 15:36:42 +0000",
-      "summary": "カプコンは9月16日、『モンスターハンターワイルズ』の大型DLC『アセンダンス』発売時に、キャラクターエディットにて「身だしなみチケット」なしで無料で何度でも再編集できるように仕様変更すると発表した。"
+      "title": "最大4人協力コミュニケーションゲーム『みんなでチャットパーティ』Nintendo Switch 2向けに配信。ガイド役と操作役の“声だけ連携”でクリアに挑戦",
+      "link": "https://automaton-media.com/articles/newsjp/20260918-468513/",
+      "pubDate": "Thu, 17 Sep 2026 23:36:56 +0000",
+      "summary": "ガンホー・オンライン・エンターテイメントは9月17日、『みんなでチャットパーティ』を配信した。本作はNintendo Switch 2のゲームチャット機能を活用したパーティーゲームだ。"
     },
     {
       "source": "4Gamer",
-      "title": "「NTE」Ver.1.4「名もなき祈歌」は9月30日スタート。前半で「クロバネ」後半で「明音凛」を実装。バンド番外編ストーリーの続編も追加へ",
-      "link": "https://www.4gamer.net/games/817/G081722/20260916056/",
-      "pubDate": "2026-09-16T15:25:51.000Z",
-      "summary": "PerfectWorldGamesは2026年9月16日，「NTE:NevernesstoEverness」のVer.1.4「名もなき祈歌」の予告番組を配信した。アップデートは2026年9月30日に実施され，10月21日に後半コンテンツが追加される。"
+      "title": "板垣伴信氏と親交のあったゲスト4名による追悼トークが披露された「黒川塾 百参（103）」をレポート",
+      "link": "https://www.4gamer.net/games/999/G999903/20260917073/",
+      "pubDate": "2026-09-17T23:00:00.000Z",
+      "summary": "トークイベント「黒川塾百参（103）」が9月14日に開催された。2015年に逝去したゲーム制作者である板垣伴信氏と親交の深かった関係者4名が登壇し，かつての開発現場における過酷なチェック作業の様子や，ライバル関係を意図して作った宣伝の裏側，独自の制作哲学など，氏の生前の姿が明かされた。"
     },
     {
       "source": "4Gamer",
-      "title": "ジャレコの名作セットから「ラグナロク」シリーズ最新作まで，グラビティゲームアライズの出展タイトルを紹介［TGS2026］",
-      "link": "https://www.4gamer.net/games/023/G102339/20260907016/",
-      "pubDate": "2026-09-16T15:00:00.000Z",
-      "summary": "グラビティゲームアライズは，2026年9月17日から9月21日まで開催されている東京ゲームショウ2026にブースを出展する。本稿では「ジャレコアーケードコレクションVol.1＆Vol.2」などの出展タイトルを紹介しよう。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "『モンスターハンターワイルズ：アセンダンス』あわせの無料アプデで肉質の「数値表示」が復活へ。『ライズ』方式",
-      "link": "https://automaton-media.com/articles/newsjp/20260916-468122/",
-      "pubDate": "Wed, 16 Sep 2026 14:59:07 +0000",
-      "summary": "モンスターの肉質に関する数値表示が復活することが判明している。"
+      "title": "XBOXの名を冠するASUSの携帯型ゲームPCに第2世代モデル「ROG XBOX Ally X20」が登場。実機をTGS2026で触ってきた",
+      "link": "https://www.4gamer.net/games/047/G004755/20260918014/",
+      "pubDate": "2026-09-17T17:36:09.000Z",
+      "summary": "2026年9月17日，ASUSは，新しい携帯型ゲームPC「ROGXBOXAllyX20」を10月16日に国内発売すると発表し，予約受付を開始した。税込直販価格は25万8800円。TGS2026のROGブースで実機を触ってきたので，写真を中心にレポートしよう。"
     },
     {
       "source": "4Gamer",
-      "title": "「プラグマタ」，無料DLC「ロックマンパック」を9月17日から配信。ロックマンとロールになりきれる",
-      "link": "https://www.4gamer.net/games/512/G051239/20260916053/",
-      "pubDate": "2026-09-16T14:58:40.000Z",
-      "summary": "カプコンは本日（2026年9月16日），東京ゲームショウ2026の配信番組「カプコンスポットライト」で，「プラグマタ」の無料DLC「ロックマンパック」を9月17日から配信すると発表した。ヒューの衣装「なりきりロックマン」「ロックマンモード」，ディアナの衣装「なりきりロール」「ロールモード」の各2種が登場する。"
+      "title": "誰でもToHeartのマルチになれる？ 「HMX-12“マルチ”センサーユニット」を購入してみた［TGS2026］",
+      "link": "https://www.4gamer.net/games/999/G999902/20260918010/",
+      "pubDate": "2026-09-17T17:10:15.000Z",
+      "summary": "東京ゲームショウ2026のコスパと中央町戦術工芸の共同ブースで，美少女恋愛ゲーム「ToHeart」に登場する，「マルチ」のセンサーユニットを模したアクセサリーを先行販売していた。気が付いたら購入していたので，早速特徴を紹介した。"
     },
     {
       "source": "4Gamer",
-      "title": "「ストリートファイター6」に“C.ヴァイパー”の水着コスチュームが登場。10月13日に“アルジュン”と同時実装",
-      "link": "https://www.4gamer.net/games/635/G063504/20260916055/",
-      "pubDate": "2026-09-16T14:54:58.000Z",
-      "summary": "カプコンは本日（2026年9月16日）配信された情報番組「カプコンスポットライト｜TGS2026」にて，「ストリートファイター6」の最新情報を公開した。番組では，「C.ヴァイパー」のOutfit4として，水着姿のコスチュームが登場することが明かされた。"
+      "title": "「Twitch」がもたらすのは“経験の共有”という魔法。CEOのダン・クランシー氏が語るコミュニティ，そして変わらない人間の欲求とは［TGS2026］",
+      "link": "https://www.4gamer.net/games/991/G999104/20260918012/",
+      "pubDate": "2026-09-17T16:48:13.000Z",
+      "summary": "東京ゲームショウ2026初日となる2026年9月17日，「Twitch」CEOのダン・クランシー氏が，同プラットフォームに関する基調講演を行った。講演では「Twitch」のプラットフォームとしての立ち位置やゲーム業界での役割，テクノロジーが進化するなかでも変わらない人間の求めるものなどが語られた。"
     },
     {
       "source": "4Gamer",
-      "title": "「ドラゴンズドグマ 2：ダークアリズン」の最新トレイラーが公開に。発売に先駆けてSwitch2版のキャラクリアプリも配信開始",
-      "link": "https://www.4gamer.net/games/015/G101558/20260916054/",
-      "pubDate": "2026-09-16T14:54:04.000Z",
-      "summary": "カプコンは本日した「カプコンスポットライト｜TGS2026」にて，「ドラゴンズドグマ2：ダークアリズン」の最新トレイラーを公開した。また，「Dragon'sDogma2CharacterCreator&Storage」のSwitch2版についても配信がアナウンスされた。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "『モンスターハンターワイルズ』大型DLCにあわせ「無料アプデ」で便利機能どっさり実装へ。テント外アイテムBOXで装備変更、アイテム・装備一括マイセットなど快適化",
-      "link": "https://automaton-media.com/articles/newsjp/20260916-468113/",
-      "pubDate": "Wed, 16 Sep 2026 14:49:19 +0000",
-      "summary": "カプコンは9月16日、『モンスターハンターワイルズ』にて大型DLC『アセンダンス』配信にあわせて無料アップデートを実施し、さまざまな便利機能などを実装すると明かした。"
+      "title": "ゲームフリークがTGSに初のブース出展！ 「雨のちハレ女」の部室へ行き，復刊したミニコミ誌を受け取り，会期の天気にそわそわする［TGS2026］",
+      "link": "https://www.4gamer.net/games/042/G104241/20260918007/",
+      "pubDate": "2026-09-17T16:28:42.000Z",
+      "summary": "ゲームフリークが東京ゲームショウ2026にやってきた！　「雨のちハレ女」の世界を再現した展示や，復刊したミニコミ誌など，手作り感とこだわりが詰まったブースは同社のルーツをあらためて感じさせるものだった。"
     },
     {
       "source": "4Gamer",
-      "title": "「モンスターハンターワイルズ：アセンダンス」，古龍“テオ・テスカトル”が登場する最新映像を公開",
-      "link": "https://www.4gamer.net/games/013/G101399/20260916052/",
-      "pubDate": "2026-09-16T14:40:15.000Z",
-      "summary": "カプコンは本日（2026年9月16日）配信された情報番組「カプコンスポットライト｜TGS2026」にて，2027年内に発売予定の「モンスターハンターワイルズ：アセンダンス」の最新情報を公開した。番組では「アセンダンス」に古龍“テオ・テスカトル”が登場することが明かされた。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "『モンスターハンターワイルズ：アセンダンス』の「テオ・テスカトル」お披露目。TGS 2026試遊でいきなり狩れる",
-      "link": "https://automaton-media.com/articles/newsjp/20260916-468099/",
-      "pubDate": "Wed, 16 Sep 2026 14:36:34 +0000",
-      "summary": "カプコンは9月16日、『モンスターハンターワイルズ：アセンダンス』の最新映像を公開した。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "『ストリートファイター6』C.ヴァイパーの水着「Outfit 4」お披露目。10月13日、アルジュンと同日配信へ",
-      "link": "https://automaton-media.com/articles/newsjp/20260916-468100/",
-      "pubDate": "Wed, 16 Sep 2026 14:29:55 +0000",
-      "summary": "カプコンは9月16日、『ストリートファイター6』について、「C.ヴァイパー」のOutfit 4コスチュームを発表した。"
-    },
-    {
-      "source": "AUTOMATON",
-      "title": "『NTE』大型アプデVer.1.4では“ガチ”テーマパーク開園、アトラクション10種以上。魔女「クロバネ」＆バンド少女「明音凛」実装、ポルシェ新車2種などドカ盛りで9月30日配信へ",
-      "link": "https://automaton-media.com/articles/newsjp/20260916-468082/",
-      "pubDate": "Wed, 16 Sep 2026 13:53:03 +0000",
-      "summary": "『NTE: Neverness to Everness』Ver.1.4「名もなき祈歌」の詳細が明かされた。"
+      "title": "「Shape of Dreams」の家庭用ゲーム機版が発売。クロスプレイによる最大4人での協力プレイにも対応",
+      "link": "https://www.4gamer.net/games/872/G087214/20260918009/",
+      "pubDate": "2026-09-17T16:18:49.000Z",
+      "summary": "NEOWIZは9月17日，アクションローグライト「ShapeofDreams」の家庭用ゲーム機版を発売した。NintendoSwitch2やPS5，XBOXに対応し，PCを含めたクロスプレイによる最大4人での協力プレイも可能だ。発売1周年を記念したアップデート「星なき道」も行われ，9人目の旅人や新たな結末が加わった。"
     },
     {
       "source": "4Gamer",
-      "title": "「ぷよぷよ!!クエスト」，どっさり！秋のだいまんぞくキャンペーンが開始",
-      "link": "https://www.4gamer.net/games/202/G020261/20260916049/",
-      "pubDate": "2026-09-16T12:50:29.000Z",
-      "summary": ""
+      "title": "合言葉は，“みんななかよく”。「サンリオ パーティランド」ステージで，こだわりの詰まった世界と今後の施策について開発者が語った［TGS2026］",
+      "link": "https://www.4gamer.net/games/000/G100071/20260918004/",
+      "pubDate": "2026-09-17T16:04:20.000Z",
+      "summary": "2026年10月29日に発売予定の「サンリオパーティランド」の開発陣によるトークステージが行われた。「ゲームのなかで，さまざまなキャラクターと出会える場所」として開発されたという本作について，魅力や開発エピソードの数々が語られた。"
     },
     {
       "source": "4Gamer",
-      "title": "「英傑大戦 古幻相剋の八象」，「サクラ大戦」とのコラボイベントを本日から開催",
-      "link": "https://www.4gamer.net/games/574/G057428/20260916051/",
-      "pubDate": "2026-09-16T12:47:58.000Z",
-      "summary": ""
+      "title": "“煮卵”でも“Dy84n※＆＠あk”でもなんでもOK。好きな文字列でカードを生むデッキ構築型ローグライク「Verse of Birth」［TGS2026］",
+      "link": "https://www.4gamer.net/games/042/G104267/20260917070/",
+      "pubDate": "2026-09-17T15:53:11.000Z",
+      "summary": "東京ゲームショウ2026で，4Gamerブースで新作ゲーム「VerseofBirth」の試遊台を出展している。本作は電通の社内チームが制作する，生成AIを用いるデッキ構築型ローグライクカードゲームだ。最大の特徴はカード生成システムにある。"
+    },
+    {
+      "source": "4Gamer",
+      "title": "「Wo Long 2: Wings of Ember」インタビュー。オープンフィールドの戦場と新アクションで，濃密なプレイ体験を目指す［TGS2026］",
+      "link": "https://www.4gamer.net/games/014/G101429/20260918005/",
+      "pubDate": "2026-09-17T15:41:14.000Z",
+      "summary": "三国志の世界を舞台にした“死にゲー”に，オープンフィールド探索を持ち込んだ「WoLong2:WingsofEmber」。α体験版が配信中の本作について，プロデューサーの平山正和氏と，開発プロデューサーの山際眞晃氏に話を聞いた。"
+    },
+    {
+      "source": "4Gamer",
+      "title": "東プレのキーボード「REALFORCE」にピカチュウを描いたコラボモデルが登場。2026年12月下旬予約開始［TGS2026］",
+      "link": "https://www.4gamer.net/games/317/G031703/20260918006/",
+      "pubDate": "2026-09-17T15:38:51.000Z",
+      "summary": "2026年9月17日，東プレは，TGS2026の同社ブースにて新製品発表イベントを開催し，「ピカチュウ」をデザインしたコラボキーボード「REALFORCEGX1PlusKeyboardPikachuEdition」の予約受付を2026年12月下旬に開始すると発表した。"
     },
     {
       "source": "AUTOMATON",
-      "title": "傑作アクションRPG『天地創造』リマスター版、来年1月14日に発売へ。便利機能いろいろで現代化、31年越しに蘇る",
-      "link": "https://automaton-media.com/articles/newsjp/20260916-468074/",
-      "pubDate": "Wed, 16 Sep 2026 11:30:10 +0000",
-      "summary": "Clear River Gamesは9月16日、『天地創造』のPS5/PS4/Xbox Series X|S/PC（Steam/GOG.com）/Nintendo Switch 2/Nintendo Switch版を現地時間2027年1月14日に発売すると発表した。"
+      "title": "『クレイジータクシー：ワールドツアー』開発者に訊く、シリーズだからこそ味わえる体験と“らしさ”とは何か？笑いながらドライブ、加点法、そして……",
+      "link": "https://automaton-media.com/articles/interviewsjp/20260917-468487/",
+      "pubDate": "Thu, 17 Sep 2026 15:00:05 +0000",
+      "summary": "『クレイジータクシー：ワールドツアー』開発者インタビュー後編。『クレイジータクシー』らしさとは何かをじっくり訊いた。"
     },
     {
       "source": "AUTOMATON",
-      "title": "『Fate/Grand Order（FGO）』新イベント「くたばれ！ パンプキンファーム･スローター」開幕。シナリオはamphibian氏、懐疑心が支配するサスペンスなハロウィン ",
-      "link": "https://automaton-media.com/articles/newsjp/20260916-468061/",
-      "pubDate": "Wed, 16 Sep 2026 11:05:02 +0000",
-      "summary": "2026年のハロウィンイベント「くたばれ！ パンプキンファーム･スローター」は、9月16日20時開始。"
+      "title": "『クレイジータクシー』はなぜ新作を開発することができたのか？25年の空白を経て、新作『クレイジータクシー：ワールドツアー』が実現した理由を開発者に訊く",
+      "link": "https://automaton-media.com/articles/interviewsjp/20260917-468477/",
+      "pubDate": "Thu, 17 Sep 2026 15:00:03 +0000",
+      "summary": "『クレイジータクシー：ワールドツアー』の開発者インタビュー前編。なぜ今になって新作が実現したのか。"
     },
     {
       "source": "AUTOMATON",
-      "title": "「圧倒的に好評」の陶芸＆経営シム『陶芸マスター』、“約7年”の時を経てついに正式リリース。好きな形の「渾身の陶器」を作りあげ、展示会/売上で資金稼ぎ",
-      "link": "https://automaton-media.com/articles/newsjp/20260916-468054/",
-      "pubDate": "Wed, 16 Sep 2026 10:20:52 +0000",
-      "summary": "AZGamesは9月11日、陶芸シミュレーター『陶芸マスター』を正式リリースした。本作は陶芸をテーマにした創作・経営シミュレーションゲームだ。"
+      "title": "『クレイジータクシー：ワールドツアー』先行プレイ感想。ボケ、町並み、キャラ、音楽、テキスト、あらゆる方向から笑いを誘う『クレイジータクシー』最新作",
+      "link": "https://automaton-media.com/articles/reportjp/20260918-468460/",
+      "pubDate": "Thu, 17 Sep 2026 15:00:01 +0000",
+      "summary": "『クレイジータクシー：ワールドツアー』を2時間試遊してわかったことを本稿で伝えたい"
     },
     {
       "source": "AUTOMATON",
-      "title": "最大8人協力“ピクセル冒険“ARPG『ディムレイス』、Steam同接1万人超えの好発進。エルフやミノタウロスにもなれるファンタジー生活は、戦って食って寝て恋する全部盛り",
-      "link": "https://automaton-media.com/articles/newsjp/20260916-468042/",
-      "pubDate": "Wed, 16 Sep 2026 10:05:33 +0000",
-      "summary": "Mudtekは9月16日、『ディムレイス』の早期アクセス配信を開始した。最大同時接続プレイヤー数が1万人を突破するなど好評を博している。"
+      "title": "基本プレイ無料MMORPG『マビノギモバイル』PC・スマホで10月7日リリースへ。バトルもマイホーム作りもできる「新しいマビノギ」、ほのぼの生活がまもなく到来",
+      "link": "https://automaton-media.com/articles/newsjp/20260917-468452/",
+      "pubDate": "Thu, 17 Sep 2026 12:19:35 +0000",
+      "summary": "『マビノギモバイル』が10月7日に配信される。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "姿を消した両親の行方を追うミステリーゲーム『Hope in the City』11月10日配信へ。あらゆる証拠を“スケッチ”で記録し、真実への道筋を描く",
+      "link": "https://automaton-media.com/articles/newsjp/hope-in-the-city-20260917-468445/",
+      "pubDate": "Thu, 17 Sep 2026 11:57:22 +0000",
+      "summary": "Lofty Sky Entertainmentは9月17日、『Hope in the City』を11月10日に配信すると発表。若き主人公が、突然姿を消した両親の行方を追う物語主導型ミステリーゲームだ。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "オンライン終末サバイバル『Once Human』大型アプデ「禁断の島」10月22日配信へ。船を作りあげ、異形が闊歩する大海原へと突入",
+      "link": "https://automaton-media.com/articles/newsjp/20260917-468409/",
+      "pubDate": "Thu, 17 Sep 2026 11:11:00 +0000",
+      "summary": "オーシャン編の大型アップデート「禁断の島（Isles of Abyss）」を10月22日に配信すると発表した。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "大人気マルチ対応MOBA風ローグライト『Shape of Dreams』いきなりPS5/XBOX/Switch 2版発売、大型アプデまで到来。冷気使いの新キャラ、ボス行動ランダム化システムなどでやり込み深まる",
+      "link": "https://automaton-media.com/articles/newsjp/20260917-468383/",
+      "pubDate": "Thu, 17 Sep 2026 11:07:54 +0000",
+      "summary": "『Shape of Dreams』PS5/XBOX Series X|S/Nintendo Switch 2版がいきなり発売。あわせて大型アップデートも配信された。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "『ドキドキ文芸部!』のアーティストが放つ新作『Faraday Blues』発表。“両親の人生が悲惨すぎるので勝手にリセット”する闇深めカードADV、ほぼバッドエンドなエンディング64種類",
+      "link": "https://automaton-media.com/articles/newsjp/20260917-468399/",
+      "pubDate": "Thu, 17 Sep 2026 10:59:46 +0000",
+      "summary": "Serenity Forgeは9月17日、『Faraday Blues』を発表し、2027年に発売すると告知した。"
+    },
+    {
+      "source": "AUTOMATON",
+      "title": "「歩く家」クラフト冒険ゲーム『Bloomwalker』正式発表。汚染された世界を浄化する旅、レベルファイブ『二ノ国』関連新作か",
+      "link": "https://automaton-media.com/articles/newsjp/20260917-468389/",
+      "pubDate": "Thu, 17 Sep 2026 10:34:14 +0000",
+      "summary": "Netmarbleは8月21日、『Bloomwalker』を正式発表した。"
     }
   ],
   "twitter": {
     "source": "Twitter/X (mock)",
-    "fetched_at": "2026-09-16T23:58:30.648Z",
+    "fetched_at": "2026-09-17T23:48:00.088Z",
     "tweets": [
       {
         "id": "mock-0-0",
         "author": "user_00",
         "text": "モンスト についての感想ツイート (mock 1)",
-        "pubDate": "2026-09-16T23:58:30.648Z",
+        "pubDate": "2026-09-17T23:48:00.088Z",
         "link": null,
         "keyword": "モンスト"
       },
@@ -16659,7 +16749,7 @@
         "id": "mock-0-1",
         "author": "user_01",
         "text": "モンスト についての感想ツイート (mock 2)",
-        "pubDate": "2026-09-16T17:58:30.648Z",
+        "pubDate": "2026-09-17T17:48:00.088Z",
         "link": null,
         "keyword": "モンスト"
       },
@@ -16667,7 +16757,7 @@
         "id": "mock-0-2",
         "author": "user_02",
         "text": "モンスト についての感想ツイート (mock 3)",
-        "pubDate": "2026-09-16T11:58:30.648Z",
+        "pubDate": "2026-09-17T11:48:00.088Z",
         "link": null,
         "keyword": "モンスト"
       },
@@ -16675,7 +16765,7 @@
         "id": "mock-0-3",
         "author": "user_03",
         "text": "モンスト についての感想ツイート (mock 4)",
-        "pubDate": "2026-09-16T05:58:30.648Z",
+        "pubDate": "2026-09-17T05:48:00.088Z",
         "link": null,
         "keyword": "モンスト"
       },
@@ -16683,7 +16773,7 @@
         "id": "mock-1-0",
         "author": "user_10",
         "text": "パズドラ についての感想ツイート (mock 1)",
-        "pubDate": "2026-09-16T22:58:30.648Z",
+        "pubDate": "2026-09-17T22:48:00.088Z",
         "link": null,
         "keyword": "パズドラ"
       },
@@ -16691,7 +16781,7 @@
         "id": "mock-1-1",
         "author": "user_11",
         "text": "パズドラ についての感想ツイート (mock 2)",
-        "pubDate": "2026-09-16T16:58:30.648Z",
+        "pubDate": "2026-09-17T16:48:00.088Z",
         "link": null,
         "keyword": "パズドラ"
       },
@@ -16699,7 +16789,7 @@
         "id": "mock-1-2",
         "author": "user_12",
         "text": "パズドラ についての感想ツイート (mock 3)",
-        "pubDate": "2026-09-16T10:58:30.648Z",
+        "pubDate": "2026-09-17T10:48:00.088Z",
         "link": null,
         "keyword": "パズドラ"
       },
@@ -16707,7 +16797,7 @@
         "id": "mock-1-3",
         "author": "user_13",
         "text": "パズドラ についての感想ツイート (mock 4)",
-        "pubDate": "2026-09-16T04:58:30.648Z",
+        "pubDate": "2026-09-17T04:48:00.088Z",
         "link": null,
         "keyword": "パズドラ"
       },
@@ -16715,7 +16805,7 @@
         "id": "mock-2-0",
         "author": "user_20",
         "text": "ウマ娘 についての感想ツイート (mock 1)",
-        "pubDate": "2026-09-16T21:58:30.648Z",
+        "pubDate": "2026-09-17T21:48:00.088Z",
         "link": null,
         "keyword": "ウマ娘"
       },
@@ -16723,7 +16813,7 @@
         "id": "mock-2-1",
         "author": "user_21",
         "text": "ウマ娘 についての感想ツイート (mock 2)",
-        "pubDate": "2026-09-16T15:58:30.648Z",
+        "pubDate": "2026-09-17T15:48:00.088Z",
         "link": null,
         "keyword": "ウマ娘"
       },
@@ -16731,7 +16821,7 @@
         "id": "mock-2-2",
         "author": "user_22",
         "text": "ウマ娘 についての感想ツイート (mock 3)",
-        "pubDate": "2026-09-16T09:58:30.648Z",
+        "pubDate": "2026-09-17T09:48:00.088Z",
         "link": null,
         "keyword": "ウマ娘"
       },
@@ -16739,7 +16829,7 @@
         "id": "mock-2-3",
         "author": "user_23",
         "text": "ウマ娘 についての感想ツイート (mock 4)",
-        "pubDate": "2026-09-16T03:58:30.648Z",
+        "pubDate": "2026-09-17T03:48:00.088Z",
         "link": null,
         "keyword": "ウマ娘"
       }
@@ -16751,21 +16841,12 @@
       "avgTextLength": 25,
       "daily": [
         {
-          "date": "2026-09-16",
+          "date": "2026-09-17",
           "count": 12
         }
       ]
     },
     "history": [
-      {
-        "date": "2026-07-20",
-        "stats": {
-          "totalTweets": 12,
-          "uniqueAuthors": 12,
-          "tweetsPerDay": 12,
-          "avgTextLength": 25
-        }
-      },
       {
         "date": "2026-07-21",
         "stats": {
@@ -17020,6 +17101,15 @@
       },
       {
         "date": "2026-09-16",
+        "stats": {
+          "totalTweets": 12,
+          "uniqueAuthors": 12,
+          "tweetsPerDay": 12,
+          "avgTextLength": 25
+        }
+      },
+      {
+        "date": "2026-09-17",
         "stats": {
           "totalTweets": 12,
           "uniqueAuthors": 12,

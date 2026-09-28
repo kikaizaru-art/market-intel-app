@@ -92,15 +92,15 @@
         "recentChanges": "【v4.21.0】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-09": {
-        "score": 4.4961433,
-        "ratings": 93662,
-        "reviews": 9483,
+        "score": 4.496567,
+        "ratings": 93677,
+        "reviews": 9488,
         "histogram": {
-          "1": 4875,
-          "2": 2012,
-          "3": 4179,
-          "4": 13285,
-          "5": 69304
+          "1": 4862,
+          "2": 1981,
+          "3": 4243,
+          "4": 13274,
+          "5": 69311
         },
         "reviewVelocity": {
           "perDay": 4.8,
@@ -202,19 +202,19 @@
         "recentChanges": "パフォーマンス最適化"
       },
       "2026-09": {
-        "score": 3.9863696,
-        "ratings": 100041,
-        "reviews": 29153,
+        "score": 3.9862692,
+        "ratings": 100042,
+        "reviews": 29154,
         "histogram": {
-          "1": 13655,
+          "1": 13654,
           "2": 4232,
-          "3": 7245,
-          "4": 19588,
-          "5": 55317
+          "3": 7254,
+          "4": 19586,
+          "5": 55312
         },
         "reviewVelocity": {
           "perDay": 0.9,
-          "span": 33
+          "span": 34
         },
         "version": "2.3.168",
         "recentChanges": "パフォーマンス最適化"
@@ -313,14 +313,14 @@
       },
       "2026-09": {
         "score": 4.246637,
-        "ratings": 300378,
+        "ratings": 300409,
         "reviews": 1438,
         "histogram": {
-          "1": 26448,
-          "2": 12549,
-          "3": 14348,
-          "4": 53841,
-          "5": 193055
+          "1": 26451,
+          "2": 12550,
+          "3": 14350,
+          "4": 53846,
+          "5": 193075
         },
         "reviewVelocity": {
           "perDay": 0.2,
@@ -422,19 +422,19 @@
         "recentChanges": null
       },
       "2026-09": {
-        "score": 3.43,
-        "ratings": 221,
+        "score": 3.4059405,
+        "ratings": 222,
         "reviews": 61,
         "histogram": {
-          "1": 45,
+          "1": 48,
           "2": 14,
           "3": 39,
-          "4": 35,
-          "5": 83
+          "4": 33,
+          "5": 82
         },
         "reviewVelocity": {
-          "perDay": 0.3,
-          "span": 93
+          "perDay": 0.2,
+          "span": 173
         },
         "version": "1.0.9",
         "recentChanges": null
@@ -532,15 +532,15 @@
         "recentChanges": "『勝利の女神：NIKKE』×『P3R』『P4G』『P5R』コラボVer.「PERSONA ON FRONTLINE」リリース！<br><br>【新キャラ】<br>SSR クイーン（新島真）<br>SSR 天城雪子<br>SR アイギス<br><br>【新イベント】<br>コラボ大型イベント「PERSONA ON FRONTLINE」<br>コラボミニゲーム「MIDNIGHT PHANTOM RUNNER」<br>14日間ログインイベント<br><br>【新コスチューム】<br>ファントム - セイントシーフ<br>フローラ - フェアリーラビット<br>クイーン（新島真） - 秀尽学園生徒会長<br>天城雪子 - 天城屋旅館の着物<br>クイーン（新島真） - クイーンズパジャマ（Ver. NIKKE Collabo）<br>天城雪子 - ウィンターレディルームウェア（Ver. NIKKE Collabo）<br><br>【その他】<br>メインチャプター47、48公開<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご覧ください。"
       },
       "2026-09": {
-        "score": 4.5839543,
-        "ratings": 613958,
+        "score": 4.5850887,
+        "ratings": 614032,
         "reviews": 13813,
         "histogram": {
-          "1": 23126,
-          "2": 6300,
-          "3": 24497,
-          "4": 95001,
-          "5": 465017
+          "1": 23012,
+          "2": 6259,
+          "3": 24439,
+          "4": 95017,
+          "5": 465282
         },
         "reviewVelocity": {
           "perDay": 3.5,
@@ -642,19 +642,19 @@
         "recentChanges": null
       },
       "2026-09": {
-        "score": 3.078605,
-        "ratings": 39859,
-        "reviews": 12425,
+        "score": 3.0723958,
+        "ratings": 39868,
+        "reviews": 12430,
         "histogram": {
-          "1": 16432,
-          "2": 1762,
-          "3": 1804,
-          "4": 1949,
-          "5": 17905
+          "1": 16476,
+          "2": 1785,
+          "3": 1816,
+          "4": 1950,
+          "5": 17836
         },
         "reviewVelocity": {
-          "perDay": 12.1,
-          "span": 2
+          "perDay": 8.9,
+          "span": 3
         },
         "version": "1.73.459696",
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
@@ -5951,22 +5951,84 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-09-28",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 10,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 5,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 88,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 4,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 6,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 2,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 26,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_free",
+          "rank": 114,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 47,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 36,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
-    {
-      "date": "2026-07-13",
-      "stats": {
-        "totalPosts": 2,
-        "postsPerDay": 1.2,
-        "avgScore": 75,
-        "avgComments": 25,
-        "maxScore": 120,
-        "bySubreddit": {
-          "gachagaming": 2
-        }
-      }
-    },
     {
       "date": "2026-07-14",
       "stats": {
@@ -6333,6 +6395,19 @@
     },
     {
       "date": "2026-09-27",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
+    },
+    {
+      "date": "2026-09-28",
       "stats": {
         "totalPosts": 2,
         "postsPerDay": 1.2,
@@ -12254,6 +12329,15 @@
     ],
     "houchi-shoujo": [
       {
+        "id": "cf1fcaae-709b-4c98-b48c-ebbb8d94588b",
+        "score": 3,
+        "text": "コレってさ〜前にもやったけど課金しなきゃ強くなれない!ってヤツだろ！自分は課金しなくても進めるのをやりたいんだよね!って言うか金は生活で全部消えるしヤッパリ頭使って強くなるパズルゲームが良いな!んだカワイイ女の子が出てくるのはいいんだけど放置ゲーって頭を使わない課金ゲームだからちょっと………カワイイ女の子が出るパズルゲームなら良いんだけど………もしも放置少女IN３マッチのゲームが出てたらやる！カワイイ女の子がパズル持ってたら最っ高だな！",
+        "date": "2026-09-26T13:06:25.674Z",
+        "thumbsUp": 0,
+        "appVersion": "2.3.168",
+        "capturedAt": "2026-09-28T00:07:26.376Z"
+      },
+      {
         "id": "7b2ce5c5-48a7-4b1f-9296-efa03cfbfa2b",
         "score": 1,
         "text": "うんこコラボ！！広告を強制排除しろ！！業者！！",
@@ -13860,6 +13944,15 @@
     ],
     "ori-aka": [
       {
+        "id": "0d3e23a3-8629-4576-a523-03920d480935",
+        "score": 1,
+        "text": "■■■2.56GB〜以上■スマホではデータ量多過ぎ、残念■■■",
+        "date": "2026-09-26T19:19:24.845Z",
+        "thumbsUp": 0,
+        "appVersion": "1.0.9",
+        "capturedAt": "2026-09-28T00:07:26.376Z"
+      },
+      {
         "id": "31026950-bb80-4cda-b380-976688044301",
         "score": 1,
         "text": "同じ人の星５のレビューがいっぱいあるな〜",
@@ -14392,6 +14485,24 @@
       }
     ],
     "nikke": [
+      {
+        "id": "6fcded37-ea54-463f-962a-1d0668b59573",
+        "score": 5,
+        "text": "起動中はスマホの自動スリープ機能を強制的に無効化するので、スマフォが壊れる可能性がある。この機能要らないです。コレのせいで画面焼き付いてスマフォ一台破損してます。寝落ちは危険です。プレイする際は気をつけたほうがいい。",
+        "date": "2026-09-26T01:08:02.300Z",
+        "thumbsUp": 0,
+        "appVersion": "152.8.7",
+        "capturedAt": "2026-09-28T00:07:26.376Z"
+      },
+      {
+        "id": "fd00d4a8-ffd4-4440-9b3f-3ad8f170a7ff",
+        "score": 1,
+        "text": "600連してピルグリム1体も出ない。 不自然だな思って色々確率を調べていて、 200連SSR一枚も無しもあり、99％以上で引けているらしい。 企業50％モールドも買う度に貯めほぼ全部ハズレ8回位連続外した。 欠陥品で変な確率、企業モールド買って出ない少数点の確率を引いて宇宙に行くの？ 天井で交換しろって運営は言ったが、高いチケットとダイヤを何百連集めたら、全部確率抜いてゴミ化し、ピルグリム排出無しにして運営ボロ儲け。残念だったな、また十万円分貯めてこいよ、∞の繰り返しが終わらない未来が見える。 そういうプログラムや操作を韓国と中国運営はやりまくり、ソロレイド不正謝っても、結局バカスカ外して金落",
+        "date": "2026-09-26T00:04:45.375Z",
+        "thumbsUp": 8,
+        "appVersion": "152.8.7",
+        "capturedAt": "2026-09-28T00:07:26.376Z"
+      },
       {
         "id": "72e3136c-c86a-494e-b690-d33ae6c6b554",
         "score": 1,
@@ -19164,6 +19275,60 @@
       }
     ],
     "bluearchive": [
+      {
+        "id": "8acb23fc-a6d8-49f2-a0b7-b0841bec5afb",
+        "score": 5,
+        "text": "ありがとうブルーアーカイブ",
+        "date": "2026-09-26T21:13:00.904Z",
+        "thumbsUp": 3,
+        "appVersion": "1.73.459696",
+        "capturedAt": "2026-09-28T00:07:26.376Z"
+      },
+      {
+        "id": "d79c6ab3-0bdd-405e-ac26-41f5d19afd05",
+        "score": 5,
+        "text": "ストーリー、キャラデザ、その他諸々含め楽しいです。ガチャの変更でかなり低い評価をしている方もいますが、今までの補填を覚えていないのでしょうか。ここまで何か不具合諸々があったら石を配ってくれるゲームはないと思います。 今の楽しいまま、このゲームが続いてくれることを願っています。",
+        "date": "2026-09-26T15:56:16.452Z",
+        "thumbsUp": 0,
+        "appVersion": "1.73.459696",
+        "capturedAt": "2026-09-28T00:07:26.376Z"
+      },
+      {
+        "id": "3839c1b1-e9aa-4386-a15b-111b6b8ebc0d",
+        "score": 2,
+        "text": "マジで勿体ないなと思いました。シナリオ、キャラクターデザインにCVはどこにも引けをとらないぐらい豪華なのにガチャの仕様のせいで台無しになっていると言わざるを得ない。集金目的としか言いようがない。新規で始める方への配慮が全くなく、前のガチャ仕様の時と現在のガチャ仕様のユーザーの減り方はとても異常です。",
+        "date": "2026-09-26T12:52:40.674Z",
+        "thumbsUp": 3,
+        "appVersion": "1.73.459696",
+        "capturedAt": "2026-09-28T00:07:26.376Z"
+      },
+      {
+        "id": "2c04442c-01ed-4057-9850-f0b04cd089de",
+        "score": 5,
+        "text": "実に良き",
+        "date": "2026-09-26T07:06:52.889Z",
+        "thumbsUp": 0,
+        "appVersion": "1.73.459696",
+        "capturedAt": "2026-09-28T00:07:26.376Z"
+      },
+      {
+        "id": "192ac365-f290-40f6-bd7a-8eabb957e61f",
+        "score": 5,
+        "text": "戦車砲ですが、44㎝Springに、◯White explosion×１の、２重発射で、MH wo稼ぎますね。",
+        "date": "2026-09-26T06:06:01.245Z",
+        "thumbsUp": 10,
+        "appVersion": "1.73.459696",
+        "capturedAt": "2026-09-28T00:07:26.376Z"
+      },
+      {
+        "id": "6e30d3cd-d4fd-47d8-b7ab-7ceefd2ff4af",
+        "score": 3,
+        "text": "ギガ使いすぎぃー",
+        "date": "2026-09-26T02:22:03.266Z",
+        "thumbsUp": 1,
+        "appVersion": "1.73.459696",
+        "capturedAt": "2026-09-28T00:07:26.376Z"
+      },
       {
         "id": "965a942c-a012-4afc-8455-95524b0d715d",
         "score": 1,
@@ -25163,15 +25328,6 @@
   "youtubeChannels": {},
   "twitter": [
     {
-      "date": "2026-07-13",
-      "stats": {
-        "totalTweets": 12,
-        "uniqueAuthors": 12,
-        "tweetsPerDay": 12,
-        "avgTextLength": 29
-      }
-    },
-    {
       "date": "2026-07-14",
       "stats": {
         "totalTweets": 12,
@@ -25425,6 +25581,15 @@
     },
     {
       "date": "2026-09-27",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 6,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-09-28",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,

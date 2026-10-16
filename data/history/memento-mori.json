@@ -110,18 +110,18 @@
         "recentChanges": "【v4.22.0】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-10": {
-        "score": 4.500137,
-        "ratings": 93895,
-        "reviews": 9529,
+        "score": 4.499453,
+        "ratings": 93899,
+        "reviews": 9531,
         "histogram": {
-          "1": 4857,
-          "2": 2029,
-          "3": 4162,
-          "4": 13082,
-          "5": 69756
+          "1": 4875,
+          "2": 2027,
+          "3": 4157,
+          "4": 13090,
+          "5": 69743
         },
         "reviewVelocity": {
-          "perDay": 3.9,
+          "perDay": 3.7,
           "span": 8
         },
         "version": "5.0.0",
@@ -239,13 +239,13 @@
       },
       "2026-10": {
         "score": 3.9857724,
-        "ratings": 100035,
+        "ratings": 100034,
         "reviews": 29150,
         "histogram": {
           "1": 13662,
           "2": 4238,
           "3": 7258,
-          "4": 19569,
+          "4": 19568,
           "5": 55303
         },
         "reviewVelocity": {
@@ -367,14 +367,14 @@
       },
       "2026-10": {
         "score": 4.242515,
-        "ratings": 300958,
+        "ratings": 300979,
         "reviews": 1439,
         "histogram": {
-          "1": 26581,
+          "1": 26583,
           "2": 12615,
-          "3": 14867,
-          "4": 54064,
-          "5": 192829
+          "3": 14868,
+          "4": 54068,
+          "5": 192842
         },
         "reviewVelocity": {
           "perDay": 0.2,
@@ -622,19 +622,19 @@
         "recentChanges": "『勝利の女神：NIKKE』COIN RUSH SHOWDOWN Ver.リリース！<br><br>【新ニケ】<br>SSR ギルティ：マイティバニー<br>SSR シン：スウィフトバニー<br><br>【新イベント】<br>新フルボイスストーリーイベント「COIN RUSH SHOWDOWN」<br>ミニゲーム「THREE COMPANY RUMBLE」<br>14日間ログインイベント<br><br>【新コスチューム】<br>シュガー - キラーラビット<br>マナ - ドランクンラビット<br>クラスト - トリートシェフ<br><br>【その他】<br>ロックされているソロレイドステージでも模擬戦闘が可能に<br>装備改造システムの改善<br>ロビーのショートカットに「ストーリーライン」を追加<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       },
       "2026-10": {
-        "score": 4.5878315,
-        "ratings": 615514,
-        "reviews": 13832,
+        "score": 4.5885468,
+        "ratings": 615608,
+        "reviews": 13831,
         "histogram": {
-          "1": 22994,
-          "2": 6458,
-          "3": 24115,
-          "4": 94076,
-          "5": 467854
+          "1": 22973,
+          "2": 6417,
+          "3": 24094,
+          "4": 93936,
+          "5": 468171
         },
         "reviewVelocity": {
-          "perDay": 2.1,
-          "span": 14
+          "perDay": 3.4,
+          "span": 9
         },
         "version": "152.8.7",
         "recentChanges": "『勝利の女神：NIKKE』COIN RUSH SHOWDOWN Ver.リリース！<br><br>【新ニケ】<br>SSR ギルティ：マイティバニー<br>SSR シン：スウィフトバニー<br><br>【新イベント】<br>新フルボイスストーリーイベント「COIN RUSH SHOWDOWN」<br>ミニゲーム「THREE COMPANY RUMBLE」<br>14日間ログインイベント<br><br>【新コスチューム】<br>シュガー - キラーラビット<br>マナ - ドランクンラビット<br>クラスト - トリートシェフ<br><br>【その他】<br>ロックされているソロレイドステージでも模擬戦闘が可能に<br>装備改造システムの改善<br>ロビーのショートカットに「ストーリーライン」を追加<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
@@ -750,19 +750,19 @@
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
       },
       "2026-10": {
-        "score": 3.0644243,
-        "ratings": 39934,
-        "reviews": 12453,
+        "score": 3.0654593,
+        "ratings": 39933,
+        "reviews": 12452,
         "histogram": {
-          "1": 16571,
+          "1": 16561,
           "2": 1828,
           "3": 1776,
           "4": 1962,
-          "5": 17791
+          "5": 17800
         },
         "reviewVelocity": {
-          "perDay": 3.7,
-          "span": 8
+          "perDay": 3.1,
+          "span": 10
         },
         "version": "1.73.459696",
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
@@ -6686,63 +6686,63 @@
           "id": "memento-mori",
           "name": "メメントモリ",
           "collection": "top_grossing",
-          "rank": 10,
+          "rank": 11,
           "totalInList": 200
         },
         {
           "id": "houchi-shoujo",
           "name": "放置少女",
           "collection": "top_grossing",
-          "rank": 4,
+          "rank": 8,
           "totalInList": 200
         },
         {
           "id": "afk-journey",
           "name": "AFK Journey",
           "collection": "top_grossing",
-          "rank": 172,
+          "rank": 180,
           "totalInList": 200
         },
         {
           "id": "nikke",
           "name": "勝利の女神:NIKKE",
           "collection": "top_grossing",
-          "rank": 3,
+          "rank": 7,
           "totalInList": 200
         },
         {
           "id": "bluearchive",
           "name": "ブルーアーカイブ",
           "collection": "top_grossing",
-          "rank": 11,
+          "rank": 13,
           "totalInList": 200
         },
         {
           "id": "memento-mori",
           "name": "メメントモリ",
           "collection": "top_free",
-          "rank": 13,
+          "rank": 14,
           "totalInList": 200
         },
         {
           "id": "houchi-shoujo",
           "name": "放置少女",
           "collection": "top_free",
-          "rank": 40,
+          "rank": 38,
           "totalInList": 200
         },
         {
           "id": "nikke",
           "name": "勝利の女神:NIKKE",
           "collection": "top_free",
-          "rank": 27,
+          "rank": 31,
           "totalInList": 200
         },
         {
           "id": "bluearchive",
           "name": "ブルーアーカイブ",
           "collection": "top_free",
-          "rank": 67,
+          "rank": 58,
           "totalInList": 200
         }
       ]
@@ -7142,6 +7142,15 @@
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "657c2407-cace-42c3-b109-e5c5bc2820c4",
+        "score": 5,
+        "text": "キャラもいいし音楽もいいから飽きない",
+        "date": "2026-10-14T08:29:26.682Z",
+        "thumbsUp": 0,
+        "appVersion": "5.0.0",
+        "capturedAt": "2026-10-15T23:58:25.177Z"
+      },
       {
         "id": "c3b07e77-0369-462c-b4fd-d8ece6b9e4b5",
         "score": 1,
@@ -15745,6 +15754,51 @@
       }
     ],
     "nikke": [
+      {
+        "id": "0abe8094-6ec1-441c-9ea4-f20b42b10f4e",
+        "score": 5,
+        "text": "ViewモードにてEmoteを変えた状態でズームできるようにしてほしい",
+        "date": "2026-10-14T22:15:40.502Z",
+        "thumbsUp": 0,
+        "appVersion": "152.8.7",
+        "capturedAt": "2026-10-15T23:58:25.177Z"
+      },
+      {
+        "id": "d7a1e26e-2c77-4241-9277-cf3b10d3dabe",
+        "score": 3,
+        "text": "自分だけなのかわからないけど10月7日からログイン出来なくなりました。 サードパーティ?でFacebook経由で今までやってたのですが何度試しても読み込み中1時間位粘ったけど読み込み中で今は仕方なくアンインストール中です。 4周年間近で非常に残念です。 ゲーム自体は好きなので復帰できるなら復帰したいです。 約4年間ログイン皆勤だったので悔しい気持ちもあります。",
+        "date": "2026-10-14T09:25:29.119Z",
+        "thumbsUp": 1,
+        "appVersion": "152.8.7",
+        "capturedAt": "2026-10-15T23:58:25.177Z"
+      },
+      {
+        "id": "8806a661-19a6-4851-8818-cf2c182dc3c4",
+        "score": 5,
+        "text": "神ゲー",
+        "date": "2026-10-14T07:06:24.456Z",
+        "thumbsUp": 0,
+        "appVersion": "152.8.7",
+        "capturedAt": "2026-10-15T23:58:25.177Z"
+      },
+      {
+        "id": "2fc642ce-b204-4a7b-841e-0e02a1091447",
+        "score": 5,
+        "text": "かつてこんなにハマったゲームがあっただろうか 普段からそんなにゲームをする方ではないし、飽き性のめんどくさがり屋な上、こういったギャルゲーに少し偏見を持っていた。 だがある日、広告で流れてきたニケが何となく気になってインストール、それから3年間毎日欠かさずログインしている、人生初の推しキャラ等も出来てしまい、もはや生活の一部になってしまった。今では夫婦二人で楽しませて貰っている。 ニケの魅力はやはりその重厚なストーリー。 とくに周年イベのストーリーは色んな意味で泣かされる。 もちろんサイドもメインもイベストも全て見所満載のストーリーばかり。 わしみたいなランキングなど気にせずのエンジョイ勢は無",
+        "date": "2026-10-14T04:48:55.134Z",
+        "thumbsUp": 0,
+        "appVersion": "152.8.7",
+        "capturedAt": "2026-10-15T23:58:25.177Z"
+      },
+      {
+        "id": "dbd3b76d-ff9b-4d30-879a-70f94d8fc92b",
+        "score": 5,
+        "text": "omoro",
+        "date": "2026-10-14T02:11:54.130Z",
+        "thumbsUp": 0,
+        "appVersion": "152.8.7",
+        "capturedAt": "2026-10-15T23:58:25.177Z"
+      },
       {
         "id": "a7102320-860b-4894-947b-37a19b978643",
         "score": 5,
@@ -27492,7 +27546,7 @@
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,
-        "tweetsPerDay": 6,
+        "tweetsPerDay": 12,
         "avgTextLength": 29
       }
     }

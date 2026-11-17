@@ -128,19 +128,19 @@
         "recentChanges": "【v5.1.1】<br>====================================<br>・不具合の修正<br>===================================="
       },
       "2026-11": {
-        "score": 4.4945827,
-        "ratings": 94343,
-        "reviews": 9620,
+        "score": 4.4933586,
+        "ratings": 94359,
+        "reviews": 9621,
         "histogram": {
-          "1": 5032,
-          "2": 2043,
-          "3": 4010,
-          "4": 13388,
-          "5": 69860
+          "1": 5062,
+          "2": 2045,
+          "3": 4015,
+          "4": 13376,
+          "5": 69853
         },
         "reviewVelocity": {
-          "perDay": 3.1,
-          "span": 10
+          "perDay": 3.3,
+          "span": 9
         },
         "version": "5.2.0",
         "recentChanges": "【v5.2.0】<br>====================================<br>・不具合の修正<br>===================================="
@@ -274,19 +274,19 @@
         "recentChanges": "パフォーマンス最適化"
       },
       "2026-11": {
-        "score": 3.9828618,
+        "score": 3.9827042,
         "ratings": 100027,
-        "reviews": 29146,
+        "reviews": 29147,
         "histogram": {
-          "1": 13734,
-          "2": 4229,
-          "3": 7282,
-          "4": 19546,
-          "5": 55231
+          "1": 13738,
+          "2": 4232,
+          "3": 7296,
+          "4": 19508,
+          "5": 55249
         },
         "reviewVelocity": {
           "perDay": 0.5,
-          "span": 57
+          "span": 60
         },
         "version": "2.3.168",
         "recentChanges": "パフォーマンス最適化"
@@ -421,18 +421,18 @@
       },
       "2026-11": {
         "score": 4.2417912,
-        "ratings": 301681,
+        "ratings": 301700,
         "reviews": 1441,
         "histogram": {
-          "1": 26994,
+          "1": 26996,
           "2": 12143,
-          "3": 15302,
-          "4": 53537,
-          "5": 193612
+          "3": 15303,
+          "4": 53541,
+          "5": 193624
         },
         "reviewVelocity": {
           "perDay": 0.2,
-          "span": 178
+          "span": 182
         },
         "version": "1.8.22",
         "recentChanges": "【アップデート内容】<br>1．セレスチアル英雄の追加：アップデート完了後、「怒涛烈風」ジョリーンが星占いとギルドショップで獲得できるようになります。<br>2．グレイヴボーン英雄の追加：アップデート完了後、「オーメンナイト」バートンが登場します。<br>3．ブライト英雄の追加：11月13日00:00（UTC）より、「隻腕の剣聖」セインが登場します。<br>4．サブミッション【永遠の思い出】を追加。メインシナリオ「生死の歌」クリア後に開放されます。"
@@ -712,19 +712,19 @@
         "recentChanges": "『勝利の女神：NIKKE』COIN RUSH SHOWDOWN Ver.リリース！<br><br>【新ニケ】<br>SSR ギルティ：マイティバニー<br>SSR シン：スウィフトバニー<br><br>【新イベント】<br>新フルボイスストーリーイベント「COIN RUSH SHOWDOWN」<br>ミニゲーム「THREE COMPANY RUMBLE」<br>14日間ログインイベント<br><br>【新コスチューム】<br>シュガー - キラーラビット<br>マナ - ドランクンラビット<br>クラスト - トリートシェフ<br><br>【その他】<br>ロックされているソロレイドステージでも模擬戦闘が可能に<br>装備改造システムの改善<br>ロビーのショートカットに「ストーリーライン」を追加<br>新プロフィールカードオブジェクト<br>新称号<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご確認ください。"
       },
       "2026-11": {
-        "score": 4.5777183,
-        "ratings": 626160,
-        "reviews": 13941,
+        "score": 4.577821,
+        "ratings": 626516,
+        "reviews": 13945,
         "histogram": {
-          "1": 25789,
-          "2": 6240,
-          "3": 23708,
-          "4": 95092,
-          "5": 475318
+          "1": 25744,
+          "2": 6195,
+          "3": 23662,
+          "4": 95579,
+          "5": 475319
         },
         "reviewVelocity": {
-          "perDay": 7.8,
-          "span": 4
+          "perDay": 6.7,
+          "span": 5
         },
         "version": "153.6.10",
         "recentChanges": "『勝利の女神：NIKKE』4周年記念イベント「MARIA-n」リリース！<br><br>【新ニケ】<br>SSR マリアン：クイーン<br>SSR 紅蓮：神殺<br>SSR ラプンツェル：サンクチュアリ<br><br>【新イベント】<br>4周年フルボイスストーリーイベント「MARIA-n」<br>ミニゲーム「FADING AFFECTION」<br>VOLT TRIP<br><br>【新コスチューム】<br>スノーホワイト : ヘビーアームズ - ラクリモーサ<br>マリアン：クイーン - ラスト・アフェクション<br>ナユタ - 三毒<br>ネオン：ビジョン・アイ - ディアグレイス<br><br>【その他】<br>メインチャプター49、50公開<br>「スキルリセット」機能が期間限定で解放<br>チャンピオンアリーナ正式オープン<br>ジオラマロビー追加<br><br>【改善事項】<br>※改善事項および不具合の修正内容については、ゲーム内のお知らせをご覧ください。"
@@ -858,19 +858,19 @@
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
       },
       "2026-11": {
-        "score": 3.0557284,
-        "ratings": 40059,
-        "reviews": 12455,
+        "score": 3.0526588,
+        "ratings": 40062,
+        "reviews": 12454,
         "histogram": {
-          "1": 16654,
-          "2": 1899,
-          "3": 1795,
-          "4": 1972,
-          "5": 17733
+          "1": 16678,
+          "2": 1900,
+          "3": 1807,
+          "4": 1973,
+          "5": 17697
         },
         "reviewVelocity": {
-          "perDay": 3.8,
-          "span": 8
+          "perDay": 3.3,
+          "span": 9
         },
         "version": "1.74.471552",
         "recentChanges": "・表示ミス及び軽微な不具合の修正"
@@ -879,74 +879,6 @@
   },
   "trends": [],
   "ranking": [
-    {
-      "date": "2026-04-17",
-      "positions": [
-        {
-          "id": "memento-mori",
-          "name": "メメントモリ",
-          "collection": "top_grossing",
-          "rank": 5,
-          "totalInList": 200
-        },
-        {
-          "id": "houchi-shoujo",
-          "name": "放置少女",
-          "collection": "top_grossing",
-          "rank": 3,
-          "totalInList": 200
-        },
-        {
-          "id": "afk-journey",
-          "name": "AFK Journey",
-          "collection": "top_grossing",
-          "rank": 102,
-          "totalInList": 200
-        },
-        {
-          "id": "nikke",
-          "name": "勝利の女神:NIKKE",
-          "collection": "top_grossing",
-          "rank": 4,
-          "totalInList": 200
-        },
-        {
-          "id": "bluearchive",
-          "name": "ブルーアーカイブ",
-          "collection": "top_grossing",
-          "rank": 17,
-          "totalInList": 200
-        },
-        {
-          "id": "memento-mori",
-          "name": "メメントモリ",
-          "collection": "top_free",
-          "rank": 12,
-          "totalInList": 200
-        },
-        {
-          "id": "houchi-shoujo",
-          "name": "放置少女",
-          "collection": "top_free",
-          "rank": 79,
-          "totalInList": 200
-        },
-        {
-          "id": "nikke",
-          "name": "勝利の女神:NIKKE",
-          "collection": "top_free",
-          "rank": 50,
-          "totalInList": 200
-        },
-        {
-          "id": "bluearchive",
-          "name": "ブルーアーカイブ",
-          "collection": "top_free",
-          "rank": 47,
-          "totalInList": 200
-        }
-      ]
-    },
     {
       "date": "2026-04-21",
       "positions": [
@@ -7180,22 +7112,77 @@
           "totalInList": 200
         }
       ]
+    },
+    {
+      "date": "2026-11-17",
+      "positions": [
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_grossing",
+          "rank": 11,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_grossing",
+          "rank": 7,
+          "totalInList": 200
+        },
+        {
+          "id": "afk-journey",
+          "name": "AFK Journey",
+          "collection": "top_grossing",
+          "rank": 176,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_grossing",
+          "rank": 2,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_grossing",
+          "rank": 17,
+          "totalInList": 200
+        },
+        {
+          "id": "memento-mori",
+          "name": "メメントモリ",
+          "collection": "top_free",
+          "rank": 9,
+          "totalInList": 200
+        },
+        {
+          "id": "houchi-shoujo",
+          "name": "放置少女",
+          "collection": "top_free",
+          "rank": 29,
+          "totalInList": 200
+        },
+        {
+          "id": "nikke",
+          "name": "勝利の女神:NIKKE",
+          "collection": "top_free",
+          "rank": 4,
+          "totalInList": 200
+        },
+        {
+          "id": "bluearchive",
+          "name": "ブルーアーカイブ",
+          "collection": "top_free",
+          "rank": 56,
+          "totalInList": 200
+        }
+      ]
     }
   ],
   "community": [
-    {
-      "date": "2026-08-19",
-      "stats": {
-        "totalPosts": 2,
-        "postsPerDay": 1.2,
-        "avgScore": 75,
-        "avgComments": 25,
-        "maxScore": 120,
-        "bySubreddit": {
-          "gachagaming": 2
-        }
-      }
-    },
     {
       "date": "2026-08-20",
       "stats": {
@@ -7572,10 +7559,50 @@
           "gachagaming": 2
         }
       }
+    },
+    {
+      "date": "2026-11-17",
+      "stats": {
+        "totalPosts": 2,
+        "postsPerDay": 1.2,
+        "avgScore": 75,
+        "avgComments": 25,
+        "maxScore": 120,
+        "bySubreddit": {
+          "gachagaming": 2
+        }
+      }
     }
   ],
   "reviewTexts": {
     "memento-mori": [
+      {
+        "id": "61b80841-19d8-4e77-a085-c8a42c50c1d7",
+        "score": 5,
+        "text": "たのちぃ",
+        "date": "2026-11-15T13:05:05.682Z",
+        "thumbsUp": 0,
+        "appVersion": "5.2.0",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
+      {
+        "id": "e86b1e63-30d9-4fe0-9881-885c03a7698f",
+        "score": 5,
+        "text": "めちゃくちゃハマった 楽しい、最初はつまんないと思ってたけど後から楽しくなってくゲームだと感じました、 お願いだからこのゲームだけはサ終しないで欲しい🙏",
+        "date": "2026-11-15T07:02:52.352Z",
+        "thumbsUp": 0,
+        "appVersion": "5.2.0",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
+      {
+        "id": "60105be7-6f25-471d-862c-7d4dc3ebbeb6",
+        "score": 1,
+        "text": "渋いいろいろと vipレベル上げてもダイヤ足りなくなり高速バトルが 全部の回数できない 渋い",
+        "date": "2026-11-15T05:29:19.688Z",
+        "thumbsUp": 0,
+        "appVersion": "5.2.0",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
       {
         "id": "a9952946-b326-43ae-bb00-8d2ecd52f2fc",
         "score": 5,
@@ -14833,6 +14860,15 @@
     ],
     "houchi-shoujo": [
       {
+        "id": "736912d6-3ae9-411a-b6f7-f626dcbf0c26",
+        "score": 1,
+        "text": "20年のコロナ禍からの長期、課金ありプレーヤーでしたが、本日ゲーム終了を決意しました。 新コンテンツ「自由縦横」への参戦希望を同盟参加、無効の際の任意チーム配属希望もOKにて二重の手配での参加意向でしたが、参戦不可と。 ゲームに蓋然性はつきものですが、参加意向を無視するシステムでのコンテンツ提供は欠陥に等しい。あるいは利用者への差別ではないかと感じました。 長く遊んできたため辛い面もありますが、「自由縦横」のコンテンツ題名で不自由さを痛感させる不快さには正直辟易の念があります。 楽しい気持ちを提供することを、運営側が断念してきているように感じた事からの終了報告であります。",
+        "date": "2026-11-16T04:10:26.251Z",
+        "thumbsUp": 315,
+        "appVersion": "2.3.168",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
+      {
         "id": "99702bad-48ab-4971-a844-8b6db76e7812",
         "score": 1,
         "text": "邪魔だわ",
@@ -17205,6 +17241,60 @@
       }
     ],
     "nikke": [
+      {
+        "id": "042a1751-af2f-4bd2-9e6e-6e1fc465b521",
+        "score": 1,
+        "text": "パソコン版でマルウェアはばら撒くし問い合わせ無視するゴミ　解体すべき会社",
+        "date": "2026-11-16T00:28:48.720Z",
+        "thumbsUp": 6,
+        "appVersion": "153.6.10",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
+      {
+        "id": "4a15af71-0294-42d4-97be-e58acbb7506f",
+        "score": 1,
+        "text": "炎上してるのに返信がテンプレの時点でこの運営はプレイヤーの事なんてまるで考えてないゴミ連中の集まりなのがよくわかる",
+        "date": "2026-11-15T14:51:25.515Z",
+        "thumbsUp": 3,
+        "appVersion": "153.6.10",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
+      {
+        "id": "aa4db427-3a90-416c-8bcb-4565e6da4bea",
+        "score": 5,
+        "text": "めっちゃおもしろいです 絶対やったほうがいいと思う けど、1個だけ忠告します。 心が弱い方、現在病んでる方などはこのゲームをやるとほんとに病んじゃう時あるので気をつけてください （ストーリーは癒しあり） （周年はほぼ心を病ませに来てると言っても過言ではないくらいBADENDが多いです） （自分は周年でメンタルを削られて引退しては復帰を繰り返してます）",
+        "date": "2026-11-15T14:21:38.881Z",
+        "thumbsUp": 0,
+        "appVersion": "153.6.10",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
+      {
+        "id": "174c13ee-c9e6-4a80-96d6-ece3c3a0f2fd",
+        "score": 5,
+        "text": "無課金でnikkeをはじめて7日目です。 まず始めようと思ってる方へアドバイスします。 先にキャラ凸するよりパーティー編成優先したほうがいいです。 凸はレイド上位ランキング狙う人向けです。 凸なし、凸ありで多少火力は差はでますが、3凸が2キャラいたとしてもパーティー編成がしっかりしてないと途中でストーリー詰みます。 理由としては、ストーリーのノーマル、ハードを全クリアしたほうが毎日報酬がおいしいからです。 限定キャラのマリアンクイーン・神紅蓮・ナユタは引くべき 恒常キャラはキャラ指定できるので必須キャラを攻略サイトで調べるといいです。 マリアンクイーンの編成だと クラウン(ストーリー神必須キャ",
+        "date": "2026-11-15T13:38:36.996Z",
+        "thumbsUp": 0,
+        "appVersion": "153.6.10",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
+      {
+        "id": "0e8c8367-1ff9-400d-9b10-0f50d9fdfdf7",
+        "score": 3,
+        "text": "メーカーが悪いわけではないかな。 利用容量がデカ過ぎて自分のタブレットには利用はむりでした。 他のレビューでは1.7GBというのも見かけましたが、 ダウンロードしてみればまさかの19GB 今どきのゲームアプリはこれが普通なんですかね。 残念",
+        "date": "2026-11-15T09:38:47.586Z",
+        "thumbsUp": 0,
+        "appVersion": "153.6.10",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
+      {
+        "id": "32001269-a014-45de-94cf-dffe57b7d762",
+        "score": 5,
+        "text": "色んな推しが出てきて良い",
+        "date": "2026-11-15T08:33:52.794Z",
+        "thumbsUp": 0,
+        "appVersion": "153.6.10",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
       {
         "id": "00e279e3-811b-496a-85d4-8b60ef3d8ebf",
         "score": 1,
@@ -23201,6 +23291,15 @@
       }
     ],
     "bluearchive": [
+      {
+        "id": "0491eb57-5c83-4113-9dd6-9a30888489e3",
+        "score": 5,
+        "text": "2年ぶりに復帰しましたが、まさかガチャ仕様が変わってるとは思いませんでした…個人的にキャラとストーリーは好きなので、とりあえず続けてみようと思います。運営さん…6周年期待しときますね。",
+        "date": "2026-11-15T20:04:00.688Z",
+        "thumbsUp": 0,
+        "appVersion": "1.74.471552",
+        "capturedAt": "2026-11-17T04:15:18.177Z"
+      },
       {
         "id": "e110b058-08b9-4042-a9eb-9bef0ac002c9",
         "score": 1,
@@ -30388,15 +30487,6 @@
   "youtubeChannels": {},
   "twitter": [
     {
-      "date": "2026-08-19",
-      "stats": {
-        "totalTweets": 12,
-        "uniqueAuthors": 12,
-        "tweetsPerDay": 12,
-        "avgTextLength": 29
-      }
-    },
-    {
       "date": "2026-08-20",
       "stats": {
         "totalTweets": 12,
@@ -30650,6 +30740,15 @@
     },
     {
       "date": "2026-11-16",
+      "stats": {
+        "totalTweets": 12,
+        "uniqueAuthors": 12,
+        "tweetsPerDay": 6,
+        "avgTextLength": 29
+      }
+    },
+    {
+      "date": "2026-11-17",
       "stats": {
         "totalTweets": 12,
         "uniqueAuthors": 12,
